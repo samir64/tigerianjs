@@ -23,7 +23,7 @@ Tigerian.Application = Tigerian.UI.extend({
      * @param {string} [theme]
      * @param {string} [charset = "UTF-8"]
      */
-    init: function (element, title, theme, charset) {
+    init: function (element, title, theme) {
         this.super(element, null, theme);
 
         /**
