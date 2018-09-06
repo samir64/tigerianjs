@@ -12,12 +12,29 @@
  *
  * @property {boolean} enabled
  * @property {boolean} visible
- * @property {boolean} autoVisible
  * @property {Tigerian.Application|Tigerian.Control} parent
  * @property {string} style
+ *
  * @property {string} headText
  * @property {string} footText
+ *
  * @property {number} tabIndex
+ *
+ * @property {number} smallColumn
+ * @property {number} mediumColumn
+ * @property {number} column
+ * @property {number} largeColumn
+ * @property {number} xlargeColumn
+ *
+ * @property {boolean} hideOnSmall
+ * @property {boolean} hideOnMedium
+ * @property {boolean} hideOnNormal
+ * @property {boolean} hideOnLarge
+ * @property {boolean} hideOnXlarge
+ *
+ * @property {boolean} floatLeft
+ * @property {boolean} floatRight
+ * @property {boolean} floatCenter
  *
  * @extends Tigerian
  * @constructor
@@ -51,7 +68,6 @@ Tigerian.Control = Tigerian.UI.extend({
         //NOTE Attributes
         this.setAttribute("element-name", "container");
         this.setAttribute("element-type", "Control");
-        this.setAttribute("tabindex", -1);
 
 
         //NOTE Properties
@@ -97,11 +113,300 @@ Tigerian.Control = Tigerian.UI.extend({
             enumerable: true,
             configurable: true,
             get: function () {
-                return instance.getAttribute("tabindex");
+                return instance.hasAttribute("tabindex") ? instance.getAttribute("tabindex") : 0;
             },
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "number")) {
+                    if (v > 0) {
+                        instance.setAttribute("tabindex", v);
+                    } else {
+                        instance.removeAttribute("tabindex");
+                    }
+                }
+            }
+        });
+
+        Object.defineProperty(this, "smallColumn", {
+            enumerable: true,
+            configurable: true,
+            /**
+             * @returns {string}
+             */
+            get: function () {
+                return this.getAttribute("small-column");
+            },
+            /**
+             * @param {string} value
+             */
             set: function (value) {
                 if (Tigerian.Class.isInstance(value, "number")) {
-                    instance.setAttribute("tabindex", value);
+                    this.setAttribute("medium-column", ((value < 1) ? "1" : ((value > 12) ? "12" : value)));
+                }
+            }
+        });
+
+        Object.defineProperty(this, "mediumColumn", {
+            enumerable: true,
+            configurable: true,
+            /**
+             * @returns {string}
+             */
+            get: function () {
+                return this.getAttribute("medium-column");
+            },
+            /**
+             * @param {string} value
+             */
+            set: function (value) {
+                if (Tigerian.Class.isInstance(value, "number")) {
+                    this.setAttribute("medium-column", ((value < 1) ? "1" : ((value > 12) ? "12" : value)));
+                }
+            }
+        });
+
+        Object.defineProperty(this, "column", {
+            enumerable: true,
+            configurable: true,
+            /**
+             * @returns {string}
+             */
+            get: function () {
+                return this.getAttribute("column");
+            },
+            /**
+             * @param {string} value
+             */
+            set: function (value) {
+                if (Tigerian.Class.isInstance(value, "number")) {
+                    this.setAttribute("column", ((value < 1) ? "1" : ((value > 12) ? "12" : value)));
+                }
+            }
+        });
+
+        Object.defineProperty(this, "largeColumn", {
+            enumerable: true,
+            configurable: true,
+            /**
+             * @returns {string}
+             */
+            get: function () {
+                return this.getAttribute("large-column");
+            },
+            /**
+             * @param {string} value
+             */
+            set: function (value) {
+                if (Tigerian.Class.isInstance(value, "number")) {
+                    this.setAttribute("large-column", ((value < 1) ? "1" : ((value > 12) ? "12" : value)));
+                }
+            }
+        });
+
+        Object.defineProperty(this, "xlargeColumn", {
+            enumerable: true,
+            configurable: true,
+            /**
+             * @returns {string}
+             */
+            get: function () {
+                return this.getAttribute("xlarge-column");
+            },
+            /**
+             * @param {string} value
+             */
+            set: function (value) {
+                if (Tigerian.Class.isInstance(value, "number")) {
+                    this.setAttribute("xlarge-column", ((value < 1) ? "1" : ((value > 12) ? "12" : value)));
+                }
+            }
+        });
+
+        Object.defineProperty(this, "hideOnSmall", {
+            enumerable: true,
+            configurable: true,
+            /**
+             * @returns {boolean}
+             */
+            get: function () {
+                return this.getAttribute("hide-on-small");
+            },
+            /**
+             * @param {boolean} value
+             */
+            set: function (value) {
+                if (Tigerian.Class.isInstance(value, "boolean")) {
+                    this.setAttribute("hide-on-small", value);
+                }
+            }
+        });
+
+        Object.defineProperty(this, "hideOnMedium", {
+            enumerable: true,
+            configurable: true,
+            /**
+             * @returns {boolean}
+             */
+            get: function () {
+                return this.getAttribute("hide-on-medium");
+            },
+            /**
+             * @param {boolean} value
+             */
+            set: function (value) {
+                if (Tigerian.Class.isInstance(value, "boolean")) {
+                    this.setAttribute("hide-on-medium", value);
+                }
+            }
+        });
+
+        Object.defineProperty(this, "hideOnNormal", {
+            enumerable: true,
+            configurable: true,
+            /**
+             * @returns {boolean}
+             */
+            get: function () {
+                return this.getAttribute("hide-on-normal");
+            },
+            /**
+             * @param {boolean} value
+             */
+            set: function (value) {
+                if (Tigerian.Class.isInstance(value, "boolean")) {
+                    this.setAttribute("hide-on-normal", value);
+                }
+            }
+        });
+
+        Object.defineProperty(this, "hideOnLarge", {
+            enumerable: true,
+            configurable: true,
+            /**
+             * @returns {boolean}
+             */
+            get: function () {
+                return this.getAttribute("hide-on-large");
+            },
+            /**
+             * @param {boolean} value
+             */
+            set: function (value) {
+                if (Tigerian.Class.isInstance(value, "boolean")) {
+                    this.setAttribute("hide-on-large", value);
+                }
+            }
+        });
+
+        Object.defineProperty(this, "hideOnXlarge", {
+            enumerable: true,
+            configurable: true,
+            /**
+             * @returns {boolean}
+             */
+            get: function () {
+                return this.getAttribute("hide-on-xlarge");
+            },
+            /**
+             * @param {boolean} value
+             */
+            set: function (value) {
+                if (Tigerian.Class.isInstance(value, "boolean")) {
+                    this.setAttribute("hide-on-xlarge", value);
+                }
+            }
+        });
+
+        Object.defineProperty(this, "floatLeft", {
+            enumerable: true,
+            configurable: true,
+            /**
+             * @returns {string}
+             */
+            get: function () {
+                return (this.getAttribute("float") === "left");
+            },
+            /**
+             * @param {string} value
+             */
+            set: function (value) {
+                if (Tigerian.Class.isInstance(value, "boolean")) {
+                    this.setAttribute("float", (value ? "left" : "false"));
+                }
+            }
+        });
+
+        Object.defineProperty(this, "floatRight", {
+            enumerable: true,
+            configurable: true,
+            /**
+             * @returns {string}
+             */
+            get: function () {
+                return (this.getAttribute("float") === "right");
+            },
+            /**
+             * @param {string} value
+             */
+            set: function (value) {
+                if (Tigerian.Class.isInstance(value, "boolean")) {
+                    this.setAttribute("float", (value ? "right" : "false"));
+                }
+            }
+        });
+
+        Object.defineProperty(this, "floatCenter", {
+            enumerable: true,
+            configurable: true,
+            /**
+             * @returns {string}
+             */
+            get: function () {
+                return (this.getAttribute("float") === "center");
+            },
+            /**
+             * @param {string} value
+             */
+            set: function (value) {
+                if (Tigerian.Class.isInstance(value, "boolean")) {
+                    this.setAttribute("float", (value ? "center" : "false"));
+                }
+            }
+        });
+
+        Object.defineProperty(this, "templateName", {
+            enumerable: true,
+            configurable: true,
+            /**
+             * @returns {string}
+             */
+            get: function () {
+                return this.getAttribute("template-name");
+            },
+            /**
+             * @param {string} value
+             */
+            set: function (value) {
+                if (Tigerian.Class.isInstance(value, "string")) {
+                    this.setAttribute("template-name", value);
+                }
+            }
+        });
+
+        Object.defineProperty(this, "templateItem", {
+            enumerable: true,
+            configurable: true,
+            /**
+             * @returns {string}
+             */
+            get: function () {
+                return this.getAttribute("template-item");
+            },
+            /**
+             * @param {string} value
+             */
+            set: function (value) {
+                if (Tigerian.Class.isInstance(value, "string")) {
+                    this.setAttribute("template-item", value);
                 }
             }
         });
@@ -138,5 +443,19 @@ Tigerian.Control = Tigerian.UI.extend({
         this.toString = function () {
             return "[Tigerian.Control (Or one of its sub classes) Instance]";
         };
+
+        this.setAttribute("small-column", "12");
+        this.setAttribute("medium-column", "12");
+        this.setAttribute("column", "12");
+        this.setAttribute("large-column", "12");
+        this.setAttribute("xlarge-column", "12");
+        this.setAttribute("hide-on-small", "false");
+        this.setAttribute("hide-on-medium", "false");
+        this.setAttribute("hide-on-normal", "false");
+        this.setAttribute("hide-on-large", "false");
+        this.setAttribute("hide-on-xlarge", "false");
+        this.setAttribute("float", "");
+        this.setAttribute("template-name", "");
+        this.setAttribute("template-item", "");
     },
 });

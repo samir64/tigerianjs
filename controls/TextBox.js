@@ -30,14 +30,13 @@ Tigerian.TextBox = Tigerian.Control.extend({
         this.setAttribute("element-name", "container");
         this.setAttribute("element-type", "TextBox");
 
-        elmText.setAttribute("element-type", "Element");
-        elmText.setAttribute("element-name", "text-box");
-        elmText.setAttribute("type", "headText");
+        elmText.setAttribute("element-type", "TextBox");
+        elmText.setAttribute("element-name", "input");
+        // elmText.setAttribute("type", "headText");
         if (!Tigerian.Class.isInstance(text, "string")) {
             text = "";
         }
         elmText.value = text;
-        elmText.className = (!Tigerian.Class.isInstance(theme, "string") || (theme === "")) ? "" : theme + "_textbox";
 
 
         //NOTE Append Children
@@ -78,6 +77,57 @@ Tigerian.TextBox = Tigerian.Control.extend({
             }
         });
 
+        Object.defineProperty(this, "pattern", {
+            enumerable: true,
+            configurable: true,
+            get: function () {
+                return elmText.getAttribute("pattern");
+            },
+
+            set: function (value) {
+                if (Tigerian.Class.isInstance(value, "string")) {
+                    elmText.setAttribute("pattern", value);
+                    this.checkValidity();
+                }
+            }
+        });
+
+        Object.defineProperty(this, "required", {
+            enumerable: true,
+            configurable: true,
+            get: function () {
+                return elmText.hasAttribute("required");
+            },
+
+            set: function (value) {
+                if (Tigerian.Class.isInstance(value, "boolean")) {
+                    if (value === true) {
+                        elmText.setAttribute("required", "true");
+                    } else {
+                        elmText.removeAttribute("required");
+                    }
+
+                    this.checkValidity();
+                }
+            }
+        });
+
+        Object.defineProperty(this, "tabIndex", {
+            enumerable: true,
+            configerable: true,
+            get: function () {
+                return elmText.hasAttribute("tabindex") ? elmButton.getAttribute("tabindex") : 0;
+            },
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "number")) {
+                    if (v > 0) {
+                        elmText.setAttribute("tabindex", v);
+                    } else {
+                        elmText.removeAttribute("tabindex");
+                    }
+                }
+            }
+        });
 
         //NOTE Private Functions
         function onClick(e) {
@@ -90,8 +140,15 @@ Tigerian.TextBox = Tigerian.Control.extend({
             elmText.select();
         };
 
+        this.checkValidity = function (e) {
+            this.setAttribute("validity", elmText.validity.valid);
+        };
+
 
         //NOTE Default Event
         this.addEvent("click", onClick);
+        elmText.addEventListener("input", this.checkValidity.bind(this), true);
+
+        delete this.addControl;
     }
 });
