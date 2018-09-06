@@ -1,0 +1,50 @@
+.dark[disabled="true"], .dark[disabled="true"] * {
+    color: #ccc;
+}
+
+.dark[element-type="Application"][element-name="main"] {
+    background-color: gray;
+    color: black;
+}
+
+.dark[element-type="Container"][element-name="container"] {
+    background-color: darkgray;
+    border-color: #555;
+}
+
+.dark[element-type="TextBox"][element-name="container"] > input {
+    background-color: gray;
+}
+
+.dark[element-type="Button"][element-name="container"]:not([disabled]) > [element-type="Button"][element-name="button"] {
+    background-color: #777;
+    color: #ccc;
+}
+
+.dark[element-type="Button"][element-name="container"][disabled] > [element-type="Button"][element-name="button"] {
+    background-color: #999;
+    color: #777;
+}
+
+.dark[element-type="Button"][element-name="container"]:not([disabled]) > [element-type="Button"][element-name="button"]:hover {
+    background-color: #999;
+}
+
+.dark[element-type="Button"][element-name="container"][default="true"]:not([disabled]) > [element-type="Button"][element-name="button"] {
+    background-color: #06b;
+    color: #ccc;
+}
+
+.dark[element-type="Button"][element-name="container"][default="true"][disabled] > [element-type="Button"][element-name="button"] {
+    background-color: #07c;
+    /*color: #ccc;*/
+}
+
+.dark[element-type="Button"][element-name="container"][default="true"]:not([disabled]) > [element-type="Button"][element-name="button"]:hover {
+    background-color: #08f;
+}
+
+.dark[element-type="Link"][element-name="container"]:not([disabled]) > [element-type="Link"][element-name="link"] {
+    color: #16b;
+}
+
