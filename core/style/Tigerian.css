@@ -851,3 +851,58 @@
     top: 6px;
     font-size: 110%;
 }
+
+[element-type="CheckBox"][element-name="container"] {
+    cursor: default;
+}
+
+[element-type="CheckBox"][element-name="container"][disabled]>[element-type="CheckBox"][element-name="label"] {
+    color: #aaa;
+}
+
+[element-type="CheckBox"][element-name="container"]>[element-type="CheckBox"][element-name="check"] {
+    width: 17px;
+    height: 17px;
+    margin-right: 5px;
+    vertical-align: middle;
+    position: relative;
+}
+
+[element-type="CheckBox"][element-name="container"][disabled]>[element-type="CheckBox"][element-name="check"] {
+    background-color: #bbb;
+}
+
+[element-type="CheckBox"][element-name="container"]:not([disabled])[selected="false"]>[element-type="CheckBox"][element-name="check"] {
+    background-color: #bbb;
+}
+
+[element-type="CheckBox"][element-name="container"]:not([disabled])[selected="true"]>[element-type="CheckBox"][element-name="check"] {
+    background-color: #007bff;
+}
+
+[element-type="CheckBox"][element-name="container"][selected="true"]>[element-type="CheckBox"][element-name="check"]::after {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 0;
+    width: 14px;
+    height: 5px;
+    border-width: 3px;
+    border-bottom: solid;
+    border-left: solid;
+    border-right: none;
+    border-top: none;
+    transform: rotate(-45deg);
+}
+
+[element-type="CheckBox"][element-name="container"][disabled][selected="true"]>[element-type="CheckBox"][element-name="check"]::after {
+    border-color: #999;
+}
+
+[element-type="CheckBox"][element-name="container"]:not([disabled])[selected="true"]>[element-type="CheckBox"][element-name="check"]::after {
+    border-color: #ddd;
+}
+
+[element-type="CheckBox"][element-name="container"]>[element-type="CheckBox"][element-name="label"] {
+    vertical-align: middle;
+}
