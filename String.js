@@ -73,3 +73,25 @@ String.prototype.padNumbers = function (before, after) {
         return result;
     });
 };
+
+/**
+ * @this {string}
+ * @param {boolean} addHashSign true
+ */
+String.prototype.toTag = function (addHashSign) {
+    var result = this;
+    while (result[0] === "#") {
+        addHashSign = true;
+        result = result.substring(1);
+    }
+    return Array.from(result).map(function (ch, index, str) {
+        if ((ch >= "A") && (ch <= "Z") && (index > 0)) {
+            ch = "_" + ch;
+        }
+        if ((addHashSign !== false) && (index === 0)) {
+            ch = "#" + ch;
+        }
+
+        return ch.toLowerCase();
+    }).join('').replace(/_{2,}/g, "_");
+};
