@@ -11,13 +11,15 @@ Tigerian.Behavior = Tigerian.Class.extend({
      * @param {string} behavior
      */
     init: function (behavior) {
-        this.super();
+        if (Tigerian.Class.isInstance(behavior, "string") && (behavior !== "")) {
+            this.super();
 
-        Object.defineProperty(this, "Behavior:" + behavior, {
-            enumerable: true,
-            writable: false,
-            configurable: false,
-            value: true,
-        });
+            Object.defineProperty(this, "Behavior:" + behavior, {
+                enumerable: true,
+                writable: false,
+                configurable: false,
+                value: true,
+            });
+        }
     },
 });
