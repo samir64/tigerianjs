@@ -735,7 +735,7 @@
 [element-type="Link"][element-name="container"][tag="true"]:not([disabled])>[element-type="Link"][element-name="link"]:hover {
     text-decoration-style: solid;
     text-decoration-line: underline;
-    text-decoration-skip: box-decoration;
+    /* text-decoration-skip: box-decoration; */
     text-decoration-color: #07c;
 }
 
@@ -764,7 +764,15 @@
     color: #555;
 }
 
+/* [element-type="ListItem"][element-name="container"]:not([disabled]):focus>[element-type="ListItem"][element-name="item"],
+[element-type="ListBox"][element-name="container"]:not([disabled]):focus>[element-type="ListItem"][element-name="container"][focused="true"]>[element-type="ListItem"][element-name="item"],
+[element-type="FilterList"][element-name="container"]:not([disabled]):focus>[element-type="ListItem"][element-name="container"][focused="true"]>[element-type="ListItem"][element-name="item"] {
+    box-shadow: inset 0 0 1px 1px #2df;
+} */
+
 [element-type="ListItem"][element-name="container"]:not([disabled]):focus>[element-type="ListItem"][element-name="item"],
+[element-type="ListBox"][element-name="container"]:not([disabled]):focus>[element-name="container"][focused="true"],
+[element-type="FilterList"][element-name="container"]:not([disabled]):focus>[element-name="container"][focused="true"],
 [element-type="ListBox"][element-name="container"]:not([disabled]):focus>[element-type="ListItem"][element-name="container"][focused="true"]>[element-type="ListItem"][element-name="item"],
 [element-type="FilterList"][element-name="container"]:not([disabled]):focus>[element-type="ListItem"][element-name="container"][focused="true"]>[element-type="ListItem"][element-name="item"] {
     box-shadow: inset 0 0 1px 1px #2df;
@@ -784,7 +792,7 @@
 [element-type="ListBox"][element-name="container"],
 [element-type="FilterList"][element-name="container"] {
     border: solid 1px #555;
-    background: rgba(150, 150, 150, .5);
+    background-color: rgba(200, 200, 200, .4);
     border-radius: 3px;
     overflow-x: hidden;
     overflow-y: auto;
@@ -852,15 +860,24 @@
     font-size: 110%;
 }
 
-[element-type="CheckBox"][element-name="container"] {
-    cursor: default;
+[element-type="CheckBox"][element-name="container"],
+[element-type="RadioButton"][element-name="container"] {
+    cursor: pointer;
+    text-align: left;
 }
 
-[element-type="CheckBox"][element-name="container"][disabled]>[element-type="CheckBox"][element-name="label"] {
+[element-type="CheckBox"][element-name="container"]>[element-type="CheckBox"][element-name="label"],
+[element-type="RadioButton"][element-name="container"]>[element-type="RadioButton"][element-name="label"] {
+    vertical-align: middle;
+}
+
+[element-type="CheckBox"][element-name="container"][disabled]>[element-type="CheckBox"][element-name="label"],
+[element-type="RadioButton"][element-name="container"][disabled]>[element-type="RadioButton"][element-name="label"] {
     color: #aaa;
 }
 
-[element-type="CheckBox"][element-name="container"]>[element-type="CheckBox"][element-name="check"] {
+[element-type="CheckBox"][element-name="container"]>[element-type="CheckBox"][element-name="check"],
+[element-type="RadioButton"][element-name="container"]>[element-type="RadioButton"][element-name="button"] {
     width: 17px;
     height: 17px;
     margin-right: 5px;
@@ -868,41 +885,70 @@
     position: relative;
 }
 
-[element-type="CheckBox"][element-name="container"][disabled]>[element-type="CheckBox"][element-name="check"] {
+[element-type="CheckBox"][element-name="container"][disabled]>[element-type="CheckBox"][element-name="check"],
+[element-type="RadioButton"][element-name="container"][disabled]>[element-type="RadioButton"][element-name="button"] {
     background-color: #bbb;
 }
 
-[element-type="CheckBox"][element-name="container"]:not([disabled])[selected="false"]>[element-type="CheckBox"][element-name="check"] {
+[element-type="CheckBox"][element-name="container"]:not([disabled])[selected="false"]>[element-type="CheckBox"][element-name="check"],
+[element-type="RadioButton"][element-name="container"]:not([disabled])[selected="false"]>[element-type="RadioButton"][element-name="button"] {
     background-color: #bbb;
 }
 
-[element-type="CheckBox"][element-name="container"]:not([disabled])[selected="true"]>[element-type="CheckBox"][element-name="check"] {
+[element-type="CheckBox"][element-name="container"]:not([disabled]):not([selected="false"])>[element-type="CheckBox"][element-name="check"],
+[element-type="RadioButton"][element-name="container"]:not([disabled]):not([selected="false"])>[element-type="RadioButton"][element-name="button"] {
     background-color: #007bff;
 }
 
-[element-type="CheckBox"][element-name="container"][selected="true"]>[element-type="CheckBox"][element-name="check"]::after {
+[element-type="RadioButton"][element-name="container"]>[element-type="RadioButton"][element-name="button"] {
+    border-radius: 50%;
+}
+
+[element-type="CheckBox"][element-name="container"]:not([selected="false"])>[element-type="CheckBox"][element-name="check"]::after,
+[element-type="RadioButton"][element-name="container"]:not([selected="false"])>[element-type="RadioButton"][element-name="button"]::after {
     content: '';
     position: absolute;
+}
+
+[element-type="CheckBox"][element-name="container"]:not([selected="false"])>[element-type="CheckBox"][element-name="check"]::after {
+    border-width: 3px;
     left: 3px;
     top: 0;
     width: 14px;
     height: 5px;
-    border-width: 3px;
-    border-bottom: solid;
-    border-left: solid;
-    border-right: none;
-    border-top: none;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-right-style: none;
+    border-top-style: none;
     transform: rotate(-45deg);
 }
 
-[element-type="CheckBox"][element-name="container"][disabled][selected="true"]>[element-type="CheckBox"][element-name="check"]::after {
+[element-type="RadioButton"][element-name="container"]:not([selected="false"])>[element-type="RadioButton"][element-name="button"]::after {
+    left: 4px;
+    top: 4px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+}
+
+[element-type="CheckBox"][element-name="container"][disabled]:not([selected="false"])>[element-type="CheckBox"][element-name="check"]::after {
     border-color: #999;
 }
 
-[element-type="CheckBox"][element-name="container"]:not([disabled])[selected="true"]>[element-type="CheckBox"][element-name="check"]::after {
+[element-type="CheckBox"][element-name="container"]:not([disabled]):not([selected="false"])>[element-type="CheckBox"][element-name="check"]::after,
+[element-type="RadioButton"][element-name="container"]:not([disabled]):not([selected="false"])>[element-type="RadioButton"][element-name="button"]::after {
     border-color: #ddd;
 }
 
-[element-type="CheckBox"][element-name="container"]>[element-type="CheckBox"][element-name="label"] {
-    vertical-align: middle;
+[element-type="CheckBox"][element-name="container"][selected="indeterminate"]>[element-type="CheckBox"][element-name="check"]::after {
+    border-bottom-style: double;
+    border-left-style: double;
+}
+
+[element-type="RadioButton"][element-name="container"][disabled]:not([selected="false"])>[element-type="RadioButton"][element-name="button"]::after {
+    background-color: #999;
+}
+
+[element-type="RadioButton"][element-name="container"]:not([disabled]):not([selected="false"])>[element-type="RadioButton"][element-name="button"]::after {
+    background-color: #ddd;
 }

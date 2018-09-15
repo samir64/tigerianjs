@@ -14,7 +14,7 @@ Tigerian.Behavior = Tigerian.Class.extend({
         if (Tigerian.Class.isInstance(behavior, "string") && (behavior !== "")) {
             this.super();
 
-            Object.defineProperty(this, "Behavior:" + behavior, {
+            Object.defineProperty(this, "Behavior:" + behavior.toTag(false), {
                 enumerable: true,
                 writable: false,
                 configurable: false,

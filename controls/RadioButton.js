@@ -49,5 +49,18 @@ Tigerian.RadioButton = Tigerian.Control.extend({
 		this.addControl(elmLabel);
 
 		this.text = text;
+
+		this.autoDeselect = false;
+
+		Object.defineProperty(this, "autoDeselect", {
+			enumerable: true,
+			configurable: true,
+			get: function () {
+				return false;
+			},
+			set: function (v) {
+
+			},
+		});
 	},
 }, Tigerian.BSelect, Tigerian.BText);

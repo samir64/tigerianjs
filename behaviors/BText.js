@@ -36,13 +36,17 @@ Tigerian.BText = Tigerian.Behavior.extend({
         });
     },
     config: function (behavior, elmText) {
-        if ((behavior === "text") && Tigerian.Class.isInstance(elmText, Element)) {
+        if ((behavior === "text") && (Tigerian.Class.isInstance(elmText, Element) || (Tigerian.Class.isInstance(elmText, Tigerian.Control) && elmText["Behavior:text"]))) {
             this.setAttribute("text", this.text);
             elmText.innerHTML = this.text;
             elmText.value = this.text;
 
             function changeText(e) {
-                this.text = (Tigerian.Class.isInstance(e.target.value, "string") ? e.target.value : e.target.innerHTML);
+                if (elmText["Behavior:text"]) {
+                    this.text = elmText.text;
+                } else {
+                    this.text = (Tigerian.Class.isInstance(e.target.value, "string") ? e.target.value : e.target.innerHTML);
+                }
             }
 
             /**
@@ -52,15 +56,31 @@ Tigerian.BText = Tigerian.Behavior.extend({
                 enumerable: true,
                 configurable: true,
                 get: function () {
-                    var text = (Tigerian.Class.isInstance(elmText.value, "string") ? elmText.value : (Tigerian.Class.isInstance(elmText.innerHTML, "string") ? elmText.innerHTML : this.getAttribute("text")));
-                    this.setAttribute("text", text);
-                    return text;
+                    var result;
+
+                    if (elmText["Behavior:text"]) {
+                        result = elmText.text;
+                    } else if (Tigerian.Class.isInstance(elmText.value, "string")) {
+                        result = elmText.value;
+                    } else if (Tigerian.Class.isInstance(elmText.innerHTML, "string")) {
+                        result = elmText.innerHTML;
+                    } else {
+                        result = this.getAttribute("text");
+                    }
+
+                    this.setAttribute("text", result);
+
+                    return result;
                 },
                 set: function (v) {
                     if (Tigerian.Class.isInstance(v, "string")) {
                         this.setAttribute("text", v);
-                        elmText.innerHTML = v;
-                        elmText.value = v;
+                        if (elmText["Behavior:text"]) {
+                            this.text = v;
+                        } else {
+                            elmText.innerHTML = v;
+                            elmText.value = v;
+                        }
                     }
                 },
             });

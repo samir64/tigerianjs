@@ -49,22 +49,6 @@ Tigerian.CheckBox = Tigerian.Control.extend({
 
 		this.text = text;
 
-
-		//TODO Properties
-		// Object.defineProperty(this, "text", {
-		// 	enumerable: true,
-		// 	configurable: true,
-		// 	get: function () {
-		// 		return elmLabel.text;
-		// 	},
-
-		// 	set: function (value) {
-		// 		if (Tigerian.Class.isInstance(value, "string")) {
-		// 			elmLabel.headText = value;
-		// 		}
-		// 	}
-		// });
-
 		Object.defineProperty(this, "indeterminate", {
 			enumerable: true,
 			configerable: true,
@@ -95,38 +79,5 @@ Tigerian.CheckBox = Tigerian.Control.extend({
 				}
 			}
 		});
-
-		/*
-			Object.defineProperty(this, "triState", {
-				enumerable: true,
-				configerable: true,
-				get: function () {
-					return instance.getAttribute("tri-state") == "true";
-				},
-				set: function (value) {
-					if (Tigerian.Class.isInstance(value, "boolean")) {
-						instance.setAttribute("tri-state", value);
-					}
-				}
-			});
-		*/
-
-
-		//TODO Private Functions
-		/*
-			function onClick(e) {
-				superSetSelected(!instance.selected);
-				elmCheckBox.checked = instance.selected;
-			}
-		*/
-
-
-		//TODO Default Event
-		// this.addEvent("click", onClick);
-
-
-		//TODO Constructor Statements
-		// delete this.selectMode;
-		// delete this.deselectMode;
 	},
 }, Tigerian.BSelect, Tigerian.BText);

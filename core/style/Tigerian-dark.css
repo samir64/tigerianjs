@@ -76,7 +76,6 @@
 
 .dark[element-type="ListBox"][element-name="container"] {
     border-color: #999;
-    background: rgba(50, 50, 50, .5);
 }
 
 .dark[element-type="Field"][element-name="container"][focus="true"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"] {
