@@ -6,64 +6,85 @@
 
 
 /**
- * @property {string} text
- * @property {source} Tigerian.Control
- * @property {boolean} visible
- *
- * @extends Tigerian.Control
- * @constructor
+ * @extends {Tigerian.Control}
+ * @class
  */
 Tigerian.Label = Tigerian.Control.extend({
     /**
+     * @constructs
      * @param {Tigerian.UI} parent
-     * @param {string} text
-     * @param {string} theme
-     * @param {Tigerian.Control} source
+     * @param {string} text = ""
+     * @param {string} theme = ""
      */
-    init: function (parent, text, source, theme) {
-        this.super(parent, theme);
-
-
-        //TODO Private Variables
+    init: function (parent, text, theme) {
         var elmLabel = document.createElement("div");
 
+        this.super(parent, theme);
+        this.config("text", elmLabel);
 
-        //TODO Attributes
-        this.setAttribute("element-name", "container");
+
+        //NOTE Private Variables
+        var source;
+
+
+        //NOTE Attributes
         this.setAttribute("element-type", "Label");
+        this.setAttribute("element-name", "container");
 
-        elmLabel.setAttribute("element-name", "label");
         elmLabel.setAttribute("element-type", "Label");
-        elmLabel.className = this.theme;
-        elmLabel.style.cursor = "default";
-        if (Tigerian.Class.isInstance(text, "string")) {
-            elmLabel.innerHTML = text;
-        }
+        elmLabel.setAttribute("element-name", "label");
 
-        if (!Tigerian.Class.isInstance(source, Tigerian.Control)) {
-            source = undefined;
-        }
+        this.setAttribute("tag", "false");
+
+        // if (Tigerian.Class.isInstance(text, "string")) {
+        //     elmLabel.innerHTML = text;
+        // }
+
+        this.text = text;
 
 
-        //TODO Append Children
+        //NOTE Append Children
         this.addControl(elmLabel);
 
 
-        //TODO Properties
-        Object.defineProperty(this, "text", {
+        //NOTE Properties
+        /**
+         * @member {boolean}
+         */
+        Object.defineProperty(this, "tag", {
             enumerable: true,
             configurable: true,
             get: function () {
-                return elmLabel.innerHTML;
+                return (this.getAttribute("tag") === "true");
             },
 
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "string")) {
-                    elmLabel.innerHTML = value;
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "boolean")) {
+                    this.setAttribute("tag", (v ? "true" : "false"));
                 }
             }
         });
 
+        /**
+         * @member {string}
+         */
+        // Object.defineProperty(this, "text", {
+        //     enumerable: true,
+        //     configurable: true,
+        //     get: function () {
+        //         return elmLabel.innerHTML;
+        //     },
+
+        //     set: function (value) {
+        //         if (Tigerian.Class.isInstance(value, "string")) {
+        //             elmLabel.innerHTML = value;
+        //         }
+        //     }
+        // });
+
+        /**
+         * @member {Tigerian.Control}
+         */
         Object.defineProperty(this, "source", {
             enumerable: true,
             configurable: true,
@@ -85,4 +106,4 @@ Tigerian.Label = Tigerian.Control.extend({
 
         delete this.addControl;
     }
-});
+}, Tigerian.BText);

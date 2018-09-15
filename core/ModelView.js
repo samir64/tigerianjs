@@ -7,7 +7,7 @@
 
 
 /**
- * @extends Tigerian.Class
+ * @extends {Tigerian.Class}
  * @constructor
  */
 Tigerian.ModelView = Tigerian.Class.extend({}, Tigerian.BBind);

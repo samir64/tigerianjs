@@ -2,11 +2,15 @@
 'use strict';
 
 /**
- * @property {number} index
- * @property {Array} list
- * @property {Function} yield
+ * @constructor
+ * @extends {Tigerian.Class}
  */
 Tigerian.Iterator = Tigerian.Class.extend({
+    /**
+     * @constructs
+     * @param {Array} list
+     * @param {number} startIndex
+     */
     init: function (list, startIndex) {
         // var list = Array.from(arguments);
         var idx = (((startIndex != undefined) && (typeof startIndex == "number")) ? startIndex : 0);
@@ -20,6 +24,10 @@ Tigerian.Iterator = Tigerian.Class.extend({
 
         yieldFunc();
 
+        /**
+         * @member {number}
+         * @readonly
+         */
         Object.defineProperty(this, "index", {
             enumarable: true,
             configurable: false,
@@ -28,6 +36,10 @@ Tigerian.Iterator = Tigerian.Class.extend({
             },
         });
 
+        /**
+         * @member {Array}
+         * @readonly
+         */
         Object.defineProperty(this, "list", {
             enumarable: false,
             configurable: false,
@@ -36,6 +48,9 @@ Tigerian.Iterator = Tigerian.Class.extend({
             },
         });
 
+        /**
+         * @member {Function}
+         */
         Object.defineProperty(this, "yield", {
             enumerable: false,
             configurable: false,
@@ -49,6 +64,10 @@ Tigerian.Iterator = Tigerian.Class.extend({
             },
         });
 
+        /**
+         * @member {*}
+         * @readonly
+         */
         Object.defineProperty(this, "value", {
             enumerable: false,
             configurable: false,
@@ -57,6 +76,10 @@ Tigerian.Iterator = Tigerian.Class.extend({
             },
         });
 
+        /**
+         * @member {boolean}
+         * @readonly
+         */
         Object.defineProperty(this, "done", {
             enumerable: false,
             configurable: false,
@@ -72,6 +95,9 @@ Tigerian.Iterator = Tigerian.Class.extend({
             };
         }.bind(this);
 
+        /**
+         * @returns {{value: *, done:boolean}}
+         */
         this.next = function () {
             yieldFunc();
             idx++;
@@ -81,11 +107,17 @@ Tigerian.Iterator = Tigerian.Class.extend({
             return getItem();
         };
 
+        /**
+         * @returns {{value: *, done:boolean}}
+         */
         this.first = function () {
             idx = 0;
             return getItem();
         };
 
+        /**
+         * @returns {{value: *, done:boolean}}
+         */
         this.last = function () {
             idx = list.length - 1;
             return getItem();

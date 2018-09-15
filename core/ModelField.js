@@ -7,10 +7,16 @@
 'use strict';
 
 /**
- * @extends Tigerian.ModelView
+ * @extends {Tigerian.ModelView}
  * @constructor
  */
 Tigerian.ModelField = Tigerian.ModelView.extend({
+    /**
+     * @constructs
+     * @param {string} name
+     * @param {string} type
+     * @param {*} value
+     */
     init: function (name, type, value) {
         if (Tigerian.Class.isInstance(name, "string") && (name !== "")) {
             this.super();
@@ -23,6 +29,9 @@ Tigerian.ModelField = Tigerian.ModelView.extend({
                 value = undefined;
             }
 
+            /**
+             * @member {string}
+             */
             Object.defineProperty(this, "name", {
                 enumerable: false,
                 configurable: false,
@@ -30,6 +39,9 @@ Tigerian.ModelField = Tigerian.ModelView.extend({
                 value: name,
             });
 
+            /**
+             * @member {string}
+             */
             Object.defineProperty(this, "type", {
                 enumerable: false,
                 configurable: false,
@@ -37,6 +49,9 @@ Tigerian.ModelField = Tigerian.ModelView.extend({
                 value: type,
             });
 
+            /**
+             * @member {*}
+             */
             Object.defineProperty(this, "value", {
                 enumerable: false,
                 configurable: false,

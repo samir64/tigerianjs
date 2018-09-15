@@ -5,19 +5,12 @@
 'use strict';
 
 /**
- * @param {string} applicationPath
- * @property {string} ctrlAdd
- * @property {string} ctrlEdit
- * @property {string} ctrlDelete
- * @property {string} ctrlRefresh
- * @property {string} ctrlSearch
- * @property {string} idType
- *
- * @extends Tigerian.ModelView
+ * @extends {Tigerian.ModelView}
  * @constructor
  */
 Tigerian.Model = Tigerian.ModelView.extend({
     /**
+     * @constructs
      * @param {string} applicationPath
      * @param {string} controllerPath
      * @param {string} idType
@@ -35,30 +28,6 @@ Tigerian.Model = Tigerian.ModelView.extend({
         var ctrlRefresh = controllerPath;
         var ctrlSearch = controllerPath;
         var ctrlCount = controllerPath;
-
-        var addField = function (name, type) {
-            if (!(name in fields)) {
-                fields[name] = new Tigerian.ModelField(name, type, undefined);
-
-                Object.defineProperty(this, name, {
-                    enumerable: false,
-                    configurable: false,
-                    get: function () {
-                        return fields[name].value;
-                    },
-                    set: function (v) {
-                        fields[name].value = v;
-                    },
-                })
-            }
-        };
-
-        var removeField = function (name) {
-            if (name in fields) {
-                delete fields[name];
-                delete this[name];
-            }
-        };
 
         var ajaxSuccess = function (successFunc, unsuccessFunc) {
             return function (text, xml, json) {
@@ -114,6 +83,9 @@ Tigerian.Model = Tigerian.ModelView.extend({
             }
         };
 
+        /**
+         * @member {string|number}
+         */
         Object.defineProperty(this, "id", {
             enumerable: true,
             configurable: false,
@@ -125,33 +97,9 @@ Tigerian.Model = Tigerian.ModelView.extend({
             },
         });
 
-        Object.defineProperty(this, "addField", {
-            enumerable: false,
-            configurable: false,
-            writable: false,
-            value: addField,
-        });
-
-        Object.defineProperty(this, "removeField", {
-            enumerable: false,
-            configurable: false,
-            writable: false,
-            value: removeField,
-        });
-
-        Object.defineProperty(this, "ctrlAdd", {
-            enumerable: true,
-            configurable: false,
-            get: function () {
-                return ctrlAdd;
-            },
-            set: function (v) {
-                if (Tigerian.Class.isInstance(v, "string")) {
-                    ctrlAdd = v;
-                }
-            }
-        });
-
+        /**
+         * @member {string}
+         */
         Object.defineProperty(this, "ctrlEdit", {
             enumerable: true,
             configurable: false,
@@ -165,6 +113,9 @@ Tigerian.Model = Tigerian.ModelView.extend({
             }
         });
 
+        /**
+         * @member {string}
+         */
         Object.defineProperty(this, "ctrlDelete", {
             enumerable: true,
             configurable: false,
@@ -178,6 +129,9 @@ Tigerian.Model = Tigerian.ModelView.extend({
             }
         });
 
+        /**
+         * @member {string}
+         */
         Object.defineProperty(this, "ctrlRefresh", {
             enumerable: true,
             configurable: false,
@@ -191,6 +145,9 @@ Tigerian.Model = Tigerian.ModelView.extend({
             }
         });
 
+        /**
+         * @member {string}
+         */
         Object.defineProperty(this, "ctrlSearch", {
             enumerable: true,
             configurable: false,
@@ -204,6 +161,9 @@ Tigerian.Model = Tigerian.ModelView.extend({
             }
         });
 
+        /**
+         * @member {string}
+         */
         Object.defineProperty(this, "ctrlCount", {
             enumerable: true,
             configurable: false,
@@ -216,6 +176,37 @@ Tigerian.Model = Tigerian.ModelView.extend({
                 }
             }
         });
+
+        /**
+         * @param {string} name
+         * @param {string} type
+         */
+        this.addField = function (name, type) {
+            if (!(name in fields)) {
+                fields[name] = new Tigerian.ModelField(name, type, undefined);
+
+                Object.defineProperty(this, name, {
+                    enumerable: false,
+                    configurable: false,
+                    get: function () {
+                        return fields[name].value;
+                    },
+                    set: function (v) {
+                        fields[name].value = v;
+                    },
+                })
+            }
+        };
+
+        /**
+         * @param {string} name
+         */
+        this.removeField = function (name) {
+            if (name in fields) {
+                delete fields[name];
+                delete this[name];
+            }
+        };
 
         /**
          * @param {function} success

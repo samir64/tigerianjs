@@ -1,6 +1,7 @@
 Tigerian.BBind = Tigerian.Behavior.extend({
     init: function () {
         this.super("bind");
+
         var binds = [];
 
         this.bind = function (srcProp, target, trgProp) {
@@ -18,7 +19,7 @@ Tigerian.BBind = Tigerian.Behavior.extend({
 
                 if (this.hasOwnProperty(srcProp) && target.hasOwnProperty(trgProp)) {
                     var lastProp = Object.getOwnPropertyDescriptor(this, srcProp);
-                    if (binds[srcProp].main == undefined) {
+                    if (binds[srcProp].main === undefined) {
                         binds[srcProp].main = lastProp;
                     }
                     Object.defineProperty(this, srcProp, {
@@ -26,14 +27,15 @@ Tigerian.BBind = Tigerian.Behavior.extend({
                         configurable: true,
                         get: function () {
                             if (lastProp.hasOwnProperty("get")) {
-                                return lastProp.get();
+                                return lastProp.get.bind(target)();
                             } else if (lastProp.hasOwnProperty("value")) {
                                 return lastProp.value;
                             }
                         },
                         set: function (value) {
                             if (lastProp.hasOwnProperty("set")) {
-                                lastProp.set(value);
+                                console.log(srcProp, target, trgProp, value, target[trgProp]);
+                                lastProp.set.bind(target)(value);
                             } else if (lastProp.hasOwnProperty("value")) {
                                 lastProp.value = value;
                             }

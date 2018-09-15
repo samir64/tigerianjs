@@ -6,37 +6,38 @@
 
 
 /**
- * @param {string} [text = ""]
- * @param {string} [style = ""]
- * @param {Tigerian.Application|Tigerian.Control} [parent = undefined]
- * @param {Function|Function[]} [interfaces = undefined]
- *
- * @property {string} text
- *
- * @extends Tigerian.Control
+ * @extends {Tigerian.Control}
+ * @implements {Tigerian.BText}
  * @constructor
  */
 Tigerian.TextBox = Tigerian.Control.extend({
+    /**
+     * @constructs
+     * @param {string} [text = ""]
+     * @param {string} [theme = ""]
+     * @param {Tigerian.UI} parent
+     */
     init: function (parent, text, theme) {
-        this.super(parent, theme);
-
-
-        //NOTE Private Variables
         var elmText = document.createElement("input");
+        this.super(parent, theme);
+        this.config("text", elmText);
+
         var thisEnabled = Object.getOwnPropertyDescriptor(this, "enabled");
 
 
         //NOTE Attributes
-        this.setAttribute("element-name", "container");
         this.setAttribute("element-type", "TextBox");
+        this.setAttribute("element-name", "container");
 
         elmText.setAttribute("element-type", "TextBox");
         elmText.setAttribute("element-name", "input");
         // elmText.setAttribute("type", "headText");
-        if (!Tigerian.Class.isInstance(text, "string")) {
-            text = "";
-        }
-        elmText.value = text;
+        // if (!Tigerian.Class.isInstance(text, "string")) {
+        //     text = "";
+        // }
+        // elmText.value = text;
+
+        this.text = text;
 
 
         //NOTE Append Children
@@ -44,20 +45,26 @@ Tigerian.TextBox = Tigerian.Control.extend({
 
 
         //NOTE Public Properties
-        Object.defineProperty(this, "text", {
-            enumerable: true,
-            configurable: true,
-            get: function () {
-                return elmText.value;
-            },
+        /**
+         * @member {string}
+         */
+        // Object.defineProperty(this, "text", {
+        //     enumerable: true,
+        //     configurable: true,
+        //     get: function () {
+        //         return elmText.value;
+        //     },
 
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "string")) {
-                    elmText.value = value;
-                }
-            }
-        });
+        //     set: function (value) {
+        //         if (Tigerian.Class.isInstance(value, "string")) {
+        //             elmText.value = value;
+        //         }
+        //     }
+        // });
 
+        /**
+         * @member {boolean}
+         */
         Object.defineProperty(this, "enabled", {
             enumerable: true,
             configurable: true,
@@ -77,6 +84,9 @@ Tigerian.TextBox = Tigerian.Control.extend({
             }
         });
 
+        /**
+         * @member {string}
+         */
         Object.defineProperty(this, "pattern", {
             enumerable: true,
             configurable: true,
@@ -92,6 +102,9 @@ Tigerian.TextBox = Tigerian.Control.extend({
             }
         });
 
+        /**
+         * @member {boolean}
+         */
         Object.defineProperty(this, "required", {
             enumerable: true,
             configurable: true,
@@ -112,6 +125,9 @@ Tigerian.TextBox = Tigerian.Control.extend({
             }
         });
 
+        /**
+         * @member {number}
+         */
         Object.defineProperty(this, "tabIndex", {
             enumerable: true,
             configerable: true,
@@ -151,4 +167,4 @@ Tigerian.TextBox = Tigerian.Control.extend({
 
         delete this.addControl;
     }
-});
+}, Tigerian.BText);

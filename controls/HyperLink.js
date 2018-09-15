@@ -6,33 +6,34 @@
 
 
 /**
- * @param {string} text
- * @param {string} url
- * @param {string} [style = ""]
- * @param {Tigerian.Application|Tigerian.Control} [parent = undefined]
- * @param {Function|Function[]} interfaces
- *
- * @property {string} text
- * @property {string} url
- *
- * @extends Tigerian.Control
+ * @extends {Tigerian.Control}
  * @constructor
  */
 Tigerian.HyperLink = Tigerian.Control.extend({
+    /**
+     * @constructs
+     * @param {Tigerian.UI} parent
+     * @param {string} text
+     * @param {string} url
+     * @param {string} [theme = ""]
+     */
     init: function (parent, text, url, theme) {
         this.super(parent, theme);
 
 
-        //TODO Private Variables
+        //NOTE Private Variables
         var elmHyperLink = document.createElement("a");
 
 
-        //TODO Attributes
+        //NOTE Attributes
         this.setAttribute("element-type", "Link");
         this.setAttribute("element-name", "container");
 
         elmHyperLink.setAttribute("element-type", "Link");
         elmHyperLink.setAttribute("element-name", "link");
+
+        this.setAttribute("tag", "false");
+
         if (Tigerian.Class.isInstance(text, "string")) {
             elmHyperLink.innerHTML = text;
         }
@@ -41,11 +42,31 @@ Tigerian.HyperLink = Tigerian.Control.extend({
         }
 
 
-        //TODO Append Children
+        //NOTE Append Children
         this.addControl(elmHyperLink);
 
 
-        //TODO Public Properties
+        //NOTE Public Properties
+        /**
+         * @member {boolean}
+         */
+        Object.defineProperty(this, "tag", {
+            enumerable: true,
+            configurable: true,
+            get: function () {
+                return (this.getAttribute("tag") === "true");
+            },
+
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "boolean")) {
+                    this.setAttribute("tag", (v ? "true" : "false"));
+                }
+            }
+        });
+
+        /**
+         * @member {string}
+         */
         Object.defineProperty(this, "text", {
             enumerable: true,
             configurable: true,
@@ -60,6 +81,9 @@ Tigerian.HyperLink = Tigerian.Control.extend({
             }
         });
 
+        /**
+         * @member {string}
+         */
         Object.defineProperty(this, "url", {
             enumerable: true,
             configurable: true,

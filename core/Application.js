@@ -7,21 +7,15 @@
 
 
 /**
- * @param {Element} element
- *
- * @property {boolean} enabled
- * @property {boolean} visible
- * @property {string} style
- *
  * @constructor
- * @extends Tigerian.UI
+ * @extends {Tigerian.UI}
  */
 Tigerian.Application = Tigerian.UI.extend({
     /**
+     * @constructs
      * @param {Element} [element = document.body]
      * @param {string} [title]
-     * @param {string} [theme]
-     * @param {string} [charset = "UTF-8"]
+     * @param {string} [theme = ""]
      */
     init: function (element, title, theme) {
         this.super(element, null, theme);
@@ -35,10 +29,13 @@ Tigerian.Application = Tigerian.UI.extend({
         }
 
         //NOTE Attributes
-        this.setAttribute("element-name", "main");
         this.setAttribute("element-type", "Application");
+        this.setAttribute("element-name", "container");
 
         //NOTE Public Functions
+        /**
+         * @param {string} templateName
+         */
         this.addTemplate = function (templateName) {
             var template = new Tigerian.GridTemplate(templateName);
             templates[templateName] = template;
@@ -55,6 +52,9 @@ Tigerian.Application = Tigerian.UI.extend({
             }
         };
 
+        /**
+         * @param {string} templateName
+         */
         this.removeTemplate = function (templateName) {
             if (templateName in templates) {
                 document.head.removeChild(temlates[templateName].element);
@@ -62,6 +62,9 @@ Tigerian.Application = Tigerian.UI.extend({
             }
         };
 
+        /**
+         * @member {string}
+         */
         Object.defineProperty(this, "title", {
             enumerable: true,
             configurable: true,
@@ -75,4 +78,4 @@ Tigerian.Application = Tigerian.UI.extend({
             },
         });
     }
-});
+}, Tigerian.BWindow);

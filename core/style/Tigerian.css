@@ -1,217 +1,412 @@
+[element-type="Application"][element-name="container"] * {
+    display: inline-block;
+}
+
 @media only screen and (max-width: 600px) {
     [element-name="container"][hide-on-small="true"] {
         display: none;
     }
 
-
-    [small-column="1"] {
-        width: 8.33%
+    [small-column="1"],
+    [small-column="medium"][medium-column="1"],
+    [small-column="normal"][column="1"],
+    [small-column="large"][large-column="1"],
+    [small-column="xlarge"][xlarge-column="1"] {
+        width: 8.33%;
     }
 
-    [small-column="2"] {
-        width: 16.66%
+    [small-column="2"],
+    [small-column="medium"][medium-column="2"],
+    [small-column="normal"][column="2"],
+    [small-column="large"][large-column="2"],
+    [small-column="xlarge"][xlarge-column="2"] {
+        width: 16.66%;
     }
 
-    [small-column="3"] {
-        width: 25%
+    [small-column="3"],
+    [small-column="medium"][medium-column="3"],
+    [small-column="normal"][column="3"],
+    [small-column="large"][large-column="3"],
+    [small-column="xlarge"][xlarge-column="3"] {
+        width: 25%;
     }
 
-    [small-column="4"] {
-        width: 32.33%
+    [small-column="4"],
+    [small-column="medium"][medium-column="4"],
+    [small-column="normal"][column="4"],
+    [small-column="large"][large-column="4"],
+    [small-column="xlarge"][xlarge-column="4"] {
+        width: 32.33%;
     }
 
-    [small-column="5"] {
-        width: 41.66%
+    [small-column="5"],
+    [small-column="medium"][medium-column="5"],
+    [small-column="normal"][column="5"],
+    [small-column="large"][large-column="5"],
+    [small-column="xlarge"][xlarge-column="5"] {
+        width: 41.66%;
     }
 
-    [small-column="6"] {
-        width: 50%
+    [small-column="6"],
+    [small-column="medium"][medium-column="6"],
+    [small-column="normal"][column="6"],
+    [small-column="large"][large-column="6"],
+    [small-column="xlarge"][xlarge-column="6"] {
+        width: 50%;
     }
 
-    [small-column="7"] {
-        width: 58.33%
+    [small-column="7"],
+    [small-column="medium"][medium-column="7"],
+    [small-column="normal"][column="7"],
+    [small-column="large"][large-column="7"],
+    [small-column="xlarge"][xlarge-column="7"] {
+        width: 58.33%;
     }
 
-    [small-column="8"] {
-        width: 66.66%
+    [small-column="8"],
+    [small-column="medium"][medium-column="8"],
+    [small-column="normal"][column="8"],
+    [small-column="large"][large-column="8"],
+    [small-column="xlarge"][xlarge-column="8"] {
+        width: 66.66%;
     }
 
-    [small-column="9"] {
-        width: 75%
+    [small-column="9"],
+    [small-column="medium"][medium-column="9"],
+    [small-column="normal"][column="9"],
+    [small-column="large"][large-column="9"],
+    [small-column="xlarge"][xlarge-column="9"] {
+        width: 75%;
     }
 
-    [small-column="10"] {
-        width: 83.33%
+    [small-column="10"],
+    [small-column="medium"][medium-column="10"],
+    [small-column="normal"][column="10"],
+    [small-column="large"][large-column="10"],
+    [small-column="xlarge"][xlarge-column="10"] {
+        width: 83.33%;
     }
 
-    [small-column="11"] {
-        width: 91.66%
+    [small-column="11"],
+    [small-column="medium"][medium-column="11"],
+    [small-column="normal"][column="11"],
+    [small-column="large"][large-column="11"],
+    [small-column="xlarge"][xlarge-column="11"] {
+        width: 91.66%;
     }
 
-    [small-column="12"] {
+    [small-column="12"],
+    [small-column="medium"][medium-column="12"],
+    [small-column="normal"][column="12"],
+    [small-column="large"][large-column="12"],
+    [small-column="xlarge"][xlarge-column="12"] {
         width: 100%;
     }
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 600px) and (max-width: 768px) {
     [element-name="container"][hide-on-medium="true"] {
         display: none;
     }
 
-    [medium-column="1"] {
-        width: 8.33%
+    [medium-column="1"],
+    [medium-column="small"][small-column="1"],
+    [medium-column="normal"][column="1"],
+    [medium-column="large"][large-column="1"],
+    [medium-column="xlarge"][xlarge-column="1"] {
+        width: 8.33%;
     }
 
-    [medium-column="2"] {
-        width: 16.66%
+    [medium-column="2"],
+    [medium-column="small"][small-column="2"],
+    [medium-column="normal"][column="2"],
+    [medium-column="large"][large-column="2"],
+    [medium-column="xlarge"][xlarge-column="2"] {
+        width: 16.66%;
     }
 
-    [medium-column="3"] {
-        width: 25%
+    [medium-column="3"],
+    [medium-column="small"][small-column="3"],
+    [medium-column="normal"][column="3"],
+    [medium-column="large"][large-column="3"],
+    [medium-column="xlarge"][xlarge-column="3"] {
+        width: 25%;
     }
 
-    [medium-column="4"] {
-        width: 32.33%
+    [medium-column="4"],
+    [medium-column="small"][small-column="4"],
+    [medium-column="normal"][column="4"],
+    [medium-column="large"][large-column="4"],
+    [medium-column="xlarge"][xlarge-column="4"] {
+        width: 32.33%;
     }
 
-    [medium-column="5"] {
-        width: 41.66%
+    [medium-column="5"],
+    [medium-column="small"][small-column="5"],
+    [medium-column="normal"][column="5"],
+    [medium-column="large"][large-column="5"],
+    [medium-column="xlarge"][xlarge-column="5"] {
+        width: 41.66%;
     }
 
-    [medium-column="6"] {
-        width: 50%
+    [medium-column="6"],
+    [medium-column="small"][small-column="6"],
+    [medium-column="normal"][column="6"],
+    [medium-column="large"][large-column="6"],
+    [medium-column="xlarge"][xlarge-column="6"] {
+        width: 50%;
     }
 
-    [medium-column="7"] {
-        width: 58.33%
+    [medium-column="7"],
+    [medium-column="small"][small-column="7"],
+    [medium-column="normal"][column="7"],
+    [medium-column="large"][large-column="7"],
+    [medium-column="xlarge"][xlarge-column="7"] {
+        width: 58.33%;
     }
 
-    [medium-column="8"] {
-        width: 66.66%
+    [medium-column="8"],
+    [medium-column="small"][small-column="8"],
+    [medium-column="normal"][column="8"],
+    [medium-column="large"][large-column="8"],
+    [medium-column="xlarge"][xlarge-column="8"] {
+        width: 66.66%;
     }
 
-    [medium-column="9"] {
-        width: 75%
+    [medium-column="9"],
+    [medium-column="small"][small-column="9"],
+    [medium-column="normal"][column="9"],
+    [medium-column="large"][large-column="9"],
+    [medium-column="xlarge"][xlarge-column="9"] {
+        width: 75%;
     }
 
-    [medium-column="10"] {
-        width: 83.33%
+    [medium-column="10"],
+    [medium-column="small"][small-column="10"],
+    [medium-column="normal"][column="10"],
+    [medium-column="large"][large-column="10"],
+    [medium-column="xlarge"][xlarge-column="10"] {
+        width: 83.33%;
     }
 
-    [medium-column="11"] {
-        width: 91.66%
+    [medium-column="11"],
+    [medium-column="small"][small-column="11"],
+    [medium-column="normal"][column="11"],
+    [medium-column="large"][large-column="11"],
+    [medium-column="xlarge"][xlarge-column="11"] {
+        width: 91.66%;
     }
 
-    [medium-column="12"] {
-        width: 100%
+    [medium-column="12"],
+    [medium-column="small"][small-column="12"],
+    [medium-column="normal"][column="12"],
+    [medium-column="large"][large-column="12"],
+    [medium-column="xlarge"][xlarge-column="12"] {
+        width: 100%;
     }
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 768px) and (max-width: 992px) {
     [element-name="container"][hide-on-normal="true"] {
         display: none;
     }
 
-    [column="1"] {
-        width: 8.33%
+    [column="1"],
+    [column="small"][small-column="1"],
+    [column="medium"][medium-column="1"],
+    [column="large"][large-column="1"],
+    [column="xlarge"][xlarge-column="1"] {
+        width: 8.33%;
     }
 
-    [column="2"] {
-        width: 16.66%
+    [column="2"],
+    [column="small"][small-column="2"],
+    [column="medium"][medium-column="2"],
+    [column="large"][large-column="2"],
+    [column="xlarge"][xlarge-column="2"] {
+        width: 16.66%;
     }
 
-    [column="3"] {
-        width: 25%
+    [column="3"],
+    [column="small"][small-column="3"],
+    [column="medium"][medium-column="3"],
+    [column="large"][large-column="3"],
+    [column="xlarge"][xlarge-column="3"] {
+        width: 25%;
     }
 
-    [column="4"] {
-        width: 32.33%
+    [column="4"],
+    [column="small"][small-column="4"],
+    [column="medium"][medium-column="4"],
+    [column="large"][large-column="4"],
+    [column="xlarge"][xlarge-column="4"] {
+        width: 32.33%;
     }
 
-    [column="5"] {
-        width: 41.66%
+    [column="5"],
+    [column="small"][small-column="5"],
+    [column="medium"][medium-column="5"],
+    [column="large"][large-column="5"],
+    [column="xlarge"][xlarge-column="5"] {
+        width: 41.66%;
     }
 
-    [column="6"] {
-        width: 50%
+    [column="6"],
+    [column="small"][small-column="6"],
+    [column="medium"][medium-column="6"],
+    [column="large"][large-column="6"],
+    [column="xlarge"][xlarge-column="6"] {
+        width: 50%;
     }
 
-    [column="7"] {
-        width: 58.33%
+    [column="7"],
+    [column="small"][small-column="7"],
+    [column="medium"][medium-column="7"],
+    [column="large"][large-column="7"],
+    [column="xlarge"][xlarge-column="7"] {
+        width: 58.33%;
     }
 
-    [column="8"] {
-        width: 66.66%
+    [column="8"],
+    [column="small"][small-column="8"],
+    [column="medium"][medium-column="8"],
+    [column="large"][large-column="8"],
+    [column="xlarge"][xlarge-column="8"] {
+        width: 66.66%;
     }
 
-    [column="9"] {
-        width: 75%
+    [column="9"],
+    [column="small"][small-column="9"],
+    [column="medium"][medium-column="9"],
+    [column="large"][large-column="9"],
+    [column="xlarge"][xlarge-column="9"] {
+        width: 75%;
     }
 
-    [column="10"] {
-        width: 83.33%
+    [column="10"],
+    [column="small"][small-column="10"],
+    [column="medium"][medium-column="10"],
+    [column="large"][large-column="10"],
+    [column="xlarge"][xlarge-column="10"] {
+        width: 83.33%;
     }
 
-    [column="11"] {
-        width: 91.66%
+    [column="11"],
+    [column="small"][small-column="11"],
+    [column="medium"][medium-column="11"],
+    [column="large"][large-column="11"],
+    [column="xlarge"][xlarge-column="11"] {
+        width: 91.66%;
     }
 
-    [column="12"] {
-        width: 100%
+    [column="12"],
+    [column="small"][small-column="12"],
+    [column="medium"][medium-column="12"],
+    [column="large"][large-column="12"],
+    [column="xlarge"][xlarge-column="12"] {
+        width: 100%;
     }
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
     [element-name="container"][hide-on-large="true"] {
         display: none;
     }
 
-    [large-column="1"] {
-        width: 8.33%
+    [large-column="1"],
+    [large-column="small"][small-column="1"],
+    [large-column="medium"][medium-column="1"],
+    [large-column="normal"][column="1"],
+    [large-column="xlarge"][xlarge-column="1"] {
+        width: 8.33%;
     }
 
-    [large-column="2"] {
-        width: 16.66%
+    [large-column="2"],
+    [large-column="small"][small-column="2"],
+    [large-column="medium"][medium-column="2"],
+    [large-column="normal"][column="2"],
+    [large-column="xlarge"][xlarge-column="2"] {
+        width: 16.66%;
     }
 
-    [large-column="3"] {
-        width: 25%
+    [large-column="3"],
+    [large-column="small"][small-column="3"],
+    [large-column="medium"][medium-column="3"],
+    [large-column="normal"][column="3"],
+    [large-column="xlarge"][xlarge-column="3"] {
+        width: 25%;
     }
 
-    [large-column="4"] {
-        width: 32.33%
+    [large-column="4"],
+    [large-column="small"][small-column="4"],
+    [large-column="medium"][medium-column="4"],
+    [large-column="normal"][column="4"],
+    [large-column="xlarge"][xlarge-column="4"] {
+        width: 32.33%;
     }
 
-    [large-column="5"] {
-        width: 41.66%
+    [large-column="5"],
+    [large-column="small"][small-column="5"],
+    [large-column="medium"][medium-column="5"],
+    [large-column="normal"][column="5"],
+    [large-column="xlarge"][xlarge-column="5"] {
+        width: 41.66%;
     }
 
-    [large-column="6"] {
-        width: 50%
+    [large-column="6"],
+    [large-column="small"][small-column="6"],
+    [large-column="medium"][medium-column="6"],
+    [large-column="normal"][column="6"],
+    [large-column="xlarge"][xlarge-column="6"] {
+        width: 50%;
     }
 
-    [large-column="7"] {
-        width: 58.33%
+    [large-column="7"],
+    [large-column="small"][small-column="7"],
+    [large-column="medium"][medium-column="7"],
+    [large-column="normal"][column="7"],
+    [large-column="xlarge"][xlarge-column="7"] {
+        width: 58.33%;
     }
 
-    [large-column="8"] {
-        width: 66.66%
+    [large-column="8"],
+    [large-column="small"][small-column="8"],
+    [large-column="medium"][medium-column="8"],
+    [large-column="normal"][column="8"],
+    [large-column="xlarge"][xlarge-column="8"] {
+        width: 66.66%;
     }
 
-    [large-column="9"] {
-        width: 75%
+    [large-column="9"],
+    [large-column="small"][small-column="9"],
+    [large-column="medium"][medium-column="9"],
+    [large-column="normal"][column="9"],
+    [large-column="xlarge"][xlarge-column="9"] {
+        width: 75%;
     }
 
-    [large-column="10"] {
-        width: 83.33%
+    [large-column="10"],
+    [large-column="small"][small-column="10"],
+    [large-column="medium"][medium-column="10"],
+    [large-column="normal"][column="10"],
+    [large-column="xlarge"][xlarge-column="10"] {
+        width: 83.33%;
     }
 
-    [large-column="11"] {
-        width: 91.66%
+    [large-column="11"],
+    [large-column="small"][small-column="11"],
+    [large-column="medium"][medium-column="11"],
+    [large-column="normal"][column="11"],
+    [large-column="xlarge"][xlarge-column="11"] {
+        width: 91.66%;
     }
 
-    [large-column="12"] {
-        width: 100%
+    [large-column="12"],
+    [large-column="small"][small-column="12"],
+    [large-column="medium"][medium-column="12"],
+    [large-column="normal"][column="12"],
+    [large-column="xlarge"][xlarge-column="12"] {
+        width: 100%;
     }
 }
 
@@ -220,56 +415,105 @@
         display: none;
     }
 
-    [xlarge-column="1"] {
-        width: 8.33%
+    [xlarge-column="1"],
+    [xlarge-column="small"][small-column="1"],
+    [xlarge-column="medium"][medium-column="1"],
+    [xlarge-column="normal"][column="1"],
+    [xlarge-column="large"][large-column="1"] {
+        width: 8.33%;
     }
 
-    [xlarge-column="2"] {
-        width: 16.66%
+    [xlarge-column="2"],
+    [xlarge-column="small"][small-column="2"],
+    [xlarge-column="medium"][medium-column="2"],
+    [xlarge-column="normal"][column="2"],
+    [xlarge-column="large"][large-column="2"] {
+        width: 16.66%;
     }
 
-    [xlarge-column="3"] {
-        width: 25%
+    [xlarge-column="3"],
+    [xlarge-column="small"][small-column="3"],
+    [xlarge-column="medium"][medium-column="3"],
+    [xlarge-column="normal"][column="3"],
+    [xlarge-column="large"][large-column="3"] {
+        width: 25%;
     }
 
-    [xlarge-column="4"] {
-        width: 32.33%
+    [xlarge-column="4"],
+    [xlarge-column="small"][small-column="4"],
+    [xlarge-column="medium"][medium-column="4"],
+    [xlarge-column="normal"][column="4"],
+    [xlarge-column="large"][large-column="4"] {
+        width: 32.33%;
     }
 
-    [xlarge-column="5"] {
-        width: 41.66%
+    [xlarge-column="5"],
+    [xlarge-column="small"][small-column="5"],
+    [xlarge-column="medium"][medium-column="5"],
+    [xlarge-column="normal"][column="5"],
+    [xlarge-column="large"][large-column="5"] {
+        width: 41.66%;
     }
 
-    [xlarge-column="6"] {
-        width: 50%
+    [xlarge-column="6"],
+    [xlarge-column="small"][small-column="6"],
+    [xlarge-column="medium"][medium-column="6"],
+    [xlarge-column="normal"][column="6"],
+    [xlarge-column="large"][large-column="6"] {
+        width: 50%;
     }
 
-    [xlarge-column="7"] {
-        width: 58.33%
+    [xlarge-column="7"],
+    [xlarge-column="small"][small-column="7"],
+    [xlarge-column="medium"][medium-column="7"],
+    [xlarge-column="normal"][column="7"],
+    [xlarge-column="large"][large-column="7"] {
+        width: 58.33%;
     }
 
-    [xlarge-column="8"] {
-        width: 66.66%
+    [xlarge-column="8"],
+    [xlarge-column="small"][small-column="8"],
+    [xlarge-column="medium"][medium-column="8"],
+    [xlarge-column="normal"][column="8"],
+    [xlarge-column="large"][large-column="8"] {
+        width: 66.66%;
     }
 
-    [xlarge-column="9"] {
-        width: 75%
+    [xlarge-column="9"],
+    [xlarge-column="small"][small-column="9"],
+    [xlarge-column="medium"][medium-column="9"],
+    [xlarge-column="normal"][column="9"],
+    [xlarge-column="large"][large-column="9"] {
+        width: 75%;
     }
 
-    [xlarge-column="10"] {
-        width: 83.33%
+    [xlarge-column="10"],
+    [xlarge-column="small"][small-column="10"],
+    [xlarge-column="medium"][medium-column="10"],
+    [xlarge-column="normal"][column="10"],
+    [xlarge-column="large"][large-column="10"] {
+        width: 83.33%;
     }
 
-    [xlarge-column="11"] {
-        width: 91.66%
+    [xlarge-column="11"],
+    [xlarge-column="small"][small-column="11"],
+    [xlarge-column="medium"][medium-column="11"],
+    [xlarge-column="normal"][column="11"],
+    [xlarge-column="large"][large-column="11"] {
+        width: 91.66%;
     }
 
-    [xlarge-column="12"] {
-        width: 100%
+    [xlarge-column="12"],
+    [xlarge-column="small"][small-column="12"],
+    [xlarge-column="medium"][medium-column="12"],
+    [xlarge-column="normal"][column="12"],
+    [xlarge-column="large"][large-column="12"] {
+        width: 100%;
     }
 }
 
-[disabled="true"], [disabled="true"] * {
+[disabled="true"],
+[disabled="true"] * {
     color: silver;
 }
 
@@ -277,82 +521,112 @@
     display: none;
 }
 
-[element-type="Application"][element-name="main"] {
+[element-type="Application"][element-name="container"] {
     margin: 1% auto;
     padding: 2px;
-    width: 95%;
+    width: 97%;
     text-align: center;
+    font-size: 18px;
+    /* font-family: "Lucida Sans", sans-serif; */
+}
+
+/* NOTE Application's children*/
+
+[element-type="Application"][element-name="container"],
+[element-type="Application"][element-name="container"] * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: box-shadow 50ms;
+    -moz-transition: box-shadow 50ms;
+    -ms-transition: box-shadow 50ms;
+    -o-transition: box-shadow 50ms;
+    transition: box-shadow 50ms;
+    /* font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Sans", sans-serif; */
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
 /* NOTE Containers and childrens*/
-[element-name="container"], [element-name="container"] * {
-    max-width: 100%
-}
 
-[element-name="container"], [element-name="container"] * {
+[element-name="container"],
+[element-name="container"] * {
+    max-width: 100%;
     color: #555;
-    padding: 3px;
+    padding: 2px;
 }
 
 [element-name="container"] *:focus {
     outline: none;
 }
 
-[element-name="container"][float="left"], [element-name="container"] [float="left"] {
+[element-name="container"][float="left"],
+[element-name="container"] [float="left"] {
     float: left;
 }
 
-[element-name="container"][float="right"], [element-name="container"] [float="right"] {
+[element-name="container"][float="left"]:after,
+[element-name="container"] [float="left"]:after {
+    content: '.';
+    clear: both;
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+
+[element-name="container"][float="right"],
+[element-name="container"] [float="right"] {
     float: right;
 }
 
-[element-name="container"][float="center"], [element-name="container"] [float="center"] {
+[element-name="container"][float="right"]:after,
+[element-name="container"] [float="right"]:after {
+    content: '.';
+    clear: both;
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+
+[element-name="container"][float="center"],
+[element-name="container"] [float="center"] {
     float: none;
     margin: auto;
 }
 
-/* NOTE Application's children*/
-[element-type="Application"][element-name="main"] * {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    font-family: "Lucida Sans", sans-serif;
-    display: inline-block;
-
-    -webkit-transition: box-shadow 50ms;
-    -moz-transition: box-shadow 50ms;
-    -ms-transition: box-shadow 50ms;
-    -o-transition: box-shadow 50ms;
-    transition: box-shadow 50ms;
-}
-
 /* NOTE Control Container*/
+
 [element-type="Container"][element-name="container"] {
     min-height: 150px;
     background-color: #ddd;
     border: solid 1px gray;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
 }
 
-[element-type="Container"][element-name="container"] > [element-type="Container"][element-name="body"] {
+[element-type="Container"][element-name="container"]>[element-type="Container"][element-name="body"] {
     height: 100%;
     width: 100%;
 }
 
 /* NOTE Textbox */
-[element-type="TextBox"][element-name="container"] > input {
-    width: 75%;
-    border: 1px solid gray;
+
+[element-type="TextBox"][element-name="container"]>input {
+    width: 100%;
+    border: 1px solid #bbb;
     border-radius: 3px;
-    margin: 5px;
+    /* margin: 5px; */
     padding: 5px;
+    font-size: 90%;
 }
 
-[element-type="TextBox"][element-name="container"]:not([disabled]) > input {
+[element-type="TextBox"][element-name="container"]:not([disabled])>input {
     color: #666;
 }
 
-[element-type="TextBox"][element-name="container"]:not([disabled]) > input:focus {
-    box-shadow: 0 0 2px 1px dodgerblue, 2px 2px 3px 1px rgba(50, 50, 50, 0.2);
+[element-type="TextBox"][element-name="container"]:not([disabled])>input:focus {
+    /* box-shadow: 0 0 2px 1px dodgerblue, 2px 2px 3px 1px rgba(50, 50, 50, 0.2); */
+    box-shadow: inset 0 -3px 0 #07c;
     color: #333;
 }
 
@@ -360,49 +634,51 @@
     color: red;
 }
 
-[element-type="TextBox"][element-name="container"][validity="false"]:not([disabled]) > input:focus {
-    box-shadow: 0 0 2px 1px indianred, 2px 2px 3px 1px rgba(50, 50, 50, 0.2);
+[element-type="TextBox"][element-name="container"][validity="false"]:not([disabled])>input:focus {
+    /* box-shadow: 0 0 2px 1px indianred, 2px 2px 3px 1px rgba(50, 50, 50, 0.2); */
+    box-shadow: inset 0 -3px 0 indianred;
 }
 
-[element-type="TextBox"][element-name="container"][validity="false"]:not([disabled]) > input {
+[element-type="TextBox"][element-name="container"][validity="false"]:not([disabled])>input {
     box-shadow: 0 0 2px 1px red;
 }
 
 /* NOTE Button*/
-[element-type="Button"][element-name="container"] > [element-type="Button"][element-name="button"] {
+
+[element-type="Button"][element-name="container"]>[element-type="Button"][element-name="button"] {
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 4px;
-    padding: 5px 15px;
+    padding: 10px 20px;
 }
 
-[element-type="Button"][element-name="container"]:not([disabled]) > [element-type="Button"][element-name="button"] {
+[element-type="Button"][element-name="container"]:not([disabled])>[element-type="Button"][element-name="button"] {
     background-color: #999;
     border-color: #555;
     cursor: pointer;
     color: #ddd
 }
 
-[element-type="Button"][element-name="container"][disabled] > [element-type="Button"][element-name="button"] {
+[element-type="Button"][element-name="container"][disabled]>[element-type="Button"][element-name="button"] {
     background-color: #aaa;
     border-color: #888;
     cursor: default;
     color: #ccc
 }
 
-[element-type="Button"][element-name="container"][fit-content="true"] > [element-type="Button"][element-name="button"] {
-    display: inline-block;
+[element-type="Button"][element-name="container"][fit-content="false"]>[element-type="Button"][element-name="button"] {
+    display: block;
 }
 
-[element-type="Button"][element-name="container"][fit-content="true"][float="left"] > [element-type="Button"][element-name="button"] {
+[element-type="Button"][element-name="container"][fit-content="true"][float="left"]>[element-type="Button"][element-name="button"] {
     float: left;
 }
 
-[element-type="Button"][element-name="container"][fit-content="true"][float="right"] > [element-type="Button"][element-name="button"] {
+[element-type="Button"][element-name="container"][fit-content="true"][float="right"]>[element-type="Button"][element-name="button"] {
     float: right;
 }
 
-[element-type="Button"][element-name="container"][fit-content="true"][float="center"] > [element-type="Button"][element-name="button"] {
+[element-type="Button"][element-name="container"][fit-content="true"][float="center"]>[element-type="Button"][element-name="button"] {
     float: none;
     margin: auto;
 }
@@ -411,34 +687,167 @@
     text-align: center;
 }
 
-[element-type="Button"][element-name="container"][default="true"]:not([disabled]) > [element-type="Button"][element-name="button"] {
+[element-type="Button"][element-name="container"][default="true"]:not([disabled])>[element-type="Button"][element-name="button"] {
     background-color: #007bff;
 }
 
-[element-type="Button"][element-name="container"][default="true"][disabled] > [element-type="Button"][element-name="button"] {
-    background-color: #0be;
+[element-type="Button"][element-name="container"][default="true"]:not([disabled])>[element-type="Button"][element-name="button"]:hover {
+    background-color: #06e;
 }
 
-[element-type="Button"][element-name="container"][default="true"]:not([disabled]) > [element-type="Button"][element-name="button"]:hover {
-    background-color: #06b;
+[element-type="Button"][element-name="container"][default="true"][disabled]>[element-type="Button"][element-name="button"] {
+    background-color: #0be
 }
 
-[element-type="Button"][element-name="container"]:not([disabled]) > [element-type="Button"][element-name="button"]:hover {
+[element-type="Button"][element-name="container"]:not([disabled])>[element-type="Button"][element-name="button"]:hover {
     background-color: #888;
 }
 
-[element-type="Button"][element-name="container"]:not([disabled]) > [element-type="Button"][element-name="button"]:focus {
+[element-type="Button"][element-name="container"]:not([disabled])>[element-type="Button"][element-name="button"]:focus {
     box-shadow: 0 0 2px 1px dodgerblue, 2px 2px 3px 1px rgba(50, 50, 50, 0.2);
 }
 
-[element-type="Link"][element-name="link"] {
-    text-decoration: none;
+[element-type="Label"][element-name="container"][tag="true"]>[element-type="Label"][element-name="label"],
+[element-type="Link"][element-name="container"][tag="true"]>[element-type="Link"][element-name="link"] {
+    border-top-left-radius: 15% 50%;
+    border-bottom-left-radius: 15% 50%;
+    border-top-right-radius: 15% 50%;
+    border-bottom-right-radius: 15% 50%;
+    padding: 7px;
+    background-color: #bbb;
 }
 
-[element-type="Link"][element-name="container"]:not([disabled]) > [element-type="Link"][element-name="link"] {
+[element-type="Label"][element-name="container"]:not([disabled])>[element-type="Label"][element-name="label"] {
+    text-align: left;
+    cursor: default;
+    width: 100%;
+}
+
+[element-type="Link"][element-name="container"]>[element-type="Link"][element-name="link"] {
+    text-decoration: none;
+    padding-bottom: 3px;
+}
+
+[element-type="Link"][element-name="container"]:not([disabled])>[element-type="Link"][element-name="link"] {
     color: #27c;
 }
 
-[element-type="Link"][element-name="container"][disabled] > [element-type="Link"][element-name="link"] {
+[element-type="Link"][element-name="container"][tag="true"]:not([disabled])>[element-type="Link"][element-name="link"]:hover {
+    text-decoration-style: solid;
+    text-decoration-line: underline;
+    text-decoration-skip: box-decoration;
+    text-decoration-color: #07c;
+}
+
+[element-type="Link"][element-name="container"][tag="false"]:not([disabled])>[element-type="Link"][element-name="link"]:hover {
+    box-shadow: inset 0 -2px 0 #07c;
+}
+
+[element-type="Link"][element-name="container"][disabled]>[element-type="Link"][element-name="link"] {
     cursor: default;
+}
+
+[element-type="ListItem"][element-name="container"] {
+    margin: 0;
+    padding: 0;
+}
+
+[element-type="ListItem"][element-name="container"]>[element-type="ListItem"][element-name="item"] {
+    width: 100%;
+    text-align: left;
+    padding: 7px;
+    cursor: pointer;
+}
+
+[element-type="ListItem"][element-name="container"][selected="false"]:not([disabled])>[element-type="ListItem"][element-name="item"] {
+    background-color: white;
+    color: #555;
+}
+
+[element-type="ListItem"][element-name="container"]:not([disabled]):focus>[element-type="ListItem"][element-name="item"],
+[element-type="ListBox"][element-name="container"]:not([disabled]):focus>[element-type="ListItem"][element-name="container"][focused="true"]>[element-type="ListItem"][element-name="item"],
+[element-type="FilterList"][element-name="container"]:not([disabled]):focus>[element-type="ListItem"][element-name="container"][focused="true"]>[element-type="ListItem"][element-name="item"] {
+    box-shadow: inset 0 0 1px 1px #2df;
+}
+
+[element-type="ListItem"][element-name="container"][selected][disabled]>[element-type="ListItem"][element-name="item"] {
+    background-color: #f5f5f5;
+    color: #bbb;
+    cursor: default;
+}
+
+[element-type="ListItem"][element-name="container"][selected="true"]:not([disabled])>[element-type="ListItem"][element-name="item"] {
+    background-color: #007bff;
+    color: #eee;
+}
+
+[element-type="ListBox"][element-name="container"],
+[element-type="FilterList"][element-name="container"] {
+    border: solid 1px #555;
+    background: rgba(150, 150, 150, .5);
+    border-radius: 3px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 1px;
+}
+
+[element-type="FilterList"][element-name="container"]>[element-type="TextBox"][element-name="container"] {
+    margin-left: 1px;
+    width: 100%;
+    margin: auto;
+}
+
+[element-type="FilterList"][element-name="container"]>* {
+    width: 100%;
+    margin: 0;
+}
+
+[element-type="FilterList"][element-name="container"] [element-type="TextBox"][element-name="container"]>[element-type="TextBox"][element-name="input"] {
+    width: 100%;
+    margin: 0;
+}
+
+[element-type="FilterList"][element-name="container"][filter="false"] [element-type="TextBox"][element-name="container"] {
+    display: none;
+}
+
+[element-type="Field"][element-name="container"]>[element-type="TextBox"][element-name="container"]>[element-type="TextBox"][element-name="input"] {
+    height: 37px;
+    padding-top: 14px;
+}
+
+[element-type="Field"][element-name="container"]>[element-type="Label"][element-name="container"] {
+    position: absolute;
+    text-align: left;
+    width: auto;
+}
+
+[element-type="Field"][element-name="container"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"] {
+    position: relative;
+    -webkit-transition: all 50ms ease;
+    -moz-transition: all 50ms ease;
+    -ms-transition: all 50ms ease;
+    -o-transition: all 50ms ease;
+    transition: all 500ms ease;
+    width: auto;
+    display: content;
+}
+
+[element-type="Field"][element-name="container"][empty="true"][focused="true"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"],
+[element-type="Field"][element-name="container"][empty="false"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"] {
+    font-weight: bold;
+    left: 5px;
+    top: -6px;
+    font-size: 80%;
+}
+
+[element-type="Field"][element-name="container"][focused="true"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"] {
+    color: #5ad;
+}
+
+[element-type="Field"][element-name="container"][empty="true"][focused="false"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"] {
+    color: #aaa;
+    left: 10px;
+    top: 6px;
+    font-size: 110%;
 }

@@ -8,11 +8,8 @@
 
 
 /**
- * @property {boolean} enabled
- * @property {boolean} visible
- * @property {string} style
- *
- * @function bind (srcProp, target, trgProp)
+ * @implements {Tigerian.BBind}
+ * @extends {Tigerian.Class}
  *
  * @constructor
  * @abstract
@@ -25,6 +22,7 @@ Tigerian.UI = Tigerian.Class.extend({
      */
     init: function (mainElement, parent, theme) {
         this.super();
+        this.config("bind");
 
         if (!Tigerian.Class.isInstance(mainElement, Element)) {
             mainElement = document.body;
@@ -32,10 +30,6 @@ Tigerian.UI = Tigerian.Class.extend({
 
         if (!Tigerian.Class.isInstance(parent, Tigerian.UI)) {
             parent = undefined;
-        }
-
-        if (parent !== undefined) {
-            parent.addControl(mainElement);
         }
 
         //NOTE Private Constants
@@ -58,6 +52,9 @@ Tigerian.UI = Tigerian.Class.extend({
 
 
         //NOTE Properties
+        /**
+         * @member {Tigerin.UI}
+         */
         Object.defineProperty(this, "parent", {
             enumerable: true,
             configurable: true,
@@ -68,25 +65,22 @@ Tigerian.UI = Tigerian.Class.extend({
                 return parent;
             },
             /**
-             * @param {Tigerian.Application|Tigerian.Control} value
+             * @param {Tigerian.UI} value
              */
-            set: function (value) {
-                if (value === undefined) {
+            set: function (v) {
+                if (v === undefined) {
                     parent = undefined;
                     mainElement.parentNode.removeChild(mainElement);
-                    if (theme === true) {
-                        mainElement.className = "";
-                    }
-                } else if (Tigerian.Class.isInstance(value, Tigerian.UI)) {
-                    parent = value;
-                    value.addControl(mainElement);
-                    if (theme === true) {
-                        mainElement.className = value.theme;
-                    }
+                } else if (Tigerian.Class.isInstance(v, Tigerian.UI)) {
+                    parent = v;
+                    v.addControl(this);
                 }
             }
         });
 
+        /**
+         * @member {boolean}
+         */
         Object.defineProperty(this, "enabled", {
             enumerable: true,
             configurable: true,
@@ -99,9 +93,9 @@ Tigerian.UI = Tigerian.Class.extend({
             /**
              * @param {boolean} value
              */
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "boolean")) {
-                    if (value === false) {
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "boolean")) {
+                    if (v === false) {
                         this.setAttribute("disabled", "true");
                     } else {
                         this.removeAttribute("disabled");
@@ -110,6 +104,30 @@ Tigerian.UI = Tigerian.Class.extend({
             }
         });
 
+        /**
+         * @member {boolean}
+         */
+        Object.defineProperty(this, "focused", {
+            enumerable: true,
+            configurable: true,
+            get: function () {
+                return (document.activeElement === mainElement);
+            },
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "boolean")) {
+                    this.setAttribute("focused", v);
+                    if (v === true) {
+                        this.focus();
+                    } else if (this.focused) {
+                        document.activeElement = undefined;
+                    }
+                }
+            }
+        });
+
+        /**
+         * @member {boolean}
+         */
         Object.defineProperty(this, "visible", {
             enumerable: true,
             configurable: true,
@@ -120,13 +138,16 @@ Tigerian.UI = Tigerian.Class.extend({
                 return (this.getAttribute("visible") === "true");
             },
             /**
-             * @param {boolean} value
+             * @param {boolean} v
              */
-            set: function (value) {
-                setVisible(value);
+            set: function (v) {
+                setVisible(v);
             }
         });
 
+        /**
+         * @member {string}
+         */
         Object.defineProperty(this, "theme", {
             enumerable: true,
             configurable: true,
@@ -151,40 +172,89 @@ Tigerian.UI = Tigerian.Class.extend({
 
         /**
          * @param {Event} e
-         * @param {Array} parameters
          */
-        function eventHandler(e, parameters) {
+        function eventHandler(e) {
             var eventType = e.type.toLowerCase();
 
             if (instance.enabled && instance.visible) {
                 for (var event in events[eventType]) {
-                    events[eventType][event].bind(instance)(e, parameters);
+                    events[eventType][event].bind(instance)(e);
                 }
+            }
+        }
+
+        function addThemeToChildren(element, themeName) {
+            var elm = new Tigerian.Iterator(Array.from(element.children));
+            elm.yield = function () {
+                return this.list[this.index];
+            };
+
+            while (!elm.done) {
+                if (elm.value.hasAttribute("element-name") && (elm.value.getAttribute("element-name") === "container")) {
+                    elm.value.classList.add(themeName);
+                }
+                addThemeToChildren(elm.value, themeName);
+
+                elm.next();
+            }
+        }
+
+        function removeThemeFromChildren(element, themeName) {
+            var elm = new Tigerian.Iterator(Array.from(element.children));
+            elm.yield = function () {
+                return this.list[this.index];
+            };
+
+            while (!elm.done) {
+                if (elm.value.hasAttribute("element-name") && (elm.value.getAttribute("element-name") === "container")) {
+                    elm.value.classList.remove(themeName);
+                }
+                removeThemeFromChildren(elm.value, themeName);
+
+                elm.next();
+            }
+        }
+
+        function removeAllThemesFromChildren(element) {
+            var elm = new Tigerian.Iterator(Array.from(element.children));
+            elm.yield = function () {
+                return this.list[this.index];
+            };
+
+            while (!elm.done) {
+                if (elm.value.hasAttribute("element-name") && (elm.value.getAttribute("element-name") === "container")) {
+                    elm.value.className = "";
+                }
+                removeAllThemesFromChildren(elm.value);
+
+                elm.next();
             }
         }
 
 
         //NOTE Public Functions
         this.remove = function () {
-            this.parent = undefined
+            this.parent = undefined;
         };
 
         /**
-         * @param {Element|Tigerian.Control} control
+         * @param {Tigerian.Control} control
          */
         this.addControl = function (control) {
+            // console.warn(Tigerian.Class.isInstance(control, Tigerian.Control));
             if (Tigerian.Class.isInstance(control, Element)) {
                 mainElement.appendChild(control);
             } else if (Tigerian.Class.isInstance(control, Tigerian.Control)) {
                 control.appendTo(this, mainElement);
             }
-        };
+        }.bind(this);
 
         /**
          * @param {string} eventName
-         * @param {EventCallback} callback
+         * @param {function} callback
          */
         this.addEvent = function (eventName, callback) {
+            // console.warn(eventName, callback);
             if ((Tigerian.Class.isInstance(eventName, "string")) && (eventName !== "") && (Tigerian.Class.isInstance(callback, Function))) {
                 eventName = eventName.toLowerCase();
 
@@ -193,7 +263,9 @@ Tigerian.UI = Tigerian.Class.extend({
                     events[eventName] = [];
                 }
 
-                events[eventName].push(callback);
+                if (events[eventName].indexOf(callback) === -1) {
+                    events[eventName].push(callback);
+                }
             }
         };
 
@@ -215,7 +287,7 @@ Tigerian.UI = Tigerian.Class.extend({
                     events[eventName] = [];
                 }
 
-                if (events[eventName].length == 0) {
+                if (events[eventName].length === 0) {
                     mainElement.removeEventListener(eventName, eventHandler, false);
                     delete events[eventName];
                 }
@@ -224,11 +296,12 @@ Tigerian.UI = Tigerian.Class.extend({
 
         /**
          * @param {Event} e
-         * @param {Array} [parameters]
+         * @param {Array} [data]
          */
-        this.dispatchEvent = function (e, parameters) {
+        this.dispatchEvent = function (e, data) {
             if (Tigerian.Class.isInstance(e, Event)) {
-                eventHandler(e, parameters);
+                e.data = data;
+                eventHandler(e);
                 /*
                  setTimeout(function () {
                  mainElement.dispatchEvent(event);
@@ -243,8 +316,8 @@ Tigerian.UI = Tigerian.Class.extend({
          * @param {string} attrValue
          */
         this.setAttribute = function (attrName, attrValue) {
-            if (Tigerian.Class.isInstance(mainElement, Element) && Tigerian.Class.isInstance(attrName, "string") && (Tigerian.Class.isInstance(attrValue, "string") || Tigerian.Class.isInstance(attrValue, "number") || Tigerian.Class.isInstance(attrValue, "boolean")) && (attributesSetProtected.indexOf(attrName) == -1)) {
-                mainElement.setAttribute(attrName, attrValue);
+            if (Tigerian.Class.isInstance(mainElement, Element) && Tigerian.Class.isInstance(attrName, "string") && (attributesSetProtected.indexOf(attrName) === -1)) {
+                mainElement.setAttribute(attrName, attrValue.toString());
             }
         };
 
@@ -281,33 +354,60 @@ Tigerian.UI = Tigerian.Class.extend({
          * @param {Element} elmContainer
          * @returns {boolean}
          */
-        this.hasContainer = function (elmContainer) {
+        this.matchContainer = function (elmContainer) {
             return elmContainer === mainElement;
         };
 
         /**
-         * @param {Tigerian} control
-         * @param {Element} elmContainer
+         * @param {Tigerian.UI} parentControl
+         * @param {Element} elmParentContainer
          */
-        this.appendTo = function (control, elmContainer) {
-            if (Tigerian.Class.isInstance(control, Tigerian.Control) && control.hasContainer(elmContainer)) {
-                parent = control;
-                // var lastChild = elmContainer.lastChild;
-                // elmContainer.insertBefore(mainElement, lastChild);
-                elmContainer.appendChild(mainElement);
+        this.appendTo = function (parentControl, elmParentContainer) {
+            if (Tigerian.Class.isInstance(parentControl, Tigerian.UI) && parentControl.matchContainer(elmParentContainer)) {
+                parent = parentControl;
+                elmParentContainer.appendChild(mainElement);
             }
         };
 
-        this.addTheme = function (themeName) {
-            mainElement.classList.add(themeName);
+        /**
+         * @param {string} themeName
+         * @param {boolean} affectChildren = true
+         */
+        this.addTheme = function (themeName, affectChildren) {
+            if (Tigerian.Class.isInstance(themeName, "string") && (themeName !== "")) {
+                themeName = themeName.split(" ")[0];
+                mainElement.classList.add(themeName);
+
+                if (affectChildren !== false) {
+                    addThemeToChildren(mainElement, themeName);
+                }
+            }
         };
 
-        this.removeTheme = function (themeName) {
-            mainElement.classList.remove(themeName);
+        /**
+         * @param {string} themeName
+         * @param {boolean} affectChildren = true
+         */
+        this.removeTheme = function (themeName, affectChildren) {
+            if (Tigerian.Class.isInstance(themeName, "string") && (themeName !== "")) {
+                themeName = themeName.split(" ")[0];
+                mainElement.classList.remove(themeName);
+
+                if (affectChildren !== false) {
+                    removeThemeFromChildren(mainElement, themeName);
+                }
+            }
         };
 
-        this.removeAllThemes = function () {
+        /**
+         * @param {boolean} affectChildren = true
+         */
+        this.removeAllThemes = function (affectChildren) {
             mainElement.className = "";
+
+            if (affectChildren !== false) {
+                removeAllThemesFromChildren(mainElement);
+            }
         };
 
         this.getTheme = function (index) {
@@ -326,14 +426,25 @@ Tigerian.UI = Tigerian.Class.extend({
             return "[Tigerian Instance]";
         };
 
+        this.focus = function () {
+            mainElement.focus({
+                preventScroll: true
+            });
+        }
 
         //NOTE Attributes
         this.setAttribute("element-name", "");
         this.setAttribute("element-type", "");
         this.setAttribute("visible", "true");
+        this.setAttribute("focused", (document.activeElement === mainElement) ? "true" : "false");
 
         if (Tigerian.Class.isInstance(theme, "string") && (theme !== "")) {
             this.addTheme(theme);
+        }
+
+        if (parent !== undefined) {
+            // parent.addControl(mainElement);
+            parent.addControl(this);
         }
     },
 }, Tigerian.BBind);

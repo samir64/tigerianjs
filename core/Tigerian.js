@@ -1,10 +1,59 @@
 "use strict";
 
+/**
+ * @global
+ */
 var Tigerian = {};
 
 (function () {
-    var scripts = {};
+    var scripts_styles = {};
     var checkedElements = false;
+
+    /**
+     * @return {boolean}
+     * @param {*} obj1 
+     * @param {*} obj2 
+     */
+    Tigerian.compare = function (obj1, obj2) {
+        if ((obj1 instanceof Array) && (obj2 instanceof Array)) {
+            if (obj1.length === obj2.length) {
+                return obj1.every(function (value, index) {
+                    if (value instanceof Array) {
+                        if (obj2[index] instanceof Array) {
+                            return Tigerian.compare(value, obj2[index]);
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return Tigerian.compare(value, obj2[index]);
+                    }
+                });
+            } else {
+                return false;
+            }
+        } else if ((typeof obj1 === "object") && (typeof obj2 === "object")) {
+            var result = true;
+
+            var key;
+            for (key in obj1) {
+                if (result) {
+                    if (key in obj2) {
+                        result = Tigerian.compare(obj1[key], obj2[key]);
+                    } else {
+                        result = false;
+                    }
+                }
+            }
+
+            for (key in obj2) {
+                result = result && (key in obj1);
+            }
+
+            return result;
+        } else {
+            return obj1 === obj2;
+        }
+    };
 
     /**
      * @param {string} file
@@ -23,16 +72,24 @@ var Tigerian = {};
             var scriptElements = document.getElementsByTagName("script");
             for (var i in scriptElements) {
                 if ((typeof scriptElements[i] === "object") && ("src" in scriptElements[i])) {
-                    scripts[scriptElements[i].src.trim()] = scriptElements[i];
+                    scripts_styles[scriptElements[i].src.trim()] = scriptElements[i];
+                }
+            }
+
+            var styleElements = document.getElementsByTagName("link");
+            for (var i in styleElements) {
+                if ((typeof styleElements[i] === "object") && ("href" in styleElements[i])) {
+                    scripts_styles[styleElements[i].href.trim()] = styleElements[i];
                 }
             }
         }
 
-        if ((typeof file === "string") && (file !== "") && (scripts[file] === undefined)) {
-            file = window.location.origin + window.location.pathname + file;
+        if ((typeof file === "string") && (file !== "")) {
+            // file = window.location.origin + window.location.pathname + file;
             while (/\/\.\//g.exec(file)) {
                 file = file.replace(/\/\.\//g, "/");
             }
+            file = file.replace(/^\.\//g, "");
 
             var ext = file.split(".").pop();
             var fileTag;
@@ -52,12 +109,26 @@ var Tigerian = {};
                 default:
             }
 
-            scripts[file] = fileTag;
-            document.head.appendChild(fileTag);
+            if ((scripts_styles[file] === undefined) && (scripts_styles[window.location.origin + window.location.pathname + file] === undefined)) {
+                scripts_styles[file] = fileTag;
+                document.head.appendChild(fileTag);
+            }
         }
     };
 
-    window.addEventListener("load", function (e) {
-        Tigerian.import();
-    }, true);
+    // window.addEventListener("load", function (e) {
+    //     Tigerian.import();
+    // }, true);
 })();
+
+var persons = [{
+        name: "jack",
+        family: "gonjishke",
+        age: 27,
+    },
+    {
+        name: "joe",
+        family: "gandomi",
+        age: 43,
+    },
+];

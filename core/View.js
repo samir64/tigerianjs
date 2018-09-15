@@ -6,14 +6,13 @@
 
 
 /**
- * @param {Tigerian.Model} model
- * @param {Tigerian.Control} container
- *
- * @extends Tigerian.ModelView
+ * @extends {Tigerian.ModelView}
+ * @implements {Tigerian.BWindow}
  * @constructor
  */
 Tigerian.View = Tigerian.ModelView.extend({
     /**
+     * @constructs
      * @param {Tigerian.Control} container
      */
     init: function (container) {
@@ -27,9 +26,11 @@ Tigerian.View = Tigerian.ModelView.extend({
             container.visible = false;
         };
 
-        var refresh = function (params) {
-        };
+        var refresh = function (params) {};
 
+        /**
+         * @member {Function}
+         */
         Object.defineProperty(this, "show", {
             enumerable: false,
             configurable: true,
@@ -43,6 +44,9 @@ Tigerian.View = Tigerian.ModelView.extend({
             },
         });
 
+        /**
+         * @member {Function}
+         */
         Object.defineProperty(this, "hide", {
             enumerable: false,
             configurable: true,
@@ -56,6 +60,9 @@ Tigerian.View = Tigerian.ModelView.extend({
             },
         });
 
+        /**
+         * @member {Function}
+         */
         Object.defineProperty(this, "refresh", {
             enumerable: false,
             configurable: true,
@@ -69,4 +76,4 @@ Tigerian.View = Tigerian.ModelView.extend({
             },
         });
     }
-});
+}, Tigerian.BWindow);

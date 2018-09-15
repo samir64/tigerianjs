@@ -5,28 +5,61 @@
 'use strict';
 
 /**
- * @extends Tigerian.Behavior
+ * @extends {Tigerian.Behavior}
  * @interface
- * @constructor
  */
 Tigerian.BSelect = Tigerian.Behavior.extend({
     /**
      * @constructs
      */
     init: function () {
-        if (Tigerian.Class.isInstance(this, Tigerian.Control)) {
-            this.super("select");
+        this.super("select");
 
-            //TODO Private Variables
-            var autoSelect = true;
-            var autoDeselect = true;
+        //NOTE Private Variables
+        var autoSelect = true;
+        var autoDeselect = true;
+        this.selected = false;
+
+        /**
+         * @member {boolean}
+         */
+        Object.defineProperty(this, "autoSelect", {
+            enumerable: true,
+            configurable: true,
+            get: function () {
+                return autoSelect;
+            },
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "boolean")) {
+                    autoSelect = v;
+                }
+            }
+        });
+
+        /**
+         * @member {boolean}
+         */
+        Object.defineProperty(this, "autoDeselect", {
+            enumerable: true,
+            configurable: true,
+            get: function () {
+                return autoDeselect;
+            },
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "boolean")) {
+                    autoDeselect = v;
+                }
+            }
+        });
+
+    },
+    config: function (behavior) {
+        if ((behavior === "select") && Tigerian.Class.isInstance(this, Tigerian.Control)) {
+            //NOTE Attributes
+            this.setAttribute("selected", (this.selected ? "true" : "false"));
 
 
-            //TODO Attributes
-            this.setAttribute("selected", "false");
-
-
-            //TODO Properties
+            //NOTE Properties
             /**
              * @member {boolean}
              */
@@ -45,51 +78,19 @@ Tigerian.BSelect = Tigerian.Behavior.extend({
                 }
             });
 
-            /**
-             * @member {boolean}
-             */
-            Object.defineProperty(this, "autoSelect", {
-                enumerable: true,
-                configurable: true,
-                get: function () {
-                    return autoSelect;
-                },
-                set: function (v) {
-                    if (Tigerian.Class.isInstance(v, "boolean")) {
-                        autoSelect = v;
-                    }
-                }
-            });
 
-            /**
-             * @member {boolean}
-             */
-            Object.defineProperty(this, "autoDeselect", {
-                enumerable: true,
-                configurable: true,
-                get: function () {
-                    return autoDeselect;
-                },
-                set: function (v) {
-                    if (Tigerian.Class.isInstance(v, "boolean")) {
-                        autoDeselect = v;
-                    }
-                }
-            });
-
-
-            //TODO Private Functions
+            //NOTE Private Functions
             /**
              * @param {Event} e
              */
             function onClick(e) {
                 var lastValue = this.selected;
                 if (!this.selected) {
-                    if (autoSelect) {
+                    if (this.autoSelect) {
                         this.selected = true;
                     }
                 } else {
-                    if (autoDeselect) {
+                    if (this.autoDeselect) {
                         this.selected = false;
                     }
                 }
@@ -104,13 +105,13 @@ Tigerian.BSelect = Tigerian.Behavior.extend({
             function onKeyDown(e) {
                 var lastValue = this.selected;
                 if (!this.selected) {
-                    if (autoSelect && ((e.keyCode === 32) || (e.keyCode === 13))) {
+                    if (this.autoSelect && ((e.keyCode === 32) || (e.keyCode === 13))) {
                         this.selected = true;
                         e.preventDefault();
                         this.focus();
                     }
                 } else {
-                    if (autoDeselect && ((e.keyCode === 32) || (e.keyCode === 13))) {
+                    if (this.autoDeselect && ((e.keyCode === 32) || (e.keyCode === 13))) {
                         this.selected = false;
                         e.preventDefault();
                         this.focus();
@@ -122,7 +123,7 @@ Tigerian.BSelect = Tigerian.Behavior.extend({
             }
 
 
-            //TODO Default Events
+            //NOTE Default Events
             this.addEvent("click", onClick.bind(this));
             this.addEvent("keydown", onKeyDown.bind(this));
         }

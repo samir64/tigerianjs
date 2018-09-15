@@ -1,12 +1,14 @@
-
 'use strict';
 
 /**
  * @class
- * @property {string} applicationPath
  * @constructor
  */
 Tigerian.Route = Tigerian.Class.extend({
+    /**
+     * @constructs
+     * @param {string} applicationPath
+     */
     init: function (applicationPath) {
         /**
          *
@@ -61,6 +63,7 @@ Tigerian.Route = Tigerian.Class.extend({
 
         /**
          * @param {string|string[]} route
+         * @param {Tigerian.View} view
          */
         this.add = function (route, view) {
             if ((Tigerian.Class.isInstance(route, "string") || Tigerian.Class.isInstance(route, Array)) && Tigerian.Class.isInstance(view, Tigerian.View)) {
@@ -132,6 +135,9 @@ Tigerian.Route = Tigerian.Class.extend({
             lastRoute = route;
         };
 
+        /**
+         * @member {string}
+         */
         Object.defineProperty(this, "applicationPath", {
             enumerable: false,
             configurable: true,
@@ -139,7 +145,9 @@ Tigerian.Route = Tigerian.Class.extend({
                 return applicationPath;
             },
             set: function (value) {
-                setBasePath(value);
+                if (Tigerian.Class.isInstance(value, "string")) {
+                    setBasePath(value);
+                }
             },
         });
 

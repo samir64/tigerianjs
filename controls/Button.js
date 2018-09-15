@@ -6,27 +6,25 @@
 
 
 /**
- * @property {string} text
- * @property {boolean} default
- *
- * @extends Tigerian.Control
+ * @extends {Tigerian.Control}
  * @constructor
  */
 Tigerian.Button = Tigerian.Control.extend({
     /**
+     * @constructs
+     * @param {Tigerian.UI} parent
      * @param {string} text = ""
      * @param {string} theme = ""
-     * @param {Tigerian.UI} parent
      */
     init: function (parent, text, theme) {
         this.super(parent, theme);
 
 
-        //TODO Private Variables
+        //NOTE Private Variables
         var elmButton = document.createElement("div");
 
 
-        //TODO Attributes
+        //NOTE Attributes
         this.setAttribute("element-type", "Button");
         this.setAttribute("element-name", "container");
 
@@ -35,18 +33,20 @@ Tigerian.Button = Tigerian.Control.extend({
 
         this.setAttribute("fit-content", "false");
         this.setAttribute("default", "false");
-        elmButton.className = this.theme;
 
 
         if (Tigerian.Class.isInstance(text, "string")) {
             elmButton.innerHTML = text;
         }
 
-        //TODO Append Children
+        //NOTE Append Children
         this.addControl(elmButton);
 
 
-        //TODO Properties
+        //NOTE Properties
+        /**
+         * @member {string}
+         */
         Object.defineProperty(this, "text", {
             enumerable: true,
             configurable: true,
@@ -61,6 +61,9 @@ Tigerian.Button = Tigerian.Control.extend({
             }
         });
 
+        /**
+         * @member {boolean}
+         */
         Object.defineProperty(this, "default", {
             enumerable: true,
             configurable: true,
@@ -75,6 +78,9 @@ Tigerian.Button = Tigerian.Control.extend({
             }
         });
 
+        /**
+         * @member {number}
+         */
         Object.defineProperty(this, "tabIndex", {
             enumerable: true,
             configerable: true,
@@ -92,6 +98,9 @@ Tigerian.Button = Tigerian.Control.extend({
             }
         });
 
+        /**
+         * @member {boolean}
+         */
         Object.defineProperty(this, "fitContent", {
             enumerable: true,
             configerable: true,

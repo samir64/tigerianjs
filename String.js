@@ -1,6 +1,7 @@
 "use strict";
 
 /**
+ * @this {String}
  * @param {*} ...params
  */
 String.prototype.format = function (params) {
@@ -19,4 +20,56 @@ String.prototype.format = function (params) {
             return typeof params[number] != 'undefined' ? params[number] : match;
         });
     }
+};
+/**
+ * @this {String}
+ * @param {*} beforeDotCount
+ * @param {*} afterDotCount
+ */
+String.prototype.padNumbers = function (before, after) {
+    return this.replace(/(?:(\d+\.\d+)|(\d+)\.[^\d]?|[^\d]?\.(\d+)|(\d+)[^\.\d]?)/g, function (matched, two, left, right, pure) {
+        if (two) {
+            left = two.split(".")[0];
+            right = two.split(".")[1];
+        }
+        if (pure) {
+            left = pure;
+        }
+
+        var result = matched;
+        var fix = "";
+        var i = 0;
+
+        if (left) {
+            if (!right) {
+                if (result[left.length] !== ".") {
+                    fix = ".";
+                } else {
+                    i = 1;
+                }
+
+                fix += "0".repeat(after);
+
+                result = result.substring(0, left.length + i) + fix + result.substring(left.length + i);
+            }
+
+            if (before > left.length) {
+                result = "0".repeat(before - left.length) + result;
+            }
+        }
+
+        if (right) {
+            if (!left) {
+                fix = "0".repeat(before);
+
+                result = result.substring(0, result.length - right.length - 1) + fix + result.substring(result.length - right.length - 1);
+            }
+
+            if (after > right.length) {
+                result = result + "0".repeat(after - right.length);
+            }
+        }
+
+        return result;
+    });
 };

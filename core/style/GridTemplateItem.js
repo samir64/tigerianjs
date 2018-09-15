@@ -5,14 +5,15 @@
 'use strict';
 
 /**
- * @property {string} name
- * @property {number} colSpan
- * @property {number} rowSpan
- *
- * @extends Tigerian.Class
+ * @extends {Tigerian.Class}
  * @constructor
  */
 Tigerian.GridTemplateItem = Tigerian.Class.extend({
+    /**
+     * @constructs
+     * @param {string} name
+     * @param {number} colSpan
+     */
     init: function (name, colSpan) {
         if (Tigerian.Class.isInstance(name, "string")) {
             this.super();
@@ -31,6 +32,9 @@ Tigerian.GridTemplateItem = Tigerian.Class.extend({
             }
 */
 
+            /**
+             * @member {string}
+             */
             Object.defineProperty(this, "name", {
                 enumerable: true,
                 configurable: false,
@@ -44,6 +48,9 @@ Tigerian.GridTemplateItem = Tigerian.Class.extend({
                 }
             });
 
+            /**
+             * @member {number}
+             */
             Object.defineProperty(this, "colSpan", {
                 enumerable: true,
                 configurable: false,

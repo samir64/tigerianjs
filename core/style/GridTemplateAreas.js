@@ -5,15 +5,12 @@
 'use strict';
 
 /**
- * @property {string} name
- * @property {number} colCount
- * @property {number} rowCount
- *
- * @extends Tigerian.Class
+ * @extends {Tigerian.Class}
  * @constructor
  */
 Tigerian.GridTemplateAreas = Tigerian.Class.extend({
     /**
+     * @constructs
      * @param {Element} element
      * @param {string} name
      * @param {number} colCount
@@ -88,6 +85,13 @@ Tigerian.GridTemplateAreas = Tigerian.Class.extend({
                 return queryText.format({template: areas});
             }
 
+            /**
+             * @param {string} itemName
+             * @param {number} rowNo
+             * @param {number} colNo
+             * @param {number} rowSpan
+             * @param {number} colSpan
+             */
             this.addItem = function (itemName, rowNo, colNo, rowSpan, colSpan) {
                 if (itemsName.indexOf(itemName) === -1) {
                     if (Tigerian.Class.isInstance(itemName, "string") && Tigerian.Class.isInstance(colNo, "number") && Tigerian.Class.isInstance(rowNo, "number")) {
@@ -104,6 +108,9 @@ Tigerian.GridTemplateAreas = Tigerian.Class.extend({
                 element.data = render();
             };
 
+            /**
+             * @member {string}
+             */
             Object.defineProperty(this, "name", {
                 enumerable: true,
                 configurable: false,
@@ -117,6 +124,10 @@ Tigerian.GridTemplateAreas = Tigerian.Class.extend({
                 },
             });
 
+            /**
+             * @member {number}
+             * @readonly
+             */
             Object.defineProperty(this, "colCount", {
                 enumerable: true,
                 configurable: false,
@@ -125,6 +136,10 @@ Tigerian.GridTemplateAreas = Tigerian.Class.extend({
                 },
             });
 
+            /**
+             * @member {number}
+             * @readonly
+             */
             Object.defineProperty(this, "rowCount", {
                 enumerable: true,
                 configurable: false,

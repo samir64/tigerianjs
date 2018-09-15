@@ -1,8 +1,9 @@
-.dark[disabled="true"], .dark[disabled="true"] * {
+.dark[disabled="true"],
+.dark[disabled="true"] * {
     color: #ccc;
 }
 
-.dark[element-type="Application"][element-name="main"] {
+.dark[element-type="Application"][element-name="container"] {
     background-color: gray;
     color: black;
 }
@@ -12,39 +13,72 @@
     border-color: #555;
 }
 
-.dark[element-type="TextBox"][element-name="container"] > input {
-    background-color: gray;
+.dark[element-type="TextBox"][element-name="container"]>input {
+    background-color: #888;
+    color: #ddd;
 }
 
-.dark[element-type="Button"][element-name="container"]:not([disabled]) > [element-type="Button"][element-name="button"] {
+.dark[element-type="Button"][element-name="container"]:not([disabled])>[element-type="Button"][element-name="button"] {
     background-color: #777;
     color: #ccc;
 }
 
-.dark[element-type="Button"][element-name="container"][disabled] > [element-type="Button"][element-name="button"] {
+.dark[element-type="Button"][element-name="container"][disabled]>[element-type="Button"][element-name="button"] {
     background-color: #999;
     color: #777;
 }
 
-.dark[element-type="Button"][element-name="container"]:not([disabled]) > [element-type="Button"][element-name="button"]:hover {
-    background-color: #999;
+.dark[element-type="Button"][element-name="container"]:not([disabled])>[element-type="Button"][element-name="button"]:hover {
+    background-color: #888;
 }
 
-.dark[element-type="Button"][element-name="container"][default="true"]:not([disabled]) > [element-type="Button"][element-name="button"] {
+.dark[element-type="Button"][element-name="container"][default="true"]:not([disabled])>[element-type="Button"][element-name="button"] {
     background-color: #06b;
     color: #ccc;
 }
 
-.dark[element-type="Button"][element-name="container"][default="true"][disabled] > [element-type="Button"][element-name="button"] {
+.dark[element-type="Button"][element-name="container"][default="true"][disabled]>[element-type="Button"][element-name="button"] {
     background-color: #07c;
     /*color: #ccc;*/
 }
 
-.dark[element-type="Button"][element-name="container"][default="true"]:not([disabled]) > [element-type="Button"][element-name="button"]:hover {
-    background-color: #08f;
+.dark[element-type="Button"][element-name="container"][default="true"]:not([disabled])>[element-type="Button"][element-name="button"]:hover {
+    background-color: #08e;
 }
 
-.dark[element-type="Link"][element-name="container"]:not([disabled]) > [element-type="Link"][element-name="link"] {
+.dark[element-type="Label"][element-name="container"][tag="true"]>[element-type="Label"][element-name="label"],
+.dark[element-type="Link"][element-name="container"][tag="true"]>[element-type="Link"][element-name="link"] {
+    background-color: #999;
+}
+
+.dark[element-type="Link"][element-name="container"]:not([disabled])>[element-type="Link"][element-name="link"] {
     color: #16b;
 }
 
+.dark[element-type="ListItem"][element-name="container"][selected="false"]:not([disabled])>[element-type="ListItem"][element-name="item"] {
+    background-color: #888;
+    color: #ccc;
+}
+
+[element-type="ListItem"][element-name="container"]:not([disabled]):focus>[element-type="ListItem"][element-name="item"] {
+    box-shadow: inset 0 0 2px 1px #0ad;
+}
+
+.dark[element-type="ListItem"][element-name="container"][selected][disabled]>[element-type="ListItem"][element-name="item"] {
+    background-color: #858585;
+    color: #999;
+}
+
+.dark[element-type="ListItem"][element-name="container"][selected="true"]:not([disabled])>[element-type="ListItem"][element-name="item"] {
+    background-color: #05a;
+    color: #ddd;
+}
+
+.dark[element-type="ListBox"][element-name="container"] {
+    border-color: #999;
+    background: rgba(50, 50, 50, .5);
+}
+
+.dark[element-type="Field"][element-name="container"][focus="true"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"] {
+    color: #039;
+}

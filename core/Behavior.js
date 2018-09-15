@@ -1,14 +1,20 @@
 'use strict';
 
 /**
- * @param {string} behavior
+ * @namespace {Tigerian}
+ * @interface
+ * @extends {Tigerian.Class}
  */
 Tigerian.Behavior = Tigerian.Class.extend({
+    /**
+     * @constructs
+     * @param {string} behavior
+     */
     init: function (behavior) {
         this.super();
 
         Object.defineProperty(this, "Behavior:" + behavior, {
-            enumerable: false,
+            enumerable: true,
             writable: false,
             configurable: false,
             value: true,

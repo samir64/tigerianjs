@@ -36,7 +36,7 @@
  * @property {boolean} floatRight
  * @property {boolean} floatCenter
  *
- * @extends Tigerian
+ * @extends {Tigerian}
  * @constructor
  */
 Tigerian.Control = Tigerian.UI.extend({
@@ -57,7 +57,7 @@ Tigerian.Control = Tigerian.UI.extend({
 
 
         //NOTE Alias Super Members
-        var addControl = this.addControl;
+        var superAddControl = this.addControl;
 
 
         //NOTE Append Elements
@@ -66,11 +66,27 @@ Tigerian.Control = Tigerian.UI.extend({
 
 
         //NOTE Attributes
-        this.setAttribute("element-name", "container");
         this.setAttribute("element-type", "Control");
+        this.setAttribute("element-name", "container");
 
+        this.setAttribute("small-column", "normal");
+        this.setAttribute("medium-column", "normal");
+        this.setAttribute("column", "12");
+        this.setAttribute("large-column", "normal");
+        this.setAttribute("xlarge-column", "normal");
+        this.setAttribute("hide-on-small", "false");
+        this.setAttribute("hide-on-medium", "false");
+        this.setAttribute("hide-on-normal", "false");
+        this.setAttribute("hide-on-large", "false");
+        this.setAttribute("hide-on-xlarge", "false");
+        this.setAttribute("float", "");
+        this.setAttribute("template-name", "");
+        this.setAttribute("template-item", "");
 
         //NOTE Properties
+        /**
+         * @member {string}
+         */
         Object.defineProperty(this, "headText", {
             enumerable: true,
             configurable: true,
@@ -90,6 +106,9 @@ Tigerian.Control = Tigerian.UI.extend({
             }
         });
 
+        /**
+         * @member {string}
+         */
         Object.defineProperty(this, "footText", {
             enumerable: true,
             configurable: true,
@@ -109,6 +128,9 @@ Tigerian.Control = Tigerian.UI.extend({
             }
         });
 
+        /**
+         * @member {number}
+         */
         Object.defineProperty(this, "tabIndex", {
             enumerable: true,
             configurable: true,
@@ -126,6 +148,9 @@ Tigerian.Control = Tigerian.UI.extend({
             }
         });
 
+        /**
+         * @member {number|string}
+         */
         Object.defineProperty(this, "smallColumn", {
             enumerable: true,
             configurable: true,
@@ -140,11 +165,26 @@ Tigerian.Control = Tigerian.UI.extend({
              */
             set: function (value) {
                 if (Tigerian.Class.isInstance(value, "number")) {
-                    this.setAttribute("medium-column", ((value < 1) ? "1" : ((value > 12) ? "12" : value)));
+                    this.setAttribute("small-column", ((value < 1) ? "1" : ((value > 12) ? "12" : value)));
+                } else if (Tigerian.Class.isInstance(value, "string")) {
+                    switch (value) {
+                        case "small":
+                        case "medium":
+                        case "normal":
+                        case "large":
+                        case "xlarge":
+                            this.setAttribute("small-column", value);
+                            break;
+
+                        default:
+                    }
                 }
             }
         });
 
+        /**
+         * @member {number|string}
+         */
         Object.defineProperty(this, "mediumColumn", {
             enumerable: true,
             configurable: true,
@@ -160,10 +200,25 @@ Tigerian.Control = Tigerian.UI.extend({
             set: function (value) {
                 if (Tigerian.Class.isInstance(value, "number")) {
                     this.setAttribute("medium-column", ((value < 1) ? "1" : ((value > 12) ? "12" : value)));
+                } else if (Tigerian.Class.isInstance(value, "string")) {
+                    switch (value) {
+                        case "small":
+                        case "medium":
+                        case "normal":
+                        case "large":
+                        case "xlarge":
+                            this.setAttribute("medium-column", value);
+                            break;
+
+                        default:
+                    }
                 }
             }
         });
 
+        /**
+         * @member {number|string}
+         */
         Object.defineProperty(this, "column", {
             enumerable: true,
             configurable: true,
@@ -179,10 +234,25 @@ Tigerian.Control = Tigerian.UI.extend({
             set: function (value) {
                 if (Tigerian.Class.isInstance(value, "number")) {
                     this.setAttribute("column", ((value < 1) ? "1" : ((value > 12) ? "12" : value)));
+                } else if (Tigerian.Class.isInstance(value, "string")) {
+                    switch (value) {
+                        case "small":
+                        case "medium":
+                        case "normal":
+                        case "large":
+                        case "xlarge":
+                            this.setAttribute("column", value);
+                            break;
+
+                        default:
+                    }
                 }
             }
         });
 
+        /**
+         * @member {number|string}
+         */
         Object.defineProperty(this, "largeColumn", {
             enumerable: true,
             configurable: true,
@@ -198,10 +268,25 @@ Tigerian.Control = Tigerian.UI.extend({
             set: function (value) {
                 if (Tigerian.Class.isInstance(value, "number")) {
                     this.setAttribute("large-column", ((value < 1) ? "1" : ((value > 12) ? "12" : value)));
+                } else if (Tigerian.Class.isInstance(value, "string")) {
+                    switch (value) {
+                        case "small":
+                        case "medium":
+                        case "normal":
+                        case "large":
+                        case "xlarge":
+                            this.setAttribute("large-column", value);
+                            break;
+
+                        default:
+                    }
                 }
             }
         });
 
+        /**
+         * @member {number|string}
+         */
         Object.defineProperty(this, "xlargeColumn", {
             enumerable: true,
             configurable: true,
@@ -217,10 +302,25 @@ Tigerian.Control = Tigerian.UI.extend({
             set: function (value) {
                 if (Tigerian.Class.isInstance(value, "number")) {
                     this.setAttribute("xlarge-column", ((value < 1) ? "1" : ((value > 12) ? "12" : value)));
+                } else if (Tigerian.Class.isInstance(value, "string")) {
+                    switch (value) {
+                        case "small":
+                        case "medium":
+                        case "normal":
+                        case "large":
+                        case "xlarge":
+                            this.setAttribute("xlarge-column", value);
+                            break;
+
+                        default:
+                    }
                 }
             }
         });
 
+        /**
+         * @member {boolean}
+         */
         Object.defineProperty(this, "hideOnSmall", {
             enumerable: true,
             configurable: true,
@@ -240,6 +340,9 @@ Tigerian.Control = Tigerian.UI.extend({
             }
         });
 
+        /**
+         * @member {boolean}
+         */
         Object.defineProperty(this, "hideOnMedium", {
             enumerable: true,
             configurable: true,
@@ -259,6 +362,9 @@ Tigerian.Control = Tigerian.UI.extend({
             }
         });
 
+        /**
+         * @member {boolean}
+         */
         Object.defineProperty(this, "hideOnNormal", {
             enumerable: true,
             configurable: true,
@@ -278,6 +384,9 @@ Tigerian.Control = Tigerian.UI.extend({
             }
         });
 
+        /**
+         * @member {boolean}
+         */
         Object.defineProperty(this, "hideOnLarge", {
             enumerable: true,
             configurable: true,
@@ -297,6 +406,9 @@ Tigerian.Control = Tigerian.UI.extend({
             }
         });
 
+        /**
+         * @member {boolean}
+         */
         Object.defineProperty(this, "hideOnXlarge", {
             enumerable: true,
             configurable: true,
@@ -316,6 +428,9 @@ Tigerian.Control = Tigerian.UI.extend({
             }
         });
 
+        /**
+         * @member {boolean}
+         */
         Object.defineProperty(this, "floatLeft", {
             enumerable: true,
             configurable: true,
@@ -335,6 +450,9 @@ Tigerian.Control = Tigerian.UI.extend({
             }
         });
 
+        /**
+         * @member {boolean}
+         */
         Object.defineProperty(this, "floatRight", {
             enumerable: true,
             configurable: true,
@@ -354,6 +472,9 @@ Tigerian.Control = Tigerian.UI.extend({
             }
         });
 
+        /**
+         * @member {boolean}
+         */
         Object.defineProperty(this, "floatCenter", {
             enumerable: true,
             configurable: true,
@@ -373,6 +494,9 @@ Tigerian.Control = Tigerian.UI.extend({
             }
         });
 
+        /**
+         * @member {string}
+         */
         Object.defineProperty(this, "templateName", {
             enumerable: true,
             configurable: true,
@@ -392,6 +516,9 @@ Tigerian.Control = Tigerian.UI.extend({
             }
         });
 
+        /**
+         * @member {string}
+         */
         Object.defineProperty(this, "templateItem", {
             enumerable: true,
             configurable: true,
@@ -428,7 +555,7 @@ Tigerian.Control = Tigerian.UI.extend({
          * @param {Element|Tigerian.Control} control
          */
         this.addControl = function (control) {
-            addControl(control);
+            superAddControl(control);
             elmDivContainer.appendChild(elmTxtFoot);
         };
 
@@ -436,26 +563,12 @@ Tigerian.Control = Tigerian.UI.extend({
             elmDivContainer.click();
         };
 
-        this.focus = function () {
-            elmDivContainer.focus();
-        };
+        // this.focus = function () {
+        //     elmDivContainer.focus();
+        // };
 
         this.toString = function () {
             return "[Tigerian.Control (Or one of its sub classes) Instance]";
         };
-
-        this.setAttribute("small-column", "12");
-        this.setAttribute("medium-column", "12");
-        this.setAttribute("column", "12");
-        this.setAttribute("large-column", "12");
-        this.setAttribute("xlarge-column", "12");
-        this.setAttribute("hide-on-small", "false");
-        this.setAttribute("hide-on-medium", "false");
-        this.setAttribute("hide-on-normal", "false");
-        this.setAttribute("hide-on-large", "false");
-        this.setAttribute("hide-on-xlarge", "false");
-        this.setAttribute("float", "");
-        this.setAttribute("template-name", "");
-        this.setAttribute("template-item", "");
     },
 });

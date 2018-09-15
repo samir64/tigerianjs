@@ -6,8 +6,8 @@
 
 
 /**
- * @implements Tigerian.Behavior
- * @extends Tigerian.Control
+ * @implements {Tigerian.Behavior}
+ * @extends {Tigerian.Control}
  * @interface
  */
 Tigerian.BGroup = Tigerian.Behavior.extend({
@@ -15,82 +15,149 @@ Tigerian.BGroup = Tigerian.Behavior.extend({
      * @constructs
      */
     init: function () {
-        if (Tigerian.Class.isInstance(this, Tigerian.Control)) {
-            this.super("group");
+        this.super("group");
 
-            //TODO Alias Super Members
+        //NOTE Private Members
+        /**
+         * @type {Tigerian.Control[]}
+         */
+        var items = [];
+        // var superFocused = Object.getOwnPropertyDescriptor(this, "focused");
+
+        //NOTE Properties
+        /**
+         * @member {number}
+         */
+        Object.defineProperty(this, "itemCount", {
+            enumerable: true,
+            configurable: true,
+
+            get: function () {
+                return items.length;
+            }
+        });
+
+        //NOTE Public Functions
+        /**
+         * @param {Tigerian.Control} item
+         */
+        this.addItem = function (item) {
+            if (Tigerian.Class.isInstance(item, Tigerian.Control)) {
+                items.push(item);
+            } else {
+                throw new TypeError("Item type doesn't match to Generic Type");
+            }
+        };
+
+        /**
+         * @param {number} itemIndex
+         * @returns {Tigerian.Control}
+         */
+        this.getItem = function (itemIndex) {
+            if ((Tigerian.Class.isInstance(itemIndex, "number")) && (itemIndex >= 0) && (itemIndex < items.length)) {
+                return items[itemIndex];
+            }
+        };
+
+        /**
+         * @param {number} itemIndex
+         */
+        this.removeItem = function (itemIndex) {
+            if ((Tigerian.Class.isInstance(itemIndex, "number")) && (itemIndex >= 0) && (itemIndex < items.length)) {
+                items = items.filter(function (item, index) {
+                    if (index !== itemIndex) {
+                        return item;
+                    } else {
+                        item.remove();
+                    }
+                });
+            }
+        };
+
+        this.clear = function () {
+            items = items.filter(function (item, itemIndex) {
+                item.remove();
+            });
+        };
+
+        /**
+         * @param {function} func
+         */
+        this.sort = function (func) {
+            items = items.sort(func);
+        };
+    },
+    config: function (behavior) {
+        if ((behavior === "group") && Tigerian.Class.isInstance(this, Tigerian.Control)) {
+            //NOTE Alias Super Members
+            var initAddItem = this.addItem.bind(this);
             var superAddControl = this.addControl.bind(this);
+            var initSort = this.sort.bind(this);
+            var superFocused = Object.getOwnPropertyDescriptor(this, "focused");
 
+            this.addGeneralControl = this.addControl.bind(this);
 
-            //TODO Private Members
+            function addItem(item) {
+                if (Tigerian.Class.isInstance(item, Tigerian.Control)) {
+                    initAddItem(item);
+                    superAddControl(item);
+
+                    return true;
+                }
+
+                return false;
+            }
+
             /**
-             * @type {Tigerian.Control[]}
+             * @member {boolean}
              */
-            var items = [];
-
-
-            //TODO Properties
-            /**
-             * @member {number}
-             */
-            Object.defineProperty(this, "itemCount", {
+            Object.defineProperty(this, "focused", {
                 enumerable: true,
                 configurable: true,
-
                 get: function () {
-                    return items.length;
-                }
+                    var isActive = superFocused.get();
+                    for (var i = 0;
+                        (i < this.itemCount) && !isActive; i++) {
+                        isActive = this.getItem(i).focused;
+                    }
+                    return isActive;
+                },
+                set: function (v) {
+                    if (Tigerian.isInstance(v, "boolean")) {
+                        superFocused.set(v);
+                    }
+                },
             });
 
-            //TODO Public Functions
             /**
              * @param {Tigerian.Control} item
              */
-            this.addItem = function (item) {
-                if (Tigerian.Class.isInstance(item, Tigerian.Control)) {
-                    items.push(item);
-                    superAddControl(item);
-
-                    this.dispatchEvent(Tigerian.Event.onItemAdded, [item]);
-                } else {
-                    throw new TypeError("Item type doesn't match to Generic Type");
-                }
-            };
-
-            /**
-             * @param {number} itemIndex
-             * @returns {Tigerian.Control}
-             */
-            this.getItem = function (itemIndex) {
-                if ((Tigerian.Class.isInstance(itemIndex, "number")) && (itemIndex >= 0) && (itemIndex <= items.length)) {
-                    return items[itemIndex];
-                }
-            };
-
-            /**
-             * @param {number} itemIndex
-             */
-            this.removeItem = function (itemIndex) {
-                if ((Tigerian.Class.isInstance(itemIndex, "number")) && (itemIndex >= 0) && (itemIndex <= items.length)) {
-                    items = items.filter(function (item, index) {
-                        if (index !== itemIndex) {
-                            return item;
-                        } else {
-                            item.remove();
-                        }
+            this.addControl = this.addItem = function (item) {
+                if (addItem(item)) {
+                    this.dispatchEvent(Tigerian.Event.onItemAdded, {
+                        "addedItem": item
                     });
                 }
             };
 
-            this.clear = function () {
-                items = items.filter(function (item, itemIndex) {
-                    item.remove();
-                });
-            };
+            /**
+             * @param {function} func 
+             */
+            this.sort = function (func) {
+                initSort(func);
 
+                for (var i = 0, cnt = this.itemCount; i < cnt; i++) {
+                    var item = this.getItem(0);
+                    this.removeItem(0);
+                    this.addItem(item);
+                }
+            }
 
-            //TODO Override Members
-            this.addControl = this.addItem;
+            for (var i = 0, cnt = this.itemCount; i < cnt; i++) {
+                var item = this.getItem(0);
+                this.removeItem(0);
+                this.addItem(item);
+            }
         }
     }
 });

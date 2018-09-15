@@ -5,19 +5,12 @@
 'use strict';
 
 /**
- * @property {string} name
- * @property {Element} element
- * @property {Tigerian.GridTemplateAreas} smallTemplate
- * @property {Tigerian.GridTemplateAreas} mediumTemplate
- * @property {Tigerian.GridTemplateAreas} normalTemplate
- * @property {Tigerian.GridTemplateAreas} largeTemplate
- * @property {Tigerian.GridTemplateAreas} xlargeTemplate
- *
- * @extends Class
+ * @extends {Tigerian.Class}
  * @constructor
  */
 Tigerian.GridTemplate = Tigerian.Class.extend({
     /**
+     * @constructs
      * @param {string} name
      */
     init: function (name) {
@@ -52,6 +45,10 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
             var largeTextNode = document.createTextNode("@media only screen and (min-width: 992px) {\n{template}\n}");
             var xlargeTextNode = document.createTextNode("@media only screen and (min-width: 1200px) {\n{template}\n}");
 
+            /**
+             * @param {number} colCount
+             * @param {number} rowCount
+             */
             this.setSmallTemplate = function (colCount, rowCount) {
                 if (!smallTemplate) {
                     smallTemplate = new Tigerian.GridTemplateAreas(smallTextNode, name, colCount, rowCount);
@@ -59,6 +56,10 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
                 }
             };
 
+            /**
+             * @param {number} colCount
+             * @param {number} rowCount
+             */
             this.setMediumTemplate = function (colCount, rowCount) {
                 if (!mediumTemplate) {
                     mediumTemplate = new Tigerian.GridTemplateAreas(mediumTextNode, name, colCount, rowCount);
@@ -66,6 +67,10 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
                 }
             };
 
+            /**
+             * @param {number} colCount
+             * @param {number} rowCount
+             */
             this.setNormalTemplate = function (colCount, rowCount) {
                 if (!normalTemplate) {
                     normalTemplate = new Tigerian.GridTemplateAreas(normalTextNode, name, colCount, rowCount);
@@ -73,6 +78,10 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
                 }
             };
 
+            /**
+             * @param {number} colCount
+             * @param {number} rowCount
+             */
             this.setLargeTemplate = function (colCount, rowCount) {
                 if (!largeTemplate) {
                     largeTemplate = new Tigerian.GridTemplateAreas(largeTextNode, name, colCount, rowCount);
@@ -80,6 +89,10 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
                 }
             };
 
+            /**
+             * @param {number} colCount
+             * @param {number} rowCount
+             */
             this.setXlargeTemplate = function (colCount, rowCount) {
                 if (!xlargeTemplate) {
                     xlargeTemplate = new Tigerian.GridTemplateAreas(xlargeTextNode, name, colCount, rowCount);
@@ -87,6 +100,9 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
                 }
             };
 
+            /**
+             * @member {string}
+             */
             Object.defineProperty(this, "name", {
                 enumerable: true,
                 configurable: false,
@@ -100,6 +116,10 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
                 },
             });
 
+            /**
+             * @member {Element}
+             * @readonly
+             */
             Object.defineProperty(this, "element", {
                 enumerable: true,
                 configurable: false,
@@ -108,6 +128,10 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
                 },
             });
 
+            /**
+             * @member {Tigerian.GridTemplateAreas}
+             * @readonly
+             */
             Object.defineProperty(this, "smallTemplate", {
                 enumerable: true,
                 configurable: false,
@@ -119,6 +143,10 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
                 },
             });
 
+            /**
+             * @member {Tigerian.GridTemplateAreas}
+             * @readonly
+             */
             Object.defineProperty(this, "mediumTemplate", {
                 enumerable: true,
                 configurable: false,
@@ -130,6 +158,10 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
                 },
             });
 
+            /**
+             * @member {Tigerian.GridTemplateAreas}
+             * @readonly
+             */
             Object.defineProperty(this, "normalTemplate", {
                 enumerable: true,
                 configurable: false,
@@ -141,6 +173,10 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
                 },
             });
 
+            /**
+             * @member {Tigerian.GridTemplateAreas}
+             * @readonly
+             */
             Object.defineProperty(this, "largeTemplate", {
                 enumerable: true,
                 configurable: false,
@@ -152,6 +188,10 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
                 },
             });
 
+            /**
+             * @member {Tigerian.GridTemplateAreas}
+             * @readonly
+             */
             Object.defineProperty(this, "xlargeTemplate", {
                 enumerable: true,
                 configurable: false,

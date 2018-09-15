@@ -10,7 +10,7 @@
  * @property {source} Tigerian.Control
  * @property {boolean} visible
  *
- * @extends Tigerian.Control
+ * @extends {Tigerian.Control}
  * @constructor
  */
 Tigerian.Container = Tigerian.Control.extend({
@@ -22,21 +22,20 @@ Tigerian.Container = Tigerian.Control.extend({
         this.super(parent, theme);
 
 
-        //TODO Private Variables
-        var elmBody = document.createElement("div");
-        var thisAddControl = this.addControl;
+        //NOTE Private Variables
+        // var elmBody = document.createElement("div");
+        // var thisAddControl = this.addControl;
 
 
-        //TODO Attributes
+        //NOTE Attributes
         this.setAttribute("element-type", "Container");
         this.setAttribute("element-name", "container");
 
-        elmBody.setAttribute("element-type", "Container");
-        elmBody.setAttribute("element-name", "body");
-        elmBody.className = this.theme;
+        // elmBody.setAttribute("element-type", "Container");
+        // elmBody.setAttribute("element-name", "body");
 
-
-        //TODO Append Children
+        //NOTE Append Children
+/*
         thisAddControl(elmBody);
 
         this.addControl = function (control) {
@@ -46,5 +45,6 @@ Tigerian.Container = Tigerian.Control.extend({
                 control.appendTo(this, elmBody);
             }
         };
+*/
     }
 });

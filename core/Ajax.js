@@ -2,12 +2,13 @@
 
 /**
  * @class
- * @function
- * @param {string} url
- * @property {function} success
- * @property {function} unsuccess
+ * @extends {Tigerian.Class}
  */
 Tigerian.Ajax = Tigerian.Class.extend({
+    /**
+     * @constructs
+     * @param {string} url
+     */
     init: function (url) {
         var httpRequest;
         var success = function (responseText, responseXml, responseJson) {};
@@ -76,6 +77,9 @@ Tigerian.Ajax = Tigerian.Class.extend({
             request("DELETE", parameters);
         };
 
+        /**
+         * @member {Function}
+         */
         Object.defineProperty(this, "success", {
             enumerable: false,
             configurable: true,
@@ -89,6 +93,9 @@ Tigerian.Ajax = Tigerian.Class.extend({
             },
         });
 
+        /**
+         * @member {Function}
+         */
         Object.defineProperty(this, "unsuccess", {
             enumerable: false,
             configurable: true,
@@ -102,6 +109,9 @@ Tigerian.Ajax = Tigerian.Class.extend({
             },
         });
 
+        /**
+         * @member {string}
+         */
         Object.defineProperty(this, "url", {
             enumerable: false,
             configurable: false,
