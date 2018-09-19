@@ -128,12 +128,21 @@ Tigerian.ComboBox = Tigerian.Control.extend({
         window.addEventListener("click", function (e) {
             if (!(instance.editable && ctrlText.focused) && ctrlList.visible) {
                 hideList();
+                // } else if (!ctrlList.visible) {
+                //     showList(e);
             }
         }, true);
         ctrlLabel.addEvent("click", show_hideList);
         ctrlText.addEvent("focus", showList);
         ctrlText.addEvent("blur", function (e) {
             setTimeout(hideList, 150);
+        });
+        ctrlText.addEvent("keydown", function (e) {
+            if (e.code === "Enter") {
+                hideList(e);
+            } else if (!ctrlList.visible) {
+                showList(e);
+            }
         });
         ctrlList.addEvent("selectedindexchange", onSelectedIndexChange);
     },

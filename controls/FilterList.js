@@ -22,6 +22,8 @@ Tigerian.FilterList = Tigerian.ListBox.extend({
         this.config("filter", ctrlFilter);
         this.addGeneralControl(ctrlFilter);
 
+        this.filtering = true;
+
         this.setAttribute("element-type", "FilterList");
         this.setAttribute("element-name", "container");
     },
