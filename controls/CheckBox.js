@@ -26,14 +26,14 @@ Tigerian.CheckBox = Tigerian.Control.extend({
 		this.config("text", elmLabel);
 
 
-		//TODO Alias Super Members
+		//NOTE Alias Super Members
 		var superSelected = Object.getOwnPropertyDescriptor(this, "selected");
 
 
-		//TODO Private Variables
+		//NOTE Private Variables
 		var instance = this;
 
-		//TODO Attributes
+		//NOTE Attributes
 		this.setAttribute("element-name", "container");
 		this.setAttribute("element-type", "CheckBox");
 
@@ -43,7 +43,7 @@ Tigerian.CheckBox = Tigerian.Control.extend({
 		elmLabel.setAttribute("element-name", "label");
 		elmLabel.setAttribute("element-type", "CheckBox");
 
-		//TODO Append Children
+		//NOTE Append Children
 		this.addControl(elmCheckBox);
 		this.addControl(elmLabel);
 

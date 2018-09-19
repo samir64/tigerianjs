@@ -20,10 +20,11 @@ Tigerian.Field = Tigerian.Control.extend({
     init: function (parent, label, text, theme) {
         this.super(parent, theme);
 
-
-        //NOTE Private Variables
         var ctrlLabel = new Tigerian.Label(this, label, null, theme);
         var ctrlText = new Tigerian.TextBox(this, text, theme);
+
+        this.config("text", ctrlText);
+
 
         ctrlLabel.source = ctrlText;
 
@@ -33,32 +34,7 @@ Tigerian.Field = Tigerian.Control.extend({
 
         this.setAttribute("empty", (ctrlText.text === "") ? "true" : "false");
 
-        // ctrlLabel.setAttribute("element-name", "label");
-        // ctrlText.setAttribute("element-name", "textbox");
         ctrlLabel.source = ctrlText;
-
-
-        //NOTE Public Properties
-        /**
-         * @member {Tigerian.TextBox}
-         */
-        Object.defineProperty(this, "text", {
-            enumerable: true,
-            configurable: true,
-            get: function () {
-                return ctrlText;
-                // return ctrlText.value;
-            },
-            /*
-
-                        set: function (value) {
-                            if (Tigerian.Class.isInstance(value, "string")) {
-                                ctrlText.text = value;
-                                // ctrlText.value = value;
-                            }
-                        },
-            */
-        });
 
         /**
          * @member {Tigerian.Label}
@@ -67,18 +43,13 @@ Tigerian.Field = Tigerian.Control.extend({
             enumerable: true,
             configurable: true,
             get: function () {
-                return ctrlLabel;
-                // return ctrlLabel.headText;
+                // return ctrlLabel;
+                return ctrlLabel.headText;
             },
-            /*
+            set: function (value) {
+                ctrlLabel.text = value;
+            },
 
-                        set: function (value) {
-                            if (Tigerian.Class.isInstance(value, "string")) {
-                                ctrlLabel.text = value;
-                                // ctrlLabel.headText = value;
-                            }
-                        },
-            */
         });
 
 
@@ -111,4 +82,4 @@ Tigerian.Field = Tigerian.Control.extend({
         ctrlText.addEvent("focus", onFocus.bind(this));
         ctrlText.addEvent("blur", onBlur.bind(this));
     }
-});
+}, Tigerian.BText);

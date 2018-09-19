@@ -17,71 +17,81 @@ Tigerian.BFilter = Tigerian.Behavior.extend({
     init: function () {
         this.super("filter");
 
-        var filter = false;
+        var filtering = false;
 
         /**
          * @member {boolean}
          * @this {Tigerian.Control}
          */
-        Object.defineProperty(this, "filter", {
+        Object.defineProperty(this, "filtering", {
             enumerable: true,
             configurable: true,
             get: function () {
-                return filter;
+                return filtering;
             },
             set: function (v) {
                 if (Tigerian.Class.isInstance(v, "boolean")) {
-                    filter = v;
+                    filtering = v;
                 }
             },
         });
     },
-    config: function (behavior, ctrlFilter) {
-        if ((behavior === "filter") && this["Behavior:group"] && Tigerian.Class.isInstance(this, Tigerian.Control) && Tigerian.Class.isInstance(ctrlFilter, Tigerian.Control) && ctrlFilter["Behavior:text"]) {
-            var instance = this;
-
-            // this.addGeneralControl(ctrlFilter);
-
-            this.setAttribute("filter", this.filter ? "true" : "false");
-
-            function filter() {
-                if (instance.filter) {
-                    for (var i = 0; i < instance.itemCount; i++) {
-                        instance.getItem(i).visible = ((ctrlFilter.text === "") || instance.getItem(i).text.toLowerCase().includes(ctrlFilter.text.toLowerCase()));
-                    }
-                }
+    config: function (behavior, ctrlText, ctrlList) {
+        if (behavior === "filter") {
+            if (!(Tigerian.Class.isInstance(ctrlList, Tigerian.Control) && ctrlList["Behavior:group"])) {
+                ctrlList = this;
             }
 
-            /**
-             * @member {boolean}
-             * @this {Tigerian.Control}
-             */
-            Object.defineProperty(this, "filter", {
-                enumerable: true,
-                configurable: true,
-                get: function () {
-                    return (this.getAttribute("filter") === "true");
-                },
-                set: function (v) {
-                    if (Tigerian.Class.isInstance(v, "boolean")) {
-                        this.setAttribute("filter", (v === true) ? "true" : "false");
+            if (Tigerian.Class.isInstance(ctrlList, Tigerian.Control) && ctrlList["Behavior:group"] && Tigerian.Class.isInstance(ctrlText, Tigerian.Control) && ctrlText["Behavior:text"]) {
+                var instance = this;
+                this.setAttribute("filtering", ctrlList.filter ? "true" : "false");
+
+                this.filter = function (text) {
+                    if (!Tigerian.Class.isInstance(text, "string")) {
+                        text = ctrlText.text;
                     }
-                },
-            });
 
-            ctrlFilter.addEvent("input", function (e) {
-                filter();
-            });
-
-            filter();
-
-            ctrlFilter.addEvent("keydown", function (e) {
-                switch (e.code) {
-                    case "Space":
-                        this.text += " ";
-                        e.preventDefault();
+                    if (this.filtering) {
+                        for (var i = 0; i < ctrlList.itemCount; i++) {
+                            ctrlList.getItem(i).visible = ((text === "") || ctrlList.getItem(i).text.toLowerCase().includes(text.toLowerCase()));
+                        }
+                    }
                 }
-            });
+
+                /**
+                 * @member {boolean}
+                 * @this {Tigerian.Control}
+                 */
+                Object.defineProperty(this, "filtering", {
+                    enumerable: true,
+                    configurable: true,
+                    get: function () {
+                        return (this.getAttribute("filtering") === "true");
+                    },
+                    set: function (v) {
+                        if (Tigerian.Class.isInstance(v, "boolean")) {
+                            this.setAttribute("filtering", (v === true) ? "true" : "false");
+                            if (this !== ctrlList) {
+                                ctrlList.filter = v;
+                            }
+                        }
+                    },
+                });
+
+                ctrlText.addEvent("input", function (e) {
+                    instance.filter();
+                });
+
+                this.filter();
+
+                ctrlText.addEvent("keydown", function (e) {
+                    switch (e.code) {
+                        case "Space":
+                            this.text += " ";
+                            e.preventDefault();
+                    }
+                });
+            }
         }
     },
 });

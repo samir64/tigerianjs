@@ -21,11 +21,13 @@ Tigerian.Model = Tigerian.ModelView.extend({
         /**
          * @type {Tigerian.ModelField[]}
          */
-        var fields = {id: new Tigerian.ModelField("id", idType)};
+        var fields = {
+            id: new Tigerian.ModelField("id", idType)
+        };
         var ctrlAdd = controllerPath;
         var ctrlEdit = controllerPath;
         var ctrlDelete = controllerPath;
-        var ctrlRefresh = controllerPath;
+        var ctrlReload = controllerPath;
         var ctrlSearch = controllerPath;
         var ctrlCount = controllerPath;
 
@@ -73,7 +75,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
             }.bind(this)
         }.bind(this);
 
-        var ajaxUnsuccess = function(unsuccessFunc) {
+        var ajaxUnsuccess = function (unsuccessFunc) {
             return function (readystate, status, statusText) {
                 if (Tigerian.Class.isInstance(unsuccessFunc, "function")) {
                     unsuccessFunc(statusText);
@@ -132,15 +134,15 @@ Tigerian.Model = Tigerian.ModelView.extend({
         /**
          * @member {string}
          */
-        Object.defineProperty(this, "ctrlRefresh", {
+        Object.defineProperty(this, "ctrlReload", {
             enumerable: true,
             configurable: false,
             get: function () {
-                return ctrlRefresh;
+                return ctrlReload;
             },
             set: function (v) {
                 if (Tigerian.Class.isInstance(v, "string")) {
-                    ctrlRefresh = v;
+                    ctrlReload = v;
                 }
             }
         });
@@ -228,7 +230,10 @@ Tigerian.Model = Tigerian.ModelView.extend({
 
             if (fields["id"].value !== undefined) {
                 ajax.url = applicationPath + ctrlEdit;
-                params = {id: fields["id"].value, value: params};
+                params = {
+                    id: fields["id"].value,
+                    value: params
+                };
                 ajax.put(params);
             } else {
                 ajax.url = applicationPath + ctrlAdd;
@@ -247,7 +252,9 @@ Tigerian.Model = Tigerian.ModelView.extend({
 
             if (fields["id"].value !== undefined) {
                 ajax.url = applicationPath + ctrlDelete;
-                ajax.delete({id: fields["id"].value}, ajaxSuccess, ajaxUnsuccess);
+                ajax.delete({
+                    id: fields["id"].value
+                }, ajaxSuccess, ajaxUnsuccess);
             }
         };
 
@@ -255,14 +262,16 @@ Tigerian.Model = Tigerian.ModelView.extend({
          * @param {function} success
          * @param {function} unsuccess
          */
-        this.refresh = function (success, unsuccess) {
+        this.reload = function (success, unsuccess) {
             var ajax = new Tigerian.Ajax();
             ajax.success = ajaxSuccess(success, unsuccess);
             ajax.unsuccess = ajaxUnsuccess(unsuccess);
 
             if (fields["id"].value !== undefined) {
-                ajax.url = applicationPath + ctrlRefresh;
-                ajax.get({id: fields["id"].value});
+                ajax.url = applicationPath + ctrlReload;
+                ajax.get({
+                    id: fields["id"].value
+                });
             }
         };
 
@@ -277,7 +286,9 @@ Tigerian.Model = Tigerian.ModelView.extend({
             ajax.unsuccess = ajaxUnsuccess(unsuccess);
 
 
-            var params = {options: options};
+            var params = {
+                options: options
+            };
             for (var field in fields) {
                 if (fields[field].value !== undefined) {
                     params[field] = fields[field].value;
@@ -302,7 +313,11 @@ Tigerian.Model = Tigerian.ModelView.extend({
             ajax.unsuccess = ajaxUnsuccess(unsuccess);
 
 
-            var params = {options: {count: true}};
+            var params = {
+                options: {
+                    count: true
+                }
+            };
             for (var field in fields) {
                 if (fields[field].value !== undefined) {
                     params[field] = fields[field].value;

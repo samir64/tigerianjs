@@ -27,14 +27,14 @@ Tigerian.RadioButton = Tigerian.Control.extend({
 		this.config("text", elmLabel);
 
 
-		//TODO Alias Super Members
+		//NOTE Alias Super Members
 		var superSelected = Object.getOwnPropertyDescriptor(this, "selected");
 
 
-		//TODO Private Variables
+		//NOTE Private Variables
 		var instance = this;
 
-		//TODO Attributes
+		//NOTE Attributes
 		this.setAttribute("element-name", "container");
 		this.setAttribute("element-type", "RadioButton");
 
@@ -44,7 +44,7 @@ Tigerian.RadioButton = Tigerian.Control.extend({
 		elmLabel.setAttribute("element-name", "label");
 		elmLabel.setAttribute("element-type", "RadioButton");
 
-		//TODO Append Children
+		//NOTE Append Children
 		this.addControl(elmRadioButton);
 		this.addControl(elmLabel);
 

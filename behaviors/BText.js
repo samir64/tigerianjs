@@ -35,17 +35,19 @@ Tigerian.BText = Tigerian.Behavior.extend({
             },
         });
     },
-    config: function (behavior, elmText) {
-        if ((behavior === "text") && (Tigerian.Class.isInstance(elmText, Element) || (Tigerian.Class.isInstance(elmText, Tigerian.Control) && elmText["Behavior:text"]))) {
+    config: function (behavior, ctrlText) {
+        if ((behavior === "text") && (Tigerian.Class.isInstance(ctrlText, Element) || (Tigerian.Class.isInstance(ctrlText, Tigerian.Control) && ctrlText["Behavior:text"]))) {
             this.setAttribute("text", this.text);
-            elmText.innerHTML = this.text;
-            elmText.value = this.text;
+            ctrlText.innerHTML = this.text;
+            ctrlText.value = this.text;
+
+            var instance = this;
 
             function changeText(e) {
-                if (elmText["Behavior:text"]) {
-                    this.text = elmText.text;
+                if (ctrlText["Behavior:text"]) {
+                    instance.text = ctrlText.text;
                 } else {
-                    this.text = (Tigerian.Class.isInstance(e.target.value, "string") ? e.target.value : e.target.innerHTML);
+                    instance.text = (Tigerian.Class.isInstance(e.target.value, "string") ? e.target.value : e.target.innerHTML);
                 }
             }
 
@@ -58,12 +60,12 @@ Tigerian.BText = Tigerian.Behavior.extend({
                 get: function () {
                     var result;
 
-                    if (elmText["Behavior:text"]) {
-                        result = elmText.text;
-                    } else if (Tigerian.Class.isInstance(elmText.value, "string")) {
-                        result = elmText.value;
-                    } else if (Tigerian.Class.isInstance(elmText.innerHTML, "string")) {
-                        result = elmText.innerHTML;
+                    if (ctrlText["Behavior:text"]) {
+                        result = ctrlText.text;
+                    } else if (Tigerian.Class.isInstance(ctrlText.value, "string")) {
+                        result = ctrlText.value;
+                    } else if (Tigerian.Class.isInstance(ctrlText.innerHTML, "string")) {
+                        result = ctrlText.innerHTML;
                     } else {
                         result = this.getAttribute("text");
                     }
@@ -74,19 +76,31 @@ Tigerian.BText = Tigerian.Behavior.extend({
                 },
                 set: function (v) {
                     if (Tigerian.Class.isInstance(v, "string")) {
+                        var lastText = this.getAttribute("text");
                         this.setAttribute("text", v);
-                        if (elmText["Behavior:text"]) {
-                            this.text = v;
+                        if (ctrlText["Behavior:text"]) {
+                            ctrlText.text = v;
                         } else {
-                            elmText.innerHTML = v;
-                            elmText.value = v;
+                            ctrlText.innerHTML = v;
+                            ctrlText.value = v;
+                        }
+
+                        if (lastText !== v) {
+                            this.dispatchEvent(Tigerian.Event.onTextChanged, {
+                                lastValue: lastText
+                            });
                         }
                     }
                 },
             });
 
-            elmText.addEventListener("change", changeText.bind(this));
-            elmText.addEventListener("input", changeText.bind(this));
+            if (Tigerian.Class.isInstance(ctrlText, Tigerian.Control)) {
+                ctrlText.addEvent("change", changeText);
+                ctrlText.addEvent("input", changeText);
+            } else {
+                ctrlText.addEventListener("change", changeText);
+                ctrlText.addEventListener("input", changeText);
+            }
         }
     },
 });

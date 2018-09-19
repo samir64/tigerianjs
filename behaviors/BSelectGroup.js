@@ -166,205 +166,238 @@ Tigerian.BSelectGroup = Tigerian.Behavior.extend({
             }
         });
     },
-    config: function (behavior) {
-        if ((behavior === "select_group") && this["Behavior:group"]) {
-            var instance = this;
-            var lastSelectedCount = this.selectedCount;
-            var lastItemIndex = this.itemIndex;
-            var lastSelectedIndex = this.selectedIndex;
+    config: function (behavior, ctrlSelectGroup) {
+        if (behavior === "select_group") {
+            if (!(Tigerian.Class.isInstance(ctrlSelectGroup, Tigerian.Control) && ctrlSelectGroup["Behavior:group"] && ctrlSelectGroup["Behavior:select_group"])) {
+                ctrlSelectGroup = this;
+            } else {
+                var itemCount = Object.getOwnPropertyDescriptor(ctrlSelectGroup, "itemCount");
+                var multiSelect = Object.getOwnPropertyDescriptor(ctrlSelectGroup, "multiSelect");
+                this.addItem = ctrlSelectGroup.addItem.bind(this);
+                this.removeItem = ctrlSelectGroup.removeItem.bind(this);
+                this.getItem = ctrlSelectGroup.getItem.bind(this);
+                this.clear = ctrlSelectGroup.clear.bind(this);
+                /**
+                 * @member {number}
+                 */
+                Object.defineProperty(this, "itemCount", {
+                    enumerable: true,
+                    configurable: true,
+                    get: itemCount.get.bind(this),
+                    set: itemCount.set.bind(this),
+                });
+                /**
+                 * @member {boolean}
+                 */
+                Object.defineProperty(this, "multiSelect", {
+                    enumerable: true,
+                    configurable: true,
+                    get: multiSelect.get.bind(this),
+                    set: multiSelect.set.bind(this),
+                });
+            }
 
-            var initItemIndex = Object.getOwnPropertyDescriptor(this, "itemIndex");
-            var initSelectedIndex = Object.getOwnPropertyDescriptor(this, "selectedIndex");
+            if (Tigerian.Class.isInstance(ctrlSelectGroup, Tigerian.Control) && ctrlSelectGroup["Behavior:group"] && ctrlSelectGroup["Behavior:select_group"]) {
+                var instance = this;
+                var lastSelectedCount = ctrlSelectGroup.selectedCount;
+                var lastItemIndex = ctrlSelectGroup.itemIndex;
+                var lastSelectedIndex = ctrlSelectGroup.selectedIndex;
 
-            var superSort = this.sort.bind(this);
+                var initItemIndex = Object.getOwnPropertyDescriptor(ctrlSelectGroup, "itemIndex");
+                var initSelectedIndex = Object.getOwnPropertyDescriptor(ctrlSelectGroup, "selectedIndex");
 
-            //NOTE Properties
-            /**
-             * @member {number}
-             */
-            Object.defineProperty(this, "itemIndex", {
-                enumerable: true,
-                configurable: true,
-                get: initItemIndex.get.bind(this),
-                set: function (v) {
-                    initItemIndex.set.bind(this)(v);
-                    if (initItemIndex.get.bind(this)() !== lastItemIndex) {
-                        if (lastItemIndex !== -1) {
-                            instance.getItem(lastItemIndex).setAttribute("focused", "false");
+                var superSort = ctrlSelectGroup.sort.bind(this);
+
+                //NOTE Properties
+                /**
+                 * @member {number}
+                 */
+                Object.defineProperty(this, "itemIndex", {
+                    enumerable: true,
+                    configurable: true,
+                    get: initItemIndex.get.bind(this),
+                    set: function (v) {
+                        initItemIndex.set.bind(this)(v);
+                        if (initItemIndex.get.bind(this)() !== lastItemIndex) {
+                            if (lastItemIndex !== -1) {
+                                instance.getItem(lastItemIndex).setAttribute("focused", "false");
+                            }
+                            if ((v >= 0) && (v < instance.itemCount)) {
+                                instance.getItem(v).setAttribute("focused", "true");
+                            }
+                            instance.dispatchEvent(Tigerian.Event.onItemIndexChange);
+                            lastItemIndex = initItemIndex.get.bind(this)();
                         }
-                        if ((v >= 0) && (v < instance.itemCount)) {
-                            instance.getItem(v).setAttribute("focused", "true");
-                        }
-                        instance.dispatchEvent(Tigerian.Event.onItemIndexChange);
-                        lastItemIndex = initItemIndex.get.bind(this)();
                     }
-                }
-            });
+                });
 
-            /**
-             * @member {number|number[]}
-             */
-            Object.defineProperty(this, "selectedIndex", {
-                enumerable: true,
-                configurable: true,
-                get: initSelectedIndex.get.bind(this),
-                set: function (v) {
-                    initSelectedIndex.set.bind(this)(v);
+                /**
+                 * @member {number|number[]}
+                 */
+                Object.defineProperty(this, "selectedIndex", {
+                    enumerable: true,
+                    configurable: true,
+                    get: initSelectedIndex.get.bind(this),
+                    set: function (v) {
+                        initSelectedIndex.set.bind(this)(v);
 
-                    if (!Tigerian.compare(lastSelectedIndex, initSelectedIndex.get.bind(this)())) {
-                        this.dispatchEvent(Tigerian.Event.onSelectedIndexChange, {
+                        if (!Tigerian.compare(lastSelectedIndex, initSelectedIndex.get.bind(this)())) {
+                            this.dispatchEvent(Tigerian.Event.onSelectedIndexChange, {
+                                lastSelectedIndex: lastSelectedIndex
+                            });
+                            lastSelectedIndex = initSelectedIndex.get.bind(this)();
+                        }
+
+                        if (this.selectedCount !== lastSelectedCount) {
+                            this.dispatchEvent(Tigerian.Event.onSelectedCountChange, {
+                                lastSelectedCount: lastSelectedCount
+                            });
+                            lastSelectedCount = instance.selectedCount;
+                        }
+                    }
+                });
+
+                //NOTE Private Functions
+                /**
+                 * @param {Event} e
+                 */
+                function onSelectedChange(e) {
+                    for (var i = 0; i < instance.itemCount; i++) {
+                        if (this !== instance.getItem(i)) {
+                            if (!instance.multiSelect && this.selected && instance.getItem(i).selected) {
+                                instance.getItem(i).selected = false;
+                            }
+                        } else {
+                            instance.itemIndex = i;
+                        }
+                    }
+
+                    // console.log(lastSelectedIndex, instance.selectedIndex, Tigerian.compare(lastSelectedIndex, instance.selectedIndex));
+
+                    if (!Tigerian.compare(lastSelectedIndex, instance.selectedIndex)) {
+                        instance.dispatchEvent(Tigerian.Event.onSelectedIndexChange, {
                             lastSelectedIndex: lastSelectedIndex
                         });
-                        lastSelectedIndex = initSelectedIndex.get.bind(this)();
                     }
 
-                    if (this.selectedCount !== lastSelectedCount) {
-                        this.dispatchEvent(Tigerian.Event.onSelectedCountChange, {
+                    if (instance.selectedCount !== lastSelectedCount) {
+                        instance.dispatchEvent(Tigerian.Event.onSelectedCountChange, {
                             lastSelectedCount: lastSelectedCount
                         });
-                        lastSelectedCount = instance.selectedCount;
                     }
-                }
-            });
 
-            //NOTE Private Functions
-            /**
-             * @param {Event} e
-             */
-            function onSelectedChange(e) {
-                for (var i = 0; i < instance.itemCount; i++) {
-                    if (this !== instance.getItem(i)) {
-                        if (!instance.multiSelect && this.selected && instance.getItem(i).selected) {
-                            instance.getItem(i).selected = false;
+                    lastSelectedCount = instance.selectedCount;
+                    lastSelectedIndex = instance.selectedIndex;
+                }
+
+                /**
+                 * @param {Event} e
+                 * @param {Array} params
+                 */
+                function onAddItem(e) {
+                    e.data.addedItem.setAttribute("focused", "false");
+                    e.data.addedItem.addEvent("selectedchange", onSelectedChange);
+                }
+
+
+                //NOTE Public Functions
+                this.selectAll = function () {
+                    if (this.multiSelect) {
+                        for (var i = 0; i < this.itemCount; i++) {
+                            this.getItem(i).selected = true;
                         }
-                    } else {
-                        instance.itemIndex = i;
                     }
-                }
+                };
 
-                // console.log(lastSelectedIndex, instance.selectedIndex, Tigerian.compare(lastSelectedIndex, instance.selectedIndex));
-
-                if (!Tigerian.compare(lastSelectedIndex, instance.selectedIndex)) {
-                    instance.dispatchEvent(Tigerian.Event.onSelectedIndexChange, {
-                        lastSelectedIndex: lastSelectedIndex
-                    });
-                }
-
-                if (instance.selectedCount !== lastSelectedCount) {
-                    instance.dispatchEvent(Tigerian.Event.onSelectedCountChange, {
-                        lastSelectedCount: lastSelectedCount
-                    });
-                }
-
-                lastSelectedCount = instance.selectedCount;
-                lastSelectedIndex = instance.selectedIndex;
-            }
-
-            /**
-             * @param {Event} e
-             * @param {Array} params
-             */
-            function onAddItem(e) {
-                e.data.addedItem.setAttribute("focused", "false");
-                e.data.addedItem.addEvent("selectedchange", onSelectedChange);
-            }
-
-
-            //NOTE Public Functions
-            this.selectAll = function () {
-                if (this.multiSelect) {
+                this.selectNone = function () {
                     for (var i = 0; i < this.itemCount; i++) {
-                        this.getItem(i).selected = true;
+                        this.getItem(i).selected = false;
                     }
-                }
-            };
+                };
 
-            this.selectNone = function () {
-                for (var i = 0; i < this.itemCount; i++) {
-                    this.getItem(i).selected = false;
-                }
-            };
+                this.sort = function (func) {
+                    superSort(func);
+                    lastSelectedIndex = this.selectedIndex;
+                };
 
-            this.sort = function (func) {
-                superSort(func);
-                lastSelectedIndex = this.selectedIndex;
-            };
+                /**
+                 * @param {Event} e
+                 */
+                function onKeyDown(e) {
+                    var itemIndex = Math.min(Math.max(0, instance.itemIndex), instance.itemCount);
 
-            /**
-             * @param {Event} e
-             */
-            function onKeyDown(e) {
-                var itemIndex = Math.min(Math.max(0, instance.itemIndex), instance.itemCount);
+                    function setIndex() {
+                        if (instance.getItem(itemIndex).enabled) {
+                            instance.itemIndex = itemIndex;
+                        }
 
-                function setIndex() {
-                    if (instance.getItem(itemIndex).enabled) {
-                        instance.itemIndex = itemIndex;
+                        if (!instance.multiSelect) {
+                            instance.selectedIndex = instance.itemIndex;
+                        }
+                        e.preventDefault();
                     }
 
-                    if (!instance.multiSelect) {
-                        instance.selectedIndex = instance.itemIndex;
-                    }
-                    e.preventDefault();
-                }
+                    if (this.focused) {
+                        switch (e.code) {
+                            case "ArrowDown":
 
-                if (this.focused) {
-                    switch (e.code) {
-                        case "ArrowDown":
+                                while ((itemIndex < instance.itemCount - 1) && !instance.getItem(++itemIndex).enabled);
+                                setIndex();
+                                break;
 
-                            while ((itemIndex < instance.itemCount - 1) && !instance.getItem(++itemIndex).enabled);
-                            setIndex();
-                            break;
+                            case "ArrowUp":
+                                while ((itemIndex > 0) && !instance.getItem(--itemIndex).enabled);
+                                setIndex();
+                                break;
 
-                        case "ArrowUp":
-                            while ((itemIndex > 0) && !instance.getItem(--itemIndex).enabled);
-                            setIndex();
-                            break;
-
-                        case "Space":
-                            if (instance.multiSelect) {
-                                instance.getItem(instance.itemIndex).selected = !instance.getItem(instance.itemIndex).selected;
-                                if (!Tigerian.compare(lastSelectedIndex, instance.selectedIndex)) {
-                                    this.getItem(instance.itemIndex).dispatchEvent(Tigerian.Event.onSelectedChange, {
-                                        lastSelectedIndex: lastSelectedIndex
-                                    });
+                            case "Space":
+                                if (instance.multiSelect) {
+                                    if (!instance.getItem(instance.itemIndex).selected || instance.getItem(instance.itemIndex).autoDeselect) {
+                                        instance.getItem(instance.itemIndex).selected = !instance.getItem(instance.itemIndex).selected;
+                                        if (!Tigerian.compare(lastSelectedIndex, instance.selectedIndex)) {
+                                            this.getItem(instance.itemIndex).dispatchEvent(Tigerian.Event.onSelectedChange, {
+                                                lastSelectedIndex: lastSelectedIndex
+                                            });
+                                        }
+                                        lastSelectedIndex = instance.selectedIndex;
+                                    }
+                                    e.preventDefault();
                                 }
-                                lastSelectedIndex = instance.selectedIndex;
-                                e.preventDefault();
-                            }
-                            break;
+                                break;
 
-                        default:
-                            break;
+                            default:
+                                break;
+                        }
                     }
                 }
+
+                /**
+                 * @param {Event} e
+                 */
+                function onFocus(e) {
+                    if ((instance.itemIndex < 0) || (instance.itemIndex >= instance.itemCount)) {
+                        instance.itemIndex = 0;
+                    }
+                    if (!instance.multiSelect && (instance.itemIndex !== instance.selectedIndex)) {
+                        instance.itemIndex = instance.selectedIndex;
+                    }
+
+                    if (instance.itemIndex >= 0) {
+                        instance.getItem(instance.itemIndex).setAttribute("focused", "true");
+                    }
+                }
+
+
+                //NOTE Default Events
+                this.addEvent("keydown", onKeyDown);
+                this.addEvent("focus", onFocus);
+                window.addEventListener("keydown", function (e) {
+                    if (this.focuesd) {
+                        e.preventDefault();
+                    }
+                }.bind(this));
+                this.addEvent("itemadded", onAddItem);
             }
-
-            /**
-             * @param {Event} e
-             */
-            function onFocus(e) {
-                if ((instance.itemIndex < 0) || (instance.itemIndex >= instance.itemCount)) {
-                    instance.itemIndex = 0;
-                }
-                if (!instance.multiSelect && (instance.itemIndex !== instance.selectedIndex)) {
-                    instance.itemIndex = instance.selectedIndex;
-                }
-
-                if (instance.itemIndex >= 0) {
-                    instance.getItem(instance.itemIndex).setAttribute("focused", "true");
-                }
-            }
-
-
-            //NOTE Default Events
-            this.addEvent("keydown", onKeyDown);
-            this.addEvent("focus", onFocus);
-            window.addEventListener("keydown", function (e) {
-                if (this.focuesd) {
-                    e.preventDefault();
-                }
-            }.bind(this));
-            this.addEvent("itemadded", onAddItem);
         }
     }
 });

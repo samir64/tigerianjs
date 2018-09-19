@@ -792,7 +792,7 @@
 [element-type="ListBox"][element-name="container"],
 [element-type="FilterList"][element-name="container"] {
     border: solid 1px #555;
-    background-color: rgba(200, 200, 200, .4);
+    background-color: rgba(200, 200, 200, .75);
     border-radius: 3px;
     overflow-x: hidden;
     overflow-y: auto;
@@ -900,6 +900,16 @@
     background-color: #007bff;
 }
 
+[element-type="CheckBox"][element-name="container"]:not([disabled]):not([selected="false"]):hover>[element-type="CheckBox"][element-name="check"],
+[element-type="RadioButton"][element-name="container"]:not([disabled]):not([selected="false"]):hover>[element-type="RadioButton"][element-name="button"] {
+    background-color: #05d;
+}
+
+[element-type="CheckBox"][element-name="container"]:not([disabled])[selected="false"]:hover>[element-type="CheckBox"][element-name="check"],
+[element-type="RadioButton"][element-name="container"]:not([disabled])[selected="false"]:hover>[element-type="RadioButton"][element-name="button"] {
+    background-color: #999;
+}
+
 [element-type="RadioButton"][element-name="container"]>[element-type="RadioButton"][element-name="button"] {
     border-radius: 50%;
 }
@@ -910,7 +920,7 @@
     position: absolute;
 }
 
-[element-type="CheckBox"][element-name="container"]:not([selected="false"])>[element-type="CheckBox"][element-name="check"]::after {
+[element-type="CheckBox"][element-name="container"][selected="true"]>[element-type="CheckBox"][element-name="check"]::after {
     border-width: 3px;
     left: 3px;
     top: 0;
@@ -923,7 +933,16 @@
     transform: rotate(-45deg);
 }
 
-[element-type="RadioButton"][element-name="container"]:not([selected="false"])>[element-type="RadioButton"][element-name="button"]::after {
+[element-type="CheckBox"][element-name="container"][selected="indeterminate"]>[element-type="CheckBox"][element-name="check"]::after {
+    border-width: 2px;
+    left: 3px;
+    top: 6px;
+    width: 7px;
+    height: 0;
+    border-style: solid;
+}
+
+[element-type="RadioButton"][element-name="container"][selected="true"]>[element-type="RadioButton"][element-name="button"]::after {
     left: 4px;
     top: 4px;
     width: 9px;
@@ -940,15 +959,75 @@
     border-color: #ddd;
 }
 
-[element-type="CheckBox"][element-name="container"][selected="indeterminate"]>[element-type="CheckBox"][element-name="check"]::after {
-    border-bottom-style: double;
-    border-left-style: double;
-}
-
 [element-type="RadioButton"][element-name="container"][disabled]:not([selected="false"])>[element-type="RadioButton"][element-name="button"]::after {
     background-color: #999;
 }
 
 [element-type="RadioButton"][element-name="container"]:not([disabled]):not([selected="false"])>[element-type="RadioButton"][element-name="button"]::after {
     background-color: #ddd;
+}
+
+[element-type="Spacer"][element-name="container"] {
+    line-height: 5px;
+}
+
+[element-type="Spacer"][element-name="container"]>[element-type="Spacer"][element-name="hr"] {
+    width: 100%;
+    border-style: solid;
+    border-color: #999;
+    padding: 0;
+    margin: 0;
+    height: 0;
+}
+
+[element-type="ComboBox"][element-name="container"] {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #555;
+    border-radius: 3px;
+    background-color: #eee;
+    position: relative;
+}
+
+[element-type="ComboBox"][element-name="container"]>[element-type="Label"][element-name="container"],
+[element-type="ComboBox"][element-name="container"]>[element-type="TextBox"][element-name="container"] {
+    height: 30px;
+    vertical-align: middle;
+}
+
+[element-type="ComboBox"][element-name="container"]>[element-type="TextBox"][element-name="container"]>[element-type="TextBox"][element-name="input"] {
+    border: none;
+    background-color: transparent;
+}
+
+[element-type="ComboBox"][element-name="container"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"],
+[element-type="ComboBox"][element-name="container"]>[element-type="TextBox"][element-name="container"]>[element-type="TextBox"][element-name="input"] {
+    float: left;
+    display: inline-block;
+    line-height: 25px;
+    height: 25px;
+    padding-top: 0;
+    padding-bottom: 0;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+[element-type="ComboBox"][element-name="container"]>[element-type="Label"][element-name="container"]::after,
+[element-type="ComboBox"][element-name="container"]>[element-type="TextBox"][element-name="container"]::after {
+    content: '';
+    float: right;
+    position: relative;
+    width: 0;
+    height: 0;
+    left: -5px;
+    top: -14px;
+    border-width: 7px 7px 0 7px;
+    border-color: #555 transparent transparent transparent;
+    border-style: solid;
+}
+
+[element-type="ComboBox"][element-name="container"]>[element-type="ListBox"][element-name="container"] {
+    position: absolute;
+    left: 0;
+    top: 35px;
 }

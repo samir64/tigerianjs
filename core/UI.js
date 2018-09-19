@@ -111,7 +111,13 @@ Tigerian.UI = Tigerian.Class.extend({
             enumerable: true,
             configurable: true,
             get: function () {
-                return (document.activeElement === mainElement);
+                var result = document.activeElement === mainElement;
+
+                for (var i = 0; !result && (i < mainElement.children.length); i++) {
+                    result = (document.activeElement === mainElement.children[i]);
+                }
+
+                return result;
             },
             set: function (v) {
                 if (Tigerian.Class.isInstance(v, "boolean")) {
@@ -176,7 +182,8 @@ Tigerian.UI = Tigerian.Class.extend({
         function eventHandler(e) {
             var eventType = e.type.toLowerCase();
 
-            if (instance.enabled && instance.visible) {
+            // if (instance.enabled && instance.visible) {
+            if (instance.enabled) {
                 for (var event in events[eventType]) {
                     events[eventType][event].bind(instance)(e);
                 }

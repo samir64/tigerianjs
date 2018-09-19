@@ -23,6 +23,7 @@ Tigerian.TextBox = Tigerian.Control.extend({
         this.config("text", elmText);
 
         var thisEnabled = Object.getOwnPropertyDescriptor(this, "enabled");
+        var instance = this;
 
 
         //NOTE Attributes
@@ -156,14 +157,23 @@ Tigerian.TextBox = Tigerian.Control.extend({
             elmText.select();
         };
 
-        this.checkValidity = function (e) {
+        this.isValid = function () {
             this.setAttribute("validity", elmText.validity.valid);
+            return elmText.validity.valid;
         };
 
 
         //NOTE Default Event
         this.addEvent("click", onClick);
-        elmText.addEventListener("input", this.checkValidity.bind(this), true);
+        elmText.addEventListener("input", function (e) {
+            this.isValid();
+        }.bind(this), true);
+        elmText.addEventListener("focus", function (e) {
+            this.dispatchEvent(Tigerian.Event.onFocus);
+        }.bind(this), true);
+        elmText.addEventListener("blur", function (e) {
+            this.dispatchEvent(Tigerian.Event.onBlur);
+        }.bind(this), true);
 
         delete this.addControl;
     }

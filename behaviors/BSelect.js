@@ -18,7 +18,6 @@ Tigerian.BSelect = Tigerian.Behavior.extend({
         //NOTE Private Variables
         var autoSelect = true;
         var autoDeselect = true;
-        this.selected = false;
 
         /**
          * @member {boolean}
@@ -52,80 +51,103 @@ Tigerian.BSelect = Tigerian.Behavior.extend({
             }
         });
 
+        /**
+         * @member {boolean}
+         */
+        Object.defineProperty(this, "selected", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: false,
+        });
     },
-    config: function (behavior) {
-        if ((behavior === "select") && Tigerian.Class.isInstance(this, Tigerian.Control)) {
-            //NOTE Attributes
-            this.setAttribute("selected", (this.selected ? "true" : "false"));
-
-
-            //NOTE Properties
-            /**
-             * @member {boolean}
-             */
-            Object.defineProperty(this, "selected", {
-                enumerable: true,
-                configurable: true,
-
-                get: function () {
-                    return (this.getAttribute("selected") === "true");
-                },
-
-                set: function (v) {
-                    if (Tigerian.Class.isInstance(v, "boolean")) {
-                        this.setAttribute("selected", v);
-                    }
-                }
-            });
-
-
-            //NOTE Private Functions
-            /**
-             * @param {Event} e
-             */
-            function onClick(e) {
-                var lastValue = this.selected;
-                if (!this.selected) {
-                    if (this.autoSelect) {
-                        this.selected = true;
-                    }
-                } else {
-                    if (this.autoDeselect) {
-                        this.selected = false;
-                    }
-                }
-                if (this.selected !== lastValue) {
-                    this.dispatchEvent(Tigerian.Event.onSelectedChange, {lastValue: lastValue});
-                }
+    config: function (behavior, ctrlSelect) {
+        if (behavior === "select") {
+            if (!(Tigerian.Class.isInstance(ctrlSelect, Tigerian.Control) && ctrlSelect["Behavior:select"])) {
+                ctrlSelect = this;
+            } else {
+                this.selected = ctrlSelect.selected;
+                this.autoDeselect = ctrlSelect.autoDeselect;
+                this.autoSelect = ctrlSelect.autoSelect;
             }
 
-            /**
-             * @param {Event} e
-             */
-            function onKeyDown(e) {
-                var lastValue = this.selected;
-                if (!this.selected) {
-                    if (this.autoSelect && ((e.keyCode === 32) || (e.keyCode === 13))) {
-                        this.selected = true;
-                        e.preventDefault();
-                        this.focus();
+            if (Tigerian.Class.isInstance(ctrlSelect, Tigerian.Control) && ctrlSelect["Behavior:select"]) {
+                //NOTE Attributes
+                this.setAttribute("selected", (this.selected ? "true" : "false"));
+
+
+                //NOTE Properties
+                /**
+                 * @member {boolean}
+                 */
+                Object.defineProperty(this, "selected", {
+                    enumerable: true,
+                    configurable: true,
+
+                    get: function () {
+                        return (this.getAttribute("selected") === "true");
+                    },
+
+                    set: function (v) {
+                        if (Tigerian.Class.isInstance(v, "boolean")) {
+                            this.setAttribute("selected", v);
+                        }
                     }
-                } else {
-                    if (this.autoDeselect && ((e.keyCode === 32) || (e.keyCode === 13))) {
-                        this.selected = false;
-                        e.preventDefault();
-                        this.focus();
+                });
+
+
+                //NOTE Private Functions
+                /**
+                 * @param {Event} e
+                 */
+                function onClick(e) {
+                    var lastValue = this.selected;
+                    if (!this.selected) {
+                        if (this.autoSelect) {
+                            this.selected = true;
+                        }
+                    } else {
+                        if (this.autoDeselect) {
+                            this.selected = false;
+                        }
+                    }
+                    if (this.selected !== lastValue) {
+                        this.dispatchEvent(Tigerian.Event.onSelectedChange, {
+                            lastValue: lastValue
+                        });
                     }
                 }
-                if (this.selected !== lastValue) {
-                    this.dispatchEvent(Tigerian.Event.onSelectedChange, {lastValue: lastValue});
+
+                /**
+                 * @param {Event} e
+                 */
+                function onKeyDown(e) {
+                    var lastValue = this.selected;
+                    if (!this.selected) {
+                        if (this.autoSelect && ((e.keyCode === 32) || (e.keyCode === 13))) {
+                            this.selected = true;
+                            e.preventDefault();
+                            this.focus();
+                        }
+                    } else {
+                        if (this.autoDeselect && ((e.keyCode === 32) || (e.keyCode === 13))) {
+                            this.selected = false;
+                            e.preventDefault();
+                            this.focus();
+                        }
+                    }
+                    if (this.selected !== lastValue) {
+                        this.dispatchEvent(Tigerian.Event.onSelectedChange, {
+                            lastValue: lastValue
+                        });
+                    }
                 }
+
+
+                //NOTE Default Events
+                ctrlSelect.addEvent("click", onClick.bind(this));
+                ctrlSelect.addEvent("keydown", onKeyDown.bind(this));
             }
-
-
-            //NOTE Default Events
-            this.addEvent("click", onClick.bind(this));
-            this.addEvent("keydown", onKeyDown.bind(this));
         }
     }
 });
