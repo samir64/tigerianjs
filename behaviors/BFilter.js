@@ -84,13 +84,13 @@ Tigerian.BFilter = Tigerian.Behavior.extend({
 
                 this.filter();
 
-                ctrlText.addEvent("keydown", function (e) {
-                    switch (e.code) {
-                        case "Space":
-                            this.text += " ";
-                            e.preventDefault();
-                    }
-                });
+                // ctrlText.addEvent("keydown", function (e) {
+                //     switch (e.code) {
+                //         case "Space":
+                //             // this.text += " ";
+                //             e.preventDefault();
+                //     }
+                // });
             }
         }
     },

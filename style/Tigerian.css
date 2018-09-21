@@ -517,14 +517,28 @@
     color: silver;
 }
 
+[fixed="true"] {
+    position: fixed;
+    left: 0;
+}
+
+[stick="top"] {
+    top: 0;
+}
+
+[stick="bottom"] {
+    bottom: 0;
+}
+
 [element-name="container"][visible="false"] {
     display: none;
 }
 
 [element-type="Application"][element-name="container"] {
-    margin: 1% auto;
-    padding: 2px;
-    width: 97%;
+    /* margin: 1% auto; */
+    margin: 0 auto;
+    /* padding: 2px; */
+    width: 98%;
     text-align: center;
     font-size: 18px;
     /* font-family: "Lucida Sans", sans-serif; */
@@ -649,7 +663,7 @@
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 4px;
-    padding: 10px 20px;
+    padding: 7px 25px;
 }
 
 [element-type="Button"][element-name="container"]:not([disabled])>[element-type="Button"][element-name="button"] {
@@ -683,7 +697,7 @@
     margin: auto;
 }
 
-[element-type="Button"][element-name="button"] {
+[element-type="Button"][element-name="container"]>[element-type="Button"][element-name="button"] {
     text-align: center;
 }
 
@@ -989,6 +1003,10 @@
     position: relative;
 }
 
+[element-type="ComboBox"][element-name="container"]>[element-type="ListBox"][element-name="container"] {
+    z-index: 999;
+}
+
 [element-type="ComboBox"][element-name="container"]>[element-type="Label"][element-name="container"],
 [element-type="ComboBox"][element-name="container"]>[element-type="TextBox"][element-name="container"] {
     height: 30px;
@@ -1020,8 +1038,11 @@
     height: 0;
     left: -5px;
     top: -14px;
-    border-width: 7px 7px 0 7px;
-    border-color: #555 transparent transparent transparent;
+    border-top-color: #555;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-width: 7px;
     border-style: solid;
 }
 
@@ -1029,4 +1050,30 @@
     position: absolute;
     left: 0;
     top: 35px;
+}
+
+[element-type="Header"][element-name="container"]>[element-type="Control"][element-name="container"] {
+    box-shadow: rgba(50, 50, 50, .2) 0 5px 5px 2px;
+    margin-top: 0;
+    margin-bottom: 1px;
+}
+
+[element-type="Footer"][element-name="container"]>[element-type="Control"][element-name="container"] {
+    box-shadow: rgba(50, 50, 50, .2) 0 -5px 5px 2px;
+    margin-top: 1px;
+    margin-bottom: 0;
+}
+
+[element-type="Footer"][element-name="container"]>[element-type="Control"][element-name="container"],
+[element-type="Header"][element-name="container"]>[element-type="Control"][element-name="container"] {
+    width: 100%;
+    background-color: rgba(150, 150, 150, .9);
+    min-height: 25px;
+    z-index: 99;
+    border-radius: 2px;
+}
+
+[element-type="Footer"][element-name="container"][fixed="false"]>[element-type="Control"][element-name="container"],
+[element-type="Header"][element-name="container"][fixed="false"]>[element-type="Control"][element-name="container"] {
+    position: relative;
 }

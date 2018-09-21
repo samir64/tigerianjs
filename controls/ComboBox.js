@@ -30,7 +30,7 @@ Tigerian.ComboBox = Tigerian.Control.extend({
         var editable = false;
         var instance = this;
         var superAddControl = this.addControl.bind(this);
-
+        var selectRequire = false;
         var canChangeVisible = true;
 
         //NOTE Attributes
@@ -57,9 +57,18 @@ Tigerian.ComboBox = Tigerian.Control.extend({
         var hideList = function (e) {
             if (canChangeVisible) {
                 ctrlList.visible = false;
-                if (ctrlList.selectedIndex >= 0) {
-                    ctrlLabel.text = ctrlList.getItem(ctrlList.selectedIndex).text;
-                    instance.text = ctrlList.getItem(ctrlList.selectedIndex).text;
+                if (selectRequire) {
+                    if (ctrlList.selectedIndex >= 0) {
+                        ctrlLabel.text = ctrlList.getItem(ctrlList.selectedIndex).text;
+                        instance.text = ctrlList.getItem(ctrlList.selectedIndex).text;
+                    } else {
+                        ctrlLabel.text = "";
+                        ctrlText.text = "";
+                    }
+                } else {
+                    if ((ctrlList.selectedIndex >= 0) && (ctrlList.getItem(ctrlList.selectedIndex).text !== ctrlText.text)) {
+                        ctrlList.selectedIndex = -1;
+                    }
                 }
 
                 canChangeVisible = false;
@@ -86,6 +95,9 @@ Tigerian.ComboBox = Tigerian.Control.extend({
         };
 
         //NOTE Properties
+        /**
+         * @member {boolean}
+         */
         Object.defineProperty(this, "editable", {
             enumerable: true,
             configurable: true,
@@ -103,6 +115,36 @@ Tigerian.ComboBox = Tigerian.Control.extend({
                     this.filtering = v;
                 }
             }
+        });
+
+        /**
+         * @member {number}
+         */
+        Object.defineProperty(this, "selectedIndex", {
+            enumerable: true,
+            configurable: true,
+            get: function () {
+                return ctrlList.selectedIndex;
+            },
+            set: function (v) {
+                ctrlList.selectedIndex = v;
+            },
+        });
+
+        /**
+         * @member {boolean}
+         */
+        Object.defineProperty(this, "selectRequire", {
+            enumerable: true,
+            configurable: true,
+            get: function () {
+                return selectRequire;
+            },
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "boolean")) {
+                    selectRequire = v;
+                }
+            },
         });
 
         //NOTE Public Functions
@@ -137,8 +179,13 @@ Tigerian.ComboBox = Tigerian.Control.extend({
         ctrlText.addEvent("blur", function (e) {
             setTimeout(hideList, 150);
         });
+        ctrlText.addEvent("click", function (e) {
+            if (ctrlText.focused && !ctrlList.visible) {
+                showList(e);
+            }
+        });
         ctrlText.addEvent("keydown", function (e) {
-            if (e.code === "Enter") {
+            if ((e.code === "Enter") || (e.code === "Escape")) {
                 hideList(e);
             } else if (!ctrlList.visible) {
                 showList(e);
