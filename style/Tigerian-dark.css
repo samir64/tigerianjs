@@ -82,16 +82,20 @@
     color: #039;
 }
 
-[element-type="CheckBox"][element-name="container"][disabled]>[element-type="CheckBox"][element-name="label"] {
+.dark[element-type="CheckBox"][element-name="container"][disabled]>[element-type="CheckBox"][element-name="label"] {
     color: #888;
 }
 
-[element-type="ComboBox"][element-name="container"] {
+.dark[element-type="ComboBox"][element-name="container"] {
     background-color: #858585;
 }
 
-
-[element-type="Footer"][element-name="container"]>[element-type="Control"][element-name="container"],
-[element-type="Header"][element-name="container"]>[element-type="Control"][element-name="container"] {
+.dark[element-type="Footer"][element-name="container"]>[element-type="Control"][element-name="container"],
+.dark[element-type="Header"][element-name="container"]>[element-type="Control"][element-name="container"] {
     background-color: rgba(75, 75, 75, .9);
+}
+
+.dark[element-type="ModalForm"][element-name="container"]>[element-type="ModalForm"][element-name="body"] {
+    border-color: #555;
+    background-color: #999;
 }
