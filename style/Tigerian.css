@@ -1113,6 +1113,8 @@
 
 [element-type="Menu"][element-name="container"][visible="true"] {
     position: absolute;
+    left: 99%;
+    top: 0;
     z-index: 999;
 }
 
@@ -1120,23 +1122,28 @@
     content: '';
     position: absolute;
     vertical-align: middle;
-    margin-top: -15px;
-    margin-left: -3px;
     left: 100%;
     top: 50%;
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 15px;
-    border-top-width: 10px;
-    border-bottom-width: 10px;
+    border-width: 10px;
+    border-top-width: 7px;
+    border-bottom-width: 7px;
     border-color: transparent;
-    border-left-color: #333;
+    transform: translate(-75%, -50%);
+    border-left-color: #aaa;
+}
+
+[element-type="Menu"][element-name="container"],
+[element-type="Menu"][element-name="container"]>[element-type="MenuItem"][element-name="container"] {
+    max-width: none;
 }
 
 [element-type="MenuItem"][element-name="container"][visible="true"] {
     background-color: #333;
     cursor: pointer;
+    border-bottom: 1px solid #111;
     /* position: relative; */
 }
 
