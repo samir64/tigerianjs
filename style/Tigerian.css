@@ -1058,28 +1058,28 @@
     top: 35px;
 }
 
-[element-type="Header"][element-name="container"]>[element-type="Control"][element-name="container"] {
+[element-type="Header"][element-name="container"] {
     box-shadow: rgba(50, 50, 50, .2) 0 5px 5px 2px;
     margin-top: 0;
     margin-bottom: 1px;
 }
 
-[element-type="Footer"][element-name="container"]>[element-type="Control"][element-name="container"] {
+[element-type="Footer"][element-name="container"] {
     box-shadow: rgba(50, 50, 50, .2) 0 -5px 5px 2px;
     margin-top: 1px;
     margin-bottom: 0;
 }
 
-[element-type="Footer"][element-name="container"]>[element-type="Control"][element-name="container"],
-[element-type="Header"][element-name="container"]>[element-type="Control"][element-name="container"] {
+[element-type="Footer"][element-name="container"],
+[element-type="Header"][element-name="container"] {
     width: 100%;
     background-color: rgba(100, 100, 100, .9);
     min-height: 25px;
     border-radius: 2px;
 }
 
-[element-type="Footer"][element-name="container"]>[element-type="Control"][element-name="container"][fixed="true"],
-[element-type="Header"][element-name="container"]>[element-type="Control"][element-name="container"][fixed="true"] {
+[element-type="Footer"][element-name="container"][fixed="true"],
+[element-type="Header"][element-name="container"][fixed="true"] {
     z-index: 99;
 }
 
@@ -1088,8 +1088,8 @@
     color: #bbb;
 }
 
-[element-type="Footer"][element-name="container"][fixed="false"]>[element-type="Control"][element-name="container"],
-[element-type="Header"][element-name="container"][fixed="false"]>[element-type="Control"][element-name="container"] {
+[element-type="Footer"][element-name="container"][fixed="false"],
+[element-type="Header"][element-name="container"][fixed="false"] {
     /* position: relative; */
 }
 

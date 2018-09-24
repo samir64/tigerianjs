@@ -90,8 +90,8 @@
     background-color: #858585;
 }
 
-.dark[element-type="Footer"][element-name="container"]>[element-type="Control"][element-name="container"],
-.dark[element-type="Header"][element-name="container"]>[element-type="Control"][element-name="container"] {
+.dark[element-type="Footer"][element-name="container"]>,
+.dark[element-type="Header"][element-name="container"]> {
     background-color: rgba(75, 75, 75, .9);
 }
 
