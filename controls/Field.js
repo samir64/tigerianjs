@@ -20,7 +20,7 @@ Tigerian.Field = Tigerian.Control.extend({
     init: function (parent, label, text, theme) {
         this.super(parent, theme);
 
-        var ctrlLabel = new Tigerian.Label(this, label, null, theme);
+        var ctrlLabel = new Tigerian.Label(this, label, theme);
         var ctrlText = new Tigerian.TextBox(this, text, theme);
 
         this.config("text", ctrlText);
