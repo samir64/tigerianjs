@@ -1068,13 +1068,13 @@
 }
 
 [element-type="Header"][element-name="container"] {
-    box-shadow: rgba(50, 50, 50, .2) 0 5px 5px 2px;
+    box-shadow: rgba(50, 50, 50, .2) 0 3px 3px 2px;
     margin-top: 0;
     margin-bottom: 1px;
 }
 
 [element-type="Footer"][element-name="container"] {
-    box-shadow: rgba(50, 50, 50, .2) 0 -5px 5px 2px;
+    box-shadow: rgba(50, 50, 50, .2) 0 -3px 3px 2px;
     margin-top: 1px;
     margin-bottom: 0;
 }
