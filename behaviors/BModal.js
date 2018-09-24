@@ -60,16 +60,16 @@ Tigerian.BModal = Tigerian.Behavior.extend({
 
                 var elmBody = new Tigerian.Control(this, this.theme);
                 // var elmBody = document.createElement("div");
-                var elmCoverage = document.createElement("div");
+                // var elmCoverage = document.createElement("div");
 
                 // this.addControl(elmBody);
-                this.addControl(elmCoverage);
+                // this.addControl(elmCoverage);
 
                 elmBody.setAttribute("element-type", "ModalForm");
                 elmBody.setAttribute("element-name", "body");
 
-                elmCoverage.setAttribute("element-type", "ModalForm");
-                elmCoverage.setAttribute("element-name", "coverage");
+                // elmCoverage.setAttribute("element-type", "ModalForm");
+                // elmCoverage.setAttribute("element-name", "coverage");
 
                 this.show = function () {
                     ctrlModal.status = "show";
@@ -94,6 +94,7 @@ Tigerian.BModal = Tigerian.Behavior.extend({
                     configurable: true,
                     get: initStatus.get.bind(this),
                     set: function (v) {
+                        v = v.toLowerCase();
                         initStatus.set.bind(this)(v);
 
                         switch (v) {
@@ -102,7 +103,8 @@ Tigerian.BModal = Tigerian.Behavior.extend({
                                     ctrlModal.show();
                                 } else {
                                     superVisible.set.bind(this)(true);
-                                    elmCoverage.setAttribute("visible", "false");
+                                    this.setAttribute("status", v);
+                                    // elmCoverage.setAttribute("visible", "false");
                                     ctrlParent.setAttribute("hide-overflow", "false");
                                 }
 
@@ -113,7 +115,8 @@ Tigerian.BModal = Tigerian.Behavior.extend({
                                     ctrlModal.modal();
                                 } else {
                                     superVisible.set.bind(this)(true);
-                                    elmCoverage.setAttribute("visible", "true");
+                                    this.setAttribute("status", v);
+                                    // elmCoverage.setAttribute("visible", "true");
                                     ctrlParent.setAttribute("hide-overflow", "true");
                                 }
 
@@ -124,7 +127,8 @@ Tigerian.BModal = Tigerian.Behavior.extend({
                                     ctrlModal.close();
                                 } else {
                                     superVisible.set.bind(this)(false);
-                                    elmCoverage.setAttribute("visible", "false");
+                                    this.setAttribute("status", v);
+                                    // elmCoverage.setAttribute("visible", "false");
                                     ctrlParent.setAttribute("hide-overflow", "false");
                                 }
 

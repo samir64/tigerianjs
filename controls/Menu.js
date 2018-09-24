@@ -25,7 +25,7 @@ Tigerian.Menu = Tigerian.Control.extend({
          * @param {Tigeriam.MenuItem} item
          */
         this.addControl = this.addItem = function (item) {
-            if (Tigerian.Class.isInstance(item, Tigerian.MenuItem)) {
+            if (Tigerian.Class.isInstance(item, Tigerian.MenuItem) || Tigerian.Class.isInstance(item, Tigerian.Spacer)) {
                 superAddItem(item);
             }
         };

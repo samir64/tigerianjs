@@ -28,39 +28,36 @@ Tigerian.BFixElement = Tigerian.Behavior.extend({
             }
 
             if (Tigerian.Class.isInstance(ctrlFix, Tigerian.Control) && ctrlFix["Behavior:fix_element"]) {
-                // var ctrlSpacer = new Tigerian.Spacer(this, false, this.app);
-                var ctrlContainer = new Tigerian.Control(this, this.app);
-
                 switch (stick.toLowerCase()) {
                     case "top":
-                        ctrlContainer.setAttribute("stick", "top");
+                        ctrlFix.setAttribute("stick", "top");
                         break;
 
                     case "bottom":
-                        ctrlContainer.setAttribute("stick", "bottom");
+                        ctrlFix.setAttribute("stick", "bottom");
                         break;
 
                     default:
-                        ctrlContainer.setAttribute("stick", "none");
+                        ctrlFix.setAttribute("stick", "none");
                 }
 
-                ctrlContainer.setAttribute("fixed", this.fixed ? "true" : "false");
+                ctrlFix.setAttribute("fixed", this.fixed ? "true" : "false");
 
                 Object.defineProperty(this, "fixed", {
                     enumerable: true,
                     configurable: true,
                     get: function () {
-                        return (ctrlContainer.getAttribute("fixed") === "true");
+                        return (ctrlFix.getAttribute("fixed") === "true");
                     },
                     set: function (v) {
                         if (Tigerian.Class.isInstance(v, "boolean")) {
                             // ctrlSpacer.visible = v;
-                            ctrlContainer.setAttribute("fixed", (v === true) ? "true" : "false");
+                            ctrlFix.setAttribute("fixed", (v === true) ? "true" : "false");
                         }
                     },
                 });
 
-                this.addControl = ctrlContainer.addControl;
+                this.addControl = ctrlFix.addControl;
             }
         }
     },

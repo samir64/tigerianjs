@@ -542,7 +542,9 @@
 
 [element-type="Application"][element-name="container"] {
     margin: 0 auto;
-    width: 98%;
+    padding: 0;
+    width: 100%;
+    /* width: 98%; */
     text-align: center;
     font-size: 18px;
 }
@@ -572,6 +574,9 @@
 [element-type][element-name="container"] * {
     max-width: 100%;
     color: #555;
+}
+
+[element-type][element-name="container"] * {
     padding: 2px;
 }
 
@@ -832,6 +837,10 @@
 [element-type="Field"][element-name="container"]>[element-type="TextBox"][element-name="container"]>[element-type="TextBox"][element-name="input"] {
     height: 37px;
     padding-top: 14px;
+    border-left: none;
+    border-top: none;
+    border-right: none;
+    background-color: transparent;
 }
 
 [element-type="Field"][element-name="container"]>[element-type="Label"][element-name="container"] {
@@ -1188,28 +1197,37 @@
     color: #111;
 }
 
-[element-type="ModalForm"][element-name="container"]>[element-type="ModalForm"][element-name="coverage"] {
-    z-index: 9998;
+[element-type="ModalForm"][element-name="container"][status="modal"] {
     background-color: rgba(50, 50, 50, 0.85);
-    position: fixed;
+}
+
+[element-type="ModalForm"][element-name="container"][status="show"] {
+    visibility: hidden;
+}
+
+[element-type="ModalForm"][element-name="container"] {
+    position: absolute;
+    z-index: 9998;
     left: 0;
     top: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
 }
 
 [element-type="ModalForm"][element-name="container"]>[element-type="ModalForm"][element-name="body"] {
     z-index: 9999;
+    visibility: visible;
     border: 1px solid #999;
     border-radius: 3px;
     background-color: #bbb;
-    max-width: 99vw;
-    max-height: 99vh;
+    max-width: 97%;
+    max-height: 97%;
     overflow: auto;
-    position: fixed;
-    left: 50%;
+    position: sticky;
+    margin: 0 auto;
     top: 50%;
-    transform: translate(-50%, -50%);
+    bottom: 50%;
+    transform: translateY(-50%);
     box-shadow: 0 0 5px 1px rgba(50, 50, .5);
 }
 

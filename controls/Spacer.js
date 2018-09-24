@@ -16,19 +16,22 @@ Tigerian.Spacer = Tigerian.Control.extend({
      * @param {boolean} [hrLine = false]
      * @param {string} [theme = ""]
      */
-    init: function (parent, hrLine, theme) {
+    init: function (parent, hrLine, vertical, theme) {
         this.super(parent, theme);
-
-        if (hrLine === true) {
-            var elmHr = document.createElement("hr");
-            this.addControl(elmHr);
-
-            elmHr.setAttribute("element-type", "Spacer");
-            elmHr.setAttribute("element-name", "hr");
-        }
 
         this.setAttribute("element-type", "Spacer");
         this.setAttribute("element-name", "container");
+
+        this.setAttribute("horizontal-line", ((hrLine === true) ? "true" : "false"));
+        this.setAttribute("vertical", ((vertical === true) ? "true" : "false"));
+
+        // if (hrLine === true) {
+        //     var elmHr = document.createElement("hr");
+        //     this.addControl(elmHr);
+
+        //     elmHr.setAttribute("element-type", "Spacer");
+        //     elmHr.setAttribute("element-name", "hr");
+        // }
 
         delete this.headText;
         delete this.footText;
