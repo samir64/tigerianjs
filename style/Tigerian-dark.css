@@ -78,8 +78,12 @@
     border-color: #999;
 }
 
-.dark[element-type="Field"][element-name="container"][focus="true"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"] {
-    color: #039;
+.dark[element-type="Field"][element-name="container"][focused="false"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"] {
+    color: #555;
+}
+
+.dark[element-type="Field"][element-name="container"][focused="true"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"] {
+    color: #07c;
 }
 
 .dark[element-type="CheckBox"][element-name="container"][disabled]>[element-type="CheckBox"][element-name="label"] {
