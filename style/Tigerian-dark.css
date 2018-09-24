@@ -95,6 +95,22 @@
     background-color: rgba(75, 75, 75, .9);
 }
 
+.dark[element-type="Menu"][element-name="container"] {
+    background-color: #333;
+}
+
+.dark[element-type="Menu"][element-name="container"]>[element-type="MenuItem"][element-name="container"][visible="true"]:not([disabled]):hover {
+    background-color: #444;
+}
+
+.dark[element-type="Menu"][element-name="container"]>[element-type="MenuItem"][element-name="container"][visible="true"]:not([disabled])>[element-type="MenuItem"][element-name="text"] {
+    color: #999;
+}
+
+.dark[element-type="Menu"][element-name="container"]>[element-type="MenuItem"][element-name="container"][visible="true"]:not([disabled]):hover>[element-type="MenuItem"][element-name="text"] {
+    color: #ccc;
+}
+
 .dark[element-type="ModalForm"][element-name="container"]>[element-type="ModalForm"][element-name="body"] {
     border-color: #555;
     background-color: #999;

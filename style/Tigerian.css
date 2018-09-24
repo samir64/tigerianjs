@@ -523,7 +523,8 @@
 }
 
 [element-type][element-name][fixed="true"] {
-    position: fixed;
+    position: -webkit-sticky;
+    position: sticky;
     left: 0;
 }
 
@@ -977,16 +978,26 @@
 }
 
 [element-type="Spacer"][element-name="container"] {
-    line-height: 5px;
+    height: 0;
+    padding: 0;
+    margin: 2px auto;
+    max-width: 96%;
+    cursor: default;
 }
 
-[element-type="Spacer"][element-name="container"]>[element-type="Spacer"][element-name="hr"] {
-    width: 100%;
+[element-type="Spacer"][element-name="container"][horizontal-line="true"] {
     border-style: solid;
     border-color: #999;
-    padding: 0;
-    margin: 0;
-    height: 0;
+    border-width: 1px;
+    background-color: #777
+}
+
+[element-type="Spacer"][element-name="container"][horizontal-line="true"][vertical="true"] {
+    display: inline;
+}
+
+[element-type="Spacer"][element-name="container"][horizontal-line="true"][vertical="false"] {
+    display: block;
 }
 
 [element-type="ComboBox"][element-name="container"] {
@@ -1108,12 +1119,16 @@
 
 [element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="container"]>[element-type="Menu"][element-name="container"] {
     left: 0;
-    top: 30px;
+    top: 100%;
 }
 
-[element-type="Menu"][element-name="container"][visible="true"] {
+[element-type="Menu"][element-name="container"] {
     position: absolute;
-    left: 99%;
+    box-shadow: 0 0 5px 1px rgba(50, 50, 50, .5);
+    background-color: #eee;
+    margin: 0;
+    padding: 0;
+    left: 100%;
     top: 0;
     z-index: 999;
 }
@@ -1141,22 +1156,36 @@
 }
 
 [element-type="MenuItem"][element-name="container"][visible="true"] {
-    background-color: #333;
     cursor: pointer;
-    border-bottom: 1px solid #111;
     /* position: relative; */
 }
 
-[element-type="MenuItem"][element-name="container"][visible="true"]:not([disabled]):hover {
+[element-type="MainMenu"][element-name="container"]>[element-type="MenuItem"][element-name="container"][visible="true"] {
+    background-color: #333;
+}
+
+[element-type="MainMenu"][element-name="container"]>[element-type="MenuItem"][element-name="container"][visible="true"]:not([disabled]):hover {
     background-color: #444;
 }
 
-[element-type="MenuItem"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="text"] {
+[element-type="Menu"][element-name="container"]>[element-type="MenuItem"][element-name="container"][visible="true"]:not([disabled]):hover {
+    background-color: #ddd;
+}
+
+[element-type="MainMenu"][element-name="container"]>[element-type="MenuItem"][element-name="container"][visible="true"]:not([disabled])>[element-type="MenuItem"][element-name="text"] {
     color: #999;
 }
 
-[element-type="MenuItem"][element-name="container"][visible="true"]:not([disabled]):hover>[element-type="MenuItem"][element-name="text"] {
+[element-type="MainMenu"][element-name="container"]>[element-type="MenuItem"][element-name="container"][visible="true"]:not([disabled]):hover>[element-type="MenuItem"][element-name="text"] {
     color: #ccc;
+}
+
+[element-type="Menu"][element-name="container"]>[element-type="MenuItem"][element-name="container"][visible="true"]:not([disabled])>[element-type="MenuItem"][element-name="text"] {
+    color: #333;
+}
+
+[element-type="Menu"][element-name="container"]>[element-type="MenuItem"][element-name="container"][visible="true"]:not([disabled]):hover>[element-type="MenuItem"][element-name="text"] {
+    color: #111;
 }
 
 [element-type="ModalForm"][element-name="container"]>[element-type="ModalForm"][element-name="coverage"] {
@@ -1181,6 +1210,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    box-shadow: 0 0 5px 1px rgba(50, 50, .5);
 }
 
 [element-type="ModalForm"][element-name="container"]>[element-type="ModalForm"][element-name="body"]>[element-type="Header"][element-name="container"],
