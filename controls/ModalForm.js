@@ -1,6 +1,16 @@
 "use strict";
 
+/**
+ * @constructor
+ * @extends {Tigerian.Control}
+ * @implements {Tigerian.BModal}
+ */
 Tigerian.ModalForm = Tigerian.Control.extend({
+    /**
+     * @constructs
+     * @param {Tigerian.UI} parent
+     * @param {string} theme
+     */
     init: function (parent, theme) {
         this.super(parent, theme);
         this.config("modal", parent);

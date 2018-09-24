@@ -1,6 +1,13 @@
 "use strict";
 
+/**
+ * @constructor
+ * @extends {Tigerian.Behavior}
+ */
 Tigerian.BModal = Tigerian.Behavior.extend({
+    /**
+     * @constructs
+     */
     init: function () {
         this.super("modal");
 
@@ -39,7 +46,7 @@ Tigerian.BModal = Tigerian.Behavior.extend({
         });
     },
     config: function (behavior, ctrlParent, ctrlModal) {
-        if ((behavior === "modal") && Tigerian.Class.isInstance(ctrlParent, Tigerian.Application)) {
+        if ((behavior === "modal") && Tigerian.Class.isInstance(ctrlParent, Tigerian.UI)) {
             if (!(Tigerian.Class.isInstance(ctrlModal, Tigerian.Control) && ctrlModal["Behavior:modal"])) {
                 ctrlModal = this;
             }
