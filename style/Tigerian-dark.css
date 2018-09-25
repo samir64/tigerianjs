@@ -116,6 +116,6 @@
 }
 
 .dark[element-type="ModalForm"][element-name="container"]>[element-type="ModalForm"][element-name="body"] {
-    border-color: #555;
+    border-color: #333;
     background-color: #999;
 }

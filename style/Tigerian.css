@@ -676,7 +676,6 @@
 
 [element-type="Button"][element-name="container"]:not([disabled])>[element-type="Button"][element-name="button"] {
     background-color: #999;
-    border-color: #555;
     cursor: pointer;
     color: #ddd
 }
@@ -1219,7 +1218,7 @@
     visibility: visible;
     border: 1px solid #999;
     border-radius: 3px;
-    background-color: #bbb;
+    background-color: #ddd;
     max-width: 97%;
     max-height: 97%;
     overflow: auto;
