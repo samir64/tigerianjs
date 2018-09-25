@@ -17,7 +17,7 @@ Tigerian.Header = Tigerian.Control.extend({
      */
     init: function (parent, fixed, theme) {
         this.super(parent, theme);
-        this.config("fix_element", "top");
+        this.config("fix_element", Tigerian.BFixElement.ETop);
 
         this.fixed = fixed;
 

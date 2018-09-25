@@ -68,6 +68,13 @@ Tigerian.MainClassDefinition.extend = function (properties, behaviors, superClas
                 });
         */
 
+        if ("enums" in properties) {
+            for (var i = 0; i < properties["enums"].length; i++) {
+                var enumName = properties["enums"][i];
+                result["E" + enumName.charAt(0).toUpperCase() + enumName.slice(1)] = Symbol(enumName);
+            }
+        }
+
         if ("init" in properties) {
             properties["init"].apply(this, Array.from(arguments));
         } else {
@@ -86,7 +93,7 @@ Tigerian.MainClassDefinition.extend = function (properties, behaviors, superClas
                 }.bind(this);
                 // configs.push(properties[prop]);
                 // properties["config"].apply(this);
-            } else if (prop !== "init") {
+            } else if ((prop !== "init") && (prop !== "enums")) {
                 this[prop] = properties[prop];
             }
         }

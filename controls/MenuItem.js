@@ -9,7 +9,8 @@ Tigerian.MenuItem = Tigerian.Control.extend({
     /**
      * @constructs
      * @param {Tigerian.UI} parent
-     * @param {string} theme
+     * @param {string} text
+     * @param {string} theme = ""
      */
     init: function (parent, text, theme) {
         var elmText = document.createElement("div");

@@ -11,18 +11,18 @@ Tigerian.BModal = Tigerian.Behavior.extend({
     init: function () {
         this.super("modal");
 
-        var status = "close";
+        var status = Tigerian.BModal.EClose;
 
         this.showModal = function () {
-            status = "modal";
+            status = Tigerian.BModal.EModal;
         };
 
         this.show = function () {
-            status = "show";
+            status = Tigerian.BModal.EShow;
         };
 
         this.close = function () {
-            status = "close";
+            status = Tigerian.BModal.EClose;
         };
 
         Object.defineProperty(this, "status", {
@@ -34,9 +34,9 @@ Tigerian.BModal = Tigerian.Behavior.extend({
             set: function (v) {
                 if (Tigerian.Class.isInstance(v, "string")) {
                     switch (v) {
-                        case "show":
-                        case "close":
-                        case "modal":
+                        case Tigerian.BModal.EShow:
+                        case Tigerian.BModal.EClose:
+                        case Tigerian.BModal.EModal:
                             status = v;
                             break;
                         default:
@@ -72,15 +72,15 @@ Tigerian.BModal = Tigerian.Behavior.extend({
                 // elmCoverage.setAttribute("element-name", "coverage");
 
                 this.show = function () {
-                    ctrlModal.status = "show";
+                    ctrlModal.status = Tigerian.BModal.EShow;
                 };
 
                 this.close = function () {
-                    ctrlModal.status = "close";
+                    ctrlModal.status = Tigerian.BModal.EClose;
                 };
 
                 this.showModal = function () {
-                    ctrlModal.status = "modal";
+                    ctrlModal.status = Tigerian.BModal.EModal;
                 };
 
                 /**
@@ -94,40 +94,39 @@ Tigerian.BModal = Tigerian.Behavior.extend({
                     configurable: true,
                     get: initStatus.get.bind(this),
                     set: function (v) {
-                        v = v.toLowerCase();
                         initStatus.set.bind(this)(v);
 
                         switch (v) {
-                            case "show":
+                            case Tigerian.BModal.EShow:
                                 if (this !== ctrlModal) {
                                     ctrlModal.show();
                                 } else {
                                     superVisible.set.bind(this)(true);
-                                    this.setAttribute("status", v);
+                                    this.setAttribute("status", "show");
                                     // elmCoverage.setAttribute("visible", "false");
                                     ctrlParent.setAttribute("hide-overflow", "false");
                                 }
 
                                 break;
 
-                            case "modal":
+                            case Tigerian.BModal.EModal:
                                 if (this !== ctrlModal) {
                                     ctrlModal.modal();
                                 } else {
                                     superVisible.set.bind(this)(true);
-                                    this.setAttribute("status", v);
+                                    this.setAttribute("status", "modal");
                                     // elmCoverage.setAttribute("visible", "true");
                                     ctrlParent.setAttribute("hide-overflow", "true");
                                 }
 
                                 break;
 
-                            case "close":
+                            case Tigerian.BModal.EClose:
                                 if (this !== ctrlModal) {
                                     ctrlModal.close();
                                 } else {
                                     superVisible.set.bind(this)(false);
-                                    this.setAttribute("status", v);
+                                    this.setAttribute("status", "close");
                                     // elmCoverage.setAttribute("visible", "false");
                                     ctrlParent.setAttribute("hide-overflow", "false");
                                 }
@@ -144,7 +143,7 @@ Tigerian.BModal = Tigerian.Behavior.extend({
                     get: superVisible.get.bind(this),
                     set: function (v) {
                         if (Tigerian.Class.isInstance(v, "boolean")) {
-                            this.status = (v ? "show" : "close");
+                            this.status = (v ? Tigerian.BModal.EShow : Tigerian.BModal.EClose);
                         }
                     },
                 });
@@ -153,4 +152,22 @@ Tigerian.BModal = Tigerian.Behavior.extend({
             }
         }
     },
+    enums: ["show", "close", "modal"],
+    // enum: function () {
+    //     var show = Symbol("show");
+    //     var modal = Symbol("modal");
+    //     var close = Symbol("close");
+
+    //     return {
+    //         get EShow() {
+    //             return show;
+    //         },
+    //         get EModal() {
+    //             return modal;
+    //         },
+    //         get EClose() {
+    //             return close;
+    //         },
+    //     };
+    // },
 });

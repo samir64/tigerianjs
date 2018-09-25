@@ -28,12 +28,12 @@ Tigerian.BFixElement = Tigerian.Behavior.extend({
             }
 
             if (Tigerian.Class.isInstance(ctrlFix, Tigerian.Control) && ctrlFix["Behavior:fix_element"]) {
-                switch (stick.toLowerCase()) {
-                    case "top":
+                switch (stick) {
+                    case Tigerian.BFixElement.ETop:
                         ctrlFix.setAttribute("stick", "top");
                         break;
 
-                    case "bottom":
+                    case Tigerian.BFixElement.EBottom:
                         ctrlFix.setAttribute("stick", "bottom");
                         break;
 
@@ -61,4 +61,5 @@ Tigerian.BFixElement = Tigerian.Behavior.extend({
             }
         }
     },
+    enums: ["top", "bottom", "none"],
 });

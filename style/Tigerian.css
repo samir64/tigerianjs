@@ -1236,3 +1236,44 @@
     overflow: hidden;
     max-height: 25%;
 }
+
+[element-type][element-name="container"]>[element-type="Button"][element-name="cancel"] {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    width: 25px;
+    height: 25px;
+    opacity: .35;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+[element-type][element-name="container"]>[element-type="Button"][element-name="cancel"]:before,
+[element-type][element-name="container"]>[element-type="Button"][element-name="cancel"]:after {
+    position: absolute;
+    content: '';
+    background-color: #333;
+    height: 100%;
+    width: 2px;
+}
+
+[element-type][element-name="container"]>[element-type="Button"][element-name="cancel"]:after {
+    transform: rotate(45deg);
+}
+
+[element-type][element-name="container"]>[element-type="Button"][element-name="cancel"]:before {
+    transform: rotate(-45deg);
+}
+
+[element-type][element-name="container"]>[element-type="Button"][element-name="cancel"]:hover {
+    opacity: 1;
+}
+
+[element-type="Notification"][element-name="container"] {
+    border: 1px solid #999;
+    border-radius: 3px;
+}
+
+[element-type="Notification"][element-name="container"]>[element-type="Notification"][element-name="message"] {
+    color: #333;
+}

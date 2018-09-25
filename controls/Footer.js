@@ -17,7 +17,7 @@ Tigerian.Footer = Tigerian.Control.extend({
      */
     init: function (parent, fixed, theme) {
         this.super(parent, theme);
-        this.config("fix_element", "bottom");
+        this.config("fix_element", Tigerian.BFixElement.EBottom);
 
         this.fixed = fixed;
 
