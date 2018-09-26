@@ -16,10 +16,10 @@ Tigerian.BWindow = Tigerian.Behavior.extend({
     init: function () {
         this.super("window");
 
-        var windowSmallMatch = window.matchMedia("(max-width: 600px)");
-        var windowMediumMatch = window.matchMedia("(min-width: 600px) and (max-width: 768px)");
-        var windowNormalMatch = window.matchMedia("(min-width: 768px) and (max-width: 992px)");
-        var windowLargeMatch = window.matchMedia("(min-width: 992px) and (max-width: 1200px)");
+        var windowSmallMatch = window.matchMedia("(max-width: 575.98px)");
+        var windowMediumMatch = window.matchMedia("(min-width: 576px) and (max-width: 767.98px)");
+        var windowNormalMatch = window.matchMedia("(min-width: 768px) and (max-width: 991.98px)");
+        var windowLargeMatch = window.matchMedia("(min-width: 992px) and (max-width: 1199.98px)");
         var windowXlargeMatch = window.matchMedia("(min-width: 1200px)");
 
         var onSmallWindow = function (e) {};

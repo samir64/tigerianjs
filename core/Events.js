@@ -90,3 +90,12 @@ Tigerian.Event.onTextChanged = new Event("TextChanged", {
 	bubbles: true,
 	cancelable: true,
 });
+
+Tigerian.Event.onVisibleChanged = new Event("VisibleChanged", {
+	detail: {
+		message: "Control's visible changed",
+		time: new Date(),
+	},
+	bubbles: true,
+	cancelable: true,
+});

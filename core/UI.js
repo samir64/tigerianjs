@@ -172,7 +172,12 @@ Tigerian.UI = Tigerian.Class.extend({
          */
         function setVisible(value) {
             if (Tigerian.Class.isInstance(value, "boolean")) {
+                var lastVisible = (instance.getAttribute("visible") === true);
                 instance.setAttribute("visible", value);
+
+                if (lastVisible !== value) {
+                    instance.dispatchEvent(Tigerian.Event.onVisibleChanged);
+                }
             }
         }
 
@@ -433,10 +438,17 @@ Tigerian.UI = Tigerian.Class.extend({
             return "[Tigerian Instance]";
         };
 
-        this.focus = function () {
+        /**
+         * @param {boolean} scrollTo = false
+         */
+        this.focus = function (scrollTo) {
             mainElement.focus({
                 preventScroll: true
             });
+
+            if (scrollTo === true) {
+                mainElement.scrollIntoView();
+            }
         }
 
         //NOTE Attributes

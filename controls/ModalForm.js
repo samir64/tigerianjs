@@ -34,6 +34,5 @@ Tigerian.ModalForm = Tigerian.Control.extend({
         this.addControl = ctrlBody.addControl.bind(this);
         this.footerAddControl = ctrlFooter.addControl.bind(this);
         this.headerAddControl = ctrlHeader.addControl.bind(this);
-
     },
 }, Tigerian.BModal, Tigerian.BCancel);
