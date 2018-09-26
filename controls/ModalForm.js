@@ -14,9 +14,9 @@ Tigerian.ModalForm = Tigerian.Control.extend({
     init: function (parent, theme) {
         this.super(parent, theme);
 
-        var ctrlHeader = new Tigerian.Header(null, this.theme);
+        var ctrlHeader = new Tigerian.Header(null, true, this.theme);
         var ctrlBody = new Tigerian.Control(null, this.theme);
-        var ctrlFooter = new Tigerian.Footer(null, this.theme);
+        var ctrlFooter = new Tigerian.Footer(null, false, this.theme);
 
         this.config("modal", parent);
         this.config("cancel", this, ctrlHeader);
@@ -25,11 +25,15 @@ Tigerian.ModalForm = Tigerian.Control.extend({
         this.addControl(ctrlBody);
         this.addControl(ctrlFooter);
 
+        this.setAttribute("element-type", "ModalForm");
+        this.setAttribute("element-name", "container");
+
+        ctrlBody.setAttribute("element-type", "ModalForm");
+        ctrlBody.setAttribute("element-name", "Body");
+
         this.addControl = ctrlBody.addControl.bind(this);
         this.footerAddControl = ctrlFooter.addControl.bind(this);
         this.headerAddControl = ctrlHeader.addControl.bind(this);
 
-        this.setAttribute("element-type", "ModalForm");
-        this.setAttribute("element-name", "container");
     },
 }, Tigerian.BModal, Tigerian.BCancel);

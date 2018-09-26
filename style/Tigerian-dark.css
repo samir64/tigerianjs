@@ -115,7 +115,7 @@
     color: #ccc;
 }
 
-.dark[element-type="ModalForm"][element-name="container"]>[element-type="ModalForm"][element-name="body"] {
+.dark[element-type="Modal"][element-name="coverage"]>[element-type="ModalForm"][element-name="container"] {
     border-color: #333;
     background-color: #999;
 }
