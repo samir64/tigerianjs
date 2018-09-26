@@ -526,6 +526,7 @@
     position: -webkit-sticky;
     position: sticky;
     left: 0;
+    display: block;
 }
 
 [element-type][element-name][stick="top"] {
@@ -1018,7 +1019,7 @@
 }
 
 [element-type="ComboBox"][element-name="container"]>[element-type="ListBox"][element-name="container"] {
-    z-index: 999;
+    z-index: 1002;
 }
 
 [element-type="ComboBox"][element-name="container"]>[element-type="Label"][element-name="container"],
@@ -1088,7 +1089,7 @@
 
 [element-type="Footer"][element-name="container"][fixed="true"],
 [element-type="Header"][element-name="container"][fixed="true"] {
-    z-index: 99;
+    z-index: 1001;
 }
 
 [element-type="Footer"][element-name="container"] [element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"],
@@ -1138,7 +1139,7 @@
     padding: 0;
     left: 100%;
     top: 0;
-    z-index: 999;
+    z-index: 1003;
 }
 
 [element-type="Menu"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="container"][has-child="true"]::after {
@@ -1214,7 +1215,7 @@
 }
 
 [element-type="Modal"][element-name="coverage"]>[element-type="ModalForm"][element-name="container"] {
-    z-index: 9999;
+    z-index: 1004;
     visibility: visible;
     border: 1px solid #999;
     border-radius: 3px;
@@ -1316,4 +1317,24 @@
 
 [element-type="CollapseList"][element-name="container"]>[element-type="CollapseItem"][element-name="container"][has-child="true"][open-child="true"]>[element-type="CollapseItem"][element-name="text"]::after {
     transform: translateY(-30%) rotate(-135deg);
+}
+
+[element-type="Loading"][element-name="container"] {
+    z-index: 1005;
+    padding: 0;
+    margin: 0;
+    height: 3px;
+    background-color: #000;
+    box-shadow: rgba(50, 50, 50, .25) 0 2px 3px 0;
+}
+
+[element-type="Loading"][element-name="container"]>[element-type="Loading"][element-name="bar"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 0;
+    margin: 0;
+    width: 0%;
+    height: 3px;
+    background-color: #d11;
 }
