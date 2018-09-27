@@ -21,6 +21,8 @@ Tigerian.Loading = Tigerian.Control.extend({
         elmBar.setAttribute("element-type", "Loading");
         elmBar.setAttribute("element-name", "bar");
 
+        this.setAttribute("state", "indeterminate");
+
         this.addControl(elmBar);
 
         this.status = Tigerian.BModal.EClose;
@@ -36,11 +38,39 @@ Tigerian.Loading = Tigerian.Control.extend({
                 if (Tigerian.Class.isInstance(v, "number")) {
                     v = Math.max(0, Math.min(100, v));
                     loaded = v;
-                    elmBar.style.width = "{}%".format(v);
+                    if (this.state === Tigerian.Loading.EDeterminate) {
+                        elmBar.style.width = "{}%".format(v);
+                    } else {
+                        elmBar.style.width = "";
+                    }
+                }
+            }
+        });
+
+        Object.defineProperty(this, "state", {
+            enumerable: true,
+            configurable: true,
+            get: function () {
+                return ((elmBar.getAttribute("state") === "determinate") ? Tigerian.Loading.EDeterminate : Tigerian.Loading.EIndeterminate);
+            },
+            set: function (v) {
+                switch (v) {
+                    case Tigerian.Loading.EDeterminate:
+                        this.setAttribute("state", "determinate");
+                        elmBar.style.width = "{}%".format(loaded);
+                        break;
+
+                    case Tigerian.Loading.EIndeterminate:
+                        this.setAttribute("state", "indeterminate");
+                        elmBar.style.width = "";
+                        break;
+
+                    default:
                 }
             }
         });
 
         delete this.addControl;
     },
+    enums: ["indeterminate", "determinate"],
 }, Tigerian.BFixElement, Tigerian.BModal);

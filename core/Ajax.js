@@ -13,6 +13,7 @@ Tigerian.Ajax = Tigerian.Class.extend({
         var httpRequest;
         var success = function (responseText, responseXml, responseJson) {};
         var unsuccess = function (readyState, status, statusText) {};
+        var progress = function (percent, loaded, total) {};
 
         if (window.XMLHttpRequest) {
             // code for modern browsers
@@ -23,8 +24,17 @@ Tigerian.Ajax = Tigerian.Class.extend({
         }
 
         httpRequest.onreadystatechange = changeState;
+        httpRequest.onprogress = function (e) {
+            if (e.lengthComputable) {
+                progress(100 * e.loaded / e.total, e.loaded, e.total);
+            }
+        };
 
         function jsonToQuery(params) {
+            if (typeof params !== "object") {
+                params = {};
+            }
+
             return encodeURI(Object.keys(params).map(function (key) {
                 var json = JSON.stringify(params[key]);
                 return key + "=" + (json !== "\"" + params[key] + "\"" ? json : params[key]);
@@ -86,9 +96,9 @@ Tigerian.Ajax = Tigerian.Class.extend({
             get: function () {
                 return success;
             },
-            set: function (value) {
-                if (value instanceof Function) {
-                    success = value;
+            set: function (v) {
+                if (v instanceof Function) {
+                    success = v;
                 }
             },
         });
@@ -100,11 +110,27 @@ Tigerian.Ajax = Tigerian.Class.extend({
             enumerable: false,
             configurable: true,
             get: function () {
+                return progress;
+            },
+            set: function (v) {
+                if (v instanceof Function) {
+                    progress = v;
+                }
+            },
+        });
+
+        /**
+         * @member {Function}
+         */
+        Object.defineProperty(this, "progress", {
+            enumerable: false,
+            configurable: true,
+            get: function () {
                 return unsuccess;
             },
-            set: function (value) {
-                if (value instanceof Function) {
-                    unsuccess = value;
+            set: function (v) {
+                if (v instanceof Function) {
+                    unsuccess = v;
                 }
             },
         });
@@ -118,9 +144,9 @@ Tigerian.Ajax = Tigerian.Class.extend({
             get: function () {
                 return url;
             },
-            set: function (value) {
-                if (typeof value === "string") {
-                    url = value;
+            set: function (v) {
+                if (typeof v === "string") {
+                    url = v;
                 }
             },
         });
