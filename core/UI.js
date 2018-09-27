@@ -22,7 +22,6 @@ Tigerian.UI = Tigerian.Class.extend({
      */
     init: function (mainElement, parent, theme) {
         this.super();
-        this.config("bind");
 
         if (!Tigerian.Class.isInstance(mainElement, Element)) {
             mainElement = document.body;
@@ -31,6 +30,9 @@ Tigerian.UI = Tigerian.Class.extend({
         if (!Tigerian.Class.isInstance(parent, Tigerian.UI)) {
             parent = undefined;
         }
+
+        this.config("bind");
+        this.config("style", mainElement);
 
         //NOTE Private Constants
         /**
@@ -466,4 +468,4 @@ Tigerian.UI = Tigerian.Class.extend({
             parent.addControl(this);
         }
     },
-}, Tigerian.BBind);
+}, Tigerian.BBind, Tigerian.BStyle);

@@ -95,3 +95,19 @@ String.prototype.toTag = function (addHashSign) {
         return ch.toLowerCase();
     }).join('').replace(/_{2,}/g, "_");
 };
+
+/**
+ * @param {string} prop
+ */
+String.prototype.splitCapital = function () {
+    var result = [];
+    for (var i = 0, s = 0; i <= this.length; i++) {
+        if ((i === this.length) || (this[i].toUpperCase() === this[i])) {
+            if ((i > 0) && (this[i - 1].toUpperCase() !== this[i - 1])) {
+                result.push(this.substring(s, i).toLowerCase());
+                s = i;
+            }
+        }
+    }
+    return result;
+};

@@ -17,11 +17,13 @@ Tigerian.MenuItem = Tigerian.Control.extend({
         this.super(parent, theme);
 
         var elmText = document.createElement("div");
-        var superAddControl = this.addControl;
+        var ctrlMenu = new Tigerian.Menu(null, this.theme);
+        var superAddControl = this.addControl.bind(this);
 
         this.config("text", elmText);
         this.config("cascade");
 
+        var superAddChild = this.addChild.bind(this);
         var canChangeChildState = true;
         var touchStarted = false;
         var openByClick = false;
@@ -36,6 +38,15 @@ Tigerian.MenuItem = Tigerian.Control.extend({
 
         elmText.setAttribute("element-type", "MenuItem");
         elmText.setAttribute("element-name", "text");
+
+        this.addControl = this.addChild = this.addSubmenu = function (item) {
+            if (Tigerian.Class.isInstance(item, Tigerian.MenuItem) || Tigerian.Class.isInstance(item, Tigerian.Spacer)) {
+                if (!this.hasSubmenu) {
+                    superAddChild(ctrlMenu);
+                }
+                ctrlMenu.addControl(item);
+            }
+        };
 
         this.addEvent("mouseover", function (e) {
             if (canChangeChildState && !touchStarted) {

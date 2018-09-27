@@ -71,7 +71,7 @@ Tigerian.Control = Tigerian.UI.extend({
 
         this.setAttribute("small-column", "normal");
         this.setAttribute("medium-column", "normal");
-        this.setAttribute("column", "12");
+        this.setAttribute("normal-column", "12");
         this.setAttribute("large-column", "normal");
         this.setAttribute("xlarge-column", "normal");
         this.setAttribute("hide-on-small", "false");
@@ -168,7 +168,7 @@ Tigerian.Control = Tigerian.UI.extend({
                     this.setAttribute("small-column", ((value < 1) ? "1" : ((value > 12) ? "12" : value)));
                 } else if (Tigerian.Class.isInstance(value, "string")) {
                     switch (value) {
-                        case "small":
+                        // case "small":
                         case "medium":
                         case "normal":
                         case "large":
@@ -203,7 +203,7 @@ Tigerian.Control = Tigerian.UI.extend({
                 } else if (Tigerian.Class.isInstance(value, "string")) {
                     switch (value) {
                         case "small":
-                        case "medium":
+                            // case "medium":
                         case "normal":
                         case "large":
                         case "xlarge":
@@ -219,29 +219,29 @@ Tigerian.Control = Tigerian.UI.extend({
         /**
          * @member {number|string}
          */
-        Object.defineProperty(this, "column", {
+        Object.defineProperty(this, "normalColumn", {
             enumerable: true,
             configurable: true,
             /**
              * @returns {string}
              */
             get: function () {
-                return this.getAttribute("column");
+                return this.getAttribute("normal-column");
             },
             /**
              * @param {string} value
              */
             set: function (value) {
                 if (Tigerian.Class.isInstance(value, "number")) {
-                    this.setAttribute("column", ((value < 1) ? "1" : ((value > 12) ? "12" : value)));
+                    this.setAttribute("normal-column", ((value < 1) ? "1" : ((value > 12) ? "12" : value)));
                 } else if (Tigerian.Class.isInstance(value, "string")) {
                     switch (value) {
                         case "small":
                         case "medium":
-                        case "normal":
+                            // case "normal":
                         case "large":
                         case "xlarge":
-                            this.setAttribute("column", value);
+                            this.setAttribute("normal-column", value);
                             break;
 
                         default:
@@ -273,7 +273,7 @@ Tigerian.Control = Tigerian.UI.extend({
                         case "small":
                         case "medium":
                         case "normal":
-                        case "large":
+                            // case "large":
                         case "xlarge":
                             this.setAttribute("large-column", value);
                             break;
@@ -308,7 +308,7 @@ Tigerian.Control = Tigerian.UI.extend({
                         case "medium":
                         case "normal":
                         case "large":
-                        case "xlarge":
+                            // case "xlarge":
                             this.setAttribute("xlarge-column", value);
                             break;
 

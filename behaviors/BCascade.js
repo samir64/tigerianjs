@@ -53,7 +53,7 @@ Tigerian.BCascade = Tigerian.Behavior.extend({
             });
 
             /**
-             * @param {Tigerian.Control} menu 
+             * @param {Tigerian.Control|Tigerian.BGroup} child 
              */
             this.addControl = this.addChild = function (child) {
                 if (Tigerian.Class.isInstance(child, Tigerian.Control) && child["Behavior:group"]) {
