@@ -97,15 +97,15 @@ Tigerian.BGroup = Tigerian.Behavior.extend({
                 ctrlGroup = this;
 
                 for (i = 0; i < this.itemCount; i++) {
-                    items = this.getItem(i);
+                    items.push(this.getItem(i));
                 }
             } else {
                 for (i = 0; i < ctrlGroup.itemCount; i++) {
-                    items = ctrlGroup.getItem(i);
+                    items.push(ctrlGroup.getItem(i));
                 }
 
                 for (i = 0; i < this.itemCount; i++) {
-                    items = this.getItem(i);
+                    items.push(this.getItem(i));
                 }
 
                 this.addControl = ctrlGroup.addGeneralControl.bind(this);

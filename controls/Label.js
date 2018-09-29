@@ -32,7 +32,7 @@ Tigerian.Label = Tigerian.Control.extend({
         this.setAttribute("element-name", "container");
 
         elmLabel.setAttribute("element-type", "Label");
-        elmLabel.setAttribute("element-name", "label");
+        elmLabel.setAttribute("element-name", "text");
 
         this.setAttribute("tag", "false");
 

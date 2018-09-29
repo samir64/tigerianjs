@@ -556,7 +556,7 @@
     padding: 0;
     width: 100%;
     /* width: 98%; */
-    text-align: center;
+    /* text-align: center; */
     font-size: 18px;
 }
 
@@ -593,6 +593,21 @@
 
 [element-name="container"] *:focus {
     outline: none;
+}
+
+[element-name="container"][align="left"],
+[element-name="container"] [align="left"] {
+    text-align: left;
+}
+
+[element-name="container"][align="right"],
+[element-name="container"] [align="right"] {
+    text-align: right;
+}
+
+[element-name="container"][align="center"],
+[element-name="container"] [align="center"] {
+    text-align: center;
 }
 
 [element-name="container"][float="left"],
@@ -740,7 +755,7 @@
     box-shadow: 0 0 2px 1px dodgerblue, 2px 2px 3px 1px rgba(50, 50, 50, 0.2);
 }
 
-[element-type="Label"][element-name="container"][tag="true"]>[element-type="Label"][element-name="label"],
+[element-type="Label"][element-name="container"][tag="true"]>[element-type="Label"][element-name="text"],
 [element-type="Link"][element-name="container"][tag="true"]>[element-type="Link"][element-name="link"] {
     border-top-left-radius: 15% 50%;
     border-bottom-left-radius: 15% 50%;
@@ -750,8 +765,8 @@
     background-color: #bbb;
 }
 
-[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"] {
-    text-align: left;
+[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
+    /* text-align: left; */
     cursor: default;
     width: 100%;
 }
@@ -786,7 +801,7 @@
 
 [element-type="ListItem"][element-name="container"]>[element-type="ListItem"][element-name="item"] {
     width: 100%;
-    text-align: left;
+    /* text-align: left; */
     padding: 7px;
     cursor: pointer;
 }
@@ -856,11 +871,11 @@
 
 [element-type="Field"][element-name="container"]>[element-type="Label"][element-name="container"] {
     position: absolute;
-    text-align: left;
+    /* text-align: left; */
     width: auto;
 }
 
-[element-type="Field"][element-name="container"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"] {
+[element-type="Field"][element-name="container"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
     /* position: relative; */
     -webkit-transition: all 50ms ease;
     -moz-transition: all 50ms ease;
@@ -871,19 +886,19 @@
     display: content;
 }
 
-[element-type="Field"][element-name="container"][empty="true"][focused="true"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"],
-[element-type="Field"][element-name="container"][empty="false"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"] {
+[element-type="Field"][element-name="container"][empty="true"][focused="true"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"],
+[element-type="Field"][element-name="container"][empty="false"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
     font-weight: bold;
     left: 5px;
     top: -6px;
     font-size: 80%;
 }
 
-[element-type="Field"][element-name="container"][focused="true"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"] {
+[element-type="Field"][element-name="container"][focused="true"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
     color: #5ad;
 }
 
-[element-type="Field"][element-name="container"][empty="true"][focused="false"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"] {
+[element-type="Field"][element-name="container"][empty="true"][focused="false"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
     color: #aaa;
     left: 10px;
     top: 6px;
@@ -893,7 +908,7 @@
 [element-type="CheckBox"][element-name="container"],
 [element-type="RadioButton"][element-name="container"] {
     cursor: pointer;
-    text-align: left;
+    /* text-align: left; */
 }
 
 [element-type="CheckBox"][element-name="container"]>[element-type="CheckBox"][element-name="label"],
@@ -1044,7 +1059,7 @@
     background-color: transparent;
 }
 
-[element-type="ComboBox"][element-name="container"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"],
+[element-type="ComboBox"][element-name="container"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"],
 [element-type="ComboBox"][element-name="container"]>[element-type="TextBox"][element-name="container"]>[element-type="TextBox"][element-name="input"] {
     float: left;
     line-height: 25px;
@@ -1096,7 +1111,7 @@
     background-color: rgba(100, 100, 100, .9);
     min-height: 25px;
     border-radius: 2px;
-    text-align: left;
+    /* text-align: left; */
 }
 
 [element-type="Footer"][element-name="container"][fixed="true"],
@@ -1104,8 +1119,8 @@
     z-index: 1001;
 }
 
-[element-type="Footer"][element-name="container"] [element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"],
-[element-type="Header"][element-name="container"] [element-type="Label"][element-name="container"]>[element-type="Label"][element-name="label"] {
+[element-type="Footer"][element-name="container"] [element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"],
+[element-type="Header"][element-name="container"] [element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
     color: #bbb;
 }
 
@@ -1156,7 +1171,7 @@
     left: 100%;
     top: 0;
     z-index: 1003;
-    text-align: left;
+    /* text-align: left; */
 }
 
 [element-type="Menu"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="container"][has-child="true"]::after {
@@ -1301,7 +1316,7 @@
 }
 
 [element-type="CollapseList"][element-name="container"] {
-    text-align: left;
+    /* text-align: left; */
 }
 
 [element-type="CollapseList"][element-name="container"]>[element-type="CollapseItem"][element-name="container"]>[element-type="CollapseItem"][element-name="text"] {
@@ -1367,4 +1382,64 @@
     animation-duration: 3s;
     animation-delay: 100ms;
     animation-iteration-count: infinite;
+}
+
+[element-type="Table"][element-name="container"] {
+    border: 1px solid #777;
+}
+
+[element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"] {
+    /* text-align: center; */
+}
+
+[element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="Label"][element-name="container"] {
+    background-color: rgba(100, 100, 100, .9);
+    display: table-caption;
+}
+
+[element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
+    text-align: center;
+    font-weight: bolder;
+}
+
+[element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"] {
+    font-weight: bold;
+}
+
+[element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"]>[element-type="TableCell"][element-name="text"] {
+    color: #999;
+}
+
+[element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"][visible="true"] {
+    display: table;
+}
+
+[element-type="Table"][element-name="container"]>[element-type="TableBody"][element-name="container"][visible="true"] {
+    background-color: #eee;
+    display: table;
+    border: 1px solid #777;
+    padding: 1px;
+}
+
+[element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"][visible="true"],
+[element-type="Table"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"][visible="true"] {
+    margin: 0;
+    display: table-row;
+}
+
+/* [element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"]:hover, */
+[element-type="Table"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]:hover {
+    background-color: rgba(175, 175, 175, .25);
+}
+
+[element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"],
+[element-type="Table"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"] {
+    margin: 0;
+    border: 1px solid #999;
+    display: table-cell;
+}
+
+/* [element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][hover="true"], */
+[element-type="Table"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][hover="true"] {
+    background-color: rgba(175, 175, 175, .25);
 }

@@ -119,3 +119,24 @@
     border-color: #333;
     background-color: #999;
 }
+
+.dark[element-type="Table"][element-name="container"]>[element-type="TableBody"][element-name="container"][visible="true"] {
+    background-color: #999;
+    border: 1px solid #555;
+}
+
+.dark[element-type="Table"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"] {
+    border: 1px solid #555;
+}
+
+.dark[element-type="Table"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"]>[element-type="TableCell"][element-name="text"] {
+    color: #ddd;
+}
+
+.dark[element-type="Table"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]:hover {
+    background-color: rgba(225, 225, 225, .25);
+}
+
+.dark[element-type="Table"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][hover="true"] {
+    background-color: rgba(225, 225, 225, .25);
+}

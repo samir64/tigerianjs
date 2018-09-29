@@ -431,21 +431,45 @@ Tigerian.Control = Tigerian.UI.extend({
         /**
          * @member {boolean}
          */
-        Object.defineProperty(this, "floatLeft", {
+        Object.defineProperty(this, "float", {
             enumerable: true,
             configurable: true,
             /**
              * @returns {string}
              */
             get: function () {
-                return (this.getAttribute("float") === "left");
+                switch (this.getAttribute("float")) {
+                    case "left":
+                        return Tigerian.Control.ELeft;
+                        break;
+                    case "right":
+                        return Tigerian.Control.ERigth;
+                        break;
+                    case "center":
+                        return Tigerian.Control.ECenter;
+                        break;
+                    default:
+                        return Tigerian.Control.ENone;
+                        break;
+                }
             },
             /**
              * @param {string} value
              */
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "boolean")) {
-                    this.setAttribute("float", (value ? "left" : "false"));
+            set: function (v) {
+                switch (v) {
+                    case Tigerian.Control.ELeft:
+                        this.setAttribute("float", "left");
+                        break;
+                    case Tigerian.Control.ERigth:
+                        this.setAttribute("float", "right");
+                        break;
+                    case Tigerian.Control.ECenter:
+                        this.setAttribute("float", "center");
+                        break;
+                    default:
+                        this.setAttribute("float", "");
+                        break;
                 }
             }
         });
@@ -453,46 +477,114 @@ Tigerian.Control = Tigerian.UI.extend({
         /**
          * @member {boolean}
          */
-        Object.defineProperty(this, "floatRight", {
+        Object.defineProperty(this, "align", {
             enumerable: true,
             configurable: true,
             /**
              * @returns {string}
              */
             get: function () {
-                return (this.getAttribute("float") === "right");
+                switch (this.getAttribute("align")) {
+                    case "left":
+                        return Tigerian.Control.ELeft;
+                        break;
+                    case "right":
+                        return Tigerian.Control.ERigth;
+                        break;
+                    case "center":
+                        return Tigerian.Control.ECenter;
+                        break;
+                    default:
+                        return Tigerian.Control.ENone;
+                        break;
+                }
             },
             /**
              * @param {string} value
              */
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "boolean")) {
-                    this.setAttribute("float", (value ? "right" : "false"));
+            set: function (v) {
+                switch (v) {
+                    case Tigerian.Control.ELeft:
+                        this.setAttribute("align", "left");
+                        break;
+                    case Tigerian.Control.ERigth:
+                        this.setAttribute("align", "right");
+                        break;
+                    case Tigerian.Control.ECenter:
+                        this.setAttribute("align", "center");
+                        break;
+                    default:
+                        this.setAttribute("align", "");
+                        break;
                 }
             }
         });
 
-        /**
-         * @member {boolean}
-         */
-        Object.defineProperty(this, "floatCenter", {
-            enumerable: true,
-            configurable: true,
-            /**
-             * @returns {string}
-             */
-            get: function () {
-                return (this.getAttribute("float") === "center");
-            },
-            /**
-             * @param {string} value
-             */
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "boolean")) {
-                    this.setAttribute("float", (value ? "center" : "false"));
-                }
-            }
-        });
+        // /**
+        //  * @member {boolean}
+        //  */
+        // Object.defineProperty(this, "floatLeft", {
+        //     enumerable: true,
+        //     configurable: true,
+        //     /**
+        //      * @returns {string}
+        //      */
+        //     get: function () {
+        //         return (this.getAttribute("float") === "left");
+        //     },
+        //     /**
+        //      * @param {string} value
+        //      */
+        //     set: function (value) {
+        //         if (Tigerian.Class.isInstance(value, "boolean")) {
+        //             this.setAttribute("float", (value ? "left" : "false"));
+        //         }
+        //     }
+        // });
+
+        // /**
+        //  * @member {boolean}
+        //  */
+        // Object.defineProperty(this, "floatRight", {
+        //     enumerable: true,
+        //     configurable: true,
+        //     /**
+        //      * @returns {string}
+        //      */
+        //     get: function () {
+        //         return (this.getAttribute("float") === "right");
+        //     },
+        //     /**
+        //      * @param {string} value
+        //      */
+        //     set: function (value) {
+        //         if (Tigerian.Class.isInstance(value, "boolean")) {
+        //             this.setAttribute("float", (value ? "right" : "false"));
+        //         }
+        //     }
+        // });
+
+        // /**
+        //  * @member {boolean}
+        //  */
+        // Object.defineProperty(this, "floatCenter", {
+        //     enumerable: true,
+        //     configurable: true,
+        //     /**
+        //      * @returns {string}
+        //      */
+        //     get: function () {
+        //         return (this.getAttribute("float") === "center");
+        //     },
+        //     /**
+        //      * @param {string} value
+        //      */
+        //     set: function (value) {
+        //         if (Tigerian.Class.isInstance(value, "boolean")) {
+        //             this.setAttribute("float", (value ? "center" : "false"));
+        //         }
+        //     }
+        // });
 
         /**
          * @member {string}
@@ -571,4 +663,5 @@ Tigerian.Control = Tigerian.UI.extend({
             return "[Tigerian.Control (Or one of its sub classes) Instance]";
         };
     },
+    enums: ["left", "right", "center", "none"],
 });
