@@ -116,19 +116,7 @@ var Tigerian = {};
         }
     };
 
-    // window.addEventListener("load", function (e) {
-    //     Tigerian.import();
-    // }, true);
+    window.addEventListener("load", function (e) {
+        Tigerian.import();
+    }, true);
 })();
-
-var persons = [{
-        name: "jack",
-        family: "gonjishke",
-        age: 27,
-    },
-    {
-        name: "joe",
-        family: "gandomi",
-        age: 43,
-    },
-];

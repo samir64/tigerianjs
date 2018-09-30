@@ -110,11 +110,11 @@ Tigerian.Ajax = Tigerian.Class.extend({
             enumerable: false,
             configurable: true,
             get: function () {
-                return progress;
+                return unsuccess;
             },
             set: function (v) {
                 if (v instanceof Function) {
-                    progress = v;
+                    unsuccess = v;
                 }
             },
         });
@@ -126,11 +126,11 @@ Tigerian.Ajax = Tigerian.Class.extend({
             enumerable: false,
             configurable: true,
             get: function () {
-                return unsuccess;
+                return progress;
             },
             set: function (v) {
                 if (v instanceof Function) {
-                    unsuccess = v;
+                    progress = v;
                 }
             },
         });

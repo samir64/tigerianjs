@@ -886,8 +886,8 @@
     display: content;
 }
 
-[element-type="Field"][element-name="container"][empty="true"][focused="true"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"],
-[element-type="Field"][element-name="container"][empty="false"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
+[element-type="Field"][element-name="container"][text=""][focused="true"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"],
+[element-type="Field"][element-name="container"]:not([text=""])>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
     font-weight: bold;
     left: 5px;
     top: -6px;
@@ -898,7 +898,7 @@
     color: #5ad;
 }
 
-[element-type="Field"][element-name="container"][empty="true"][focused="false"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
+[element-type="Field"][element-name="container"][text=""][focused="false"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
     color: #aaa;
     left: 10px;
     top: 6px;
@@ -1108,7 +1108,7 @@
 [element-type="Footer"][element-name="container"],
 [element-type="Header"][element-name="container"] {
     width: 100%;
-    background-color: rgba(100, 100, 100, .9);
+    background-color: rgb(225, 225, 225);
     min-height: 25px;
     border-radius: 2px;
     /* text-align: left; */
@@ -1121,7 +1121,7 @@
 
 [element-type="Footer"][element-name="container"] [element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"],
 [element-type="Header"][element-name="container"] [element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
-    color: #bbb;
+    color: #555;
 }
 
 [element-type="Footer"][element-name="container"][fixed="false"],
@@ -1262,7 +1262,8 @@
     margin: 0 auto;
     top: 2%;
     bottom: 2%;
-    /* transform: translateY(-50%); */
+    left: 50%;
+    transform: translateX(-50%);
     box-shadow: 0 0 5px 1px rgba(50, 50, .5);
 }
 
@@ -1384,36 +1385,44 @@
     animation-iteration-count: infinite;
 }
 
+[element-type="DataTable"][element-name="container"],
 [element-type="Table"][element-name="container"] {
     border: 1px solid #777;
 }
 
+[element-type="DataTable"][element-name="container"]>[element-type="Header"][element-name="container"],
 [element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"] {
     /* text-align: center; */
 }
 
+[element-type="DataTable"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="Label"][element-name="container"],
 [element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="Label"][element-name="container"] {
-    background-color: rgba(100, 100, 100, .9);
+    background-color: rgba(125, 125, 125, .75);
     display: table-caption;
 }
 
+[element-type="DataTable"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"],
 [element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
     text-align: center;
     font-weight: bolder;
 }
 
+[element-type="DataTable"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"],
 [element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"] {
     font-weight: bold;
 }
 
+[element-type="DataTable"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"]>[element-type="TableCell"][element-name="text"],
 [element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"]>[element-type="TableCell"][element-name="text"] {
     color: #999;
 }
 
+[element-type="DataTable"][element-name="container"]>[element-type="Header"][element-name="container"][visible="true"],
 [element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"][visible="true"] {
     display: table;
 }
 
+[element-type="DataTable"][element-name="container"]>[element-type="TableBody"][element-name="container"][visible="true"],
 [element-type="Table"][element-name="container"]>[element-type="TableBody"][element-name="container"][visible="true"] {
     background-color: #eee;
     display: table;
@@ -1421,17 +1430,21 @@
     padding: 1px;
 }
 
+[element-type="DataTable"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"][visible="true"],
+[element-type="DataTable"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"][visible="true"],
 [element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"][visible="true"],
 [element-type="Table"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"][visible="true"] {
     margin: 0;
     display: table-row;
 }
 
-/* [element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"]:hover, */
+[element-type="DataTable"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]:hover,
 [element-type="Table"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]:hover {
     background-color: rgba(175, 175, 175, .25);
 }
 
+[element-type="DataTable"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"],
+[element-type="DataTable"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"],
 [element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"],
 [element-type="Table"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"] {
     margin: 0;
@@ -1439,7 +1452,7 @@
     display: table-cell;
 }
 
-/* [element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][hover="true"], */
+[element-type="DataTable"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][hover="true"],
 [element-type="Table"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][hover="true"] {
     background-color: rgba(175, 175, 175, .25);
 }

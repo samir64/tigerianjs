@@ -23,8 +23,9 @@ Tigerian.Field = Tigerian.Control.extend({
         var ctrlLabel = new Tigerian.Label(this, label, theme);
         var ctrlText = new Tigerian.TextBox(this, text, theme);
 
-        this.config("text", ctrlText);
+        var superEnabled = Object.getOwnPropertyDescriptor(this, "enabled");
 
+        this.config("text", ctrlText);
 
         ctrlLabel.source = ctrlText;
 
@@ -32,22 +33,36 @@ Tigerian.Field = Tigerian.Control.extend({
         this.setAttribute("element-type", "Field");
         this.setAttribute("element-name", "container");
 
-        this.setAttribute("empty", (ctrlText.text === "") ? "true" : "false");
+        // this.setAttribute("empty", (ctrlText.text === "") ? "true" : "false");
 
         ctrlLabel.source = ctrlText;
 
         /**
-         * @member {Tigerian.Label}
+         * @member {boolean}
+         */
+        Object.defineProperty(this, "enabled", {
+            enumerable: true,
+            configurable: true,
+            get: superEnabled.get.bind(this),
+            set: function (v) {
+                ctrlLabel.enabled = v;
+                ctrlText.enabled = v;
+                superEnabled.set.bind(this)(v);
+            },
+        });
+
+        /**
+         * @member {string}
          */
         Object.defineProperty(this, "label", {
             enumerable: true,
             configurable: true,
             get: function () {
                 // return ctrlLabel;
-                return ctrlLabel.headText;
+                return ctrlLabel.text;
             },
-            set: function (value) {
-                ctrlLabel.text = value;
+            set: function (v) {
+                ctrlLabel.text = v;
             },
 
         });
@@ -58,9 +73,9 @@ Tigerian.Field = Tigerian.Control.extend({
             ctrlText.select();
         }
 
-        function onChange(e) {
-            this[0].setAttribute("empty", (this[1].text === "") ? "true" : "false");
-        }
+        // function onChange(e) {
+        //     this[0].setAttribute("empty", (this[1].text === "") ? "true" : "false");
+        // }
 
         function onFocus(e) {
             this.setAttribute("focused", "true");
@@ -78,7 +93,7 @@ Tigerian.Field = Tigerian.Control.extend({
 
         //NOTE Default Event
         ctrlLabel.addEvent("click", onClick);
-        ctrlText.addEvent("input", onChange.bind([this, ctrlText]));
+        // ctrlText.addEvent("input", onChange.bind([this, ctrlText]));
         ctrlText.addEvent("focus", onFocus.bind(this));
         ctrlText.addEvent("blur", onBlur.bind(this));
     }

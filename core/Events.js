@@ -99,3 +99,21 @@ Tigerian.Event.onVisibleChanged = new Event("VisibleChanged", {
 	bubbles: true,
 	cancelable: true,
 });
+
+Tigerian.Event.onNextPage = new Event("NextPage", {
+	detail: {
+		message: "Called next page",
+		time: new Date(),
+	},
+	bubbles: true,
+	cancelable: true,
+});
+
+Tigerian.Event.onPreviousPage = new Event("PreviousPage", {
+	detail: {
+		message: "Called previous page",
+		time: new Date(),
+	},
+	bubbles: true,
+	cancelable: true,
+});

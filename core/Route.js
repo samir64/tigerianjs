@@ -117,22 +117,24 @@ Tigerian.Route = Tigerian.Class.extend({
         this.render = function () {
             var url = window.location.pathname + window.location.hash;
             var check = getBestMatch(getGoodPath(getPath(url)));
-            var route = check[0];
-            var params = check[1];
+            if (check) {
+                var route = check[0];
+                var params = check[1];
 
-            if (lastRoute === "") {
-                for (var r in routes) {
-                    if (r !== route) {
-                        routes[r].hide();
+                if (lastRoute === "") {
+                    for (var r in routes) {
+                        if (r !== route) {
+                            routes[r].hide();
+                        }
                     }
+                } else {
+                    routes[lastRoute].hide();
                 }
-            } else {
-                routes[lastRoute].hide();
-            }
-            routes[route].refresh(params);
-            routes[route].show();
+                routes[route].refresh(params);
+                routes[route].show();
 
-            lastRoute = route;
+                lastRoute = route;
+            }
         };
 
         /**

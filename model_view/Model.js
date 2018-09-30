@@ -24,19 +24,22 @@ Tigerian.Model = Tigerian.ModelView.extend({
         var fields = {
             id: new Tigerian.ModelField("id", idType)
         };
-        var ctrlAdd = controllerPath;
-        var ctrlEdit = controllerPath;
-        var ctrlDelete = controllerPath;
-        var ctrlReload = controllerPath;
-        var ctrlSearch = controllerPath;
-        var ctrlCount = controllerPath;
+        var addPath = controllerPath;
+        var editPath = controllerPath;
+        var deletePath = controllerPath;
+        var reloadPath = controllerPath;
+        var searchPath = controllerPath;
+        var countPath = controllerPath;
+        var constructorArgs = Array.from(arguments);
+
+        var instance = this;
 
         var ajaxSuccess = function (successFunc, unsuccessFunc) {
             return function (text, xml, json) {
                 if (json !== undefined) {
                     for (var field in json) {
-                        if ((field in fields) && this.hasOwnProperty(field)) {
-                            this[field] = json[field];
+                        if ((field in fields) && instance.hasOwnProperty(field)) {
+                            fields[field].value = json[field];
                         }
                     }
 
@@ -46,8 +49,8 @@ Tigerian.Model = Tigerian.ModelView.extend({
                 } else {
                     ajaxUnsuccess(unsuccessFunc)(4, 501, text);
                 }
-            }.bind(this)
-        }.bind(this);
+            };
+        };
 
 
         var ajaxSearchSuccess = function (successFunc, unsuccessFunc) {
@@ -55,10 +58,10 @@ Tigerian.Model = Tigerian.ModelView.extend({
                 if (json !== undefined) {
                     var rows = [];
                     for (var recordNo in json) {
-                        var row = new this.constructor();
+                        var row = new instance.constructor();
                         rows.push(row);
                         for (var field in json[recordNo]) {
-                            if ((field in fields) && this.hasOwnProperty(field)) {
+                            if ((field in fields) && instance.hasOwnProperty(field)) {
                                 row[field] = json[recordNo][field];
                             }
                         }
@@ -72,15 +75,16 @@ Tigerian.Model = Tigerian.ModelView.extend({
                         unsuccessFunc(text);
                     }
                 }
-            }.bind(this)
-        }.bind(this);
+            };
+        };
 
         var ajaxUnsuccess = function (unsuccessFunc) {
             return function (readystate, status, statusText) {
                 if (Tigerian.Class.isInstance(unsuccessFunc, "function")) {
                     unsuccessFunc(statusText);
                 } else {
-                    console.error(statusText);
+                    // console.error(statusText);
+                    throw statusText;
                 }
             }
         };
@@ -102,15 +106,15 @@ Tigerian.Model = Tigerian.ModelView.extend({
         /**
          * @member {string}
          */
-        Object.defineProperty(this, "ctrlEdit", {
+        Object.defineProperty(this, "addPath", {
             enumerable: true,
             configurable: false,
             get: function () {
-                return ctrlEdit;
+                return addPath;
             },
             set: function (v) {
                 if (Tigerian.Class.isInstance(v, "string")) {
-                    ctrlEdit = v;
+                    addPath = v;
                 }
             }
         });
@@ -118,15 +122,15 @@ Tigerian.Model = Tigerian.ModelView.extend({
         /**
          * @member {string}
          */
-        Object.defineProperty(this, "ctrlDelete", {
+        Object.defineProperty(this, "editPath", {
             enumerable: true,
             configurable: false,
             get: function () {
-                return ctrlDelete;
+                return editPath;
             },
             set: function (v) {
                 if (Tigerian.Class.isInstance(v, "string")) {
-                    ctrlDelete = v;
+                    editPath = v;
                 }
             }
         });
@@ -134,15 +138,15 @@ Tigerian.Model = Tigerian.ModelView.extend({
         /**
          * @member {string}
          */
-        Object.defineProperty(this, "ctrlReload", {
+        Object.defineProperty(this, "deletePath", {
             enumerable: true,
             configurable: false,
             get: function () {
-                return ctrlReload;
+                return deletePath;
             },
             set: function (v) {
                 if (Tigerian.Class.isInstance(v, "string")) {
-                    ctrlReload = v;
+                    deletePath = v;
                 }
             }
         });
@@ -150,15 +154,15 @@ Tigerian.Model = Tigerian.ModelView.extend({
         /**
          * @member {string}
          */
-        Object.defineProperty(this, "ctrlSearch", {
+        Object.defineProperty(this, "reloadPath", {
             enumerable: true,
             configurable: false,
             get: function () {
-                return ctrlSearch;
+                return reloadPath;
             },
             set: function (v) {
                 if (Tigerian.Class.isInstance(v, "string")) {
-                    ctrlSearch = v;
+                    reloadPath = v;
                 }
             }
         });
@@ -166,15 +170,31 @@ Tigerian.Model = Tigerian.ModelView.extend({
         /**
          * @member {string}
          */
-        Object.defineProperty(this, "ctrlCount", {
+        Object.defineProperty(this, "searchPath", {
             enumerable: true,
             configurable: false,
             get: function () {
-                return ctrlCount;
+                return searchPath;
             },
             set: function (v) {
                 if (Tigerian.Class.isInstance(v, "string")) {
-                    ctrlCount = v;
+                    searchPath = v;
+                }
+            }
+        });
+
+        /**
+         * @member {string}
+         */
+        Object.defineProperty(this, "countPath", {
+            enumerable: true,
+            configurable: false,
+            get: function () {
+                return countPath;
+            },
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "string")) {
+                    countPath = v;
                 }
             }
         });
@@ -214,10 +234,13 @@ Tigerian.Model = Tigerian.ModelView.extend({
          * @param {function} success
          * @param {function} unsuccess
          */
-        this.update = function (success, unsuccess) {
+        this.update = function (success, unsuccess, progress) {
             var ajax = new Tigerian.Ajax();
             ajax.success = ajaxSuccess(success, unsuccess);
             ajax.unsuccess = ajaxUnsuccess(unsuccess);
+            if (Tigerian.Class.isInstance(progress, "function")) {
+                ajax.progress = progress;
+            }
 
             var params = {};
             for (var field in fields) {
@@ -229,14 +252,14 @@ Tigerian.Model = Tigerian.ModelView.extend({
             }
 
             if (fields["id"].value !== undefined) {
-                ajax.url = applicationPath + ctrlEdit;
+                ajax.url = applicationPath + editPath;
                 params = {
                     id: fields["id"].value,
                     value: params
                 };
                 ajax.put(params);
             } else {
-                ajax.url = applicationPath + ctrlAdd;
+                ajax.url = applicationPath + addPath;
                 ajax.post(params);
             }
         };
@@ -245,13 +268,16 @@ Tigerian.Model = Tigerian.ModelView.extend({
          * @param {function} success
          * @param {function} unsuccess
          */
-        this.delete = function (success, unsuccess) {
+        this.delete = function (success, unsuccess, progress) {
             var ajax = new Tigerian.Ajax();
             ajax.success = ajaxSuccess(success, unsuccess);
             ajax.unsuccess = ajaxUnsuccess(unsuccess);
+            if (Tigerian.Class.isInstance(progress, "function")) {
+                ajax.progress = progress;
+            }
 
             if (fields["id"].value !== undefined) {
-                ajax.url = applicationPath + ctrlDelete;
+                ajax.url = applicationPath + deletePath;
                 ajax.delete({
                     id: fields["id"].value
                 }, ajaxSuccess, ajaxUnsuccess);
@@ -262,13 +288,16 @@ Tigerian.Model = Tigerian.ModelView.extend({
          * @param {function} success
          * @param {function} unsuccess
          */
-        this.reload = function (success, unsuccess) {
+        this.reload = function (success, unsuccess, progress) {
             var ajax = new Tigerian.Ajax();
             ajax.success = ajaxSuccess(success, unsuccess);
             ajax.unsuccess = ajaxUnsuccess(unsuccess);
+            if (Tigerian.Class.isInstance(progress, "function")) {
+                ajax.progress = progress;
+            }
 
             if (fields["id"].value !== undefined) {
-                ajax.url = applicationPath + ctrlReload;
+                ajax.url = applicationPath + reloadPath;
                 ajax.get({
                     id: fields["id"].value
                 });
@@ -280,22 +309,24 @@ Tigerian.Model = Tigerian.ModelView.extend({
          * @param {function} success
          * @param {function} unsuccess
          */
-        this.search = function (options, success, unsuccess) {
+        this.search = function (options, success, unsuccess, progress) {
             var ajax = new Tigerian.Ajax();
             ajax.success = ajaxSearchSuccess(success, unsuccess);
             ajax.unsuccess = ajaxUnsuccess(unsuccess);
+            if (Tigerian.Class.isInstance(progress, "function")) {
+                ajax.progress = progress;
+            }
 
-
-            var params = {
+            var params = (options ? {
                 options: options
-            };
+            } : {});
             for (var field in fields) {
                 if (fields[field].value !== undefined) {
                     params[field] = fields[field].value;
                 }
             }
 
-            ajax.url = applicationPath + ctrlSearch;
+            ajax.url = applicationPath + searchPath;
             ajax.get(params, ajaxSearchSuccess, ajaxUnsuccess);
         };
 
@@ -303,7 +334,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
          * @param {function} success
          * @param {function} unsuccess
          */
-        this.count = function (success, unsuccess) {
+        this.count = function (success, unsuccess, progress) {
             var ajax = new Tigerian.Ajax();
             ajax.success = function (text, xml, json) {
                 if (Tigerian.Class.isInstance(success, "function")) {
@@ -311,6 +342,9 @@ Tigerian.Model = Tigerian.ModelView.extend({
                 }
             };
             ajax.unsuccess = ajaxUnsuccess(unsuccess);
+            if (Tigerian.Class.isInstance(progress, "function")) {
+                ajax.progress = progress;
+            }
 
 
             var params = {
@@ -324,8 +358,22 @@ Tigerian.Model = Tigerian.ModelView.extend({
                 }
             }
 
-            ajax.url = applicationPath + ctrlCount;
+            ajax.url = applicationPath + countPath;
             ajax.get(params);
         };
-    }
+
+        this.toJSON = function () {
+            var result = {};
+            for (var field in fields) {
+                result[field] = fields[field].value;
+                // if (Tigerian.Class.isInstance(fields[field], Tigerian.Model)) {
+                //     result[field] = fields[field].toJSON();
+                // } else {
+                //     result[field] = fields[field].value;
+                // }
+            }
+
+            return result;
+        };
+    },
 });

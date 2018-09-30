@@ -4,7 +4,7 @@
  * @constructor
  * @extends {Tigerian.Control}
  */
-Tigerian.Table = Tigerian.Control.extend({
+Tigerian.DataTable = Tigerian.Control.extend({
     /**
      * @constructs
      * @param {Tigerian.UI} parent
@@ -34,10 +34,10 @@ Tigerian.Table = Tigerian.Control.extend({
         var ctrlNext = new Tigerian.Button(ctrlNavigate, "»", this.theme);
         var ctrlRowCount = new Tigerian.Label(ctrlTableFooter, "Rows: 0", this.theme);
 
-        this.setAttribute("element-type", "Table");
+        this.setAttribute("element-type", "DataTable");
         this.setAttribute("element-name", "container");
 
-        ctrlNavigate.setAttribute("element-type", "Table");
+        ctrlNavigate.setAttribute("element-type", "DataTable");
         ctrlNavigate.setAttribute("element-name", "navigation");
 
         ctrlNavigate.normalColumn = 2;
@@ -55,28 +55,48 @@ Tigerian.Table = Tigerian.Control.extend({
         var superClear = this.clear.bind(this);
         var superRemoveItem = this.removeItem.bind(this);
 
-        var pageSize = Tigerian.Table.EUnlimit;
+        var pageSize = Tigerian.DataTable.EUnlimit;
         var pageNo = 0;
+        var rowCount = 0;
 
         ctrlCaption.text = caption;
 
         var refreshView = function () {
-            ctrlNavigate.visible = (pageSize !== Tigerian.Table.EUnlimit);
+            var pageTop = ((instance.pageSize === Tigerian.DataTable.EUnlimit) ? 0 : (pageNo - 1) * instance.pageSize);
+            ctrlNavigate.visible = (pageSize !== Tigerian.DataTable.EUnlimit);
 
-            pageNo = Math.max(((instance.rowCount > 0) ? 1 : 0), Math.min(pageNo, instance.pageCount));
+            pageNo = Math.max(((rowCount > 0) ? 1 : 0), Math.min(pageNo, instance.pageCount));
 
             ctrlPage.text = "{} / {}".format(pageNo, instance.pageCount);
-            ctrlRowCount.text = "Rows: {}".format(instance.rowCount);
+            ctrlRowCount.text = "Rows: {}".format(rowCount);
 
-            for (var i = 0; i < instance.rowCount; i++) {
-                superGetItem(i).visible = ((pageSize === Tigerian.Table.EUnlimit) || ((i >= (pageNo - 1) * pageSize) && (i < pageNo * pageSize)));
+            for (var i = 0;
+                ((instance.pageSize === Tigerian.DataTable.EUnlimit) || (i < instance.pageSize)) && (i < ctrlTableBody.itemCount); i++) {
+                superGetItem(i).visible = (pageSize === Tigerian.DataTable.EUnlimit) || (i < rowCount - pageTop);
+            }
+
+            if (ctrlTableBody.itemCount !== pageSize) {
+                var ps = pageSize;
+                if (ps === Tigerian.DataTable.EUnlimit) {
+                    ps = rowCount;
+                }
+
+                if (ctrlTableBody.itemCount > ps) {
+                    for (i = ps; i < ctrlTableBody.itemCount; i++) {
+                        ctrlTableBody.removeItem(i);
+                    }
+                } else {
+                    for (i = ctrlTableBody.itemCount; i < ps; i++) {
+                        addRow();
+                    }
+                }
             }
         };
 
         var onMouseOver = function (e) {
             this.parent.setAttribute("hover", "true");
-            for (var r = 0; r < instance.rowCount; r++) {
-                for (var c = 0; c < instance.colCount; c++) {
+            for (var r = 0; r < pageSize; r++) {
+                for (var c = 0; c < colCount; c++) {
                     var cell = instance.getCell(r, c);
                     cell.setAttribute("hover", ((parseInt(this.getAttribute("column-number")) === c) ? "true" : "false"));
                     // cell.setAttribute("hover", (((this.parent === cell.parent) || (parseInt(this.getAttribute("column-number")) === c)) ? "true" : "false"));
@@ -86,8 +106,8 @@ Tigerian.Table = Tigerian.Control.extend({
 
         var onMouseLeave = function (e) {
             this.parent.setAttribute("hover", "false");
-            for (var r = 0; r < instance.rowCount; r++) {
-                for (var c = 0; c < instance.colCount; c++) {
+            for (var r = 0; r < pageSize; r++) {
+                for (var c = 0; c < colCount; c++) {
                     var cell = instance.getCell(r, c);
                     cell.setAttribute("hover", "false");
                 }
@@ -101,8 +121,14 @@ Tigerian.Table = Tigerian.Control.extend({
             enumerable: true,
             configurable: true,
             get: function () {
-                return this.itemCount;
+                return rowCount;
             },
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "number")) {
+                    rowCount = v;
+                    refreshView();
+                }
+            }
         });
 
         /**
@@ -126,8 +152,8 @@ Tigerian.Table = Tigerian.Control.extend({
                 return pageSize;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "number") || (v === Tigerian.Table.EUnlimit)) {
-                    pageSize = ((v > 0) ? v : Tigerian.Table.EUnlimit);
+                if (Tigerian.Class.isInstance(v, "number") || (v === Tigerian.DataTable.EUnlimit)) {
+                    pageSize = ((v > 0) ? v : Tigerian.DataTable.EUnlimit);
                     // this.pageNumber = pageNo;
                     refreshView();
                 }
@@ -158,10 +184,10 @@ Tigerian.Table = Tigerian.Control.extend({
             enumerable: true,
             configurable: true,
             get: function () {
-                if (pageSize !== Tigerian.Table.EUnlimit) {
-                    return Math.ceil(this.rowCount / pageSize);
+                if (pageSize !== Tigerian.DataTable.EUnlimit) {
+                    return Math.ceil(rowCount / pageSize);
                 } else {
-                    return ((this.rowCount > 0) ? 1 : 0);
+                    return ((rowCount > 0) ? 1 : 0);
                 }
             },
         });
@@ -220,13 +246,13 @@ Tigerian.Table = Tigerian.Control.extend({
          */
         this.columnVisible = function (col, visible) {
             this.getHeadCell(col).visible = visible;
-            for (var i = 0; i < this.rowCount; i++) {
+            for (var i = 0; i < pageSize; i++) {
                 this.getCell(i, col).visible = visible;
             }
         };
 
-        this.addControl = this.addItem = this.addRow = function () {
-            var newRow = new Tigerian.TableRow(null, colCount, this.theme);
+        var addRow = function () {
+            var newRow = new Tigerian.TableRow(null, colCount, instance.theme);
 
             newRow.setAttribute("hover", "false");
 
@@ -236,7 +262,6 @@ Tigerian.Table = Tigerian.Control.extend({
             }
 
             superAddItem(newRow);
-            refreshView();
         };
 
         /**
@@ -256,20 +281,20 @@ Tigerian.Table = Tigerian.Control.extend({
             return ctrlHeadRow.getItem(col);
         };
 
-        this.clear = function () {
-            superClear();
-            refreshView();
-        };
+        // this.clear = function () {
+        //     superClear();
+        //     refreshView();
+        // };
 
         /**
          * @param {number} index 
          */
-        this.removeItem = function (index) {
-            superRemoveItem(index);
-            refreshView();
-        };
+        // this.removeItem = function (index) {
+        //     superRemoveItem(index);
+        //     refreshView();
+        // };
 
-        this.removeRow = this.removeItem;
+        // this.removeRow = this.removeItem;
 
         ctrlNext.addEvent("click", function (e) {
             var lastPageNo = pageNo;
@@ -288,6 +313,13 @@ Tigerian.Table = Tigerian.Control.extend({
                 instance.dispatchEvent(Tigerian.Event.onPreviousPage);
             }
         });
+
+        refreshView();
+
+        delete this.addControl;
+        delete this.addItem;
+        delete this.removeItem;
+        delete this.clear;
     },
     enums: ["unlimit"],
 }, Tigerian.BGroup);

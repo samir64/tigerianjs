@@ -31,6 +31,10 @@ Tigerian.UI = Tigerian.Class.extend({
             parent = undefined;
         }
 
+        for (var i = 0; i < mainElement.children.length; i++) {
+            mainElement.removeChild(mainElement.children[i]);
+        }
+
         this.config("bind");
         this.config("style", mainElement);
 

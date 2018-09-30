@@ -21,7 +21,7 @@ Tigerian.ModelField = Tigerian.ModelView.extend({
         if (Tigerian.Class.isInstance(name, "string") && (name !== "")) {
             this.super();
 
-            if (!Tigerian.Class.isInstance(type, "string")) {
+            if (!(Tigerian.Class.isInstance(type, "string") || Tigerian.Class.isSubclass(type, Tigerian.Model))) {
                 type = "string";
             }
 
@@ -59,8 +59,18 @@ Tigerian.ModelField = Tigerian.ModelView.extend({
                     return value;
                 },
                 set: function (v) {
-                    if (Tigerian.Class.isInstance(v, type) || (v === undefined)) {
-                        value = v;
+                    if (Tigerian.Class.isInstance(v, type) || (v === undefined) || (Tigerian.Class.isInstance(v, "object") && Tigerian.Class.isSubclass(type, Tigerian.Model))) {
+                        if (Tigerian.Class.isInstance(v, "object")) {
+                            value = new type();
+
+                            for (var field in v) {
+                                if (field in value) {
+                                    value[field] = v[field];
+                                }
+                            }
+                        } else {
+                            value = v;
+                        }
                     }
                 },
             });
