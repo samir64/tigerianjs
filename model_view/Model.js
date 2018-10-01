@@ -14,8 +14,9 @@ Tigerian.Model = Tigerian.ModelView.extend({
      * @param {string} applicationPath
      * @param {string} controllerPath
      * @param {string} idType
+     * @param {string} fetchField = ""
      */
-    init: function (applicationPath, controllerPath, idType) {
+    init: function (applicationPath, controllerPath, idType, fetchField) {
         this.super();
 
         /**
@@ -34,9 +35,40 @@ Tigerian.Model = Tigerian.ModelView.extend({
 
         var instance = this;
 
+        if (!Tigerian.Class.isInstance(fetchField, "string")) {
+            fetchField = [];
+        } else {
+            fetchField = fetchField.split(".");
+        }
+
+        var getPath = function (path) {
+            var result = applicationPath;
+            var flds = {};
+
+            for (var idx in fields) {
+                flds[idx] = fields[idx].value;
+            }
+
+            if (!result.endsWith("/")) {
+                result += "/";
+            }
+
+            result += path.format(flds);
+
+            return result;
+        };
+
         var ajaxSuccess = function (successFunc, unsuccessFunc) {
             return function (text, xml, json) {
                 if (json !== undefined) {
+                    for (var i = 0;
+                        (i < fetchField.length) && (Object.keys(json).length > 0); i++) {
+                        if (fetchField[i] in json) {
+                            json = json[fetchField[i]];
+                        } else {
+                            json = {};
+                        }
+                    }
                     for (var field in json) {
                         if ((field in fields) && instance.hasOwnProperty(field)) {
                             fields[field].value = json[field];
@@ -59,6 +91,14 @@ Tigerian.Model = Tigerian.ModelView.extend({
                     var rows = [];
                     for (var recordNo in json) {
                         var row = new instance.constructor();
+                        for (var i = 0;
+                            (i < fetchField.length) && (Object.keys(json[recordNo]).length > 0); i++) {
+                            if (fetchField[i] in json[recordNo]) {
+                                json[recordNo] = json[recordNo][fetchField[i]];
+                            } else {
+                                json[recordNo] = {};
+                            }
+                        }
                         rows.push(row);
                         for (var field in json[recordNo]) {
                             if ((field in fields) && instance.hasOwnProperty(field)) {
@@ -252,14 +292,14 @@ Tigerian.Model = Tigerian.ModelView.extend({
             }
 
             if (fields["id"].value !== undefined) {
-                ajax.url = applicationPath + editPath;
+                ajax.url = getPath(editPath);
                 params = {
                     id: fields["id"].value,
                     value: params
                 };
                 ajax.put(params);
             } else {
-                ajax.url = applicationPath + addPath;
+                ajax.url = getPath(addPath);
                 ajax.post(params);
             }
         };
@@ -277,7 +317,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
             }
 
             if (fields["id"].value !== undefined) {
-                ajax.url = applicationPath + deletePath;
+                ajax.url = getPath(deletePath);
                 ajax.delete({
                     id: fields["id"].value
                 }, ajaxSuccess, ajaxUnsuccess);
@@ -297,7 +337,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
             }
 
             if (fields["id"].value !== undefined) {
-                ajax.url = applicationPath + reloadPath;
+                ajax.url = getPath(reloadPath);
                 ajax.get({
                     id: fields["id"].value
                 });
@@ -326,7 +366,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
                 }
             }
 
-            ajax.url = applicationPath + searchPath;
+            ajax.url = getPath(searchPath);
             ajax.get(params, ajaxSearchSuccess, ajaxUnsuccess);
         };
 
@@ -358,7 +398,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
                 }
             }
 
-            ajax.url = applicationPath + countPath;
+            ajax.url = getPath(countPath);
             ajax.get(params);
         };
 
