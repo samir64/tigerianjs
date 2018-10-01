@@ -1371,10 +1371,13 @@
     top: 0;
     padding: 0;
     margin: 0;
-    width: 0%;
     height: 3px;
     background-color: #d11;
+}
+
+[element-type="Loading"][element-name="container"][state="determinate"]>[element-type="Loading"][element-name="bar"] {
     transition: width ease-in-out 100ms;
+    width: 0%;
 }
 
 [element-type="Loading"][element-name="container"][state="indeterminate"]>[element-type="Loading"][element-name="bar"] {

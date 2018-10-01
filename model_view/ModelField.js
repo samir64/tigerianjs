@@ -75,5 +75,5 @@ Tigerian.ModelField = Tigerian.ModelView.extend({
                 },
             });
         }
-    }
+    },
 });

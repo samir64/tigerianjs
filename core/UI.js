@@ -140,6 +140,41 @@ Tigerian.UI = Tigerian.Class.extend({
         /**
          * @member {boolean}
          */
+        Object.defineProperty(this, "direction", {
+            enumerable: true,
+            configurable: true,
+            get: function () {
+                if (this.hasAttribute("dir")) {
+                    var dir = this.getAttribute("dir");
+                    switch (dir) {
+                        case "ltr":
+                            return Tigerian.UI.ELeftToRight;
+                            break;
+                        case "rtl":
+                            return Tigerian.UI.ERightToLeft;
+                            break;
+                        default:
+                            return "";
+                    }
+                }
+            },
+            set: function (v) {
+                switch (v) {
+                    case Tigerian.UI.ELeftToRight:
+                        this.setAttribute("dir", "ltr");
+                        break;
+                    case Tigerian.UI.ERightToLeft:
+                        this.setAttribute("dir", "rtl");
+                        break;
+                    default:
+                        this.removeAttribute("dir");
+                }
+            }
+        });
+
+        /**
+         * @member {boolean}
+         */
         Object.defineProperty(this, "visible", {
             enumerable: true,
             configurable: true,
@@ -472,4 +507,5 @@ Tigerian.UI = Tigerian.Class.extend({
             parent.addControl(this);
         }
     },
+    enums: ["rightToLeft", "leftToRight"],
 }, Tigerian.BBind, Tigerian.BStyle);

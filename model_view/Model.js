@@ -406,11 +406,6 @@ Tigerian.Model = Tigerian.ModelView.extend({
             var result = {};
             for (var field in fields) {
                 result[field] = fields[field].value;
-                // if (Tigerian.Class.isInstance(fields[field], Tigerian.Model)) {
-                //     result[field] = fields[field].toJSON();
-                // } else {
-                //     result[field] = fields[field].value;
-                // }
             }
 
             return result;
