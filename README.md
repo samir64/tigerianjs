@@ -48,7 +48,7 @@ Tigerian has 5 special properties
   - [X] BCancel
   - [X] BCascade
   - [X] BStyle
-  - [ ] BDragBDrop
+  - [ ] BDragDrop
   - [ ] BMove
   - [ ] BResize
   - [ ] BContextMenu
