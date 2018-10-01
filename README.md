@@ -19,7 +19,7 @@ Tigerian has 5 special properties
 - __Tigerian is a full objective framework:__ Everything in Tigerian is inherited from main Tigerian's class.
 - __Tigerian is completely modular:__ You can use each module that you need and combine with other frameworks. Of cource Tigerian can be used instead of all of them
 - __Tigerian is very expandable:__ Developers can expand the system easily.
-- __Tigerian is a multi-purpose system:__ It can be used as MVW framework witch can support UI, Ajax, RESTful systems and ...
+- __Tigerian is a multi-purpose system:__ It can be used as MVW framework which can support UI, Ajax, RESTful systems and ...
 - __Tigerian works on DOM system:__ For programmers that use Tigerian, HTML and CSS skills, are not required. They only have to be experienced in Javascript, and Tigerian takes care of all other parts (HTML and CSS) automatically. Only developers, who want to expand Tigerian, have to use HTML and CSS.
 
 ## Structure and TODOs
