@@ -24,6 +24,9 @@ Tigerian has 5 special properties
 
 ## Structure and TODOs
 
+- Helps
+  - [ ] Online Manual and Documents
+  - [ ] Samples and Tutorials
 - Core
   - [X] Tigerian
   - [X] Class
