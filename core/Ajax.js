@@ -56,7 +56,8 @@ Tigerian.Ajax = Tigerian.Class.extend({
         }
 
         function request(method, params) {
-            httpRequest.open(method, url + ((method == "GET") ? "?" + jsonToQuery(params) : ""), true);
+            var connector = (url.indexOf("?") > 0) ? "&" : "?";
+            httpRequest.open(method, url + ((method == "GET") ? connector + jsonToQuery(params) : ""), true);
             // httpRequest.open(method, url, true);
             // httpRequest.setRequestHeader("Content-Type", "application/json; charset=utf-8");
 

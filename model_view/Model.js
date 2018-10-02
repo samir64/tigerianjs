@@ -285,18 +285,16 @@ Tigerian.Model = Tigerian.ModelView.extend({
             var params = {};
             for (var field in fields) {
                 if (fields[field].value !== undefined) {
-                    if (field !== "id") {
-                        params[field] = fields[field].value;
-                    }
+                    params[field] = fields[field].value;
                 }
             }
 
             if (fields["id"].value !== undefined) {
                 ajax.url = getPath(editPath);
-                params = {
-                    id: fields["id"].value,
-                    value: params
-                };
+                // params = {
+                //     id: fields["id"].value,
+                //     value: params
+                // };
                 ajax.put(params);
             } else {
                 ajax.url = getPath(addPath);
@@ -357,12 +355,14 @@ Tigerian.Model = Tigerian.ModelView.extend({
                 ajax.progress = progress;
             }
 
-            var params = (options ? {
+            var params = (((options !== undefined) && (typeof options === "object")) ? {
                 options: options
             } : {});
             for (var field in fields) {
                 if (fields[field].value !== undefined) {
-                    params[field] = fields[field].value;
+                    if (field !== "id") {
+                        params[field] = fields[field].value;
+                    }
                 }
             }
 
