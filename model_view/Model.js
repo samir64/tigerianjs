@@ -25,6 +25,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
         var fields = {
             id: new Tigerian.ModelField("id", idType)
         };
+        // var relations = [];
         var addPath = controllerPath;
         var editPath = controllerPath;
         var deletePath = controllerPath;
@@ -58,22 +59,39 @@ Tigerian.Model = Tigerian.ModelView.extend({
             return result;
         };
 
+        var fillFields = function (out, values) {
+            for (var i = 0;
+                (i < fetchField.length) && (Object.keys(values).length > 0); i++) {
+                if (fetchField[i] in values) {
+                    values = values[fetchField[i]];
+                } else {
+                    values = {};
+                }
+            }
+            for (var field in values) {
+                if (out.hasOwnProperty(field)) {
+                    out[field] = values[field];
+                }
+            }
+            // for (var name in relations) {
+            //     switch (relations[name].multi) {
+            //         case Tigerian.Model.EOneToOne:
+            //             relations[name].value[relations[name].roleB] = fields[relations[name].roleA].value;
+            //             relations[name].value.reload();
+            //             break;
+
+            //         case Tigerian.Model.EOneToStar:
+            //             break;
+
+            //         default:
+            //     }
+            // }
+        };
+
         var ajaxSuccess = function (successFunc, unsuccessFunc) {
             return function (text, xml, json) {
                 if (json !== undefined) {
-                    for (var i = 0;
-                        (i < fetchField.length) && (Object.keys(json).length > 0); i++) {
-                        if (fetchField[i] in json) {
-                            json = json[fetchField[i]];
-                        } else {
-                            json = {};
-                        }
-                    }
-                    for (var field in json) {
-                        if ((field in fields) && instance.hasOwnProperty(field)) {
-                            fields[field].value = json[field];
-                        }
-                    }
+                    fillFields(instance, json);
 
                     if (Tigerian.Class.isInstance(successFunc, "function")) {
                         successFunc();
@@ -91,20 +109,8 @@ Tigerian.Model = Tigerian.ModelView.extend({
                     var rows = [];
                     for (var recordNo in json) {
                         var row = new instance.constructor();
-                        for (var i = 0;
-                            (i < fetchField.length) && (Object.keys(json[recordNo]).length > 0); i++) {
-                            if (fetchField[i] in json[recordNo]) {
-                                json[recordNo] = json[recordNo][fetchField[i]];
-                            } else {
-                                json[recordNo] = {};
-                            }
-                        }
+                        fillFields(row, json[recordNo]);
                         rows.push(row);
-                        for (var field in json[recordNo]) {
-                            if ((field in fields) && instance.hasOwnProperty(field)) {
-                                row[field] = json[recordNo][field];
-                            }
-                        }
                     }
 
                     if (Tigerian.Class.isInstance(successFunc, "function")) {
@@ -120,7 +126,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
 
         var ajaxUnsuccess = function (unsuccessFunc) {
             return function (readystate, status, statusText) {
-                if (Tigerian.Class.isInstance(unsuccessFunc, "function")) {
+                if (Tigerian.Class.isInstance(unsuccess, "function")) {
                     unsuccessFunc(statusText);
                 } else {
                     // console.error(statusText);
@@ -241,7 +247,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
 
         /**
          * @param {string} name
-         * @param {string} type
+         * @param {string|function} type
          */
         this.addField = function (name, type) {
             if (!(name in fields)) {
@@ -256,9 +262,43 @@ Tigerian.Model = Tigerian.ModelView.extend({
                     set: function (v) {
                         fields[name].value = v;
                     },
-                })
+                });
             }
         };
+
+        /**
+         * 
+         * @param {enumerator} multiplicity
+         * @@param {string} roleAFieldName
+         * @@param {string} roleBFieldName
+         * @param {function} roleBType
+         */
+        // this.addRelation = function (name, multiplicity, roleAFieldName, roleBFieldName, roleBType) {
+        //     if (Tigerian.Class.isSubclass(type, Tigerian.Model)) {
+        //         switch (multiplicity) {
+        //             case Tigerian.Model.EOneToOne:
+        //             case Tigerian.Model.EOneToStar:
+        //                 relation[name] = {
+        //                     multi: multiplicity,
+        //                     roleA: roleAFieldName,
+        //                     roleB: roleBFieldName,
+        //                     type: roleBType,
+        //                     value: new roleBType(),
+        //                 };
+        //                 break;
+
+        //             default:
+        //         }
+
+        //         Object.defineProperty(this, name, {
+        //             enumerable: false,
+        //             configurable: false,
+        //             get: function () {
+        //                 return relations[name].value;
+        //             },
+        //         });
+        //     }
+        // };
 
         /**
          * @param {string} name
@@ -411,4 +451,5 @@ Tigerian.Model = Tigerian.ModelView.extend({
             return result;
         };
     },
+    enums: ["oneToOne", "oneToStar"],
 });
