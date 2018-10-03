@@ -134,6 +134,10 @@ Tigerian.Route = Tigerian.Class.extend({
                 routes[route].show();
 
                 lastRoute = route;
+            } else {
+                for (var r in routes) {
+                    routes[r].hide();
+                }
             }
         };
 

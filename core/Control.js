@@ -80,6 +80,7 @@ Tigerian.Control = Tigerian.UI.extend({
         this.setAttribute("hide-on-large", "false");
         this.setAttribute("hide-on-xlarge", "false");
         this.setAttribute("float", "");
+        this.setAttribute("align", "");
         this.setAttribute("template-name", "");
         this.setAttribute("template-item", "");
 
@@ -489,7 +490,7 @@ Tigerian.Control = Tigerian.UI.extend({
                         return Tigerian.Control.ELeft;
                         break;
                     case "right":
-                        return Tigerian.Control.ERigth;
+                        return Tigerian.Control.ERight;
                         break;
                     case "center":
                         return Tigerian.Control.ECenter;
@@ -507,7 +508,7 @@ Tigerian.Control = Tigerian.UI.extend({
                     case Tigerian.Control.ELeft:
                         this.setAttribute("align", "left");
                         break;
-                    case Tigerian.Control.ERigth:
+                    case Tigerian.Control.ERight:
                         this.setAttribute("align", "right");
                         break;
                     case Tigerian.Control.ECenter:
