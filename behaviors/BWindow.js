@@ -65,6 +65,7 @@ Tigerian.BWindow = Tigerian.Behavior.extend({
             configurable: false,
             set: function (v) {
                 if (Tigerian.Class.isInstance(v, "function")) {
+                    v = v.bind(this);
                     onSmallWindow = v;
                     if (windowSmallMatch.matches) {
                         v();
@@ -81,6 +82,7 @@ Tigerian.BWindow = Tigerian.Behavior.extend({
             configurable: false,
             set: function (v) {
                 if (Tigerian.Class.isInstance(v, "function")) {
+                    v = v.bind(this);
                     onMediumWindow = v;
                     if (windowMediumMatch.matches) {
                         v();
@@ -97,6 +99,7 @@ Tigerian.BWindow = Tigerian.Behavior.extend({
             configurable: false,
             set: function (v) {
                 if (Tigerian.Class.isInstance(v, "function")) {
+                    v = v.bind(this);
                     onNormalWindow = v;
                     if (windowNormalMatch.matches) {
                         v();
@@ -113,6 +116,7 @@ Tigerian.BWindow = Tigerian.Behavior.extend({
             configurable: false,
             set: function (v) {
                 if (Tigerian.Class.isInstance(v, "function")) {
+                    v = v.bind(this);
                     onLargeWindow = v;
                     if (windowLargeMatch.matches) {
                         v();
@@ -129,6 +133,7 @@ Tigerian.BWindow = Tigerian.Behavior.extend({
             configurable: false,
             set: function (v) {
                 if (Tigerian.Class.isInstance(v, "function")) {
+                    v = v.bind(this);
                     onXlargeWindow = v;
                     if (windowXlargeMatch.matches) {
                         v();

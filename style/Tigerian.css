@@ -1435,12 +1435,20 @@
     background-color: #ddd;
 }
 
-[element-type="DataTable"][element-name="container"][visible="true"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"][visible="true"],
-[element-type="DataTable"][element-name="container"][visible="true"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"][visible="true"],
-[element-type="Table"][element-name="container"][visible="true"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"][visible="true"],
+[element-type="DataTable"][element-name="container"][visible="true"][view-mode="list"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"][visible="true"],
 [element-type="Table"][element-name="container"][visible="true"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"][visible="true"] {
     margin: 0;
     display: table-row;
+}
+
+[element-type="DataTable"][element-name="container"][visible="true"][view-mode="details"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]:first-child,
+[element-type="Table"][element-name="container"][visible="true"][view-mode="details"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]:first-child {
+    display: none;
+}
+
+[element-type="DataTable"][element-name="container"][visible="true"][view-mode="details"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"],
+[element-type="Table"][element-name="container"][visible="true"][view-mode="details"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"] {
+    border-bottom: 1px solid #999;
 }
 
 [element-type="DataTable"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]:hover,
@@ -1448,13 +1456,21 @@
     background-color: rgba(175, 175, 175, .25);
 }
 
-[element-type="DataTable"][element-name="container"][visible="true"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"],
-[element-type="DataTable"][element-name="container"][visible="true"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"],
-[element-type="Table"][element-name="container"][visible="true"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"],
-[element-type="Table"][element-name="container"][visible="true"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"] {
+[element-type="DataTable"][element-name="container"][visible="true"][view-mode="list"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"],
+[element-type="Table"][element-name="container"][visible="true"][view-mode="list"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"] {
     margin: 0;
     border: 1px solid #999;
     display: table-cell;
+}
+
+[element-type="DataTable"][element-name="container"][visible="true"][view-mode="details"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"],
+[element-type="Table"][element-name="container"][visible="true"][view-mode="details"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"] {
+    font-weight: bold;
+}
+
+[element-type="DataTable"][element-name="container"][visible="true"][view-mode="details"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"]>[element-type="TableCell"][element-name="text"],
+[element-type="Table"][element-name="container"][visible="true"][view-mode="details"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"]>[element-type="TableCell"][element-name="text"] {
+    font-weight: normal;
 }
 
 [element-type="DataTable"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][hover="true"],

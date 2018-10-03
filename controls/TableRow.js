@@ -41,7 +41,7 @@ Tigerian.TableRow = Tigerian.Control.extend({
             var newCell = new Tigerian.TableCell(this, "", this.theme);
             newCell.setAttribute("column-number", i.toString());
             newCell.setAttribute("hover", false);
-            newCell.normalColumn = ((colCount <= 12) ? Math.floor(12 / colCount) : 1);
+            // newCell.normalColumn = ((colCount <= 12) ? Math.floor(12 / colCount) : 1);
         }
 
         this.getCell = this.getItem;

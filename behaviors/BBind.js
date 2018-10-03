@@ -4,17 +4,24 @@ Tigerian.BBind = Tigerian.Behavior.extend({
 
         var binds = [];
 
-        this.bind = function (srcProp, target, trgProp) {
-            if ((typeof srcProp == "string") && (typeof target == "object") && (typeof trgProp == "string")) {
+        this.bind = function (srcProp, target, trgProp, changer) {
+            if (Tigerian.Class.isInstance(srcProp, "string") && Tigerian.Class.isInstance(target, "object") && Tigerian.Class.isInstance(trgProp, "string")) {
+                if (!Tigerian.Class.isInstance(changer, "function")) {
+                    changer = function (value) {
+                        return value;
+                    };
+                }
+
                 if (binds[srcProp] == undefined) {
                     binds[srcProp] = {
                         main: undefined,
-                        targets: []
+                        targets: [],
                     };
                 }
                 binds[srcProp].targets.push({
                     trg: target,
                     prop: trgProp,
+                    changer: changer,
                 });
 
                 if (this.hasOwnProperty(srcProp) && target.hasOwnProperty(trgProp)) {
@@ -34,7 +41,7 @@ Tigerian.BBind = Tigerian.Behavior.extend({
                         },
                         set: function (value) {
                             if (lastProp.hasOwnProperty("set")) {
-                                console.log(srcProp, target, trgProp, value, target[trgProp]);
+                                // console.log(srcProp, target, trgProp, value, target[trgProp]);
                                 lastProp.set.bind(target)(value);
                             } else if (lastProp.hasOwnProperty("value")) {
                                 lastProp.value = value;
@@ -42,7 +49,7 @@ Tigerian.BBind = Tigerian.Behavior.extend({
                             for (var i in binds[srcProp].targets) {
                                 var trg = binds[srcProp].targets[i].trg;
                                 var prop = binds[srcProp].targets[i].prop;
-                                trg[prop] = value;
+                                trg[prop] = changer(value);
                             }
                         },
                     });
@@ -63,9 +70,9 @@ Tigerian.BBind = Tigerian.Behavior.extend({
                     }
                 }
 
-                binds[srcProp] = result;
+                binds[srcProp].target = result;
 
-                if (binds[srcProp].length == 0) {
+                if (binds[srcProp].target.length == 0) {
                     Object.defineProperty(this, srcProp, main);
                     delete binds[srcProp];
                 }

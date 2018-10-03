@@ -40,6 +40,8 @@ Tigerian.DataTable = Tigerian.Control.extend({
         ctrlNavigate.setAttribute("element-type", "DataTable");
         ctrlNavigate.setAttribute("element-name", "navigation");
 
+        this.setAttribute("view-mode", "list");
+
         ctrlNavigate.normalColumn = 6;
         ctrlPrev.normalColumn = 4;
         ctrlPage.normalColumn = 4;
@@ -74,6 +76,32 @@ Tigerian.DataTable = Tigerian.Control.extend({
             for (var i = 1;
                 ((instance.pageSize === Tigerian.DataTable.EUnlimit) || (i <= pageSize)) && (i < ctrlTableBody.itemCount); i++) {
                 superGetItem(i).visible = (pageSize === Tigerian.DataTable.EUnlimit) || (i - 1 < rowCount - pageTop);
+
+                switch (instance.viewMode) {
+                    case Tigerian.DataTable.EListView:
+                        for (var c = 0; c < colCount; c++) {
+                            instance.getCell(i - 1, c).headText = "";
+                            instance.getHeadCell(c).unbind("text", instance.getCell(i - 1, c), "headText");
+                        }
+                        break;
+
+                    case Tigerian.DataTable.EDetailsView:
+                        for (var c = 0; c < colCount; c++) {
+                            if (instance.getHeadCell(c).text) {
+                                instance.getCell(i - 1, c).headText = instance.getHeadCell(c).text + ": ";
+                            }
+                            instance.getHeadCell(c).bind("text", instance.getCell(i - 1, c), "headText", function (value) {
+                                if ((value === "") || (value === undefined)) {
+                                    return "";
+                                } else {
+                                    return "{}: ".format(value);
+                                }
+                            });
+                        }
+                        break;
+
+                    default:
+                }
             }
 
             if (ctrlTableBody.itemCount !== pageSize) {
@@ -248,6 +276,32 @@ Tigerian.DataTable = Tigerian.Control.extend({
         });
 
         /**
+         * @member {boolean}
+         */
+        Object.defineProperty(this, "viewMode", {
+            enumerable: true,
+            configurable: true,
+            get: function () {
+                return ((this.getAttribute("view-mode") === "list") ? Tigerian.DataTable.EListView : ((this.getAttribute("view-mode") === "details") ? Tigerian.DataTable.EDetailsView : undefined));
+            },
+            set: function (v) {
+                switch (v) {
+                    case Tigerian.DataTable.EListView:
+                        this.setAttribute("view-mode", "list");
+                        refreshView();
+                        break;
+
+                    case Tigerian.DataTable.EDetailsView:
+                        this.setAttribute("view-mode", "details");
+                        refreshView();
+                        break;
+
+                    default:
+                }
+            },
+        });
+
+        /**
          * @param {number} col 
          * @param {boolean} visible 
          */
@@ -328,5 +382,5 @@ Tigerian.DataTable = Tigerian.Control.extend({
         delete this.removeItem;
         delete this.clear;
     },
-    enums: ["unlimit"],
+    enums: ["unlimit", "listView", "detailsView"],
 }, Tigerian.BGroup);
