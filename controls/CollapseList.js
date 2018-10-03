@@ -25,5 +25,17 @@ Tigerian.CollapseList = Tigerian.Control.extend({
                 superAddItem(item);
             }
         };
+
+        this.collapseAll = function () {
+            for (var i = 0; i < this.itemCount; i++) {
+                this.getItem(i).collapse();
+            }
+        };
+
+        this.expandAll = function () {
+            for (var i = 0; i < this.itemCount; i++) {
+                this.getItem(i).expand();
+            }
+        };
     },
 }, Tigerian.BGroup);

@@ -46,6 +46,20 @@ Tigerian.CollapseItem = Tigerian.Control.extend({
             }
         };
 
+        this.collapse = function () {
+            instance.viewChild(false);
+            if (instance.hasChild) {
+                ctrlList.collapseAll();
+            }
+        };
+
+        this.expand = function () {
+            instance.viewChild(true);
+            for (var i = 0; i < this.itemCount; i++) {
+                ctrlList.expandAll();
+            }
+        };
+
         elmText.addEventListener("click", function (e) {
             if (canChangeChildState && !touchStarted) {
                 instance.viewChild();
