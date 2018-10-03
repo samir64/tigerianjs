@@ -443,7 +443,7 @@ Tigerian.Control = Tigerian.UI.extend({
                         return Tigerian.Control.ELeft;
                         break;
                     case "right":
-                        return Tigerian.Control.ERigth;
+                        return Tigerian.Control.ERight;
                         break;
                     case "center":
                         return Tigerian.Control.ECenter;
@@ -461,7 +461,7 @@ Tigerian.Control = Tigerian.UI.extend({
                     case Tigerian.Control.ELeft:
                         this.setAttribute("float", "left");
                         break;
-                    case Tigerian.Control.ERigth:
+                    case Tigerian.Control.ERight:
                         this.setAttribute("float", "right");
                         break;
                     case Tigerian.Control.ECenter:
