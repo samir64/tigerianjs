@@ -40,12 +40,13 @@ Tigerian.DataTable = Tigerian.Control.extend({
         ctrlNavigate.setAttribute("element-type", "DataTable");
         ctrlNavigate.setAttribute("element-name", "navigation");
 
-        ctrlNavigate.normalColumn = 2;
+        ctrlNavigate.normalColumn = 6;
         ctrlPrev.normalColumn = 4;
         ctrlPage.normalColumn = 4;
         ctrlNext.normalColumn = 4;
-        ctrlRowCount.normalColumn = 2;
+        ctrlRowCount.normalColumn = 6;
         ctrlPage.align = Tigerian.Control.ECenter;
+        ctrlRowCount.align = Tigerian.Control.ERight;
 
         this.config("group", ctrlTableBody);
 
@@ -63,10 +64,9 @@ Tigerian.DataTable = Tigerian.Control.extend({
         ctrlCaption.text = caption;
 
         var refreshView = function () {
+            pageNo = Math.max(((rowCount > 0) ? 1 : 0), Math.min(pageNo, instance.pageCount));
             var pageTop = ((instance.pageSize === Tigerian.DataTable.EUnlimit) ? 0 : (pageNo - 1) * instance.pageSize);
             ctrlNavigate.visible = (pageSize !== Tigerian.DataTable.EUnlimit);
-
-            pageNo = Math.max(((rowCount > 0) ? 1 : 0), Math.min(pageNo, instance.pageCount));
 
             ctrlPage.text = "{} / {}".format(pageNo, instance.pageCount);
             ctrlRowCount.text = "Rows: {}".format(rowCount);

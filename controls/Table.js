@@ -40,12 +40,13 @@ Tigerian.Table = Tigerian.Control.extend({
         ctrlNavigate.setAttribute("element-type", "Table");
         ctrlNavigate.setAttribute("element-name", "navigation");
 
-        ctrlNavigate.normalColumn = 2;
+        ctrlNavigate.normalColumn = 6;
         ctrlPrev.normalColumn = 4;
         ctrlPage.normalColumn = 4;
         ctrlNext.normalColumn = 4;
-        ctrlRowCount.normalColumn = 2;
+        ctrlRowCount.normalColumn = 6;
         ctrlPage.align = Tigerian.Control.ECenter;
+        ctrlRowCount.align = Tigerian.Control.ERight;
 
         this.config("group", ctrlTableBody);
 
