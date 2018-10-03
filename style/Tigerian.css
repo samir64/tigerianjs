@@ -1109,7 +1109,7 @@
 [element-type="Header"][element-name="container"] {
     width: 100%;
     background-color: rgb(200, 200, 200);
-    min-height: 25px;
+    /* min-height: 25px; */
     border-radius: 2px;
     /* text-align: left; */
 }
@@ -1401,18 +1401,13 @@
 [element-type="DataTable"][element-name="container"][visible="true"]>[element-type="Header"][element-name="container"]>[element-type="Label"][element-name="container"],
 [element-type="Table"][element-name="container"][visible="true"]>[element-type="Header"][element-name="container"]>[element-type="Label"][element-name="container"] {
     background-color: rgba(125, 125, 125, .75);
-    display: table-caption;
+    /* display: table-caption; */
 }
 
 [element-type="DataTable"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"],
 [element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
     text-align: center;
     font-weight: bolder;
-}
-
-[element-type="DataTable"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"],
-[element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"] {
-    font-weight: bold;
 }
 
 [element-type="DataTable"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"]>[element-type="TableCell"][element-name="text"],
@@ -1422,15 +1417,22 @@
 
 [element-type="DataTable"][element-name="container"][visible="true"]>[element-type="Header"][element-name="container"][visible="true"],
 [element-type="Table"][element-name="container"][visible="true"]>[element-type="Header"][element-name="container"][visible="true"] {
-    display: table;
+    /* display: table; */
 }
 
 [element-type="DataTable"][element-name="container"][visible="true"]>[element-type="TableBody"][element-name="container"][visible="true"],
 [element-type="Table"][element-name="container"][visible="true"]>[element-type="TableBody"][element-name="container"][visible="true"] {
     background-color: #eee;
-    display: table;
-    border: 1px solid #777;
-    padding: 1px;
+    /* display: table; */
+    overflow: auto;
+    /* border: 1px solid #777; */
+    /* padding: 1px; */
+}
+
+[element-type="DataTable"][element-name="container"][visible="true"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]:first-child,
+[element-type="Table"][element-name="container"][visible="true"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]:first-child {
+    font-weight: bold;
+    background-color: #ddd;
 }
 
 [element-type="DataTable"][element-name="container"][visible="true"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"][visible="true"],

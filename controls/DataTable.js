@@ -26,7 +26,7 @@ Tigerian.DataTable = Tigerian.Control.extend({
         var ctrlTableFooter = new Tigerian.Footer(this, false, this.theme);
 
         var ctrlCaption = new Tigerian.Label(ctrlTableHeader, "", this.theme);
-        var ctrlHeadRow = new Tigerian.TableRow(ctrlTableHeader, colCount, this.theme);
+        var ctrlHeadRow = new Tigerian.TableRow(ctrlTableBody, colCount, this.theme);
 
         var ctrlNavigate = new Tigerian.Control(ctrlTableFooter, this.theme);
         var ctrlPrev = new Tigerian.Button(ctrlNavigate, "«", this.theme);
@@ -54,6 +54,7 @@ Tigerian.DataTable = Tigerian.Control.extend({
         var superGetItem = this.getItem.bind(this);
         var superClear = this.clear.bind(this);
         var superRemoveItem = this.removeItem.bind(this);
+        var ctrlTableBodyStyle = Object.getOwnPropertyDescriptor(ctrlTableBody, "style");
 
         var pageSize = Tigerian.DataTable.EUnlimit;
         var pageNo = 0;
@@ -70,9 +71,9 @@ Tigerian.DataTable = Tigerian.Control.extend({
             ctrlPage.text = "{} / {}".format(pageNo, instance.pageCount);
             ctrlRowCount.text = "Rows: {}".format(rowCount);
 
-            for (var i = 0;
-                ((instance.pageSize === Tigerian.DataTable.EUnlimit) || (i < instance.pageSize)) && (i < ctrlTableBody.itemCount); i++) {
-                superGetItem(i).visible = (pageSize === Tigerian.DataTable.EUnlimit) || (i < rowCount - pageTop);
+            for (var i = 1;
+                ((instance.pageSize === Tigerian.DataTable.EUnlimit) || (i <= pageSize)) && (i < ctrlTableBody.itemCount); i++) {
+                superGetItem(i).visible = (pageSize === Tigerian.DataTable.EUnlimit) || (i - 1 < rowCount - pageTop);
             }
 
             if (ctrlTableBody.itemCount !== pageSize) {
@@ -81,12 +82,12 @@ Tigerian.DataTable = Tigerian.Control.extend({
                     ps = rowCount;
                 }
 
-                if (ctrlTableBody.itemCount > ps) {
-                    for (i = ps; i < ctrlTableBody.itemCount; i++) {
+                if (ctrlTableBody.itemCount > ps + 1) {
+                    for (i = ps + 1; i < ctrlTableBody.itemCount; i++) {
                         ctrlTableBody.removeItem(i);
                     }
                 } else {
-                    for (i = ctrlTableBody.itemCount; i < ps; i++) {
+                    for (i = ctrlTableBody.itemCount; i <= ps; i++) {
                         addRow();
                     }
                 }
@@ -95,7 +96,7 @@ Tigerian.DataTable = Tigerian.Control.extend({
 
         var onMouseOver = function (e) {
             this.parent.setAttribute("hover", "true");
-            for (var r = 0; r < pageSize; r++) {
+            for (var r = 0; r < ((pageSize === Tigerian.DataTable.EUnlimit) ? rowCount : pageSize); r++) {
                 for (var c = 0; c < colCount; c++) {
                     var cell = instance.getCell(r, c);
                     cell.setAttribute("hover", ((parseInt(this.getAttribute("column-number")) === c) ? "true" : "false"));
@@ -106,13 +107,19 @@ Tigerian.DataTable = Tigerian.Control.extend({
 
         var onMouseLeave = function (e) {
             this.parent.setAttribute("hover", "false");
-            for (var r = 0; r < pageSize; r++) {
+            for (var r = 0; r < ((pageSize === Tigerian.DataTable.EUnlimit) ? rowCount : pageSize); r++) {
                 for (var c = 0; c < colCount; c++) {
                     var cell = instance.getCell(r, c);
                     cell.setAttribute("hover", "false");
                 }
             }
         };
+
+        Object.defineProperty(this, "style", {
+            enumerable: true,
+            configurable: true,
+            get: ctrlTableBodyStyle.get.bind(this),
+        });
 
         /**
          * @member {number}
@@ -270,7 +277,7 @@ Tigerian.DataTable = Tigerian.Control.extend({
          * @returns {Tigerian.TableCell}
          */
         this.getItem = this.getCell = function (row, col) {
-            return superGetItem(row).getItem(col);
+            return superGetItem(row + 1).getItem(col);
         };
 
         /**

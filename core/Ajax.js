@@ -27,6 +27,8 @@ Tigerian.Ajax = Tigerian.Class.extend({
         httpRequest.onprogress = function (e) {
             if (e.lengthComputable) {
                 progress(100 * e.loaded / e.total, e.loaded, e.total);
+            } else {
+                progress(-1);
             }
         };
 

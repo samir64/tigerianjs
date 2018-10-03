@@ -26,7 +26,7 @@ Tigerian.Table = Tigerian.Control.extend({
         var ctrlTableFooter = new Tigerian.Footer(this, false, this.theme);
 
         var ctrlCaption = new Tigerian.Label(ctrlTableHeader, "", this.theme);
-        var ctrlHeadRow = new Tigerian.TableRow(ctrlTableHeader, colCount, this.theme);
+        var ctrlHeadRow = new Tigerian.TableRow(ctrlTableBody, colCount, this.theme);
 
         var ctrlNavigate = new Tigerian.Control(ctrlTableFooter, this.theme);
         var ctrlPrev = new Tigerian.Button(ctrlNavigate, "«", this.theme);
@@ -68,8 +68,8 @@ Tigerian.Table = Tigerian.Control.extend({
             ctrlPage.text = "{} / {}".format(pageNo, instance.pageCount);
             ctrlRowCount.text = "Rows: {}".format(instance.rowCount);
 
-            for (var i = 0; i < instance.rowCount; i++) {
-                superGetItem(i).visible = ((pageSize === Tigerian.Table.EUnlimit) || ((i >= (pageNo - 1) * pageSize) && (i < pageNo * pageSize)));
+            for (var i = 1; i < instance.rowCount; i++) {
+                superGetItem(i).visible = ((pageSize === Tigerian.Table.EUnlimit) || ((i > (pageNo - 1) * pageSize) && (i <= pageNo * pageSize)));
             }
         };
 
@@ -245,7 +245,7 @@ Tigerian.Table = Tigerian.Control.extend({
          * @returns {Tigerian.TableCell}
          */
         this.getItem = this.getCell = function (row, col) {
-            return superGetItem(row).getItem(col);
+            return superGetItem(row + 1).getItem(col);
         };
 
         /**
