@@ -335,6 +335,10 @@ Tigerian.BTable = Tigerian.Behavior.extend({
                 superAddItem(newRow);
             };
 
+            this.addRow = function () {
+                this.rowCount++;
+            };
+
             /**
              * @param {number} row
              * @param {number} col
@@ -352,10 +356,11 @@ Tigerian.BTable = Tigerian.Behavior.extend({
                 return ctrlHeadRow.getItem(col);
             };
 
-            // this.clear = function () {
-            //     superClear();
-            //     refreshView();
-            // };
+            this.clear = function () {
+                ctrlTableBody.clear();
+                ctrlTableBody.addControl(ctrlHeadRow);
+                visibleRows();
+            };
 
             /**
              * @param {number} index 
@@ -398,7 +403,7 @@ Tigerian.BTable = Tigerian.Behavior.extend({
             delete this.addControl;
             delete this.addItem;
             delete this.removeItem;
-            delete this.clear;
+            // delete this.clear;
         }
     },
     enums: ["unlimit", "listView", "detailsView"],

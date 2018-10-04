@@ -19,12 +19,11 @@ Tigerian.DataTable = Tigerian.Control.extend({
         this.setAttribute("element-name", "container");
 
         var ctrlTableBody = new Tigerian.TableBody(this, this.theme);
-        this.config("table", colCount, ctrlTableBody)
-        this.config("group", ctrlTableBody);
+        this.config("group");
+        this.config("table", colCount, ctrlTableBody);
 
-        delete this.addControl;
-        delete this.addItem;
+        this.addControl = this.addItem = this.addRow;
         delete this.removeItem;
-        delete this.clear;
+        // delete this.clear;
     },
 }, Tigerian.BGroup, Tigerian.BTable);
