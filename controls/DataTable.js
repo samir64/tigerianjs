@@ -25,7 +25,7 @@ Tigerian.DataTable = Tigerian.Control.extend({
         var ctrlTableBody = new Tigerian.TableBody(this, this.theme);
         var ctrlTableFooter = new Tigerian.Footer(this, false, this.theme);
 
-        var ctrlCaption = new Tigerian.Label(ctrlTableHeader, "", this.theme);
+        var ctrlCaption = new Tigerian.Label(ctrlTableHeader, caption, this.theme);
         var ctrlHeadRow = new Tigerian.TableRow(ctrlTableBody, colCount, this.theme);
 
         var ctrlNavigate = new Tigerian.Control(ctrlTableFooter, this.theme);
@@ -62,8 +62,6 @@ Tigerian.DataTable = Tigerian.Control.extend({
         var pageSize = Tigerian.DataTable.EUnlimit;
         var pageNo = 0;
         var rowCount = 0;
-
-        ctrlCaption.text = caption;
 
         var refreshView = function () {
             pageNo = Math.max(1, Math.min(pageNo, instance.pageCount));
