@@ -66,12 +66,30 @@ Tigerian.DataTable = Tigerian.Control.extend({
         ctrlCaption.text = caption;
 
         var refreshView = function () {
-            pageNo = Math.max(((rowCount > 0) ? 1 : 0), Math.min(pageNo, instance.pageCount));
+            pageNo = Math.max(1, Math.min(pageNo, instance.pageCount));
+            // pageNo = Math.max(((rowCount > 0) ? 1 : 0), Math.min(pageNo, instance.pageCount));
             var pageTop = ((instance.pageSize === Tigerian.DataTable.EUnlimit) ? 0 : (pageNo - 1) * instance.pageSize);
             ctrlNavigate.visible = (pageSize !== Tigerian.DataTable.EUnlimit);
 
             ctrlPage.text = "{} / {}".format(pageNo, instance.pageCount);
             ctrlRowCount.text = "Rows: {}".format(rowCount);
+
+            if (ctrlTableBody.itemCount !== pageSize) {
+                var ps = pageSize;
+                if (ps === Tigerian.DataTable.EUnlimit) {
+                    ps = rowCount;
+                }
+
+                if (ctrlTableBody.itemCount > ps + 1) {
+                    for (i = ps + 1; i < ctrlTableBody.itemCount;) {
+                        ctrlTableBody.removeItem(i);
+                    }
+                } else {
+                    for (i = ctrlTableBody.itemCount; i <= ps; i++) {
+                        addRow();
+                    }
+                }
+            }
 
             for (var i = 1;
                 ((instance.pageSize === Tigerian.DataTable.EUnlimit) || (i <= pageSize)) && (i < ctrlTableBody.itemCount); i++) {
@@ -101,23 +119,6 @@ Tigerian.DataTable = Tigerian.Control.extend({
                         break;
 
                     default:
-                }
-            }
-
-            if (ctrlTableBody.itemCount !== pageSize) {
-                var ps = pageSize;
-                if (ps === Tigerian.DataTable.EUnlimit) {
-                    ps = rowCount;
-                }
-
-                if (ctrlTableBody.itemCount > ps + 1) {
-                    for (i = ps + 1; i < ctrlTableBody.itemCount; i++) {
-                        ctrlTableBody.removeItem(i);
-                    }
-                } else {
-                    for (i = ctrlTableBody.itemCount; i <= ps; i++) {
-                        addRow();
-                    }
                 }
             }
         };

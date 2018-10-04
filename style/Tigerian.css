@@ -1423,7 +1423,8 @@
 [element-type="DataTable"][element-name="container"][visible="true"]>[element-type="TableBody"][element-name="container"][visible="true"],
 [element-type="Table"][element-name="container"][visible="true"]>[element-type="TableBody"][element-name="container"][visible="true"] {
     background-color: #eee;
-    /* display: table; */
+    display: table;
+    table-layout: fixed;
     overflow: auto;
     /* border: 1px solid #777; */
     /* padding: 1px; */
@@ -1461,6 +1462,7 @@
     margin: 0;
     border: 1px solid #999;
     display: table-cell;
+    overflow-wrap: break-word;
 }
 
 [element-type="DataTable"][element-name="container"][visible="true"][view-mode="details"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"],
