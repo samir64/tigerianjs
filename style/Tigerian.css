@@ -641,8 +641,10 @@
 [element-name="container"][float="center"],
 [element-name="container"] [float="center"] {
     float: none;
-    margin-left: auto;
-    margin-right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    /* margin-left: auto;
+    margin-right: auto; */
 }
 
 /* NOTE Control Container*/

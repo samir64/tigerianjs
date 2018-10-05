@@ -7,9 +7,9 @@
 Tigerian.Route = Tigerian.Class.extend({
     /**
      * @constructs
-     * @param {string} applicationPath
+     * @param {string} applicationRoot
      */
-    init: function (applicationPath) {
+    init: function (applicationRoot) {
         /**
          *
          * @type {Tigerian.View[]}
@@ -19,8 +19,8 @@ Tigerian.Route = Tigerian.Class.extend({
         var viewPageNotFound;
 
         var getPath = function (path) {
-            if (path.startsWith(applicationPath)) {
-                return path.slice(applicationPath.length);
+            if (path.startsWith(applicationRoot)) {
+                return path.slice(applicationRoot.length);
             }
         };
 
@@ -30,6 +30,8 @@ Tigerian.Route = Tigerian.Class.extend({
                 if (path !== "/") {
                     path = "/" + path;
                 }
+            } else {
+                path = "/";
             }
 
             return path;
@@ -60,7 +62,7 @@ Tigerian.Route = Tigerian.Class.extend({
             }
         };
 
-        applicationPath = getGoodPath(applicationPath);
+        applicationRoot = getGoodPath(applicationRoot);
 
         /**
          * @param {string|string[]} route
@@ -108,7 +110,7 @@ Tigerian.Route = Tigerian.Class.extend({
                 if (getPath(window.location.pathname) === info[0]) {
                     window.location.hash = info[1];
                 } else {
-                    window.location.href = window.location.origin + applicationPath + route;
+                    window.location.href = window.location.origin + applicationRoot + route;
                 }
             } else {
                 window.location.hash = "";
@@ -153,11 +155,11 @@ Tigerian.Route = Tigerian.Class.extend({
         /**
          * @member {string}
          */
-        Object.defineProperty(this, "applicationPath", {
+        Object.defineProperty(this, "applicationRoot", {
             enumerable: false,
             configurable: true,
             get: function () {
-                return applicationPath;
+                return applicationRoot;
             },
             set: function (v) {
                 if (Tigerian.Class.isInstance(v, "string")) {

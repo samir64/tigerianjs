@@ -51,6 +51,7 @@ Tigerian has 5 special properties
   - [X] BCancel
   - [X] BCascade
   - [X] BStyle
+  - [X] BTable
   - [ ] BDrag
   - [ ] BDrop
   - [ ] BMove
@@ -94,6 +95,12 @@ Tigerian has 5 special properties
   - [X] CollapseList (CollapseList)
   - [X] CollapseItem (CollapseItem)
   - [X] Loading
+  - [X] DataTable
+  - [X] TableBody
+  - [X] TableRow
+  - [X] TableCell
+  - [ ] ProcessLine
+  - [ ] ProcessState
   - [ ] PrograessBar
   - [ ] Tooltip
   - [ ] SwitchButton
@@ -102,10 +109,6 @@ Tigerian has 5 special properties
   - [ ] TreeList
   - [ ] TreeItem
   - [ ] Calendar
-  - [ ] Table
-  - [ ] TableBody
-  - [ ] TableRow
-  - [ ] TableCell
   - [ ] SlideShow
   - [ ] PhotoGalery
   - [ ] TabView
