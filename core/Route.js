@@ -16,14 +16,15 @@ Tigerian.Route = Tigerian.Class.extend({
          */
         var routes = [];
         var lastRoute = "";
+        var viewPageNotFound;
 
-        function getPath(path) {
+        var getPath = function (path) {
             if (path.startsWith(applicationPath)) {
                 return path.slice(applicationPath.length);
             }
-        }
+        };
 
-        function getGoodPath(path) {
+        var getGoodPath = function (path) {
             if (typeof path === "string") {
                 path = path.replace(/^\/*(.*[^\/])\/*/, "$1");
                 if (path !== "/") {
@@ -32,9 +33,9 @@ Tigerian.Route = Tigerian.Class.extend({
             }
 
             return path;
-        }
+        };
 
-        function getBestMatch(path) {
+        var getBestMatch = function (path) {
             if (path in routes) {
                 return [path, {}];
             } else {
@@ -57,7 +58,7 @@ Tigerian.Route = Tigerian.Class.extend({
                     }
                 }
             }
-        }
+        };
 
         applicationPath = getGoodPath(applicationPath);
 
@@ -121,6 +122,10 @@ Tigerian.Route = Tigerian.Class.extend({
                 var route = check[0];
                 var params = check[1];
 
+                if (Tigerian.Class.isInstance(viewPageNotFound, Tigerian.View)) {
+                    viewPageNotFound.hide();
+                }
+
                 if (lastRoute === "") {
                     for (var r in routes) {
                         if (r !== route) {
@@ -138,6 +143,10 @@ Tigerian.Route = Tigerian.Class.extend({
                 for (var r in routes) {
                     routes[r].hide();
                 }
+                if (Tigerian.Class.isInstance(viewPageNotFound, Tigerian.View)) {
+                    viewPageNotFound.refresh();
+                    viewPageNotFound.show();
+                }
             }
         };
 
@@ -150,9 +159,25 @@ Tigerian.Route = Tigerian.Class.extend({
             get: function () {
                 return applicationPath;
             },
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "string")) {
-                    setBasePath(value);
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "string")) {
+                    setBasePath(v);
+                }
+            },
+        });
+
+        /**
+         * @member {Tigerian.View}
+         */
+        Object.defineProperty(this, "pageNotFound", {
+            enumerable: true,
+            configurable: true,
+            get: function () {
+                return viewPageNoteFound;
+            },
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, Tigerian.View) || (v === undefined)) {
+                    viewPageNotFound = v;
                 }
             },
         });
