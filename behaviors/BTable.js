@@ -79,7 +79,7 @@ Tigerian.BTable = Tigerian.Behavior.extend({
                         }
                     } else {
                         for (i = ctrlTableBody.itemCount; i <= ps; i++) {
-                            addRow();
+                            addRow(false);
                         }
                     }
                 }
@@ -322,7 +322,10 @@ Tigerian.BTable = Tigerian.Behavior.extend({
                 }
             };
 
-            var addRow = function () {
+            /**
+             * @param {boolean} refresh = true
+             */
+            var addRow = function (refresh) {
                 var newRow = new Tigerian.TableRow(null, colCount, instance.theme);
 
                 newRow.setAttribute("hover", "false");
@@ -333,6 +336,10 @@ Tigerian.BTable = Tigerian.Behavior.extend({
                 }
 
                 superAddItem(newRow);
+
+                if (refresh !== false) {
+                    refreshView();
+                }
             };
 
             this.addRow = function () {
@@ -359,7 +366,7 @@ Tigerian.BTable = Tigerian.Behavior.extend({
             this.clear = function () {
                 ctrlTableBody.clear();
                 ctrlTableBody.addControl(ctrlHeadRow);
-                visibleRows();
+                refreshView();
             };
 
             /**

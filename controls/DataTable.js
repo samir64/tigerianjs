@@ -22,6 +22,8 @@ Tigerian.DataTable = Tigerian.Control.extend({
         this.config("group");
         this.config("table", colCount, ctrlTableBody);
 
+        this.caption = caption;
+
         this.addControl = this.addItem = this.addRow;
         delete this.removeItem;
         // delete this.clear;

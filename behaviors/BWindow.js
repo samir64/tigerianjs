@@ -36,23 +36,23 @@ Tigerian.BWindow = Tigerian.Behavior.extend({
             configurable: false,
             get: function () {
                 if (windowSmallMatch.matches) {
-                    return "Small";
+                    return Tigerian.BWindow.ESmall;
                 }
 
                 if (windowMediumMatch.matches) {
-                    return "Medium";
+                    return Tigerian.BWindow.EMedium;
                 }
 
                 if (windowNormalMatch.matches) {
-                    return "Normal";
+                    return Tigerian.BWindow.ENormal;
                 }
 
                 if (windowLargeMatch.matches) {
-                    return "Large";
+                    return Tigerian.BWindow.ELarge;
                 }
 
                 if (windowXlargeMatch.matches) {
-                    return "XLarge";
+                    return Tigerian.BWindow.EXLarge;
                 }
             },
         });
@@ -172,4 +172,5 @@ Tigerian.BWindow = Tigerian.Behavior.extend({
             }
         });
     },
+    enums: ["small", "medium", "normal", "large", "xLarge"],
 });
