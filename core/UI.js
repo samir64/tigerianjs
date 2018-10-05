@@ -213,8 +213,8 @@ Tigerian.UI = Tigerian.Class.extend({
          */
         function setVisible(value) {
             if (Tigerian.Class.isInstance(value, "boolean")) {
-                var lastVisible = (instance.getAttribute("visible") === true);
-                instance.setAttribute("visible", value);
+                var lastVisible = (instance.getAttribute("visible") === "true");
+                instance.setAttribute("visible", (value ? "true" : "false"));
 
                 if (lastVisible !== value) {
                     instance.dispatchEvent(Tigerian.Event.onVisibleChanged);
