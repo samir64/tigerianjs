@@ -617,11 +617,11 @@
 
 [element-name="container"][float="left"]:after,
 [element-name="container"] [float="left"]:after {
-    content: '.';
+    content: '';
     clear: both;
     display: block;
     height: 0;
-    visibility: hidden;
+    /* visibility: hidden; */
 }
 
 [element-name="container"][float="right"],
@@ -631,11 +631,11 @@
 
 [element-name="container"][float="right"]:after,
 [element-name="container"] [float="right"]:after {
-    content: '.';
+    content: '';
     clear: both;
     display: block;
     height: 0;
-    visibility: hidden;
+    /* visibility: hidden; */
 }
 
 [element-name="container"][float="center"],
