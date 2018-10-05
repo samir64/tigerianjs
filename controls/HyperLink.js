@@ -24,6 +24,8 @@ Tigerian.HyperLink = Tigerian.Control.extend({
         //NOTE Private Variables
         var elmHyperLink = document.createElement("a");
 
+        this.config("text", elmHyperLink);
+
 
         //NOTE Attributes
         this.setAttribute("element-type", "Link");
@@ -34,9 +36,10 @@ Tigerian.HyperLink = Tigerian.Control.extend({
 
         this.setAttribute("tag", "false");
 
-        if (Tigerian.Class.isInstance(text, "string")) {
-            elmHyperLink.innerHTML = text;
-        }
+        this.text = text;
+        // if (Tigerian.Class.isInstance(text, "string")) {
+        //     elmHyperLink.innerHTML = text;
+        // }
         if (Tigerian.Class.isInstance(url, "string")) {
             elmHyperLink.href = url;
         }
@@ -67,19 +70,19 @@ Tigerian.HyperLink = Tigerian.Control.extend({
         /**
          * @member {string}
          */
-        Object.defineProperty(this, "text", {
-            enumerable: true,
-            configurable: true,
-            get: function () {
-                return elmHyperLink.innerHTML;
-            },
+        // Object.defineProperty(this, "text", {
+        //     enumerable: true,
+        //     configurable: true,
+        //     get: function () {
+        //         return elmHyperLink.innerHTML;
+        //     },
 
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "string")) {
-                    elmHyperLink.innerHTML = value;
-                }
-            }
-        });
+        //     set: function (value) {
+        //         if (Tigerian.Class.isInstance(value, "string")) {
+        //             elmHyperLink.innerHTML = value;
+        //         }
+        //     }
+        // });
 
         /**
          * @member {string}
@@ -106,4 +109,4 @@ Tigerian.HyperLink = Tigerian.Control.extend({
             }
         }.bind(this), true);
     }
-});
+}, Tigerian.BText);
