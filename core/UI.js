@@ -490,7 +490,16 @@ Tigerian.UI = Tigerian.Class.extend({
             if (scrollTo === true) {
                 mainElement.scrollIntoView();
             }
-        }
+        };
+
+        this.clear = function () {
+            var children = mainElement.querySelectorAll("[element-name=\"container\"]");
+            for (var i = 0; i < children.length; i++) {
+                if (children[i].parentElement === mainElement) {
+                    mainElement.removeChild(children[i]);
+                }
+            }
+        };
 
         //NOTE Attributes
         this.setAttribute("element-name", "");
