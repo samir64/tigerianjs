@@ -188,7 +188,13 @@ Tigerian.BGroup = Tigerian.Behavior.extend({
                         ctrlGroup.removeItem(0);
                         ctrlGroup.addItem(item);
                     }
-                }
+                };
+
+                this.clear = function () {
+                    while (this.itemCount > 0) {
+                        this.removeItem(0);
+                    }
+                };
 
                 this.clear();
                 if (ctrlGroup !== this) {
