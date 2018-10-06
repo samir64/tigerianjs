@@ -70,8 +70,11 @@ Tigerian.MainClassDefinition.extend = function (properties, behaviors, superClas
 
         if ("enums" in properties) {
             for (var i = 0; i < properties["enums"].length; i++) {
-                var enumName = properties["enums"][i];
-                result["E" + enumName.charAt(0).toUpperCase() + enumName.slice(1)] = Symbol(enumName);
+                var enumValue = properties["enums"][i];
+                var enumName = "E" + enumValue.charAt(0).toUpperCase() + enumValue.slice(1);
+                if (!(enumName in result)) {
+                    result[enumName] = Symbol(enumValue);
+                }
             }
         }
 
