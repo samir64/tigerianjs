@@ -10,4 +10,12 @@
  * @extends {Tigerian.Class}
  * @constructor
  */
-Tigerian.ModelView = Tigerian.Class.extend({}, Tigerian.BBind);
+Tigerian.ModelView = Tigerian.Class.extend({
+    /**
+     * @constructs
+     */
+    init: function () {
+        this.super();
+        this.config("event");
+    },
+}, Tigerian.BBind, Tigerian.BEvent);

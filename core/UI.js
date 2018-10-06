@@ -37,6 +37,7 @@ Tigerian.UI = Tigerian.Class.extend({
 
         this.config("bind");
         this.config("style", mainElement);
+        this.config("event", mainElement);
 
         //NOTE Private Constants
         /**
@@ -222,20 +223,6 @@ Tigerian.UI = Tigerian.Class.extend({
             }
         }
 
-        /**
-         * @param {Event} e
-         */
-        function eventHandler(e) {
-            var eventType = e.type.toLowerCase();
-
-            // if (instance.enabled && instance.visible) {
-            if (instance.enabled) {
-                for (var event in events[eventType]) {
-                    events[eventType][event].bind(instance)(e);
-                }
-            }
-        }
-
         function addThemeToChildren(element, themeName) {
             var elm = new Tigerian.Iterator(Array.from(element.children));
             elm.yield = function () {
@@ -301,68 +288,6 @@ Tigerian.UI = Tigerian.Class.extend({
                 control.appendTo(this, mainElement);
             }
         }.bind(this);
-
-        /**
-         * @param {string} eventName
-         * @param {function} callback
-         */
-        this.addEvent = function (eventName, callback) {
-            // console.warn(eventName, callback);
-            if ((Tigerian.Class.isInstance(eventName, "string")) && (eventName !== "") && (Tigerian.Class.isInstance(callback, Function))) {
-                eventName = eventName.toLowerCase();
-
-                if (!events.hasOwnProperty(eventName)) {
-                    mainElement.addEventListener(eventName, eventHandler, true);
-                    events[eventName] = [];
-                }
-
-                if (events[eventName].indexOf(callback) === -1) {
-                    events[eventName].push(callback);
-                }
-            }
-        };
-
-        /**
-         * @param {string} eventName
-         * @param {EventCallback} [callback]
-         */
-        this.removeEvent = function (eventName, callback) {
-            if ((Tigerian.Class.isInstance(eventName, "string")) && (eventName !== "") && (events[eventName] !== undefined)) {
-                eventName = eventName.toLowerCase();
-
-                if (Tigerian.Class.isInstance(callback, Function)) {
-                    events[eventName] = events[eventName].filter(function (item, index) {
-                        if (item !== callback) {
-                            return item;
-                        }
-                    });
-                } else {
-                    events[eventName] = [];
-                }
-
-                if (events[eventName].length === 0) {
-                    mainElement.removeEventListener(eventName, eventHandler, false);
-                    delete events[eventName];
-                }
-            }
-        };
-
-        /**
-         * @param {Event} e
-         * @param {Array} [data]
-         */
-        this.dispatchEvent = function (e, data) {
-            if (Tigerian.Class.isInstance(e, Event)) {
-                e.data = data;
-                eventHandler(e);
-                /*
-                 setTimeout(function () {
-                 mainElement.dispatchEvent(event);
-                 }, 0);
-                 */
-                // mainElement.dispatchEvent(event);
-            }
-        };
 
         /**
          * @param {string} attrName
@@ -517,4 +442,4 @@ Tigerian.UI = Tigerian.Class.extend({
         }
     },
     enums: ["rightToLeft", "leftToRight"],
-}, Tigerian.BBind, Tigerian.BStyle);
+}, Tigerian.BBind, Tigerian.BStyle, Tigerian.BEvent);

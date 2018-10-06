@@ -18,4 +18,4 @@ Tigerian.TableBody = Tigerian.Control.extend({
         this.setAttribute("element-type", "TableBody");
         this.setAttribute("element-name", "container");
     }
-}, Tigerian.BGroup);
+}, Tigerian.BGroup, Tigerian.BTable);

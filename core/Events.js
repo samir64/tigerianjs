@@ -118,9 +118,36 @@ Tigerian.Event.onPreviousPage = new Event("PreviousPage", {
 	cancelable: true,
 });
 
+Tigerian.Event.onViewChanged = new Event("ViewChanged", {
+	detail: {
+		message: "View changed",
+		time: new Date(),
+	},
+	bubbles: true,
+	cancelable: true,
+});
+
+Tigerian.Event.onViewRefresh = new Event("ViewRefresh", {
+	detail: {
+		message: "View refreshed",
+		time: new Date(),
+	},
+	bubbles: true,
+	cancelable: true,
+});
+
 Tigerian.Event.onPageChanged = new Event("PageChanged", {
 	detail: {
-		message: "List page changed",
+		message: "Page changed",
+		time: new Date(),
+	},
+	bubbles: true,
+	cancelable: true,
+});
+
+Tigerian.Event.onPageCountChanged = new Event("PageCountChanged", {
+	detail: {
+		message: "Page count changed",
 		time: new Date(),
 	},
 	bubbles: true,
