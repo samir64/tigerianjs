@@ -1481,3 +1481,27 @@
 [element-type="Table"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][hover="true"] {
     background-color: rgba(175, 175, 175, .25);
 }
+
+[element-type="Pagination"][element-name="container"][visible="true"],
+[element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"][visible="true"] {
+    display: table-row;
+    table-layout: fixed;
+}
+
+[element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"]>[element-name="container"][visible="true"],
+[element-type="Pagination"][element-name="container"]>[element-name="container"][visible="true"] {
+    display: table-cell;
+}
+
+[element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"]>[element-type="Label"][element-name="container"][visible="true"][active="true"],
+[element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"]>[element-type="Label"][element-name="container"][visible="true"][active="true"]>[element-type="Label"][element-name="text"] {
+    cursor: pointer;
+}
+
+[element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"]>[element-type="Label"][element-name="container"][visible="true"][active="false"] {
+    cursor: default;
+}
+
+[element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"]>[element-type="Label"][element-name="container"][visible="true"][active="true"]>[element-type="Label"][element-name="text"] {
+    color: #07b;
+}
