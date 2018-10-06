@@ -214,7 +214,6 @@ Tigerian.BPagination = Tigerian.Behavior.extend({
                     if (lastPageNo !== pageNo) {
                         refresh();
                         instance.dispatchEvent(Tigerian.Event.onNextPage);
-                        instance.dispatchEvent(Tigerian.Event.onPageChanged);
                     }
                 });
 
@@ -224,7 +223,22 @@ Tigerian.BPagination = Tigerian.Behavior.extend({
                     if (lastPageNo !== pageNo) {
                         refresh();
                         instance.dispatchEvent(Tigerian.Event.onPreviousPage);
-                        instance.dispatchEvent(Tigerian.Event.onPageChanged);
+                    }
+                });
+
+                ctrlFirst.addEvent("click", function (e) {
+                    var lastPageNo = pageNo;
+                    instance.pageNumber = 0;
+                    if (lastPageNo !== pageNo) {
+                        refresh();
+                    }
+                });
+
+                ctrlLast.addEvent("click", function (e) {
+                    var lastPageNo = pageNo;
+                    instance.pageNumber = pageCount;
+                    if (lastPageNo !== pageNo) {
+                        refresh();
                     }
                 });
 
