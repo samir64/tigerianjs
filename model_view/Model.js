@@ -126,7 +126,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
 
         var ajaxUnsuccess = function (unsuccessFunc) {
             return function (readystate, status, statusText) {
-                if (Tigerian.Class.isInstance(unsuccess, "function")) {
+                if (Tigerian.Class.isInstance(unsuccessFunc, "function")) {
                     unsuccessFunc(statusText);
                 } else {
                     // console.error(statusText);

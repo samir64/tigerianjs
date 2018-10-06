@@ -27,8 +27,10 @@ Tigerian.Route = Tigerian.Class.extend({
         var getGoodPath = function (path) {
             if (typeof path === "string") {
                 path = path.replace(/^\/*(.*[^\/])\/*/, "$1");
-                if (path !== "/") {
-                    path = "/" + path;
+                if ((path !== "") && (path !== "/")) {
+                    path = "/" + path + "/";
+                } else {
+                    path = "/";
                 }
             } else {
                 path = "/";
@@ -118,7 +120,7 @@ Tigerian.Route = Tigerian.Class.extend({
         };
 
         this.render = function () {
-            var url = window.location.pathname + window.location.hash;
+            var url = getGoodPath(window.location.pathname + window.location.hash);
             var check = getBestMatch(getGoodPath(getPath(url)));
             if (check) {
                 var route = check[0];

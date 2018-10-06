@@ -28,6 +28,7 @@ Tigerian.BPagination = Tigerian.Behavior.extend({
 
                 var instance = this;
                 var theme = ctrlNavigation.theme;
+                var navButtons = Tigerian.BPagination.EAll;
 
                 var container = new Tigerian.Control(ctrlNavigation, theme);
                 var ctrlFirst = new Tigerian.Button(container, "««", theme);
@@ -52,7 +53,7 @@ Tigerian.BPagination = Tigerian.Behavior.extend({
 
                 // ctrlPage.visible = false;
 
-                // ctrlPage.align = Tigerian.Control.ECenter;
+                // ctrlPageList.align = Tigerian.Control.ECenter;
 
                 var addLabel = function (index) {
                     var label = new Tigerian.Label(ctrlPageList, index.toString(), ctrlNavigation.theme);
@@ -98,6 +99,8 @@ Tigerian.BPagination = Tigerian.Behavior.extend({
                 };
 
                 var refresh = function () {
+                    ctrlFirst.visible = ctrlLast.visible = ((navButtons === Tigerian.BPagination.EAll) || (navButtons === Tigerian.BPagination.EFirstLast));
+                    ctrlPrev.visible = ctrlNext.visible = ((navButtons === Tigerian.BPagination.EAll) || (navButtons === Tigerian.BPagination.EPreviousNext));
                     ctrlNavigation.visible = (pageCount > 0);
                     // ctrlPage.text = "{} / {}".format(pageNo, instance.pageCount);
                     ctrlPageList.clear();
@@ -177,6 +180,34 @@ Tigerian.BPagination = Tigerian.Behavior.extend({
                     },
                 });
 
+                /**
+                 * @member {number}
+                 */
+                Object.defineProperty(this, "navigationButtons", {
+                    enumerable: true,
+                    configurable: true,
+                    get: function () {
+                        return navButtons;
+                    },
+                    set: function (v) {
+                        var lastNavBtns = navButtons;
+                        switch (v) {
+                            case Tigerian.BPagination.EAll:
+                            case Tigerian.BPagination.ENone:
+                            case Tigerian.BPagination.EFirstLast:
+                            case Tigerian.BPagination.EPreviousNext:
+                                navButtons = v;
+                                break;
+                            default:
+                                navButtons = Tigerian.BPagination.ENone;
+                        }
+
+                        if (lastNavBtns !== navButtons) {
+                            refresh();
+                        }
+                    },
+                });
+
                 ctrlNext.addEvent("click", function (e) {
                     var lastPageNo = pageNo;
                     instance.pageNumber++;
@@ -201,5 +232,5 @@ Tigerian.BPagination = Tigerian.Behavior.extend({
             }
         }
     },
-    enums: [],
+    enums: ["firstLast", "previousNext", "all", "none"],
 });

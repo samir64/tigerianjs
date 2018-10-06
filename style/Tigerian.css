@@ -1482,15 +1482,22 @@
     background-color: rgba(175, 175, 175, .25);
 }
 
-[element-type="Pagination"][element-name="container"][visible="true"],
-[element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"][visible="true"] {
+[element-type="Pagination"][element-name="container"][visible="true"] {
     display: table-row;
     table-layout: fixed;
 }
 
-[element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"]>[element-name="container"][visible="true"],
+[element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"][visible="true"] {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+[element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"]>[element-type="Label"][element-name="container"][visible="true"],
+[element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"]>[element-name="container"][visible="true"]>[element-type="Label"][element-name="container"],
 [element-type="Pagination"][element-name="container"]>[element-name="container"][visible="true"] {
     display: table-cell;
+    table-layout: fixed;
 }
 
 [element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"]>[element-type="Label"][element-name="container"][visible="true"][active="true"],
@@ -1504,4 +1511,9 @@
 
 [element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"]>[element-type="Label"][element-name="container"][visible="true"][active="true"]>[element-type="Label"][element-name="text"] {
     color: #07b;
+}
+
+[element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"]>[element-type="Label"][element-name="container"][visible="true"]>[element-type="Label"][element-name="text"] {
+    padding: 0;
+    text-align: center;
 }
