@@ -41,6 +41,7 @@ Tigerian.Button = Tigerian.Control.extend({
 
         //NOTE Append Children
         this.addControl(elmButton);
+        this.hoverable = true;
 
 
         //NOTE Properties

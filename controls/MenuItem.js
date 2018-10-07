@@ -32,6 +32,7 @@ Tigerian.MenuItem = Tigerian.Control.extend({
 
         superAddControl(elmText);
         this.text = text;
+        this.hoverable = true;
 
         this.setAttribute("element-type", "MenuItem");
         this.setAttribute("element-name", "container");

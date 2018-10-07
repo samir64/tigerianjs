@@ -33,6 +33,8 @@ Tigerian.ComboBox = Tigerian.Control.extend({
         var selectRequire = false;
         var canChangeVisible = true;
 
+        ctrlText.hoverable = ctrlLabel.hoverable = true;
+
         //NOTE Attributes
         this.setAttribute("element-type", "ComboBox");
         this.setAttribute("element-name", "container");

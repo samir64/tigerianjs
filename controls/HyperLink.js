@@ -33,7 +33,7 @@ Tigerian.HyperLink = Tigerian.Control.extend({
         this.setAttribute("element-name", "container");
 
         elmHyperLink.setAttribute("element-type", "Link");
-        elmHyperLink.setAttribute("element-name", "link");
+        elmHyperLink.setAttribute("element-name", "text");
 
         this.setAttribute("label-type", "");
 

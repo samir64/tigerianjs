@@ -39,7 +39,6 @@
 
 .dark[element-type="Button"][element-name="container"][default="true"][disabled]>[element-type="Button"][element-name="text"] {
     background-color: #07c;
-    /*color: #ccc;*/
 }
 
 .dark[element-type="Button"][element-name="container"][default="true"]:not([disabled])>[element-type="Button"][element-name="text"]:hover {

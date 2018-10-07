@@ -24,5 +24,7 @@ Tigerian.TableCell = Tigerian.Control.extend({
 
         elmText.setAttribute("element-type", "TableCell");
         elmText.setAttribute("element-name", "text");
+
+        this.situation = Tigerian.Control.ETransparent;
     },
 }, Tigerian.BText);

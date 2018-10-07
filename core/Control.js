@@ -10,32 +10,6 @@
  * @param {string} [style = ""]
  * @param {Tigerian.Application|Tigerian.Control} [parent = undefined]
  *
- * @property {boolean} enabled
- * @property {boolean} visible
- * @property {Tigerian.Application|Tigerian.Control} parent
- * @property {string} style
- *
- * @property {string} headText
- * @property {string} footText
- *
- * @property {number} tabIndex
- *
- * @property {number} smallColumn
- * @property {number} mediumColumn
- * @property {number} column
- * @property {number} largeColumn
- * @property {number} xlargeColumn
- *
- * @property {boolean} hideOnSmall
- * @property {boolean} hideOnMedium
- * @property {boolean} hideOnNormal
- * @property {boolean} hideOnLarge
- * @property {boolean} hideOnXlarge
- *
- * @property {boolean} floatLeft
- * @property {boolean} floatRight
- * @property {boolean} floatCenter
- *
  * @extends {Tigerian}
  * @constructor
  */
@@ -68,6 +42,8 @@ Tigerian.Control = Tigerian.UI.extend({
         //NOTE Attributes
         this.setAttribute("element-type", "Control");
         this.setAttribute("element-name", "container");
+        this.setAttribute("element-situation", "");
+        this.setAttribute("element-hoverable", "false");
 
         this.setAttribute("small-column", "normal");
         this.setAttribute("medium-column", "normal");
@@ -771,18 +747,62 @@ Tigerian.Control = Tigerian.UI.extend({
             }
         });
 
+        Object.defineProperty(this, "hoverable", {
+            enumerable: true,
+            configurable: true,
+            get: function () {
+                return (this.getAttribute("element-hoverable") === "true");
+            },
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "boolean")) {
+                    this.setAttribute("element-hoverable", v ? "true" : "false");
+                }
+            },
+        });
 
-        //NOTE Public Functions
-        /*
-         /!**
-         * @param {Tigerian.Label} label
-         *!/
-         this.addLabel = function (label) {
-         if (Tigerian.Class.isInstance(label, Tigerian.Label)) {
-         label.for(elmDivContainer);
-         }
-         }
-         */
+        Object.defineProperty(this, "situation", {
+            enumerable: true,
+            configurable: true,
+            get: function () {
+                return this.getAttribute("element-situation");
+            },
+            set: function (v) {
+                switch (v) {
+                    case Tigerian.Control.EDefault:
+                        this.setAttribute("element-situation", "default");
+                        break;
+
+                    case Tigerian.Control.ETransparent:
+                        this.setAttribute("element-situation", "transparent");
+                        break;
+
+                    case Tigerian.Control.EOpposite:
+                        this.setAttribute("element-situation", "opposite");
+                        break;
+
+                    case Tigerian.Control.EWarning:
+                        this.setAttribute("element-situation", "warning");
+                        break;
+
+                    case Tigerian.Control.EDanger:
+                        this.setAttribute("element-situation", "danger");
+                        break;
+
+                    case Tigerian.Control.EDisable:
+                        this.setAttribute("element-situation", "disable");
+                        break;
+
+                    case Tigerian.Control.EOk:
+                        this.setAttribute("element-situation", "ok");
+                        break;
+
+                    case Tigerian.Control.ENone:
+                    default:
+                        this.setAttribute("element-situation", "");
+                        break;
+                }
+            },
+        });
 
         /**
          * @param {Element|Tigerian.Control} control
@@ -804,5 +824,5 @@ Tigerian.Control = Tigerian.UI.extend({
             return "[Tigerian.Control (Or one of its sub classes) Instance]";
         };
     },
-    enums: ["left", "right", "center", "none"],
+    enums: ["left", "right", "center", "none", "default", "transparent", "opposite", "warning", "danger", "disable", "ok"],
 });

@@ -17,9 +17,11 @@ Tigerian.Loading = Tigerian.Control.extend({
 
         this.setAttribute("element-type", "Loading");
         this.setAttribute("element-name", "container");
+        this.setAttribute("element-situation", "opposite");
 
         elmBar.setAttribute("element-type", "Loading");
         elmBar.setAttribute("element-name", "bar");
+        elmBar.setAttribute("element-situation", "danger");
 
         this.setAttribute("state", "indeterminate");
 

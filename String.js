@@ -77,8 +77,9 @@ String.prototype.padNumbers = function (before, after) {
 /**
  * @this {string}
  * @param {boolean} addHashSign true
+ * @param {boolean} toLower true
  */
-String.prototype.toTag = function (addHashSign) {
+String.prototype.toTag = function (addHashSign, toLower) {
     var result = this;
     while (result[0] === "#") {
         addHashSign = true;
@@ -92,8 +93,12 @@ String.prototype.toTag = function (addHashSign) {
             ch = "#" + ch;
         }
 
-        return ch.toLowerCase();
-    }).join('').replace(/_{2,}/g, "_");
+        if (toLower !== false) {
+            ch = ch.toLowerCase();
+        }
+
+        return ch;
+    }).join('').replace(" ", "_").replace(/_{2,}/g, "_");
 };
 
 /**

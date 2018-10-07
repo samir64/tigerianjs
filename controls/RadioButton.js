@@ -40,6 +40,8 @@ Tigerian.RadioButton = Tigerian.Control.extend({
 
 		elmRadioButton.setAttribute("element-name", "button");
 		elmRadioButton.setAttribute("element-type", "RadioButton");
+		elmRadioButton.setAttribute("element-situation", "");
+		elmRadioButton.setAttribute("element-hoverable", "true");
 
 		elmLabel.setAttribute("element-name", "label");
 		elmLabel.setAttribute("element-type", "RadioButton");

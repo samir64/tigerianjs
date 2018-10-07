@@ -70,6 +70,7 @@ Tigerian.BModal = Tigerian.Behavior.extend({
                 // this.addControl(elmCoverage);
                 elmCoverage.setAttribute("element-type", "Modal");
                 elmCoverage.setAttribute("element-name", "coverage");
+                elmCoverage.setAttribute("element-situation", "opposite");
 
 
                 // elmCoverage.setAttribute("element-type", "ModalForm");
