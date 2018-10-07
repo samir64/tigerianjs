@@ -31,12 +31,12 @@ Tigerian.BPagination = Tigerian.Behavior.extend({
                 var navButtons = Tigerian.BPagination.EAll;
 
                 var container = new Tigerian.Control(ctrlNavigation, theme);
-                var ctrlFirst = new Tigerian.Button(container, "««", theme);
-                var ctrlPrev = new Tigerian.Button(container, "«", theme);
+                var ctrlFirst = new Tigerian.Button(container, "❬ ❬", theme);
+                var ctrlPrev = new Tigerian.Button(container, "❰", theme);
                 // var ctrlPage = new Tigerian.Label(container, "0 / 0", theme);
                 var ctrlPageList = new Tigerian.Control(container, theme);
-                var ctrlNext = new Tigerian.Button(container, "»", theme);
-                var ctrlLast = new Tigerian.Button(container, "»»", theme);
+                var ctrlNext = new Tigerian.Button(container, "❱", theme);
+                var ctrlLast = new Tigerian.Button(container, "❭ ❭", theme);
 
                 container.setAttribute("element-type", "Pagination");
                 container.setAttribute("element-name", "container");

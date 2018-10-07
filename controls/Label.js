@@ -21,6 +21,7 @@ Tigerian.Label = Tigerian.Control.extend({
 
         this.super(parent, theme);
         this.config("text", elmLabel);
+        this.config("label");
 
 
         //NOTE Private Variables
@@ -34,8 +35,6 @@ Tigerian.Label = Tigerian.Control.extend({
         elmLabel.setAttribute("element-type", "Label");
         elmLabel.setAttribute("element-name", "text");
 
-        this.setAttribute("tag", "false");
-
         // if (Tigerian.Class.isInstance(text, "string")) {
         //     elmLabel.innerHTML = text;
         // }
@@ -48,40 +47,6 @@ Tigerian.Label = Tigerian.Control.extend({
 
 
         //NOTE Properties
-        /**
-         * @member {boolean}
-         */
-        Object.defineProperty(this, "tag", {
-            enumerable: true,
-            configurable: true,
-            get: function () {
-                return (this.getAttribute("tag") === "true");
-            },
-
-            set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
-                    this.setAttribute("tag", (v ? "true" : "false"));
-                }
-            }
-        });
-
-        /**
-         * @member {string}
-         */
-        // Object.defineProperty(this, "text", {
-        //     enumerable: true,
-        //     configurable: true,
-        //     get: function () {
-        //         return elmLabel.innerHTML;
-        //     },
-
-        //     set: function (value) {
-        //         if (Tigerian.Class.isInstance(value, "string")) {
-        //             elmLabel.innerHTML = value;
-        //         }
-        //     }
-        // });
-
         /**
          * @member {Tigerian.Control}
          */
@@ -105,5 +70,6 @@ Tigerian.Label = Tigerian.Control.extend({
         }, true);
 
         delete this.addControl;
-    }
-}, Tigerian.BText);
+    },
+    enums: []
+}, Tigerian.BText, Tigerian.BLabel);

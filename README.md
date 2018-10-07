@@ -46,6 +46,7 @@ Tigerian has 5 special properties
   - [X] BSelectGroup
   - [X] BSelect
   - [X] BText
+  - [X] BLabel
   - [X] BWindow
   - [X] BFixElement
   - [X] BCancel
@@ -58,6 +59,7 @@ Tigerian has 5 special properties
   - [ ] BMove
   - [ ] BResize
   - [ ] BContextMenu
+  - [ ] BReachText
 
 - Model\View
   - [X] Model
@@ -115,3 +117,6 @@ Tigerian has 5 special properties
   - [ ] TabView
   - [ ] MarqueeList
   - [ ] MarqueeItem
+  - [ ] TextArea
+  - [ ] ReachTextBox (Used BReachText)
+  - [ ] ReachTextViewer (Used BReachText)

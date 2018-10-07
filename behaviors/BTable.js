@@ -43,7 +43,12 @@ Tigerian.BTable = Tigerian.Behavior.extend({
                 var superRemoveItem = ctrlTableBody.removeItem.bind(this);
                 var ctrlTableBodyStyle = Object.getOwnPropertyDescriptor(ctrlTableBody, "style");
 
+                var columnsVisiblity = [];
                 var rowCount = 0;
+
+                for (var i = 0; i < colCount; i++) {
+                    columnsVisiblity.push(true);
+                }
 
                 var refreshView = function () {
                     if (ctrlTableBody.itemCount <= rowCount) {
@@ -54,32 +59,34 @@ Tigerian.BTable = Tigerian.Behavior.extend({
                         rowCount = ctrlTableBody.itemCount - 1;
                     }
 
-                    for (var i = 1;
-                        (instance.pageSize === Tigerian.BTable.EUnlimit) || (i < ctrlTableBody.itemCount); i++) {
-                        switch (instance.viewMode) {
-                            case Tigerian.BTable.EListView:
-                                for (var c = 0; c < colCount; c++) {
-                                    instance.getCell(i - 1, c).headText = "";
-                                    instance.getHeadCell(c).unbind("text", instance.getCell(i - 1, c), "headText");
-                                }
-                                break;
+                    for (var i = 0; i <= rowCount; i++) {
+                        for (var c = 0; c < colCount; c++) {
+                            if (i === 0) {
+                                instance.getHeadCell(c).visible = columnsVisiblity[c];
+                            } else {
+                                instance.getCell(i - 1, c).visible = columnsVisiblity[c];
+                                switch (instance.viewMode) {
+                                    case Tigerian.BTable.EListView:
+                                        instance.getCell(i - 1, c).headText = "";
+                                        instance.getHeadCell(c).unbind("text", instance.getCell(i - 1, c), "headText");
+                                        break;
 
-                            case Tigerian.BTable.EDetailsView:
-                                for (var c = 0; c < colCount; c++) {
-                                    if (instance.getHeadCell(c).text) {
-                                        instance.getCell(i - 1, c).headText = instance.getHeadCell(c).text + ": ";
-                                    }
-                                    instance.getHeadCell(c).bind("text", instance.getCell(i - 1, c), "headText", function (value) {
-                                        if ((value === "") || (value === undefined)) {
-                                            return "";
-                                        } else {
-                                            return "{}: ".format(value);
+                                    case Tigerian.BTable.EDetailsView:
+                                        if (instance.getHeadCell(c).text) {
+                                            instance.getCell(i - 1, c).headText = instance.getHeadCell(c).text + ": ";
                                         }
-                                    });
-                                }
-                                break;
+                                        instance.getHeadCell(c).bind("text", instance.getCell(i - 1, c), "headText", function (value) {
+                                            if ((value === "") || (value === undefined)) {
+                                                return "";
+                                            } else {
+                                                return "{}: ".format(value);
+                                            }
+                                        });
+                                        break;
 
-                            default:
+                                    default:
+                                }
+                            }
                         }
                     }
                 };
@@ -190,8 +197,9 @@ Tigerian.BTable = Tigerian.Behavior.extend({
                  * @param {boolean} visible 
                  */
                 this.columnVisible = function (col, visible) {
+                    columnsVisiblity[col] = visible;
                     this.getHeadCell(col).visible = visible;
-                    for (var i = 0; i < pageSize; i++) {
+                    for (var i = 0; i < rowCount; i++) {
                         this.getCell(i, col).visible = visible;
                     }
                 };

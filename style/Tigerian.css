@@ -703,68 +703,77 @@
     padding: 7px 25px;
 }
 
-[element-type="Button"][element-name="container"]:not([disabled])>[element-type="Button"][element-name="button"] {
+[element-type="Button"][element-name="container"]:not([disabled])>[element-type="Button"][element-name="text"] {
     background-color: #999;
     cursor: pointer;
     color: #ddd
 }
 
-[element-type="Button"][element-name="container"][disabled]>[element-type="Button"][element-name="button"] {
+[element-type="Button"][element-name="container"][disabled]>[element-type="Button"][element-name="text"] {
     background-color: #aaa;
     border-color: #888;
     cursor: default;
     color: #ccc
 }
 
-[element-type="Button"][element-name="container"][fit-content="false"][visible="true"]>[element-type="Button"][element-name="button"] {
+[element-type="Button"][element-name="container"][fit-content="false"][visible="true"]>[element-type="Button"][element-name="text"] {
     display: block;
 }
 
-[element-type="Button"][element-name="container"][fit-content="true"][float="left"]>[element-type="Button"][element-name="button"] {
+[element-type="Button"][element-name="container"][fit-content="true"][float="left"]>[element-type="Button"][element-name="text"] {
     float: left;
 }
 
-[element-type="Button"][element-name="container"][fit-content="true"][float="right"]>[element-type="Button"][element-name="button"] {
+[element-type="Button"][element-name="container"][fit-content="true"][float="right"]>[element-type="Button"][element-name="text"] {
     float: right;
 }
 
-[element-type="Button"][element-name="container"][fit-content="true"][float="center"]>[element-type="Button"][element-name="button"] {
+[element-type="Button"][element-name="container"][fit-content="true"][float="center"]>[element-type="Button"][element-name="text"] {
     float: none;
     margin: auto;
 }
 
-[element-type="Button"][element-name="container"]>[element-type="Button"][element-name="button"] {
+[element-type="Button"][element-name="container"]>[element-type="Button"][element-name="text"] {
     text-align: center;
 }
 
-[element-type="Button"][element-name="container"][default="true"]:not([disabled])>[element-type="Button"][element-name="button"] {
+[element-type="Button"][element-name="container"][default="true"]:not([disabled])>[element-type="Button"][element-name="text"] {
     background-color: #007bff;
 }
 
-[element-type="Button"][element-name="container"][default="true"]:not([disabled])>[element-type="Button"][element-name="button"]:hover {
+[element-type="Button"][element-name="container"][default="true"]:not([disabled])>[element-type="Button"][element-name="text"]:hover {
     background-color: #06e;
 }
 
-[element-type="Button"][element-name="container"][default="true"][disabled]>[element-type="Button"][element-name="button"] {
+[element-type="Button"][element-name="container"][default="true"][disabled]>[element-type="Button"][element-name="text"] {
     background-color: #0be
 }
 
-[element-type="Button"][element-name="container"]:not([disabled])>[element-type="Button"][element-name="button"]:hover {
+[element-type="Button"][element-name="container"]:not([disabled])>[element-type="Button"][element-name="text"]:hover {
     background-color: #888;
 }
 
-[element-type="Button"][element-name="container"]:not([disabled])>[element-type="Button"][element-name="button"]:focus {
+[element-type="Button"][element-name="container"]:not([disabled])>[element-type="Button"][element-name="text"]:focus {
     box-shadow: 0 0 2px 1px dodgerblue, 2px 2px 3px 1px rgba(50, 50, 50, 0.2);
 }
 
-[element-type="Label"][element-name="container"][tag="true"]>[element-type="Label"][element-name="text"],
-[element-type="Link"][element-name="container"][tag="true"]>[element-type="Link"][element-name="link"] {
-    border-top-left-radius: 15% 50%;
-    border-bottom-left-radius: 15% 50%;
-    border-top-right-radius: 15% 50%;
-    border-bottom-right-radius: 15% 50%;
+[element-type="Label"][element-name="container"][label-type="tag"]>[element-type="Label"][element-name="text"],
+[element-type="Link"][element-name="container"][label-type="tag"]>[element-type="Link"][element-name="link"] {
+    border-top-left-radius: 10% 50%;
+    border-bottom-left-radius: 10% 50%;
+    border-top-right-radius: 10% 50%;
+    border-bottom-right-radius: 10% 50%;
     padding: 7px;
     background-color: #bbb;
+    border-color: #aaa;
+}
+
+[element-type="Label"][element-name="container"][label-type="badge"]>[element-type="Label"][element-name="text"],
+[element-type="Link"][element-name="container"][label-type="badge"]>[element-type="Link"][element-name="link"] {
+    border-radius: 10px;
+    padding: 7px;
+    background-color: #bbb;
+    border-color: #aaa;
 }
 
 [element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
@@ -782,13 +791,13 @@
     color: #27c;
 }
 
-[element-type="Link"][element-name="container"][tag="true"]:not([disabled])>[element-type="Link"][element-name="link"]:hover {
+[element-type="Link"][element-name="container"]:not([label-type=""]):not([disabled])>[element-type="Link"][element-name="link"]:hover {
     text-decoration-style: solid;
     text-decoration-line: underline;
     text-decoration-color: #07c;
 }
 
-[element-type="Link"][element-name="container"][tag="false"]:not([disabled])>[element-type="Link"][element-name="link"]:hover {
+[element-type="Link"][element-name="container"][label-type="tag"]:not([disabled])>[element-type="Link"][element-name="link"]:hover {
     box-shadow: inset 0 -2px 0 #07c;
 }
 
@@ -1395,34 +1404,24 @@
     border: 1px solid #777;
 }
 
-[element-type="PaginatedTable"][element-name="container"]>[element-type="Header"][element-name="container"],
-[element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"] {
-    /* text-align: center; */
-}
-
-[element-type="PaginatedTable"][element-name="container"][visible="true"]>[element-type="Header"][element-name="container"]>[element-type="Label"][element-name="container"],
 [element-type="Table"][element-name="container"][visible="true"]>[element-type="Header"][element-name="container"]>[element-type="Label"][element-name="container"] {
     background-color: rgba(125, 125, 125, .75);
     /* display: table-caption; */
 }
 
-[element-type="PaginatedTable"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"],
 [element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
     text-align: center;
     font-weight: bolder;
 }
 
-[element-type="PaginatedTable"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"]>[element-type="TableCell"][element-name="text"],
 [element-type="Table"][element-name="container"]>[element-type="Header"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"]>[element-type="TableCell"][element-name="text"] {
     color: #999;
 }
 
-[element-type="PaginatedTable"][element-name="container"][visible="true"]>[element-type="Header"][element-name="container"][visible="true"],
 [element-type="Table"][element-name="container"][visible="true"]>[element-type="Header"][element-name="container"][visible="true"] {
     /* display: table; */
 }
 
-[element-type="PaginatedTable"][element-name="container"][visible="true"]>[element-type="TableBody"][element-name="container"][visible="true"],
 [element-type="Table"][element-name="container"][visible="true"]>[element-type="TableBody"][element-name="container"][visible="true"] {
     background-color: #eee;
     display: table;
@@ -1432,34 +1431,28 @@
     /* padding: 1px; */
 }
 
-[element-type="PaginatedTable"][element-name="container"][visible="true"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]:first-child,
 [element-type="Table"][element-name="container"][visible="true"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]:first-child {
     font-weight: bold;
     background-color: #ddd;
 }
 
-[element-type="PaginatedTable"][element-name="container"][visible="true"][view-mode="list"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"][visible="true"],
-[element-type="Table"][element-name="container"][visible="true"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"][visible="true"] {
+[element-type="Table"][element-name="container"][visible="true"][view-mode="list"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"][visible="true"] {
     margin: 0;
     display: table-row;
 }
 
-[element-type="PaginatedTable"][element-name="container"][visible="true"][view-mode="details"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]:first-child,
 [element-type="Table"][element-name="container"][visible="true"][view-mode="details"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]:first-child {
     display: none;
 }
 
-[element-type="PaginatedTable"][element-name="container"][visible="true"][view-mode="details"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"],
 [element-type="Table"][element-name="container"][visible="true"][view-mode="details"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"] {
     border-bottom: 1px solid #999;
 }
 
-[element-type="PaginatedTable"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]:hover,
 [element-type="Table"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]:hover {
     background-color: rgba(175, 175, 175, .25);
 }
 
-[element-type="PaginatedTable"][element-name="container"][visible="true"][view-mode="list"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"],
 [element-type="Table"][element-name="container"][visible="true"][view-mode="list"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"] {
     margin: 0;
     border: 1px solid #999;
@@ -1467,17 +1460,14 @@
     overflow-wrap: break-word;
 }
 
-[element-type="PaginatedTable"][element-name="container"][visible="true"][view-mode="details"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"],
 [element-type="Table"][element-name="container"][visible="true"][view-mode="details"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"] {
     font-weight: bold;
 }
 
-[element-type="PaginatedTable"][element-name="container"][visible="true"][view-mode="details"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"]>[element-type="TableCell"][element-name="text"],
 [element-type="Table"][element-name="container"][visible="true"][view-mode="details"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"]>[element-type="TableCell"][element-name="text"] {
     font-weight: normal;
 }
 
-[element-type="PaginatedTable"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][hover="true"],
 [element-type="Table"][element-name="container"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][hover="true"] {
     background-color: rgba(175, 175, 175, .25);
 }
@@ -1485,6 +1475,11 @@
 [element-type="Pagination"][element-name="container"][visible="true"] {
     display: table-row;
     table-layout: fixed;
+}
+
+[element-type="Pagination"][element-name="container"]>[element-type="Button"][element-name="container"]>[element-type="Button"][element-name="text"] {
+    word-spacing: -15px;
+    font-weight: bolder;
 }
 
 [element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"][visible="true"] {
@@ -1511,6 +1506,13 @@
 
 [element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"]>[element-type="Label"][element-name="container"][visible="true"][active="true"]>[element-type="Label"][element-name="text"] {
     color: #07b;
+    border-bottom: 2px solid transparent;
+}
+
+[element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"]>[element-type="Label"][element-name="container"][visible="true"][active="true"]:hover>[element-type="Label"][element-name="text"] {
+    color: #3af;
+    background-color: rgba(155, 155, 155, .15);
+    border-bottom: 2px solid #07b;
 }
 
 [element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"]>[element-type="Label"][element-name="container"][visible="true"]>[element-type="Label"][element-name="text"] {
