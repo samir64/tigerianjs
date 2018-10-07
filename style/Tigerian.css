@@ -797,7 +797,7 @@
     text-decoration-color: #07c;
 }
 
-[element-type="Link"][element-name="container"][label-type="tag"]:not([disabled])>[element-type="Link"][element-name="link"]:hover {
+[element-type="Link"][element-name="container"][label-type=""]:not([disabled])>[element-type="Link"][element-name="link"]:hover {
     box-shadow: inset 0 -2px 0 #07c;
 }
 
