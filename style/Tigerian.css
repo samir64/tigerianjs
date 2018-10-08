@@ -17,6 +17,12 @@
     display: inline-block;
 }
 
+[element-type][element-name][element-situation] {
+    transition-property: background-color, color, border-color;
+    transition-duration: 100ms;
+    transition-timing-function: ease-in-out;
+}
+
 [element-type][element-name][element-situation=""] {
     background-color: #f7f7f7;
     color: #555;
@@ -31,9 +37,9 @@
 
 [element-type][element-name][selected="true"],
 [element-type][element-name][element-situation="default"] {
-    background-color: #19d;
-    color: #555;
-    border-color: #039;
+    background-color: #007bff;
+    color: #ddd;
+    border-color: #05d;
 }
 
 [element-type][element-name][element-situation="opposite"] {
@@ -50,20 +56,25 @@
 
 [element-type][element-name][element-situation="danger"] {
     background-color: #c22;
-    color: #bbb;
+    color: #ddd;
     border-color: #900;
 }
 
 [element-type][element-name][element-situation="disable"] {
-    background-color: #ccc;
-    color: #999;
+    background-color: #ddd;
+    color: #bbb;
     border-color: #aaa;
 }
 
 [element-type][element-name][element-situation="ok"] {
     background-color: #0b7;
-    color: #555;
+    color: #ddd;
     border-color: #093;
+}
+
+[element-type][element-name][element-situation]::after,
+[element-type][element-name][element-situation]::before {
+    border-color: #555;
 }
 
 [element-type][element-name][element-situation=""][element-hoverable="true"]:hover {
@@ -75,8 +86,9 @@
     border-color: #999;
 }
 
+[element-type][element-name][selected="true"][element-hoverable="true"],
 [element-type][element-name][element-situation="default"][element-hoverable="true"]:hover {
-    background-color: #28b;
+    background-color: #0069d9;
 }
 
 [element-type][element-name][element-situation="opposite"][element-hoverable="true"]:hover {
@@ -142,6 +154,15 @@ a[element-type][element-name] {
     color: #27c;
 }
 
+[element-type][element-name][element-situation="disable"][element-hoverable="true"] {
+    cursor: default;
+}
+
+[element-type][element-name]:not([element-situation="disable"])[element-hoverable="true"] {
+    cursor: pointer;
+}
+
+
 [element-type][element-name][element-situation="disable"],
 [element-type][element-name][element-situation="disable"] * {
     /* color: silver; */
@@ -184,11 +205,11 @@ a[element-type][element-name] {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    -webkit-transition: box-shadow 50ms;
-    -moz-transition: box-shadow 50ms;
-    -ms-transition: box-shadow 50ms;
-    -o-transition: box-shadow 50ms;
-    transition: box-shadow 50ms;
+    -webkit-transition: box-shadow 150ms;
+    -moz-transition: box-shadow 150ms;
+    -ms-transition: box-shadow 150ms;
+    -o-transition: box-shadow 150ms;
+    transition: box-shadow 150ms;
     font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
@@ -262,7 +283,8 @@ a[element-type][element-name] {
     min-height: 150px;
     /* background-color: #ddd; */
     /* border: solid 1px gray; */
-    border: solid 1px;
+    border-style: solid;
+    border-width: 1px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
@@ -278,7 +300,8 @@ a[element-type][element-name] {
 [element-type="TextBox"][element-name="container"]>input {
     width: 100%;
     /* border: 1px solid #bbb; */
-    border: 1px solid;
+    border-width: 1px;
+    border-style: solid;
     border-radius: 3px;
     padding: 5px;
     font-size: 90%;
@@ -301,7 +324,7 @@ a[element-type][element-name] {
     box-shadow: inset 0 -3px 0 indianred;
 }
 
-[element-type="TextBox"][element-name="container"][validity="false"]:not([element-situation="disable"])>input {
+[element-type="TextBox"][element-name="container"][validity="false"]:not([element-situation="disable"])>input:not(focus) {
     box-shadow: 0 0 2px 1px red;
 }
 
@@ -311,20 +334,21 @@ a[element-type][element-name] {
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 4px;
-    border: 1px solid;
+    border-width: 1px;
+    border-style: solid;
     padding: 5px 25px;
 }
 
-[element-type="Button"][element-name="container"]:not([element-situation="disable"])>[element-type="Button"][element-name="text"] {
+[element-type="Button"][element-name="container"]:not([element-situation="disable"]) {
     /* background-color: #999; */
-    cursor: pointer;
+    /* cursor: pointer; */
     /* color: #ddd */
 }
 
-[element-type="Button"][element-name="container"][element-situation="disable"]>[element-type="Button"][element-name="text"] {
+[element-type="Button"][element-name="container"][element-situation="disable"] {
     /* background-color: #aaa; */
     /* border-color: #888; */
-    cursor: default;
+    /* cursor: default; */
     /* color: #ccc */
 }
 
@@ -376,7 +400,8 @@ a[element-type][element-name] {
     border-top-right-radius: 10% 50%;
     border-bottom-right-radius: 10% 50%;
     /* padding: 7px; */
-    border: 1px solid;
+    border-width: 1px;
+    border-style: solid;
     /* background-color: #bbb; */
     /* border-color: #aaa; */
 }
@@ -385,13 +410,17 @@ a[element-type][element-name] {
 [element-type="Link"][element-name="container"][label-type="badge"]>[element-type="Link"][element-name="text"] {
     border-radius: 10px;
     /* padding: 7px; */
-    border: 1px solid;
+    border-width: 1px;
+    border-style: solid;
     /* background-color: #bbb; */
     /* border-color: #aaa; */
 }
 
-[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
+[element-type="Label"][element-name="container"][element-hoverable="false"]>[element-type="Label"][element-name="text"] {
     cursor: default;
+}
+
+[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
     width: 100%;
 }
 
@@ -455,7 +484,8 @@ a[element-type][element-name] {
 
 [element-type="ListBox"][element-name="container"],
 [element-type="FilterList"][element-name="container"] {
-    border: solid 1px;
+    border-style: solid;
+    border-width: 1px;
     /* border: solid 1px #555; */
     /* background-color: rgba(200, 200, 200, .75); */
     border-radius: 3px;
@@ -548,7 +578,8 @@ a[element-type][element-name] {
     height: 18px;
     margin-right: 5px;
     vertical-align: middle;
-    border: 1px solid;
+    border-width: 1px;
+    border-style: solid;
 }
 
 [element-type="CheckBox"][element-name="container"][element-situation="disable"]>[element-type="CheckBox"][element-name="check"],
@@ -614,7 +645,8 @@ a[element-type][element-name] {
     /* width: 9px;
     height: 9px; */
     border-radius: 50%;
-    border: 7px solid;
+    border-width: 7px;
+    border-style: solid;
 }
 
 [element-type="CheckBox"][element-name="container"][element-situation="disable"]:not([selected="false"])>[element-type="CheckBox"][element-name="check"]::after {
@@ -689,7 +721,7 @@ a[element-type][element-name] {
     padding-top: 0;
     padding-bottom: 0;
     vertical-align: middle;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 [element-type="ComboBox"][element-name="container"]>[element-type="Label"][element-name="container"]::after,
@@ -754,7 +786,8 @@ a[element-type][element-name] {
 [element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="container"] {
     margin: 20px 10px 2px;
     border-radius: 5px;
-    border: 1px solid;
+    border-width: 1px;
+    border-style: solid;
     /* display: block; */
 }
 
@@ -786,7 +819,7 @@ a[element-type][element-name] {
 
 [element-type="Menu"][element-name="container"] {
     position: absolute;
-    box-shadow: 0 0 5px 1px rgba(50, 50, 50, .5);
+    box-shadow: 0 2px 5px 1px rgba(50, 50, 50, .5);
     /* background-color: #eee; */
     margin: 0;
     padding: 0;
@@ -820,7 +853,7 @@ a[element-type][element-name] {
 }
 
 [element-type="MenuItem"][element-name="container"][visible="true"] {
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 [element-type="MainMenu"][element-name="container"]>[element-type="MenuItem"][element-name="container"][visible="true"] {
@@ -866,6 +899,7 @@ a[element-type][element-name] {
     top: 0;
     width: 100%;
     height: 100%;
+    opacity: .85;
 }
 
 [element-type="Modal"][element-name="coverage"][status="show"]>[element-type][element-name="container"] {
@@ -874,7 +908,8 @@ a[element-type][element-name] {
 
 [element-type="Modal"][element-name="coverage"]>[element-type="ModalForm"][element-name="container"] {
     z-index: 1004;
-    border: 1px solid;
+    border-width: 1px;
+    border-style: solid;
     /* border: 1px solid #999; */
     border-radius: 3px;
     /* background-color: #ddd; */
@@ -929,7 +964,8 @@ a[element-type][element-name] {
 }
 
 [element-type="Notification"][element-name="container"] {
-    border: 1px solid;
+    border-width: 1px;
+    border-style: solid;
     /* border: 1px solid #999; */
     border-radius: 3px;
     padding-top: 7px;
@@ -1011,7 +1047,8 @@ a[element-type][element-name] {
 }
 
 [element-type="Table"][element-name="container"] {
-    border: 1px solid;
+    border-width: 1px;
+    border-style: solid;
     /* border: 1px solid #777; */
 }
 
@@ -1064,7 +1101,8 @@ a[element-type][element-name] {
 
 [element-type="Table"][element-name="container"][visible="true"][view-mode="list"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"] {
     margin: 0;
-    border: 1px solid;
+    border-width: 1px;
+    border-style: solid;
     /* border: 1px solid #999; */
     display: table-cell;
     overflow-wrap: break-word;
@@ -1107,11 +1145,11 @@ a[element-type][element-name] {
 
 [element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"]>[element-type="Label"][element-name="container"][visible="true"][active="true"],
 [element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"]>[element-type="Label"][element-name="container"][visible="true"][active="true"]>[element-type="Label"][element-name="text"] {
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 [element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"]>[element-type="Label"][element-name="container"][visible="true"][active="false"] {
-    cursor: default;
+    /* cursor: default; */
 }
 
 [element-type="Pagination"][element-name="container"]>[element-type="Pagination"][element-name="labels"]>[element-type="Label"][element-name="container"][visible="true"][active="true"]>[element-type="Label"][element-name="text"] {

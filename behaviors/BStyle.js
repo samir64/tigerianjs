@@ -55,7 +55,6 @@ Tigerian.BStyle = Tigerian.Behavior.extend({
                                 enumerable: true,
                                 configurable: true,
                                 get: function () {
-                                    console.log(styleAttr);
                                     return source[styleAttr];
                                 },
                                 set: function (v) {

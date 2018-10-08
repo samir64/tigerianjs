@@ -33,6 +33,7 @@ Tigerian.Application = Tigerian.UI.extend({
         this.setAttribute("element-name", "container");
 
         //NOTE Public Functions
+
         /**
          * @param {string} templateName
          */
@@ -79,3 +80,18 @@ Tigerian.Application = Tigerian.UI.extend({
         });
     }
 }, Tigerian.BWindow);
+
+/**
+ * @param {function} main
+ */
+Tigerian.Application.run = function (main) {
+    if (Tigerian.Class.isInstance(main, "function")) {
+        if (document.body) {
+            main();
+        } else {
+            window.addEventListener("load", function (e) {
+                main();
+            });
+        }
+    }
+};

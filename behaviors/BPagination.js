@@ -61,10 +61,14 @@ Tigerian.BPagination = Tigerian.Behavior.extend({
                     if (Tigerian.Class.isInstance(index, "number")) {
                         label.setAttribute("active", (pageNo !== index) ? "true" : "false");
 
+                        label.hoverable = true;
+
                         if (pageNo !== index) {
                             label.addEvent("click", function (e) {
                                 instance.pageNumber = index;
                             });
+                        } else {
+                            label.situation = Tigerian.Control.EDisable;
                         }
                     }
                 };
@@ -149,11 +153,8 @@ Tigerian.BPagination = Tigerian.Behavior.extend({
                             if (lastPageCount !== pageCount) {
                                 var lastPageNo = pageNo;
                                 this.dispatchEvent(Tigerian.Event.onPageCountChanged);
-                                this.pageNumber = pageNo;
-
-                                if (lastPageNo === pageNo) {
-                                    refresh();
-                                }
+                                pageNo = Math.max((pageCount === 0) ? 0 : 1, Math.min(pageNo, pageCount));
+                                refresh();
                             }
                         }
                     },

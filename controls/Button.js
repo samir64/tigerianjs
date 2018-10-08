@@ -32,7 +32,6 @@ Tigerian.Button = Tigerian.Control.extend({
         elmButton.setAttribute("element-name", "text");
 
         this.setAttribute("fit-content", "false");
-        this.setAttribute("default", "false");
 
 
         if (Tigerian.Class.isInstance(text, "string")) {
@@ -58,23 +57,6 @@ Tigerian.Button = Tigerian.Control.extend({
             set: function (value) {
                 if (Tigerian.Class.isInstance(value, "string")) {
                     elmButton.innerHTML = value;
-                }
-            }
-        });
-
-        /**
-         * @member {boolean}
-         */
-        Object.defineProperty(this, "default", {
-            enumerable: true,
-            configurable: true,
-            get: function () {
-                return (this.getAttribute("default") === "true");
-            },
-
-            set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
-                    this.setAttribute("default", (v ? "true" : "false"));
                 }
             }
         });

@@ -177,7 +177,7 @@ Tigerian.Route = Tigerian.Class.extend({
             enumerable: true,
             configurable: true,
             get: function () {
-                return viewPageNoteFound;
+                return viewPageNotFound;
             },
             set: function (v) {
                 if (Tigerian.Class.isInstance(v, Tigerian.View) || (v === undefined)) {
