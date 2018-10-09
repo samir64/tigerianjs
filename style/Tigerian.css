@@ -955,7 +955,7 @@ a[element-type][element-name] {
 [element-type][element-name="container"]>[element-type="Button"][element-name="cancel"]:after {
     position: absolute;
     content: '';
-    /* background-color: #333; */
+    background-color: #333;
     height: 100%;
     width: 2px;
 }
