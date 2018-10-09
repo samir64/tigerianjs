@@ -90,9 +90,12 @@ Tigerian.ComboBox = Tigerian.Control.extend({
         };
 
         var onSelectedIndexChange = function (e) {
-            ctrlLabel.text = ctrlList.getItem(ctrlList.selectedIndex).text;
-            instance.text = ctrlList.getItem(ctrlList.selectedIndex).text;
-
+            if (ctrlList.selectedIndex >= 0) {
+                ctrlLabel.text = ctrlList.getItem(ctrlList.selectedIndex).text;
+                instance.text = ctrlList.getItem(ctrlList.selectedIndex).text;
+            } else {
+                ctrlLabel.text = instance.text = "";
+            }
             ctrlList.visible = false;
         };
 
