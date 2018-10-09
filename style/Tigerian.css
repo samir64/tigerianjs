@@ -38,7 +38,7 @@
 [element-type][element-name][selected="true"],
 [element-type][element-name][element-situation="default"] {
     background-color: #007bff;
-    color: #ddd;
+    color: #eee;
     border-color: #05d;
 }
 
@@ -56,7 +56,7 @@
 
 [element-type][element-name][element-situation="danger"] {
     background-color: #c22;
-    color: #ddd;
+    color: #eee;
     border-color: #900;
 }
 
@@ -68,7 +68,7 @@
 
 [element-type][element-name][element-situation="ok"] {
     background-color: #0b7;
-    color: #ddd;
+    color: #eee;
     border-color: #093;
 }
 
@@ -546,12 +546,21 @@ a[element-type][element-name] {
     font-size: 80%;
 }
 
+[element-type="Field"][element-name="container"]>[element-type="Label"][element-name="container"] {
+    left: 0;
+}
+
 [element-type="Field"][element-name="container"][focused="true"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
+    color: #007bff;
     /* color: #5ad; */
 }
 
+[element-type="Field"][element-name="container"][focused="false"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
+    color: #aaa;
+}
+
 [element-type="Field"][element-name="container"][text=""][focused="false"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
-    /* color: #aaa; */
+    color: #aaa;
     left: 10px;
     top: 6px;
     font-size: 110%;
@@ -894,7 +903,7 @@ a[element-type][element-name] {
 
 [element-type="Modal"][element-name="coverage"] {
     position: absolute;
-    z-index: 9998;
+    z-index: 9000;
     left: 0;
     top: 0;
     width: 100%;

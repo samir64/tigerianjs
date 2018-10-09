@@ -20,14 +20,15 @@ Tigerian.Field = Tigerian.Control.extend({
     init: function (parent, label, text, theme) {
         this.super(parent, theme);
 
-        var ctrlLabel = new Tigerian.Label(this, label, theme);
         var ctrlText = new Tigerian.TextBox(this, text, theme);
+        var ctrlLabel = new Tigerian.Label(this, label, theme);
 
         var superEnabled = Object.getOwnPropertyDescriptor(this, "enabled");
 
         this.config("text", ctrlText);
 
         ctrlLabel.source = ctrlText;
+        ctrlLabel.situation = Tigerian.Control.ETransparent;
 
         //NOTE Attributes
         this.setAttribute("element-type", "Field");
