@@ -21,24 +21,6 @@ Tigerian.MainMenu = Tigerian.Control.extend({
         this.setAttribute("element-type", "MainMenu");
         this.setAttribute("element-name", "container");
 
-        this.setAttribute("absolute", ((this.absolutePosition === true) ? "true" : "false"));
-
-        /**
-         * @member {boolean}
-         */
-        Object.defineProperty(this, "absolutePosition", {
-            enumerable: true,
-            configurable: true,
-            get: function () {
-                return (this.getAttribute("absolute") === "true");
-            },
-            set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
-                    this.setAttribute("absolute", (v ? "true" : "false"));
-                }
-            },
-        });
-
         /**
          * @param {Tigeriam.MenuItem} item
          */
