@@ -85,6 +85,7 @@ String.prototype.toTag = function (addHashSign, toLower) {
         addHashSign = true;
         result = result.substring(1);
     }
+    result = result.replace(/[^\w]/g, "_");
     return Array.from(result).map(function (ch, index, str) {
         if ((ch >= "A") && (ch <= "Z") && (index > 0)) {
             ch = "_" + ch;
@@ -98,7 +99,7 @@ String.prototype.toTag = function (addHashSign, toLower) {
         }
 
         return ch;
-    }).join('').replace(" ", "_").replace(/_{2,}/g, "_");
+    }).join('').replace(/_{2,}/g, "_");
 };
 
 /**
