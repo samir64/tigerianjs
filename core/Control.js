@@ -764,10 +764,43 @@ Tigerian.Control = Tigerian.UI.extend({
             enumerable: true,
             configurable: true,
             get: function () {
-                return this.getAttribute("element-situation");
+                var v = this.getAttribute("element-situation");
+
+                switch (v) {
+                    case "title":
+                        return Tigerian.Control.ETitle;
+
+                    case "default":
+                        return Tigerian.Control.EDefault;
+
+                    case "transparent":
+                        return Tigerian.Control.ETransparent;
+
+                    case "opposite":
+                        return Tigerian.Control.EOpposite;
+
+                    case "warning":
+                        return Tigerian.Control.EWarning;
+
+                    case "danger":
+                        return Tigerian.Control.EDanger;
+
+                    case "disable":
+                        return Tigerian.Control.EDisable;
+
+                    case "ok":
+                        return Tigerian.Control.EOk;
+
+                    default:
+                        return Tigerian.Control.ENone;
+                }
             },
             set: function (v) {
                 switch (v) {
+                    case Tigerian.Control.ETitle:
+                        this.setAttribute("element-situation", "title");
+                        break;
+
                     case Tigerian.Control.EDefault:
                         this.setAttribute("element-situation", "default");
                         break;
@@ -824,5 +857,5 @@ Tigerian.Control = Tigerian.UI.extend({
             return "[Tigerian.Control (Or one of its sub classes) Instance]";
         };
     },
-    enums: ["left", "right", "center", "none", "default", "transparent", "opposite", "warning", "danger", "disable", "ok"],
+    enums: ["left", "right", "center", "none", "default", "title", "transparent", "opposite", "warning", "danger", "disable", "ok"],
 });

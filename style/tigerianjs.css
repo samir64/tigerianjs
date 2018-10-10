@@ -24,7 +24,13 @@
 }
 
 [element-type][element-name][element-situation=""] {
-    background-color: #f7f7f7bb;
+    background-color: #f7f7f7cc;
+    color: #555;
+    border-color: #999b;
+}
+
+[element-type][element-name][element-situation="title"] {
+    background-color: #dddc;
     color: #555;
     border-color: #999b;
 }
@@ -32,53 +38,57 @@
 [element-type][element-name][element-situation="transparent"] {
     background-color: transparent;
     color: #555;
-    border-color: #777b;
+    border-color: #777c;
 }
 
 [element-type][element-name][selected="true"],
 [element-type][element-name][element-situation="default"] {
-    background-color: #007bffbb;
+    background-color: #007bffcc;
     color: #eee;
-    border-color: #05db;
+    border-color: #05dc;
 }
 
 [element-type][element-name][element-situation="opposite"] {
-    background-color: #555b;
+    background-color: #333c;
     color: #eee;
-    border-color: #777b;
+    border-color: #777c;
 }
 
 [element-type][element-name][element-situation="warning"] {
-    background-color: #ec3b;
+    background-color: #ec3c;
     color: #555;
-    border-color: #b90b;
+    border-color: #b90c;
 }
 
 [element-type][element-name][element-situation="danger"] {
-    background-color: #c22b;
+    background-color: #c22c;
     color: #eee;
-    border-color: #900b;
+    border-color: #900c;
 }
 
 [element-type][element-name][element-situation="disable"] {
-    background-color: #ddd;
+    background-color: #dddc;
     color: #bbb;
-    border-color: #aaab;
+    border-color: #aaac;
 }
 
 [element-type][element-name][element-situation="ok"] {
-    background-color: #0b7b;
+    background-color: #0b7c;
     color: #eee;
-    border-color: #093b;
+    border-color: #093c;
 }
 
 [element-type][element-name][element-situation]::after,
 [element-type][element-name][element-situation]::before {
-    border-color: #555b;
+    border-color: #444c;
 }
 
 [element-type][element-name][element-situation=""][element-hoverable="true"]:hover {
     background-color: #ddd;
+}
+
+[element-type][element-name][element-situation="title"][element-hoverable="true"]:hover {
+    background-color: #bbb;
 }
 
 [element-type][element-name][element-situation="transparent"][element-hoverable="true"]:hover {
@@ -92,7 +102,7 @@
 }
 
 [element-type][element-name][element-situation="opposite"][element-hoverable="true"]:hover {
-    background-color: #aaa;
+    background-color: #999;
 }
 
 [element-type][element-name][element-situation="warning"][element-hoverable="true"]:hover {
