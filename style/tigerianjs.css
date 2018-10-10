@@ -24,57 +24,57 @@
 }
 
 [element-type][element-name][element-situation=""] {
-    background-color: #f7f7f7;
+    background-color: #f7f7f7bb;
     color: #555;
-    border-color: #999;
+    border-color: #999b;
 }
 
 [element-type][element-name][element-situation="transparent"] {
     background-color: transparent;
     color: #555;
-    border-color: #777;
+    border-color: #777b;
 }
 
 [element-type][element-name][selected="true"],
 [element-type][element-name][element-situation="default"] {
-    background-color: #007bff;
+    background-color: #007bffbb;
     color: #eee;
-    border-color: #05d;
+    border-color: #05db;
 }
 
 [element-type][element-name][element-situation="opposite"] {
-    background-color: #555;
+    background-color: #555b;
     color: #eee;
-    border-color: #777;
+    border-color: #777b;
 }
 
 [element-type][element-name][element-situation="warning"] {
-    background-color: #ec3;
+    background-color: #ec3b;
     color: #555;
-    border-color: #b90;
+    border-color: #b90b;
 }
 
 [element-type][element-name][element-situation="danger"] {
-    background-color: #c22;
+    background-color: #c22b;
     color: #eee;
-    border-color: #900;
+    border-color: #900b;
 }
 
 [element-type][element-name][element-situation="disable"] {
     background-color: #ddd;
     color: #bbb;
-    border-color: #aaa;
+    border-color: #aaab;
 }
 
 [element-type][element-name][element-situation="ok"] {
-    background-color: #0b7;
+    background-color: #0b7b;
     color: #eee;
-    border-color: #093;
+    border-color: #093b;
 }
 
 [element-type][element-name][element-situation]::after,
 [element-type][element-name][element-situation]::before {
-    border-color: #555;
+    border-color: #555b;
 }
 
 [element-type][element-name][element-situation=""][element-hoverable="true"]:hover {
@@ -92,7 +92,7 @@
 }
 
 [element-type][element-name][element-situation="opposite"][element-hoverable="true"]:hover {
-    background-color: #777;
+    background-color: #aaa;
 }
 
 [element-type][element-name][element-situation="warning"][element-hoverable="true"]:hover {
