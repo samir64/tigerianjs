@@ -34,7 +34,7 @@ Tigerian.BTable = Tigerian.Behavior.extend({
 
                 var ctrlHeadRow = new Tigerian.TableRow(ctrlTableBody, colCount, this.theme);
 
-                this.setAttribute("view-mode", "list");
+                this.setAttribute("view-mode", "grid");
 
                 var instance = this;
                 var superAddItem = ctrlTableBody.addItem.bind(this);
@@ -169,13 +169,23 @@ Tigerian.BTable = Tigerian.Behavior.extend({
                     enumerable: true,
                     configurable: true,
                     get: function () {
-                        return ((this.getAttribute("view-mode") === "list") ? Tigerian.BTable.EListView : ((this.getAttribute("view-mode") === "details") ? Tigerian.BTable.EDetailsView : undefined));
+                        var v = this.getAttribute("view-mode");
+                        switch (v) {
+                            case "grid":
+                                return Tigerian.BTable.EGridView;
+
+                            case "details":
+                                return Tigerian.BTable.EDetailsView;
+
+                            default:
+                                return undefined;
+                        }
                     },
                     set: function (v) {
                         var lastViewMode = this.viewMode;
                         switch (v) {
-                            case Tigerian.BTable.EListView:
-                                this.setAttribute("view-mode", "list");
+                            case Tigerian.BTable.EGridView:
+                                this.setAttribute("view-mode", "grid");
                                 break;
 
                             case Tigerian.BTable.EDetailsView:
@@ -247,5 +257,5 @@ Tigerian.BTable = Tigerian.Behavior.extend({
             }
         }
     },
-    enums: ["unlimit", "listView", "detailsView"],
+    enums: ["unlimit", "gridView", "detailsView"],
 });
