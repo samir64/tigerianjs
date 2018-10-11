@@ -1,6 +1,6 @@
 # Tigerian.js Framework v1.0.0 alpha
 
-## Introduction and History
+## Introduction and Story
 
 > This framework's main structure, designed in 2015. Back then, it contained only UI controls. Main structure just deployed on element attributes that proccessed by HTML/CSS/JS.
 >
