@@ -38,6 +38,7 @@ Tigerian has 5 special properties
   - [X] Application
   - [X] ModelView
   - [ ] KeyboardShortcut
+  - [ ] Dictionary
 
 - Behaviors
   - [X] BBind

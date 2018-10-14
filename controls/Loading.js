@@ -30,6 +30,9 @@ Tigerian.Loading = Tigerian.Control.extend({
         this.status = Tigerian.BModal.EClose;
         this.fixed = true;
 
+        /**
+         * @member {number}
+         */
         Object.defineProperty(this, "loaded", {
             enumerable: true,
             configurable: true,
@@ -49,11 +52,22 @@ Tigerian.Loading = Tigerian.Control.extend({
             }
         });
 
+        /**
+         * @member {symbol}
+         */
         Object.defineProperty(this, "state", {
             enumerable: true,
             configurable: true,
             get: function () {
-                return ((elmBar.getAttribute("state") === "determinate") ? Tigerian.Loading.EDeterminate : Tigerian.Loading.EIndeterminate);
+                var v = elmBar.getAttribute("state");
+                switch (v) {
+                    case "determinate":
+                        return Tigerian.Loading.EDeterminate;
+
+                    case "indeterminate":
+                    default:
+                        return Tigerian.Loading.EIndeterminate;
+                }
             },
             set: function (v) {
                 switch (v) {
@@ -68,6 +82,86 @@ Tigerian.Loading = Tigerian.Control.extend({
                         break;
 
                     default:
+                }
+            }
+        });
+
+        /**
+         * @member {symbol}
+         */
+        Object.defineProperty(this, "barSituation", {
+            enumerable: true,
+            configurable: true,
+            get: function () {
+                var v = elmBar.getAttribute("element-situation");
+
+                switch (v) {
+                    case "title":
+                        return Tigerian.Control.ETitle;
+
+                    case "default":
+                        return Tigerian.Control.EDefault;
+
+                    case "transparent":
+                        return Tigerian.Control.ETransparent;
+
+                    case "opposite":
+                        return Tigerian.Control.EOpposite;
+
+                    case "warning":
+                        return Tigerian.Control.EWarning;
+
+                    case "danger":
+                        return Tigerian.Control.EDanger;
+
+                    case "disable":
+                        return Tigerian.Control.EDisable;
+
+                    case "ok":
+                        return Tigerian.Control.EOk;
+
+                    default:
+                        return Tigerian.Control.ENone;
+                }
+            },
+            set: function (v) {
+                switch (v) {
+                    case Tigerian.Control.ETitle:
+                        elmBar.setAttribute("element-situation", "title");
+                        break;
+
+                    case Tigerian.Control.EDefault:
+                        elmBar.setAttribute("element-situation", "default");
+                        break;
+
+                    case Tigerian.Control.ETransparent:
+                        elmBar.setAttribute("element-situation", "transparent");
+                        break;
+
+                    case Tigerian.Control.EOpposite:
+                        elmBar.setAttribute("element-situation", "opposite");
+                        break;
+
+                    case Tigerian.Control.EWarning:
+                        elmBar.setAttribute("element-situation", "warning");
+                        break;
+
+                    case Tigerian.Control.EDanger:
+                        elmBar.setAttribute("element-situation", "danger");
+                        break;
+
+                    case Tigerian.Control.EDisable:
+                        elmBar.setAttribute("element-situation", "disable");
+                        break;
+
+                    case Tigerian.Control.EOk:
+                        elmBar.setAttribute("element-situation", "ok");
+                        break;
+
+                    case Tigerian.Control.ENone:
+                    default:
+                        elmBar.setAttribute("element-situation", "");
+                        break;
                 }
             }
         });
