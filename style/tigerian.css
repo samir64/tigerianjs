@@ -995,7 +995,10 @@ a[element-type][element-name] {
     /* color: #333; */
 }
 
-[element-type="CollapseList"][element-name="container"] {}
+[element-type="CollapseList"][element-name="container"] {
+    width: auto;
+    display: block;
+}
 
 [element-type="CollapseList"][element-name="container"]>[element-type="CollapseItem"][element-name="container"]>[element-type="CollapseItem"][element-name="text"] {
     cursor: pointer;
