@@ -14,6 +14,7 @@ Tigerian.Ajax = Tigerian.Class.extend({
         var success = function (responseText, responseXml, responseJson) {};
         var unsuccess = function (readyState, status, statusText) {};
         var progress = function (percent, loaded, total) {};
+        var async = true;
 
         if (window.XMLHttpRequest) {
             // code for modern browsers
@@ -59,7 +60,7 @@ Tigerian.Ajax = Tigerian.Class.extend({
 
         function request(method, params) {
             var connector = (url.indexOf("?") > 0) ? "&" : "?";
-            httpRequest.open(method, url + ((method == "GET") ? connector + jsonToQuery(params) : ""), true);
+            httpRequest.open(method, url + ((method == "GET") ? connector + jsonToQuery(params) : ""), async);
             // httpRequest.open(method, url, true);
             // httpRequest.setRequestHeader("Content-Type", "application/json; charset=utf-8");
 
@@ -89,6 +90,22 @@ Tigerian.Ajax = Tigerian.Class.extend({
         this.delete = function (parameters) {
             request("DELETE", parameters);
         };
+
+        /**
+         * @member {boolean}
+         */
+        Object.defineProperty(this, "async", {
+            enumerable: false,
+            configurable: true,
+            get: function () {
+                return async;
+            },
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "boolean")) {
+                    async = v;
+                }
+            },
+        });
 
         /**
          * @member {Function}
