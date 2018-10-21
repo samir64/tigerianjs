@@ -18,6 +18,7 @@ Tigerian.BFixElement = Tigerian.Behavior.extend({
         Object.defineProperty(this, "fixed", {
             enumerable: true,
             configurable: true,
+            writable: true,
             value: false,
         });
     },
