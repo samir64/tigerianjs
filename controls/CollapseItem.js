@@ -78,7 +78,7 @@ Tigerian.CollapseItem = Tigerian.Control.extend({
         });
 
         elmText.addEventListener("touchend", function (e) {
-            if (canChangeChildState && touchStarted) {
+            if (canChangeChildState && touchStarted && (document.elementFromPoint(e.changedTouches[0].pageX, e.changedTouches[0].pageY) === e.changedTouches[0].target)) {
                 instance.viewChild();
                 canChangeChildState = false;
                 touchStarted = true;

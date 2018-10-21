@@ -172,5 +172,5 @@ Tigerian.BWindow = Tigerian.Behavior.extend({
             }
         });
     },
-    enums: ["small", "medium", "normal", "large", "xLarge"],
+    enums: ["none", "small", "medium", "normal", "large", "xLarge"],
 });

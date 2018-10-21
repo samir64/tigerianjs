@@ -137,6 +137,10 @@ Tigerian.Control = Tigerian.UI.extend({
             get: function () {
                 var v = this.getAttribute("small-column");
                 switch (v) {
+                    case "":
+                        return Tigerian.BWindow.ENone;
+                        break;
+
                     case "medium":
                         return Tigerian.BWindow.EMedium;
                         break;
@@ -163,6 +167,10 @@ Tigerian.Control = Tigerian.UI.extend({
              */
             set: function (v) {
                 switch (v) {
+                    case Tigerian.BWindow.ENone:
+                        this.setAttribute("small-column", "");
+                        break;
+
                     case Tigerian.BWindow.EMedium:
                         this.setAttribute("small-column", "medium");
                         break;
@@ -199,6 +207,10 @@ Tigerian.Control = Tigerian.UI.extend({
             get: function () {
                 var v = this.getAttribute("medium-column");
                 switch (v) {
+                    case "":
+                        return Tigerian.BWindow.ENone;
+                        break;
+
                     case "small":
                         return Tigerian.BWindow.ESmall;
                         break;
@@ -225,6 +237,10 @@ Tigerian.Control = Tigerian.UI.extend({
              */
             set: function (v) {
                 switch (v) {
+                    case Tigerian.BWindow.ENone:
+                        this.setAttribute("medium-column", "");
+                        break;
+
                     case Tigerian.BWindow.ESmall:
                         this.setAttribute("medium-column", "small");
                         break;
@@ -261,6 +277,10 @@ Tigerian.Control = Tigerian.UI.extend({
             get: function () {
                 var v = this.getAttribute("normal-column");
                 switch (v) {
+                    case "":
+                        return Tigerian.BWindow.ENone;
+                        break;
+
                     case "small":
                         return Tigerian.BWindow.ESmall;
                         break;
@@ -287,6 +307,10 @@ Tigerian.Control = Tigerian.UI.extend({
              */
             set: function (v) {
                 switch (v) {
+                    case Tigerian.BWindow.ENone:
+                        this.setAttribute("normal-column", "");
+                        break;
+
                     case Tigerian.BWindow.ESmall:
                         this.setAttribute("normal-column", "small");
                         break;
@@ -323,6 +347,10 @@ Tigerian.Control = Tigerian.UI.extend({
             get: function () {
                 var v = this.getAttribute("large-column");
                 switch (v) {
+                    case "":
+                        return Tigerian.BWindow.ENone;
+                        break;
+
                     case "small":
                         return Tigerian.BWindow.ESmall;
                         break;
@@ -349,6 +377,10 @@ Tigerian.Control = Tigerian.UI.extend({
              */
             set: function (v) {
                 switch (v) {
+                    case Tigerian.BWindow.ENone:
+                        this.setAttribute("large-column", "");
+                        break;
+
                     case Tigerian.BWindow.ESmall:
                         this.setAttribute("large-column", "small");
                         break;
@@ -385,6 +417,10 @@ Tigerian.Control = Tigerian.UI.extend({
             get: function () {
                 var v = this.getAttribute("xlarge-column");
                 switch (v) {
+                    case "":
+                        return Tigerian.BWindow.ENone;
+                        break;
+
                     case "small":
                         return Tigerian.BWindow.ESmall;
                         break;
@@ -411,6 +447,10 @@ Tigerian.Control = Tigerian.UI.extend({
              */
             set: function (v) {
                 switch (v) {
+                    case Tigerian.BWindow.ENone:
+                        this.setAttribute("xlarge-column", "");
+                        break;
+
                     case Tigerian.BWindow.ESmall:
                         this.setAttribute("xlarge-column", "small");
                         break;
@@ -611,6 +651,9 @@ Tigerian.Control = Tigerian.UI.extend({
                     case "center":
                         return Tigerian.Control.ECenter;
                         break;
+                    case "justify":
+                        return Tigerian.Control.EJustify;
+                        break;
                     default:
                         return Tigerian.Control.ENone;
                         break;
@@ -629,6 +672,9 @@ Tigerian.Control = Tigerian.UI.extend({
                         break;
                     case Tigerian.Control.ECenter:
                         this.setAttribute("align", "center");
+                        break;
+                    case Tigerian.Control.EJustify:
+                        this.setAttribute("align", "justify");
                         break;
                     default:
                         this.setAttribute("align", "");
@@ -857,5 +903,5 @@ Tigerian.Control = Tigerian.UI.extend({
             return "[Tigerian.Control (Or one of its sub classes) Instance]";
         };
     },
-    enums: ["left", "right", "center", "none", "default", "title", "transparent", "opposite", "warning", "danger", "disable", "ok"],
+    enums: ["left", "right", "center", "justify", "none", "default", "title", "transparent", "opposite", "warning", "danger", "disable", "ok"],
 });

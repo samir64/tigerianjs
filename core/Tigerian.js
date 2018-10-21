@@ -4,6 +4,7 @@
  * @global
  */
 var Tigerian = {};
+var globalEval = window.eval;
 
 (function () {
     var scripts_styles = {};
@@ -82,6 +83,8 @@ var Tigerian = {};
                     scripts_styles[styleElements[i].href.trim()] = styleElements[i];
                 }
             }
+
+            checkedElements = true;
         }
 
         if ((typeof file === "string") && (file !== "")) {
@@ -92,26 +95,35 @@ var Tigerian = {};
             file = file.replace(/^\.\//g, "");
 
             var ext = file.split(".").pop();
+            var scriptContext = "";
             var fileTag;
-            switch (ext) {
-                case "js":
-                    fileTag = document.createElement("script");
-                    fileTag.src = file;
-                    fileTag.type = "text/javascript";
-                    break;
-
-                case "css":
-                    fileTag = document.createElement("link");
-                    fileTag.rel = "stylesheet";
-                    fileTag.href = file;
-                    break;
-
-                default:
-            }
-
             if ((scripts_styles[file] === undefined) && (scripts_styles[window.location.origin + window.location.pathname + file] === undefined)) {
+                switch (ext) {
+                    case "js":
+                        // fileTag = document.createElement("script");
+                        // fileTag.src = file;
+                        // fileTag.setAttribute("defer", "");
+                        // fileTag.setAttribute("async", "");
+                        // fileTag.type = "text/javascript";
+                        var ajax = new Tigerian.Ajax(file);
+                        ajax.async = false;
+                        ajax.success = function (text) {
+                            eval(text.replace(/var\s+([\w\.]+)\s*=\s*([\w\.]+)\.extend/, "window.$1 = $2.extend"));
+                        };
+                        ajax.get();
+                        break;
+
+                    case "css":
+                        fileTag = document.createElement("link");
+                        fileTag.rel = "stylesheet";
+                        fileTag.href = file;
+                        document.head.appendChild(fileTag, document.head.firstChild);
+                        break;
+
+                    default:
+                }
+
                 scripts_styles[file] = fileTag;
-                document.head.appendChild(fileTag);
             }
         }
     };

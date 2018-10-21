@@ -20,6 +20,8 @@ Tigerian.CollapseList = Tigerian.Control.extend({
         this.setAttribute("element-type", "CollapseList");
         this.setAttribute("element-name", "container");
 
+        this.normalColumn = Tigerian.BWindow.ENone;
+
         this.addControl = this.addItem = function (item) {
             if (Tigerian.Class.isInstance(item, Tigerian.CollapseItem)) {
                 superAddItem(item);

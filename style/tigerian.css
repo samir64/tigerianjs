@@ -254,6 +254,11 @@ a[element-type][element-name] {
     text-align: center;
 }
 
+[element-name="container"][align="justify"],
+[element-name="container"] [align="justify"] {
+    text-align: justify;
+}
+
 [element-name="container"][float="left"],
 [element-name="container"] [float="left"] {
     float: left;
@@ -287,6 +292,7 @@ a[element-type][element-name] {
     /* transform: translateX(-50%); */
     margin-left: auto;
     margin-right: auto;
+    display: block;
 }
 
 /* NOTE Control Container*/
