@@ -54,7 +54,8 @@ String.prototype.padNumbers = function (before, after) {
             }
 
             if (before > left.length) {
-                result = "0".repeat(before - left.length) + result;
+                result = result.padStart(result.length + before - left.length, "0");
+                // result = "0".repeat(before - left.length) + result;
             }
         }
 
@@ -66,7 +67,8 @@ String.prototype.padNumbers = function (before, after) {
             }
 
             if (after > right.length) {
-                result = result + "0".repeat(after - right.length);
+                result = result.padEnd(result.length + after - right.length, "0");
+                // result = result + "0".repeat(after - right.length);
             }
         }
 
