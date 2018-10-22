@@ -139,7 +139,8 @@ Tigerian.Route = Tigerian.Class.extend({
                 } else {
                     routes[lastRoute].hide();
                 }
-                routes[route].refresh(params);
+                var pureRoute = route.substring((route.startsWith("/") ? 1 : 0), (route.endsWith("/") ? route.length - 1 : undefined));
+                routes[route].refresh(params, pureRoute, pureRoute.split("/"));
                 routes[route].show();
 
                 lastRoute = route;
