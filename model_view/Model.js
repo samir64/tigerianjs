@@ -248,10 +248,11 @@ Tigerian.Model = Tigerian.ModelView.extend({
         /**
          * @param {string} name
          * @param {string|function} type
+         * @param {boolean} collection
          */
-        this.addField = function (name, type) {
+        this.addField = function (name, type, collection) {
             if (!(name in fields)) {
-                fields[name] = new Tigerian.ModelField(name, type, undefined);
+                fields[name] = new Tigerian.ModelField(name, type, collection, undefined);
 
                 Object.defineProperty(this, name, {
                     enumerable: false,
