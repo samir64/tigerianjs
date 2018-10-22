@@ -64,6 +64,9 @@ Tigerian.Ajax = Tigerian.Class.extend({
             // httpRequest.open(method, url, true);
             // httpRequest.setRequestHeader("Content-Type", "application/json; charset=utf-8");
 
+            if ((httpRequest.status !== 0) && (httpRequest.status !== 200)) {
+                httpRequest.abort();
+            }
             httpRequest.send(JSON.stringify(params));
         }
 
