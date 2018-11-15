@@ -113,6 +113,7 @@ Tigerian has 5 special properties
   - [ ] TreeList
   - [ ] TreeItem
   - [ ] Calendar
+  - [ ] Image
   - [ ] SlideShow
   - [ ] PhotoGalery
   - [ ] TabView

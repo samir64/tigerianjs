@@ -17,6 +17,22 @@
     display: inline-block;
 }
 
+[element-type][element-name] ul,
+[element-type][element-name] ol {
+    display: block;
+}
+
+[element-type][element-name] li {
+    display: list-item;
+    margin: 5px 10px 5px 35px;
+}
+
+[element-type][element-name] pre {
+    padding: 0;
+    margin: 0;
+    font-family: monospace;
+}
+
 [element-type][element-name][element-situation] {
     transition-property: background-color, color, border-color;
     transition-duration: 100ms;
