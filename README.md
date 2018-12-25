@@ -27,6 +27,7 @@ Tigerian has 5 special properties
 - Helps
   - [ ] Online Manual and Documents
   - [ ] Samples and Tutorials
+
 - Core
   - [X] Tigerian
   - [X] Class
@@ -54,13 +55,14 @@ Tigerian has 5 special properties
   - [X] BCascade
   - [X] BStyle
   - [X] BTable
-  - [ ] BPagination
+  - [X] BPagination
   - [ ] BDrag
   - [ ] BDrop
   - [ ] BMove
   - [ ] BResize
   - [ ] BContextMenu
   - [ ] BReachText
+  - [ ] BLoadList
 
 - Model\View
   - [X] Model

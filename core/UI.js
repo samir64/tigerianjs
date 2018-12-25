@@ -16,7 +16,7 @@
  */
 Tigerian.UI = Tigerian.Class.extend({
     /**
-     * @param {Element} [mainElement = window]
+     * @param {Element} [mainElement = document.body]
      * @param {Tigerian.UI} [parent = undefined]
      * @param {string} [theme]
      */

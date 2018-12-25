@@ -4,7 +4,6 @@
  * @global
  */
 var Tigerian = {};
-var globalEval = window.eval;
 
 (function () {
     var scripts_styles = {};
