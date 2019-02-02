@@ -4,11 +4,7 @@
 
 "use strict";
 
-
-/**
- * @constructor
- */
-Tigerian.Event = function () {};
+Tigerian.Event = {};
 
 Tigerian.Event.onSelectedChange = new Event("SelectedChange", {
 	detail: {
