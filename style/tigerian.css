@@ -236,7 +236,8 @@ a[element-type][element-name] {
     -ms-transition: box-shadow 150ms;
     -o-transition: box-shadow 150ms;
     transition: box-shadow 150ms;
-    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    /* font-family: "Trebuchet MS", Helvetica, sans-serif; */
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
 }
 
 /* NOTE Containers and childrens*/

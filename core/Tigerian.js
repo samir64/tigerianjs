@@ -99,17 +99,20 @@ var Tigerian = {};
             if ((scripts_styles[file] === undefined) && (scripts_styles[window.location.origin + window.location.pathname + file] === undefined)) {
                 switch (ext) {
                     case "js":
-                        // fileTag = document.createElement("script");
-                        // fileTag.src = file;
-                        // fileTag.setAttribute("defer", "");
-                        // fileTag.setAttribute("async", "");
-                        // fileTag.type = "text/javascript";
-                        var ajax = new Tigerian.Ajax(file);
-                        ajax.async = false;
-                        ajax.success = function (text) {
-                            eval(text.replace(/var\s+([\w\.]+)\s*=\s*([\w\.]+)\.extend/, "window.$1 = $2.extend"));
-                        };
-                        ajax.get();
+                        fileTag = document.createElement("script");
+                        fileTag.src = file;
+                        fileTag.type = "text/javascript";
+                        fileTag.async = true;
+                        fileTag.defer = true;
+                        document.head.appendChild(fileTag);
+                        fileTag.remove();
+
+                        // var ajax = new Tigerian.Ajax(file);
+                        // ajax.async = false;
+                        // ajax.success = function (text) {
+                        //     eval(text.replace(/var\s+([\w\.]+)\s*=\s*([\w\.]+)\.extend/, "window.$1 = $2.extend"));
+                        // };
+                        // ajax.get();
                         break;
 
                     case "css":
