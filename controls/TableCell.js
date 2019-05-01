@@ -16,6 +16,8 @@ Tigerian.TableCell = Tigerian.Control.extend({
         this.super(parent, theme);
         this.config("text", elmText);
 
+        var superAddControl = this.addControl;
+
         this.text = text;
         this.addControl(elmText);
 

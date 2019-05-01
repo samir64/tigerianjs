@@ -1155,6 +1155,10 @@ a[element-type][element-name] {
     overflow-wrap: break-word;
 }
 
+[element-type="Table"][element-name="container"][visible="true"][view-mode="grid"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"]>[element-type="TableCell"][element-name="text"] {
+    display: block;
+}
+
 [element-type="Table"][element-name="container"][visible="true"][view-mode="details"]>[element-type="TableBody"][element-name="container"]>[element-type="TableRow"][element-name="container"]>[element-type="TableCell"][element-name="container"][visible="true"] {
     font-weight: bold;
 }
