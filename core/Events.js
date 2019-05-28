@@ -78,7 +78,7 @@ Tigerian.Event.onBlur = new Event("Blur", {
 	cancelable: true,
 });
 
-Tigerian.Event.onTextChanged = new Event("TextChanged", {
+Tigerian.Event.onTextChange = new Event("TextChanged", {
 	detail: {
 		message: "Control text changed",
 		time: new Date(),
@@ -87,7 +87,7 @@ Tigerian.Event.onTextChanged = new Event("TextChanged", {
 	cancelable: true,
 });
 
-Tigerian.Event.onVisibleChanged = new Event("VisibleChanged", {
+Tigerian.Event.onVisibleChange = new Event("VisibleChanged", {
 	detail: {
 		message: "Control's visible changed",
 		time: new Date(),
@@ -114,7 +114,7 @@ Tigerian.Event.onPreviousPage = new Event("PreviousPage", {
 	cancelable: true,
 });
 
-Tigerian.Event.onViewChanged = new Event("ViewChanged", {
+Tigerian.Event.onViewChange = new Event("ViewChanged", {
 	detail: {
 		message: "View changed",
 		time: new Date(),
@@ -132,7 +132,7 @@ Tigerian.Event.onViewRefresh = new Event("ViewRefresh", {
 	cancelable: true,
 });
 
-Tigerian.Event.onPageChanged = new Event("PageChanged", {
+Tigerian.Event.onPageChange = new Event("PageChanged", {
 	detail: {
 		message: "Page changed",
 		time: new Date(),
@@ -141,7 +141,7 @@ Tigerian.Event.onPageChanged = new Event("PageChanged", {
 	cancelable: true,
 });
 
-Tigerian.Event.onPageCountChanged = new Event("PageCountChanged", {
+Tigerian.Event.onPageCountChange = new Event("PageCountChanged", {
 	detail: {
 		message: "Page count changed",
 		time: new Date(),

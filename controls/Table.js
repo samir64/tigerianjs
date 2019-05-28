@@ -3,6 +3,8 @@
 /**
  * @constructor
  * @extends {Tigerian.Control}
+ * @implements {Tigerian.BGroup}
+ * @implements {Tigerian.BTable}
  */
 Tigerian.Table = Tigerian.Control.extend({
     /**

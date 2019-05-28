@@ -15,7 +15,6 @@
  */
 Tigerian.Control = Tigerian.UI.extend({
     /**
-     * @param {Function} superClass
      * @param {Tigerian.UI} parent
      * @param {string} theme
      */
@@ -586,7 +585,7 @@ Tigerian.Control = Tigerian.UI.extend({
         });
 
         /**
-         * @member {boolean}
+         * @member {Symbol}
          */
         Object.defineProperty(this, "float", {
             enumerable: true,
@@ -632,7 +631,7 @@ Tigerian.Control = Tigerian.UI.extend({
         });
 
         /**
-         * @member {boolean}
+         * @member {Symbol}
          */
         Object.defineProperty(this, "align", {
             enumerable: true,

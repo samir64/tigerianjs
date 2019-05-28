@@ -7,6 +7,7 @@
 
 /**
  * @extends {Tigerian.Control}
+ * @implements {Tigerian.BGroup}
  * @implements {Tigerian.BSelectGroup}
  * @constructor
  */
@@ -14,7 +15,7 @@ Tigerian.ListBox = Tigerian.Control.extend({
     /**
      * @constructs
      * @param {Tigerian.UI} parent
-     * @param {string} theme
+     * @param {string} theme = ""
      */
     init: function (parent, theme) {
         this.super(parent, theme);

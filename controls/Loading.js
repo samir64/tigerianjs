@@ -7,6 +7,10 @@
  * @implements {Tigerian.BModal}
  */
 Tigerian.Loading = Tigerian.Control.extend({
+    /**
+     * @param {Tigerian.UI} parent 
+     * @param {string} theme = ""
+     */
     init: function (parent, theme) {
         this.super(parent, theme);
         this.config("fix_element", Tigerian.BFixElement.ETop);

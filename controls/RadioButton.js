@@ -14,9 +14,9 @@
 Tigerian.RadioButton = Tigerian.Control.extend({
 	/**
 	 * @constructs
+	 * @param {Tigerian.UI} parent
 	 * @param {string} [text = ""]
 	 * @param {string} [theme = ""]
-	 * @param {Tigerian.UI} parent
 	 */
 	init: function (parent, text, theme) {
 		var elmRadioButton = document.createElement("div");
@@ -54,6 +54,9 @@ Tigerian.RadioButton = Tigerian.Control.extend({
 
 		this.autoDeselect = false;
 
+		/**
+		 * @member {boolean}
+		 */
 		Object.defineProperty(this, "autoDeselect", {
 			enumerable: true,
 			configurable: true,

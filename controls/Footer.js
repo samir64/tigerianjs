@@ -13,7 +13,7 @@ Tigerian.Footer = Tigerian.Control.extend({
     /**
      * @constructs
      * @param {Tigerian.UI} parent
-     * @param {string} theme
+     * @param {string} theme = ""
      */
     init: function (parent, fixed, theme) {
         this.super(parent, theme);

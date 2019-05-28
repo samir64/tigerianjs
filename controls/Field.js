@@ -8,6 +8,7 @@
 /**
  * @class
  * @extends {Tigerian.Control}
+ * @implements {Tigerian.BText}
  */
 Tigerian.Field = Tigerian.Control.extend({
     /**

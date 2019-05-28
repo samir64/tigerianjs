@@ -4,6 +4,12 @@ Tigerian.BBind = Tigerian.Behavior.extend({
 
         var binds = [];
 
+        /**
+         * @param {string} srcProp
+         * @param {Object} target
+         * @param {string} trgProp
+         * @param {Function} changer
+         */
         this.bind = function (srcProp, target, trgProp, changer) {
             if (Tigerian.Class.isInstance(srcProp, "string") && Tigerian.Class.isInstance(target, "object") && Tigerian.Class.isInstance(trgProp, "string")) {
                 if (!Tigerian.Class.isInstance(changer, "function")) {

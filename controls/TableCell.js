@@ -9,6 +9,7 @@ Tigerian.TableCell = Tigerian.Control.extend({
     /**
      * @constructs
      * @param {Tigerian.UI} parent
+     * @param {string} text = ""
      * @param {string} theme = ""
      */
     init: function (parent, text, theme) {

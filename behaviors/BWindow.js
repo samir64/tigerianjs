@@ -29,7 +29,7 @@ Tigerian.BWindow = Tigerian.Behavior.extend({
         var onXlargeWindow = function (e) {};
 
         /**
-         * @member {string}
+         * @member {Symbol}
          */
         Object.defineProperty(this, "windowSize", {
             enumerable: true,

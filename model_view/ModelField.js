@@ -14,8 +14,9 @@ Tigerian.ModelField = Tigerian.ModelView.extend({
     /**
      * @constructs
      * @param {string} name
-     * @param {string} type
-     * @param {*} value
+     * @param {string} type = "string"
+     * @param {boolean} collection = false
+     * @param {*} value = undefined
      */
     init: function (name, type, collection, value) {
         if (Tigerian.Class.isInstance(name, "string") && (name !== "")) {
@@ -79,7 +80,7 @@ Tigerian.ModelField = Tigerian.ModelView.extend({
             });
 
             /**
-             * @member {string}
+             * @member {boolean}
              */
             Object.defineProperty(this, "collection", {
                 enumerable: false,

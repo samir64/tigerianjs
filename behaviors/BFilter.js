@@ -36,6 +36,11 @@ Tigerian.BFilter = Tigerian.Behavior.extend({
             },
         });
     },
+    /**
+     * @param {string} behavior
+     * @param {Tigerian.Control} ctrlText
+     * @param {Tigerian.Control} ctrlList
+     */
     config: function (behavior, ctrlText, ctrlList) {
         if (behavior === "filter") {
             if (!(Tigerian.Class.isInstance(ctrlList, Tigerian.Control) && ctrlList["Behavior:group"])) {
@@ -46,6 +51,9 @@ Tigerian.BFilter = Tigerian.Behavior.extend({
                 var instance = this;
                 this.setAttribute("filtering", ctrlList.filter ? "true" : "false");
 
+                /**
+                 * @param {string} text
+                 */
                 this.filter = function (text) {
                     if (!Tigerian.Class.isInstance(text, "string")) {
                         text = ctrlText.text;

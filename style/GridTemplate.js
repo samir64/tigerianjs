@@ -19,25 +19,9 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
 
             var elm = document.createElement("style");
             /**
-             * @var {Tigerian.GridTemplateAreas}
+             * @var {Tigerian.GridTemplateAreas[]}
              */
-            var smallTemplate;
-            /**
-             * @var {Tigerian.GridTemplateAreas}
-             */
-            var mediumTemplate;
-            /**
-             * @var {Tigerian.GridTemplateAreas}
-             */
-            var normalTemplate;
-            /**
-             * @var {Tigerian.GridTemplateAreas}
-             */
-            var largeTemplate;
-            /**
-             * @var {Tigerian.GridTemplateAreas}
-             */
-            var xlargeTemplate;
+            var templates = [undefined, undefined, undefined, undefined, undefined];
 
             var smallTextNode = document.createTextNode("@media only screen and (max-width: 600px) {\n{template}\n}");
             var mediumTextNode = document.createTextNode("@media only screen and (min-width: 600px) {\n{template}\n}");
@@ -50,8 +34,8 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
              * @param {number} rowCount
              */
             this.setSmallTemplate = function (colCount, rowCount) {
-                if (!smallTemplate) {
-                    smallTemplate = new Tigerian.GridTemplateAreas(smallTextNode, name, colCount, rowCount);
+                if (!templates[0]) {
+                    templates[0] = new Tigerian.GridTemplateAreas(smallTextNode, name, colCount, rowCount);
                     elm.appendChild(smallTextNode);
                 }
             };
@@ -61,8 +45,8 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
              * @param {number} rowCount
              */
             this.setMediumTemplate = function (colCount, rowCount) {
-                if (!mediumTemplate) {
-                    mediumTemplate = new Tigerian.GridTemplateAreas(mediumTextNode, name, colCount, rowCount);
+                if (!templates[1]) {
+                    templates[1] = new Tigerian.GridTemplateAreas(mediumTextNode, name, colCount, rowCount);
                     elm.appendChild(mediumTextNode);
                 }
             };
@@ -72,8 +56,8 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
              * @param {number} rowCount
              */
             this.setNormalTemplate = function (colCount, rowCount) {
-                if (!normalTemplate) {
-                    normalTemplate = new Tigerian.GridTemplateAreas(normalTextNode, name, colCount, rowCount);
+                if (!templates[2]) {
+                    templates[2] = new Tigerian.GridTemplateAreas(normalTextNode, name, colCount, rowCount);
                     elm.appendChild(normalTextNode);
                 }
             };
@@ -83,8 +67,8 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
              * @param {number} rowCount
              */
             this.setLargeTemplate = function (colCount, rowCount) {
-                if (!largeTemplate) {
-                    largeTemplate = new Tigerian.GridTemplateAreas(largeTextNode, name, colCount, rowCount);
+                if (!templates[3]) {
+                    templates[3] = new Tigerian.GridTemplateAreas(largeTextNode, name, colCount, rowCount);
                     elm.appendChild(largeTextNode);
                 }
             };
@@ -94,8 +78,8 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
              * @param {number} rowCount
              */
             this.setXlargeTemplate = function (colCount, rowCount) {
-                if (!xlargeTemplate) {
-                    xlargeTemplate = new Tigerian.GridTemplateAreas(xlargeTextNode, name, colCount, rowCount);
+                if (!templates[4]) {
+                    templates[4] = new Tigerian.GridTemplateAreas(xlargeTextNode, name, colCount, rowCount);
                     elm.appendChild(xlargeTextNode);
                 }
             };
@@ -139,7 +123,7 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
                  * @returns {Tigerian.GridTemplateAreas}
                  */
                 get: function () {
-                    return smallTemplate;
+                    return templates[0];
                 },
             });
 
@@ -154,7 +138,7 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
                  * @returns {Tigerian.GridTemplateAreas}
                  */
                 get: function () {
-                    return mediumTemplate;
+                    return templates[1];
                 },
             });
 
@@ -169,7 +153,7 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
                  * @returns {Tigerian.GridTemplateAreas}
                  */
                 get: function () {
-                    return normalTemplate;
+                    return templates[2];
                 },
             });
 
@@ -184,7 +168,7 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
                  * @returns {Tigerian.GridTemplateAreas}
                  */
                 get: function () {
-                    return largeTemplate;
+                    return templates[3];
                 },
             });
 
@@ -199,7 +183,7 @@ Tigerian.GridTemplate = Tigerian.Class.extend({
                  * @returns {Tigerian.GridTemplateAreas}
                  */
                 get: function () {
-                    return xlargeTemplate;
+                    return templates[4];
                 },
             });
         }

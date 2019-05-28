@@ -7,13 +7,16 @@
 
 /**
  * @extends {Tigerian.Control}
+ * @implements {Tigerian.BGroup}
+ * @implements {Tigerian.BFilter}
+ * @implements {Tigerian.BText}
  * @constructor
  */
 Tigerian.ComboBox = Tigerian.Control.extend({
     /**
      * @constructs
-     * @param {string} [theme = ""]
      * @param {Tigerian.UI} parent
+     * @param {string} [theme = ""]
      */
     init: function (parent, theme) {
         this.super(parent, theme);

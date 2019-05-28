@@ -13,9 +13,9 @@
 Tigerian.TextBox = Tigerian.Control.extend({
     /**
      * @constructs
+     * @param {Tigerian.UI} parent
      * @param {string} [text = ""]
      * @param {string} [theme = ""]
-     * @param {Tigerian.UI} parent
      */
     init: function (parent, text, theme) {
         var elmText = document.createElement("input");
@@ -157,6 +157,9 @@ Tigerian.TextBox = Tigerian.Control.extend({
             elmText.select();
         };
 
+        /**
+         * @return boolean
+         */
         this.isValid = function () {
             this.setAttribute("validity", elmText.validity.valid);
             return elmText.validity.valid;

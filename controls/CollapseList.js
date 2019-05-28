@@ -9,7 +9,7 @@ Tigerian.CollapseList = Tigerian.Control.extend({
     /**
      * @constructs
      * @param {Tigerian.Control} parent
-     * @param {string} theme
+     * @param {string} theme = ""
      */
     init: function (parent, theme) {
         this.super(parent, theme);

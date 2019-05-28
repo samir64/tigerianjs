@@ -11,13 +11,16 @@ Tigerian.BCascade = Tigerian.Behavior.extend({
     init: function () {
         this.super("cascade");
 
-        this.addChild = function () {
 
-        };
+        /**
+         * @param {Tigerian.Control|Tigerian.BGroup} child 
+         */
+        this.addChild = function (child) {};
 
-        this.viewSubmenu = function (visible) {
-
-        };
+        /**
+         * @param {boolean} visible
+         */
+        this.viewSubmenu = function (visible) {};
     },
     config: function (behavior) {
         if (behavior === "cascade" && Tigerian.Class.isInstance(this, Tigerian.Control) && this["Behavior:cascade"]) {
@@ -29,6 +32,20 @@ Tigerian.BCascade = Tigerian.Behavior.extend({
             this.setAttribute("has-child", "false");
             this.setAttribute("open-child", "false");
 
+            /**
+             * @member {boolean}
+             */
+            Object.defineProperty(this, "hasChild", {
+                enumerable: true,
+                configurable: true,
+                get: function () {
+                    return (this.getAttribute("has-child") === "true");
+                },
+            });
+
+            /**
+             * @param {boolean} visible
+             */
             this.viewChild = function (visible) {
                 if (instance.hasChild) {
                     if (Tigerian.Class.isInstance(visible, "boolean")) {
@@ -40,17 +57,6 @@ Tigerian.BCascade = Tigerian.Behavior.extend({
                     this.setAttribute("open-child", (ctrlSubMenu.visible ? "true" : "false"));
                 }
             };
-
-            /**
-             * @member {boolean}
-             */
-            Object.defineProperty(this, "hasChild", {
-                enumerable: true,
-                configurable: true,
-                get: function () {
-                    return (this.getAttribute("has-child") === "true");
-                },
-            });
 
             /**
              * @param {Tigerian.Control|Tigerian.BGroup} child 

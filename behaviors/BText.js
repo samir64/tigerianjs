@@ -35,6 +35,10 @@ Tigerian.BText = Tigerian.Behavior.extend({
             },
         });
     },
+    /**
+     * @param {string} behavior
+     * @param {Element|Tigerian.Control} ctrlText
+     */
     config: function (behavior, ctrlText) {
         if ((behavior === "text") && (Tigerian.Class.isInstance(ctrlText, Element) || (Tigerian.Class.isInstance(ctrlText, Tigerian.Control) && ctrlText["Behavior:text"]))) {
             this.setAttribute("text", this.text);
@@ -86,7 +90,7 @@ Tigerian.BText = Tigerian.Behavior.extend({
                         }
 
                         if (lastText !== v) {
-                            this.dispatchEvent(Tigerian.Event.onTextChanged, {
+                            this.dispatchEvent(Tigerian.Event.onTextChange, {
                                 lastValue: lastText
                             });
                         }

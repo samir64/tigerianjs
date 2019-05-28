@@ -14,7 +14,6 @@ Tigerian.BTable = Tigerian.Behavior.extend({
     /**
      * @param {string} behavior
      * @param {number} colCount
-     * @param {boolean} autoAddRow
      * @param {Tigerian.Control} ctrlTableBody
      */
     config: function (behavior, colCount, ctrlTableBody) {
@@ -163,7 +162,7 @@ Tigerian.BTable = Tigerian.Behavior.extend({
                 });
 
                 /**
-                 * @member {boolean}
+                 * @member {Symbol}
                  */
                 Object.defineProperty(this, "viewMode", {
                     enumerable: true,
@@ -197,7 +196,7 @@ Tigerian.BTable = Tigerian.Behavior.extend({
 
                         if (lastViewMode !== this.viewMode) {
                             refreshView();
-                            this.dispatchEvent(Tigerian.Event.onViewChanged);
+                            this.dispatchEvent(Tigerian.Event.onViewChange);
                         }
                     },
                 });

@@ -28,6 +28,9 @@ Tigerian.TableRow = Tigerian.Control.extend({
             colCount = 1;
         }
 
+        /**
+         * @member {number}
+         */
         Object.defineProperty(this, "colCount", {
             enumerable: true,
             configurable: true,

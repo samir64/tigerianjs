@@ -40,6 +40,9 @@ Tigerian.MenuItem = Tigerian.Control.extend({
         elmText.setAttribute("element-type", "MenuItem");
         elmText.setAttribute("element-name", "text");
 
+        /**
+         * @param {Tigerian.MenuItem|Tigerian.Spacer} item
+         */
         this.addControl = this.addChild = this.addSubmenu = function (item) {
             if (Tigerian.Class.isInstance(item, Tigerian.MenuItem) || Tigerian.Class.isInstance(item, Tigerian.Spacer)) {
                 if (!this.hasSubmenu) {

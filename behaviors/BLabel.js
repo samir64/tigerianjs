@@ -26,6 +26,10 @@ Tigerian.BLabel = Tigerian.Behavior.extend({
             }
         });
     },
+    /**
+     * @param {string} behavior
+     * @param {Tigerian.Control} ctrlLabel
+     */
     config: function (behavior, ctrlLabel) {
         if (behavior === "label") {
             if (!(Tigerian.Class.isInstance(ctrlLabel, Tigerian.Control) && ctrlLabel["Behavior:text"] && ctrlLabel["Behavior:label"])) {

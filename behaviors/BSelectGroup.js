@@ -166,6 +166,10 @@ Tigerian.BSelectGroup = Tigerian.Behavior.extend({
             }
         });
     },
+    /**
+     * @param {string} behavior
+     * @param {Tigerian.Control} ctrlSelectGroup
+     */
     config: function (behavior, ctrlSelectGroup) {
         if (behavior === "select_group") {
             if (!(Tigerian.Class.isInstance(ctrlSelectGroup, Tigerian.Control) && ctrlSelectGroup["Behavior:group"] && ctrlSelectGroup["Behavior:select_group"])) {
@@ -315,6 +319,9 @@ Tigerian.BSelectGroup = Tigerian.Behavior.extend({
                     }
                 };
 
+                /**
+                 * @param {Function} func
+                 */
                 this.sort = function (func) {
                     superSort(func);
                     lastSelectedIndex = this.selectedIndex;

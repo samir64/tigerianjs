@@ -3,12 +3,13 @@
 /**
  * @constructor
  * @extends {Tigerian.Control}
+ * @implements {Tigerian.BText}
  * @implements {Tigerian.BCascade}
  */
 Tigerian.CollapseItem = Tigerian.Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.Control} parent
+30⋅178     * @param {Tigerian.Control} parent
      * @param {string} text
      * @param {string} theme = ""
      */

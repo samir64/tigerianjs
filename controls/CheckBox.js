@@ -7,7 +7,8 @@
 
 /**
  * @extends {Tigerian.Control}
- * @implements {Tigerian.Select}
+ * @implements {Tigerian.BSelect}
+ * @implements {Tigerian.BText}
  * @constructor
  */
 Tigerian.CheckBox = Tigerian.Control.extend({

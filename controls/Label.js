@@ -7,6 +7,8 @@
 
 /**
  * @extends {Tigerian.Control}
+ * @implements {Tigerian.BText}
+ * @implements {Tigerian.BLabel}
  * @class
  */
 Tigerian.Label = Tigerian.Control.extend({
@@ -69,7 +71,7 @@ Tigerian.Label = Tigerian.Control.extend({
             }
         }, true);
 
-        delete this.addControl;
+        // delete this.addControl;
     },
     enums: []
 }, Tigerian.BText, Tigerian.BLabel);

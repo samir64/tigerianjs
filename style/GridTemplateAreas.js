@@ -48,8 +48,10 @@ Tigerian.GridTemplateAreas = Tigerian.Class.extend({
                 items.push(row);
             }
 
-            function render() {
-                var areas = '  [element-name="container"][template-name="{tname}"][visible="true"] {\n    display: grid;\n    grid-template-areas:\n'.format({tname: name});
+            var render = function () {
+                var areas = '  [element-name="container"][template-name="{tname}"][visible="true"] {\n    display: grid;\n    grid-template-areas:\n'.format({
+                    tname: name
+                });
 
                 for (var rowIdx in items) {
                     var thisRow = "";
@@ -78,11 +80,16 @@ Tigerian.GridTemplateAreas = Tigerian.Class.extend({
                 areas += "  }";
 
                 for (var i = 0; i < itemsName.length; i++) {
-                    areas += "\n\n  [element-name=\"container\"][template-name=\"{tname}\"] > [element-name=\"container\"][template-item=\"{iname}\"] {\n    grid-area: {iname};\n  }".format({tname: name, iname: itemsName[i]});
+                    areas += "\n\n  [element-name=\"container\"][template-name=\"{tname}\"] > [element-name=\"container\"][template-item=\"{iname}\"] {\n    grid-area: {iname};\n  }".format({
+                        tname: name,
+                        iname: itemsName[i]
+                    });
                 }
 
                 // return areas;
-                return queryText.format({template: areas});
+                return queryText.format({
+                    template: areas
+                });
             }
 
             /**
@@ -96,7 +103,7 @@ Tigerian.GridTemplateAreas = Tigerian.Class.extend({
                 if (itemsName.indexOf(itemName) === -1) {
                     if (Tigerian.Class.isInstance(itemName, "string") && Tigerian.Class.isInstance(colNo, "number") && Tigerian.Class.isInstance(rowNo, "number")) {
                         if ((colNo >= 0) && (colNo < colCount) && (rowNo >= 0) && (rowNo < rowCount)) {
-                            for (var i = 0; i< rowSpan; i++) {
+                            for (var i = 0; i < rowSpan; i++) {
                                 items[rowNo + i][colNo] = new Tigerian.GridTemplateItem(itemName, colSpan);
                             }
                         }

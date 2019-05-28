@@ -61,6 +61,10 @@ Tigerian.BSelect = Tigerian.Behavior.extend({
             value: false,
         });
     },
+    /**
+     * @param {string} behavior
+     * @param {Tigerian.Control} ctrlSelect
+     */
     config: function (behavior, ctrlSelect) {
         if (behavior === "select") {
             if (!(Tigerian.Class.isInstance(ctrlSelect, Tigerian.Control) && ctrlSelect["Behavior:select"])) {

@@ -4,12 +4,13 @@
  * @constructor
  * @extends {Tigerian.Control}
  * @implements {Tigerian.BGroup}
+ * @implements {Tigerian.BTable}
  */
 Tigerian.TableBody = Tigerian.Control.extend({
     /**
      * @constructs
      * @param {Tigerian.UI} parent
-     * @param {string} theme
+     * @param {string} theme = ""
      */
     init: function (parent, theme) {
         this.super(parent, theme);

@@ -124,6 +124,10 @@ Tigerian.BEvent = Tigerian.Behavior.extend({
             }
         };
     },
+    /**
+     * @param {string} behavior
+     * @param {Element} element
+     */
     config: function (behavior, element) {
         if ((behavior === "event") && (Tigerian.Class.isInstance(element, Element) || (element === undefined))) {
             this.element = element;

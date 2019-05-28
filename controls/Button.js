@@ -7,6 +7,7 @@
 
 /**
  * @extends {Tigerian.Control}
+ * @implements {Tigerian.BText}
  * @constructor
  */
 Tigerian.Button = Tigerian.Control.extend({
@@ -17,12 +18,11 @@ Tigerian.Button = Tigerian.Control.extend({
      * @param {string} theme = ""
      */
     init: function (parent, text, theme) {
-        this.super(parent, theme);
-
-
         //NOTE Private Variables
         var elmButton = document.createElement("div");
 
+        this.super(parent, theme);
+        this.config("text", elmButton);
 
         //NOTE Attributes
         this.setAttribute("element-type", "Button");
@@ -44,23 +44,6 @@ Tigerian.Button = Tigerian.Control.extend({
 
 
         //NOTE Properties
-        /**
-         * @member {string}
-         */
-        Object.defineProperty(this, "text", {
-            enumerable: true,
-            configurable: true,
-            get: function () {
-                return elmButton.innerHTML;
-            },
-
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "string")) {
-                    elmButton.innerHTML = value;
-                }
-            }
-        });
-
         /**
          * @member {number}
          */
@@ -116,4 +99,4 @@ Tigerian.Button = Tigerian.Control.extend({
 
         delete this.addControl;
     }
-});
+}, Tigerian.BText);

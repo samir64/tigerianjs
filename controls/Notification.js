@@ -3,7 +3,8 @@
 /**
  * @constructor
  * @extends {Tigerian.Control}
- * @implements {Tigerian.BClose}
+ * @implements {Tigerian.BText}
+ * @implements {Tigerian.BCancel}
  */
 Tigerian.Notification = Tigerian.Control.extend({
     /**

@@ -213,6 +213,10 @@ a[element-type][element-name] {
     display: none;
 }
 
+[element-type][element-name][visible="true"][inline-mode="true"]>* {
+    display: inline;
+}
+
 [element-type="Application"][element-name="container"] {
     margin: 0 auto;
     padding: 0;

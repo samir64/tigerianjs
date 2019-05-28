@@ -7,6 +7,8 @@
 
 /**
  * @extends {Tigerian.Control}
+ * @implements {Tigerian.BText}
+ * @implements {Tigerian.BLabel}
  * @constructor
  */
 Tigerian.HyperLink = Tigerian.Control.extend({

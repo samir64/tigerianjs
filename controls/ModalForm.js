@@ -4,12 +4,13 @@
  * @constructor
  * @extends {Tigerian.Control}
  * @implements {Tigerian.BModal}
+ * @implements {Tigerian.BCancel}
  */
 Tigerian.ModalForm = Tigerian.Control.extend({
     /**
      * @constructs
      * @param {Tigerian.UI} parent
-     * @param {string} theme
+     * @param {string} theme = ""
      */
     init: function (parent, theme) {
         this.super(parent, theme);
@@ -29,7 +30,7 @@ Tigerian.ModalForm = Tigerian.Control.extend({
         this.setAttribute("element-name", "container");
 
         ctrlBody.setAttribute("element-type", "ModalForm");
-        ctrlBody.setAttribute("element-name", "Body");
+        ctrlBody.setAttribute("element-name", "body");
 
         this.addControl = ctrlBody.addControl.bind(this);
         this.footerAddControl = ctrlFooter.addControl.bind(this);

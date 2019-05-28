@@ -139,7 +139,7 @@ Tigerian.UI = Tigerian.Class.extend({
         });
 
         /**
-         * @member {boolean}
+         * @member {Symbol}
          */
         Object.defineProperty(this, "direction", {
             enumerable: true,
@@ -207,22 +207,50 @@ Tigerian.UI = Tigerian.Class.extend({
             },
         });
 
+        /**
+         * @member {boolean}
+         */
+        Object.defineProperty(this, "inline", {
+            enumerable: true,
+            configurable: true,
+            /**
+             * @returns {boolean}
+             */
+            get: function () {
+                return (this.getAttribute("inline-mode") === "true");
+            },
+            /**
+             * @param {boolean} v = false
+             */
+            set: function (v) {
+                if (v === true) {
+                    this.setAttribute("inline-mode", "true");
+                } else {
+                    this.setAttribute("inline-mode", "false");
+                }
+            }
+        });
+
 
         //NOTE Private Functions
         /**
-         * @param {boolean} value
+         * @param {boolean} v
          */
-        function setVisible(value) {
-            if (Tigerian.Class.isInstance(value, "boolean")) {
+        function setVisible(v) {
+            if (Tigerian.Class.isInstance(v, "boolean")) {
                 var lastVisible = (instance.getAttribute("visible") === "true");
-                instance.setAttribute("visible", (value ? "true" : "false"));
+                instance.setAttribute("visible", (v ? "true" : "false"));
 
-                if (lastVisible !== value) {
-                    instance.dispatchEvent(Tigerian.Event.onVisibleChanged);
+                if (lastVisible !== v) {
+                    instance.dispatchEvent(Tigerian.Event.onVisibleChange);
                 }
             }
         }
 
+        /**
+         * @param {Elemenet} element
+         * @param {string} themeName
+         */
         function addThemeToChildren(element, themeName) {
             var elm = new Tigerian.Iterator(Array.from(element.children));
             elm.yield = function () {
@@ -239,6 +267,10 @@ Tigerian.UI = Tigerian.Class.extend({
             }
         }
 
+        /**
+         * @param {Elemenet} element
+         * @param {string} themeName
+         */
         function removeThemeFromChildren(element, themeName) {
             var elm = new Tigerian.Iterator(Array.from(element.children));
             elm.yield = function () {
@@ -255,6 +287,9 @@ Tigerian.UI = Tigerian.Class.extend({
             }
         }
 
+        /**
+         * @param {Elemenet} element
+         */
         function removeAllThemesFromChildren(element) {
             var elm = new Tigerian.Iterator(Array.from(element.children));
             elm.yield = function () {
@@ -388,18 +423,32 @@ Tigerian.UI = Tigerian.Class.extend({
             }
         };
 
+        /**
+         * @param {number} index
+         * @returns {string}
+         */
         this.getTheme = function (index) {
             return mainElement.classList.item(index);
         };
 
+        /**
+         * @param {string themeName}
+         * @returns {boolean}
+         */
         this.hasTheme = function (themeName) {
             return mainElement.classList.contains(themeName);
         };
 
+        /**
+         * @returns {number}
+         */
         this.themeCount = function () {
             return mainElement.classList.length;
         };
 
+        /**
+         * @returns {string}
+         */
         this.toString = function () {
             return "[Tigerian Instance]";
         };
@@ -430,6 +479,7 @@ Tigerian.UI = Tigerian.Class.extend({
         this.setAttribute("element-name", "");
         this.setAttribute("element-type", "");
         this.setAttribute("visible", "true");
+        this.setAttribute("inline-mode", "false");
         this.setAttribute("focused", (document.activeElement === mainElement) ? "true" : "false");
 
         if (Tigerian.Class.isInstance(theme, "string") && (theme !== "")) {

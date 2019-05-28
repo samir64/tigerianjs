@@ -45,6 +45,11 @@ Tigerian.BModal = Tigerian.Behavior.extend({
             },
         });
     },
+    /**
+     * @param {string} behavior
+     * @param {Tigerian.UI} ctrlParent
+     * @param {Tigerian.Control} ctrlModal
+     */
     config: function (behavior, ctrlParent, ctrlModal) {
         if ((behavior === "modal") && Tigerian.Class.isInstance(ctrlParent, Tigerian.UI)) {
             if (!(Tigerian.Class.isInstance(ctrlModal, Tigerian.Control) && ctrlModal["Behavior:modal"])) {

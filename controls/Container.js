@@ -16,7 +16,7 @@
 Tigerian.Container = Tigerian.Control.extend({
     /**
      * @param {Tigerian.UI} parent
-     * @param {string} theme
+     * @param {string} theme = ""
      */
     init: function (parent, theme) {
         this.super(parent, theme);
@@ -35,16 +35,16 @@ Tigerian.Container = Tigerian.Control.extend({
         // elmBody.setAttribute("element-name", "body");
 
         //NOTE Append Children
-/*
-        thisAddControl(elmBody);
+        /*
+                thisAddControl(elmBody);
 
-        this.addControl = function (control) {
-            if (Tigerian.Class.isInstance(control, Element)) {
-                elmBody.appendChild(control);
-            } else if (Tigerian.Class.isInstance(control, Tigerian.Control)) {
-                control.appendTo(this, elmBody);
-            }
-        };
-*/
+                this.addControl = function (control) {
+                    if (Tigerian.Class.isInstance(control, Element)) {
+                        elmBody.appendChild(control);
+                    } else if (Tigerian.Class.isInstance(control, Tigerian.Control)) {
+                        control.appendTo(this, elmBody);
+                    }
+                };
+        */
     }
 });

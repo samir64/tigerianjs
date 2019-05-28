@@ -16,7 +16,7 @@ Tigerian.ListItem = Tigerian.Control.extend({
      * @constructs
      * @param {Tigerian.UI} parent
      * @param {string} text
-     * @param {string} [theme]
+     * @param {string} [theme = ""]
      */
     init: function (parent, text, theme) {
         var elmItem = document.createElement("div");

@@ -15,6 +15,9 @@ Tigerian.BFixElement = Tigerian.Behavior.extend({
     init: function () {
         this.super("fix_element");
 
+        /**
+         * @member {boolean}
+         */
         Object.defineProperty(this, "fixed", {
             enumerable: true,
             configurable: true,
@@ -22,6 +25,11 @@ Tigerian.BFixElement = Tigerian.Behavior.extend({
             value: false,
         });
     },
+    /**
+     * @param {string} behavior
+     * @param {boolean} stick
+     * @param {Tigerian.Control} ctrlFix
+     */
     config: function (behavior, stick, ctrlFix) {
         if (behavior === "fix_element") {
             if (!(Tigerian.Class.isInstance(ctrlFix, Tigerian.Control) && ctrlFix["Behavior:fix_element"])) {

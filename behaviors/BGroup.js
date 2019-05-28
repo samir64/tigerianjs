@@ -88,6 +88,10 @@ Tigerian.BGroup = Tigerian.Behavior.extend({
             items = items.sort(func);
         };
     },
+    /**
+     * @param {string} behavior
+     * @param {Tigerian.Control} ctrlGroup
+     */
     config: function (behavior, ctrlGroup) {
         if (behavior === "group") {
 

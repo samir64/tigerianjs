@@ -130,7 +130,7 @@ Tigerian.BPagination = Tigerian.Behavior.extend({
 
                             if (lastPageNo !== pageNo) {
                                 refresh();
-                                this.dispatchEvent(Tigerian.Event.onPageChanged);
+                                this.dispatchEvent(Tigerian.Event.onPageChange);
                             }
                         }
                     },
@@ -152,7 +152,7 @@ Tigerian.BPagination = Tigerian.Behavior.extend({
 
                             if (lastPageCount !== pageCount) {
                                 var lastPageNo = pageNo;
-                                this.dispatchEvent(Tigerian.Event.onPageCountChanged);
+                                this.dispatchEvent(Tigerian.Event.onPageCountChange);
                                 pageNo = Math.max((pageCount === 0) ? 0 : 1, Math.min(pageNo, pageCount));
                                 refresh();
                             }

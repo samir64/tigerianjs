@@ -102,7 +102,7 @@ var Tigerian = {};
                         fileTag = document.createElement("script");
                         fileTag.src = file;
                         fileTag.type = "text/javascript";
-                        fileTag.async = true;
+                        fileTag.async = false;
                         fileTag.defer = true;
                         document.head.appendChild(fileTag);
                         fileTag.remove();

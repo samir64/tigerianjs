@@ -29,18 +29,23 @@ Tigerian.BCancel = Tigerian.Behavior.extend({
             }
         });
     },
-    config: function (behavior, ctrlClose, btnCloseParent) {
+    /**
+     * @param {string} behavior
+     * @param {Tigerian.Control} ctrlCancel
+     * @param {Tigerian.Control} btnCancelParent
+     */
+    config: function (behavior, ctrlCancel, btnCancelParent) {
         if (behavior === "cancel") {
-            if (!Tigerian.Class.isInstance(ctrlClose, Tigerian.Control)) {
-                btnCloseParent = this;
+            if (!Tigerian.Class.isInstance(ctrlCancel, Tigerian.Control)) {
+                btnCancelParent = this;
             }
 
-            if (!(Tigerian.Class.isInstance(ctrlClose, Tigerian.Control) && ctrlClose["Behavior:cancel"])) {
-                ctrlClose = this;
+            if (!(Tigerian.Class.isInstance(ctrlCancel, Tigerian.Control) && ctrlCancel["Behavior:cancel"])) {
+                ctrlCancel = this;
             }
 
-            if (Tigerian.Class.isInstance(ctrlClose, Tigerian.Control) && ctrlClose["Behavior:cancel"]) {
-                var initClosButton = Object.getOwnPropertyDescriptor(this, "cancelButton");
+            if (Tigerian.Class.isInstance(ctrlCancel, Tigerian.Control) && ctrlCancel["Behavior:cancel"]) {
+                var initCancelButton = Object.getOwnPropertyDescriptor(this, "cancelButton");
                 var instance = this;
 
                 var elmButton = document.createElement("div");
@@ -48,7 +53,7 @@ Tigerian.BCancel = Tigerian.Behavior.extend({
                 elmButton.setAttribute("element-type", "Button");
                 elmButton.setAttribute("element-name", "cancel");
 
-                btnCloseParent.addControl(elmButton);
+                btnCancelParent.addControl(elmButton);
 
                 /**
                  * @member {boolean}
@@ -57,17 +62,17 @@ Tigerian.BCancel = Tigerian.Behavior.extend({
                     enumerable: true,
                     configurable: true,
                     get: function () {
-                        return (ctrlClose.getAttribute("cancel-button") === "true");
+                        return (ctrlCancel.getAttribute("cancel-button") === "true");
                     },
                     set: function (v) {
                         if (Tigerian.Class.isInstance(v, "boolean")) {
-                            ctrlClose.setAttribute("cancel-button", (v ? "true" : "false"));
+                            ctrlCancel.setAttribute("cancel-button", (v ? "true" : "false"));
                             elmButton.setAttribute("visible", (v ? "true" : "false"));
                         }
                     }
                 });
 
-                this.cancelButton = initClosButton.get.bind(this)();
+                this.cancelButton = initCancelButton.get.bind(this)();
 
                 elmButton.addEventListener("click", function (e) {
                     instance.visible = false;

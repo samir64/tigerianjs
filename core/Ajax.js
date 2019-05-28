@@ -70,6 +70,10 @@ Tigerian.Ajax = Tigerian.Class.extend({
             httpRequest.send(JSON.stringify(params));
         }
 
+        /**
+         * @param {string} label
+         * @param {string} value
+         */
         this.addHeader = function (label, value) {
             httpRequest.setRequestHeader(label, value);
         };
@@ -78,18 +82,30 @@ Tigerian.Ajax = Tigerian.Class.extend({
             httpRequest.abort();
         };
 
+        /**
+         * @param {Object} parameters
+         */
         this.get = function (parameters) {
             request("GET", parameters);
         };
 
+        /**
+         * @param {Object} parameters
+         */
         this.post = function (parameters) {
             request("POST", parameters);
         };
 
+        /**
+         * @param {Object} parameters
+         */
         this.put = function (parameters) {
             request("PUT", parameters);
         };
 
+        /**
+         * @param {Object} parameters
+         */
         this.delete = function (parameters) {
             request("DELETE", parameters);
         };

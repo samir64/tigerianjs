@@ -32,7 +32,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
         var reloadPath = controllerPath;
         var searchPath = controllerPath;
         var countPath = controllerPath;
-        var constructorArgs = Array.from(arguments);
+        // var constructorArgs = Array.from(arguments);
 
         var instance = this;
 
@@ -452,5 +452,5 @@ Tigerian.Model = Tigerian.ModelView.extend({
             return result;
         };
     },
-    enums: ["oneToOne", "oneToStar"],
+    // enums: ["oneToOne", "oneToStar"],
 });
