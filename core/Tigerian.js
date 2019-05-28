@@ -3,7 +3,7 @@
 /**
  * @global
  */
-var Tigerian = {};
+window.Tigerian = {};
 
 (function () {
     var scripts_styles = {};
