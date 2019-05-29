@@ -45,6 +45,8 @@ Tigerian.BText = Tigerian.Behavior.extend({
             ctrlText.innerHTML = this.text;
             ctrlText.value = this.text;
 
+            ctrlText.setAttribute("element-name", "text");
+            
             var instance = this;
 
             function changeText(e) {

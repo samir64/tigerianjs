@@ -36,7 +36,7 @@ Tigerian.CollapseItem = Tigerian.Control.extend({
         this.setAttribute("element-name", "container");
 
         elmText.setAttribute("element-type", "CollapseItem");
-        elmText.setAttribute("element-name", "text");
+        // elmText.setAttribute("element-name", "text");
 
         this.addControl = this.addChild = this.addSublist = function (item) {
             if (Tigerian.Class.isInstance(item, Tigerian.CollapseItem) || Tigerian.Class.isInstance(item, Tigerian.Spacer)) {

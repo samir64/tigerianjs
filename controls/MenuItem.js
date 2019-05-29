@@ -38,7 +38,7 @@ Tigerian.MenuItem = Tigerian.Control.extend({
         this.setAttribute("element-name", "container");
 
         elmText.setAttribute("element-type", "MenuItem");
-        elmText.setAttribute("element-name", "text");
+        // elmText.setAttribute("element-name", "text");
 
         /**
          * @param {Tigerian.MenuItem|Tigerian.Spacer} item

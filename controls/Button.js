@@ -29,7 +29,7 @@ Tigerian.Button = Tigerian.Control.extend({
         this.setAttribute("element-name", "container");
 
         elmButton.setAttribute("element-type", "Button");
-        elmButton.setAttribute("element-name", "text");
+        // elmButton.setAttribute("element-name", "text");
 
         this.setAttribute("fit-content", "false");
 

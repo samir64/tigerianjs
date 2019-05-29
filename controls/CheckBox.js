@@ -43,7 +43,7 @@ Tigerian.CheckBox = Tigerian.Control.extend({
 		elmCheckBox.setAttribute("element-situation", "");
 		elmCheckBox.setAttribute("element-hoverable", "true");
 
-		elmLabel.setAttribute("element-name", "label");
+		// elmLabel.setAttribute("element-name", "label");
 		elmLabel.setAttribute("element-type", "CheckBox");
 
 		//NOTE Append Children

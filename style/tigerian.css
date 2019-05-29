@@ -213,7 +213,11 @@ a[element-type][element-name] {
     display: none;
 }
 
-[element-type][element-name][visible="true"][inline-mode="true"]>* {
+[element-type][element-name][visible="true"][inline-mode="true"] [visible="true"][inline-mode] {
+    display: inline;
+}
+
+[element-type][element-name][visible="true"][inline-mode="true"] [element-name="text"] {
     display: inline;
 }
 
@@ -544,7 +548,7 @@ a[element-type][element-name] {
     margin: 0;
 }
 
-[element-type="FilterList"][element-name="container"] [element-type="TextBox"][element-name="container"]>[element-type="TextBox"][element-name="input"] {
+[element-type="FilterList"][element-name="container"] [element-type="TextBox"][element-name="container"]>[element-type="TextBox"][element-name="text"] {
     width: 100%;
     margin: 0;
 }
@@ -553,7 +557,7 @@ a[element-type][element-name] {
     display: none;
 }
 
-[element-type="Field"][element-name="container"]>[element-type="TextBox"][element-name="container"]>[element-type="TextBox"][element-name="input"] {
+[element-type="Field"][element-name="container"]>[element-type="TextBox"][element-name="container"]>[element-type="TextBox"][element-name="text"] {
     height: 37px;
     padding-top: 14px;
     border-left: none;
@@ -610,13 +614,13 @@ a[element-type][element-name] {
     cursor: pointer;
 }
 
-[element-type="CheckBox"][element-name="container"]>[element-type="CheckBox"][element-name="label"],
-[element-type="RadioButton"][element-name="container"]>[element-type="RadioButton"][element-name="label"] {
+[element-type="CheckBox"][element-name="container"]>[element-type="CheckBox"][element-name="text"],
+[element-type="RadioButton"][element-name="container"]>[element-type="RadioButton"][element-name="text"] {
     vertical-align: middle;
 }
 
-[element-type="CheckBox"][element-name="container"][element-situation="disable"]>[element-type="CheckBox"][element-name="label"],
-[element-type="RadioButton"][element-name="container"][element-situation="disable"]>[element-type="RadioButton"][element-name="label"] {
+[element-type="CheckBox"][element-name="container"][element-situation="disable"]>[element-type="CheckBox"][element-name="text"],
+[element-type="RadioButton"][element-name="container"][element-situation="disable"]>[element-type="RadioButton"][element-name="text"] {
     /* color: #aaa; */
 }
 
@@ -756,13 +760,13 @@ a[element-type][element-name] {
     vertical-align: middle;
 }
 
-[element-type="ComboBox"][element-name="container"]>[element-type="TextBox"][element-name="container"]>[element-type="TextBox"][element-name="input"] {
+[element-type="ComboBox"][element-name="container"]>[element-type="TextBox"][element-name="container"]>[element-type="TextBox"][element-name="text"] {
     border: none;
     /* background-color: transparent; */
 }
 
 [element-type="ComboBox"][element-name="container"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"],
-[element-type="ComboBox"][element-name="container"]>[element-type="TextBox"][element-name="container"]>[element-type="TextBox"][element-name="input"] {
+[element-type="ComboBox"][element-name="container"]>[element-type="TextBox"][element-name="container"]>[element-type="TextBox"][element-name="text"] {
     float: left;
     line-height: 25px;
     height: 25px;
@@ -831,30 +835,31 @@ a[element-type][element-name] {
     text-align: center;
 }
 
-[element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="container"] {
-    margin: 20px 10px 2px;
-    border-radius: 5px;
+[element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="container"]>[element-type="MenuItem"][element-name="text"] {
+    margin: 0 10px 0;
+    /* border-radius: 5px;
     border-width: 1px;
-    border-style: solid;
+    border-style: solid; */
     /* display: block; */
+    width: auto;
 }
 
 [element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="text"] {}
 
-[element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="container"][has-child="true"]::after {
+[element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="container"][has-child="true"]>[element-type="MenuItem"][element-name="text"]::after {
     content: '';
     position: absolute;
     vertical-align: middle;
-    margin-left: -20px;
+    margin-left: 5px;
     /* margin-top: -4px; */
-    top: 100%;
-    left: 50%;
+    top: 50%;
+    left: 100%;
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 10px;
-    border-left-width: 20px;
-    border-right-width: 20px;
+    border-width: 5px;
+    border-left-width: 5px;
+    border-right-width: 5px;
     border-bottom-color: transparent;
     border-left-color: transparent;
     border-right-color: transparent;
@@ -1020,7 +1025,7 @@ a[element-type][element-name] {
     padding-bottom: 7px;
 }
 
-[element-type="Notification"][element-name="container"]>[element-type="Notification"][element-name="message"] {
+[element-type="Notification"][element-name="container"]>[element-type="Notification"][element-name="text"] {
     /* color: #333; */
 }
 

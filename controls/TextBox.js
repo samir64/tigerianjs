@@ -31,7 +31,7 @@ Tigerian.TextBox = Tigerian.Control.extend({
         this.setAttribute("element-name", "container");
 
         elmText.setAttribute("element-type", "TextBox");
-        elmText.setAttribute("element-name", "input");
+        // elmText.setAttribute("element-name", "input");
         // elmText.setAttribute("type", "headText");
         // if (!Tigerian.Class.isInstance(text, "string")) {
         //     text = "";

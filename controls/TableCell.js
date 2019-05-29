@@ -26,7 +26,7 @@ Tigerian.TableCell = Tigerian.Control.extend({
         this.setAttribute("element-name", "container");
 
         elmText.setAttribute("element-type", "TableCell");
-        elmText.setAttribute("element-name", "text");
+        // elmText.setAttribute("element-name", "text");
 
         this.situation = Tigerian.Control.ETransparent;
     },

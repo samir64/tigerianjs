@@ -24,7 +24,7 @@ Tigerian.Notification = Tigerian.Control.extend({
         this.setAttribute("element-name", "container");
 
         elmMessage.setAttribute("element-type", "Notification");
-        elmMessage.setAttribute("element-name", "message");
+        // elmMessage.setAttribute("element-name", "message");
 
         this.addControl(elmMessage);
         this.text = text;

@@ -35,7 +35,7 @@ Tigerian.Label = Tigerian.Control.extend({
         this.setAttribute("element-name", "container");
 
         elmLabel.setAttribute("element-type", "Label");
-        elmLabel.setAttribute("element-name", "text");
+        // elmLabel.setAttribute("element-name", "text");
 
         // if (Tigerian.Class.isInstance(text, "string")) {
         //     elmLabel.innerHTML = text;
