@@ -56,9 +56,9 @@ Tigerian.TextBox = Tigerian.Control.extend({
         //         return elmText.value;
         //     },
 
-        //     set: function (value) {
-        //         if (Tigerian.Class.isInstance(value, "string")) {
-        //             elmText.value = value;
+        //     set: function (v) {
+        //         if (Tigerian.Class.isInstance(v, "string")) {
+        //             elmText.value = v;
         //         }
         //     }
         // });
@@ -73,10 +73,10 @@ Tigerian.TextBox = Tigerian.Control.extend({
                 return thisEnabled.get.bind(this)();
             },
 
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "boolean")) {
-                    thisEnabled.set.bind(this)(value);
-                    if (value === false) {
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "boolean")) {
+                    thisEnabled.set.bind(this)(v);
+                    if (v === false) {
                         elmText.setAttribute("disabled", "true");
                     } else {
                         elmText.removeAttribute("disabled");
@@ -95,9 +95,9 @@ Tigerian.TextBox = Tigerian.Control.extend({
                 return elmText.getAttribute("pattern");
             },
 
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "string")) {
-                    elmText.setAttribute("pattern", value);
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "string")) {
+                    elmText.setAttribute("pattern", v);
                     this.checkValidity();
                 }
             }
@@ -113,9 +113,9 @@ Tigerian.TextBox = Tigerian.Control.extend({
                 return elmText.hasAttribute("required");
             },
 
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "boolean")) {
-                    if (value === true) {
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "boolean")) {
+                    if (v === true) {
                         elmText.setAttribute("required", "true");
                     } else {
                         elmText.removeAttribute("required");

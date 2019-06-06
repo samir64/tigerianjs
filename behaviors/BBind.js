@@ -45,18 +45,21 @@ Tigerian.BBind = Tigerian.Behavior.extend({
                                 return lastProp.value;
                             }
                         },
-                        set: function (value) {
+                        set: function (v) {
                             if (lastProp.hasOwnProperty("set")) {
-                                // console.log(srcProp, target, trgProp, value, target[trgProp]);
-                                lastProp.set.bind(target)(value);
+                                // console.log(srcProp, target, trgProp, v, target[trgProp]);
+                                lastProp.set.bind(target)(v);
                             } else if (lastProp.hasOwnProperty("value")) {
-                                lastProp.value = value;
+                                lastProp.value = v;
                             }
-                            for (var i in binds[srcProp].targets) {
+                            binds[srcProp].targets.forEach(function (trg) {
+                                trg.trg[trg.prop] = changer(v);
+                            });
+                            /* for (var i in binds[srcProp].targets) {
                                 var trg = binds[srcProp].targets[i].trg;
                                 var prop = binds[srcProp].targets[i].prop;
-                                trg[prop] = changer(value);
-                            }
+                                trg[prop] = changer(v);
+                            } */
                         },
                     });
                 }
@@ -67,14 +70,19 @@ Tigerian.BBind = Tigerian.Behavior.extend({
             if ((typeof srcProp == "string") && (binds[srcProp] != "") && (binds[srcProp] != undefined) && (binds[srcProp] != null)) {
                 result = [];
                 var main = binds[srcProp].main;
-                for (var i in binds[srcProp].targets) {
+                binds[srcProp].targets.forEach(function (trg) {
+                    if (((typeof target == "object") && (target != undefined) && (target != null) && (target != trg.trg)) || ((typeof trgProp == "string") && (trgProp != "") && (trgProp != undefined) && (trgProp != null) && (trgProp != trg.prop))) {
+                        result.push(trg);
+                    }
+                });
+                /* for (var i in binds[srcProp].targets) {
                     var trg = binds[srcProp].targets[i].trg;
                     var prop = binds[srcProp].targets[i].prop;
 
                     if (((typeof target == "object") && (target != undefined) && (target != null) && (target != trg)) || ((typeof trgProp == "string") && (trgProp != "") && (trgProp != undefined) && (trgProp != null) && (trgProp != prop))) {
                         result.push(binds[srcProp].targets[i]);
                     }
-                }
+                } */
 
                 binds[srcProp].target = result;
 
@@ -83,9 +91,12 @@ Tigerian.BBind = Tigerian.Behavior.extend({
                     delete binds[srcProp];
                 }
             } else {
-                for (var idx in binds) {
+                binds.forEach(function (b, idx) {
                     this.unbind(idx, target, trgProp);
-                }
+                });
+                /* for (var idx in binds) {
+                    this.unbind(idx, target, trgProp);
+                } */
             }
         };
     },

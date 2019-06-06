@@ -45,8 +45,9 @@ Tigerian.BCancel = Tigerian.Behavior.extend({
             }
 
             if (Tigerian.Class.isInstance(ctrlCancel, Tigerian.Control) && ctrlCancel["Behavior:cancel"]) {
-                var initCancelButton = Object.getOwnPropertyDescriptor(this, "cancelButton");
                 var instance = this;
+                var superClass = this.super;
+                var initCancelButton = Object.getOwnPropertyDescriptor(superClass, "cancelButton");
 
                 var elmButton = document.createElement("div");
 

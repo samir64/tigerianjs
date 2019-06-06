@@ -27,7 +27,8 @@ Tigerian.BCascade = Tigerian.Behavior.extend({
             var ctrlSubMenu;
 
             var instance = this;
-            var superAddControl = this.addControl;
+            // var superAddControl = this.addControl;
+            var superClass = this.super;
 
             this.setAttribute("has-child", "false");
             this.setAttribute("open-child", "false");
@@ -66,7 +67,8 @@ Tigerian.BCascade = Tigerian.Behavior.extend({
                     ctrlSubMenu = child;
                     child.visible = false;
                     this.setAttribute("has-child", "true");
-                    superAddControl(child);
+                    // superAddControl(child);
+                    superClass.addControl(child);
                 }
             };
         }

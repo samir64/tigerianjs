@@ -60,7 +60,7 @@ Tigerian.UI = Tigerian.Class.extend({
 
         //NOTE Properties
         /**
-         * @member {Tigerin.UI}
+         * @member {Tigerin.UI|Element}
          */
         Object.defineProperty(this, "parent", {
             enumerable: true,
@@ -77,10 +77,15 @@ Tigerian.UI = Tigerian.Class.extend({
             set: function (v) {
                 if (v === undefined) {
                     parent = undefined;
-                    mainElement.parentNode.removeChild(mainElement);
+                    if (mainElement.parentNode) {
+                        mainElement.parentNode.removeChild(mainElement);
+                    }
                 } else if (Tigerian.Class.isInstance(v, Tigerian.UI)) {
                     parent = v;
                     v.addControl(this);
+                } else if (Tigerian.Class.isInstance(v, Element)) {
+                    v.appendChild(mainElement);
+                    parent = v;
                 }
             }
         });
@@ -207,30 +212,6 @@ Tigerian.UI = Tigerian.Class.extend({
             },
         });
 
-        /**
-         * @member {boolean}
-         */
-        Object.defineProperty(this, "inline", {
-            enumerable: true,
-            configurable: true,
-            /**
-             * @returns {boolean}
-             */
-            get: function () {
-                return (this.getAttribute("inline-mode") === "true");
-            },
-            /**
-             * @param {boolean} v = false
-             */
-            set: function (v) {
-                if (v === true) {
-                    this.setAttribute("inline-mode", "true");
-                } else {
-                    this.setAttribute("inline-mode", "false");
-                }
-            }
-        });
-
 
         //NOTE Private Functions
         /**
@@ -317,7 +298,7 @@ Tigerian.UI = Tigerian.Class.extend({
          */
         this.addControl = function (control) {
             // console.warn(Tigerian.Class.isInstance(control, Tigerian.Control));
-            if (Tigerian.Class.isInstance(control, Element)) {
+            if (Tigerian.Class.isInstance(control, Element) || Tigerian.Class.isInstance(control, Text)) {
                 mainElement.appendChild(control);
             } else if (Tigerian.Class.isInstance(control, Tigerian.Control)) {
                 control.appendTo(this, mainElement);
@@ -479,7 +460,6 @@ Tigerian.UI = Tigerian.Class.extend({
         this.setAttribute("element-name", "");
         this.setAttribute("element-type", "");
         this.setAttribute("visible", "true");
-        this.setAttribute("inline-mode", "false");
         this.setAttribute("focused", (document.activeElement === mainElement) ? "true" : "false");
 
         if (Tigerian.Class.isInstance(theme, "string") && (theme !== "")) {

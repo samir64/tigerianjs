@@ -10,6 +10,8 @@ Tigerian.Ajax = Tigerian.Class.extend({
      * @param {string} url
      */
     init: function (url) {
+        this.super();
+
         var httpRequest;
         var success = function (responseText, responseXml, responseJson) {};
         var unsuccess = function (readyState, status, statusText) {};

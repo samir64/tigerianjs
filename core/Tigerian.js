@@ -101,7 +101,7 @@ window.Tigerian = {};
                     case "js":
                         fileTag = document.createElement("script");
                         fileTag.src = file;
-                        fileTag.type = "text/javascript";
+                        fileTag.type = "application/javascript";
                         fileTag.async = false;
                         fileTag.defer = true;
                         document.head.appendChild(fileTag);

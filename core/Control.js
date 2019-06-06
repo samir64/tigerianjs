@@ -25,6 +25,7 @@ Tigerian.Control = Tigerian.UI.extend({
 
         //NOTE Private Variables
         var instance = this;
+        var vSuper = this.super;
         var elmTxtHead = document.createTextNode("");
         var elmTxtFoot = document.createTextNode("");
 
@@ -56,6 +57,7 @@ Tigerian.Control = Tigerian.UI.extend({
         this.setAttribute("hide-on-xlarge", "false");
         this.setAttribute("float", "");
         this.setAttribute("align", "");
+        this.setAttribute("title", "");
         this.setAttribute("template-name", "");
         this.setAttribute("template-item", "");
 
@@ -73,11 +75,11 @@ Tigerian.Control = Tigerian.UI.extend({
                 return elmTxtHead.data;
             },
             /**
-             * @param {string} value
+             * @param {string} v
              */
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "string")) {
-                    elmTxtHead.data = value;
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "string")) {
+                    elmTxtHead.data = v;
                 }
             }
         });
@@ -95,11 +97,32 @@ Tigerian.Control = Tigerian.UI.extend({
                 return elmTxtFoot.data;
             },
             /**
-             * @param {string} value
+             * @param {string} v
              */
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "string")) {
-                    elmTxtFoot.data = value;
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "string")) {
+                    elmTxtFoot.data = v;
+                }
+            }
+        });
+        /**
+         * @member {string}
+         */
+        Object.defineProperty(this, "title", {
+            enumerable: true,
+            configurable: true,
+            /**
+             * @returns {string}
+             */
+            get: function () {
+                return this.getAttribute("title");
+            },
+            /**
+             * @param {string} v
+             */
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "string")) {
+                    this.setAttribute("title", v);
                 }
             }
         });
@@ -487,11 +510,11 @@ Tigerian.Control = Tigerian.UI.extend({
                 return this.getAttribute("hide-on-small");
             },
             /**
-             * @param {boolean} value
+             * @param {boolean} v
              */
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "boolean")) {
-                    this.setAttribute("hide-on-small", value);
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "boolean")) {
+                    this.setAttribute("hide-on-small", v);
                 }
             }
         });
@@ -509,11 +532,11 @@ Tigerian.Control = Tigerian.UI.extend({
                 return this.getAttribute("hide-on-medium");
             },
             /**
-             * @param {boolean} value
+             * @param {boolean} v
              */
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "boolean")) {
-                    this.setAttribute("hide-on-medium", value);
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "boolean")) {
+                    this.setAttribute("hide-on-medium", v);
                 }
             }
         });
@@ -531,11 +554,11 @@ Tigerian.Control = Tigerian.UI.extend({
                 return this.getAttribute("hide-on-normal");
             },
             /**
-             * @param {boolean} value
+             * @param {boolean} v
              */
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "boolean")) {
-                    this.setAttribute("hide-on-normal", value);
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "boolean")) {
+                    this.setAttribute("hide-on-normal", v);
                 }
             }
         });
@@ -553,11 +576,11 @@ Tigerian.Control = Tigerian.UI.extend({
                 return this.getAttribute("hide-on-large");
             },
             /**
-             * @param {boolean} value
+             * @param {boolean} v
              */
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "boolean")) {
-                    this.setAttribute("hide-on-large", value);
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "boolean")) {
+                    this.setAttribute("hide-on-large", v);
                 }
             }
         });
@@ -575,11 +598,11 @@ Tigerian.Control = Tigerian.UI.extend({
                 return this.getAttribute("hide-on-xlarge");
             },
             /**
-             * @param {boolean} value
+             * @param {boolean} v
              */
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "boolean")) {
-                    this.setAttribute("hide-on-xlarge", value);
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "boolean")) {
+                    this.setAttribute("hide-on-xlarge", v);
                 }
             }
         });
@@ -610,7 +633,7 @@ Tigerian.Control = Tigerian.UI.extend({
                 }
             },
             /**
-             * @param {string} value
+             * @param {string} v
              */
             set: function (v) {
                 switch (v) {
@@ -659,7 +682,7 @@ Tigerian.Control = Tigerian.UI.extend({
                 }
             },
             /**
-             * @param {string} value
+             * @param {string} v
              */
             set: function (v) {
                 switch (v) {
@@ -695,11 +718,11 @@ Tigerian.Control = Tigerian.UI.extend({
         //         return (this.getAttribute("float") === "left");
         //     },
         //     /**
-        //      * @param {string} value
+        //      * @param {string} v
         //      */
-        //     set: function (value) {
-        //         if (Tigerian.Class.isInstance(value, "boolean")) {
-        //             this.setAttribute("float", (value ? "left" : "false"));
+        //     set: function (v) {
+        //         if (Tigerian.Class.isInstance(v, "boolean")) {
+        //             this.setAttribute("float", (v ? "left" : "false"));
         //         }
         //     }
         // });
@@ -717,11 +740,11 @@ Tigerian.Control = Tigerian.UI.extend({
         //         return (this.getAttribute("float") === "right");
         //     },
         //     /**
-        //      * @param {string} value
+        //      * @param {string} v
         //      */
-        //     set: function (value) {
-        //         if (Tigerian.Class.isInstance(value, "boolean")) {
-        //             this.setAttribute("float", (value ? "right" : "false"));
+        //     set: function (v) {
+        //         if (Tigerian.Class.isInstance(v, "boolean")) {
+        //             this.setAttribute("float", (v ? "right" : "false"));
         //         }
         //     }
         // });
@@ -739,11 +762,11 @@ Tigerian.Control = Tigerian.UI.extend({
         //         return (this.getAttribute("float") === "center");
         //     },
         //     /**
-        //      * @param {string} value
+        //      * @param {string} v
         //      */
-        //     set: function (value) {
-        //         if (Tigerian.Class.isInstance(value, "boolean")) {
-        //             this.setAttribute("float", (value ? "center" : "false"));
+        //     set: function (v) {
+        //         if (Tigerian.Class.isInstance(v, "boolean")) {
+        //             this.setAttribute("float", (v ? "center" : "false"));
         //         }
         //     }
         // });
@@ -761,11 +784,11 @@ Tigerian.Control = Tigerian.UI.extend({
                 return this.getAttribute("template-name");
             },
             /**
-             * @param {string} value
+             * @param {string} v
              */
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "string")) {
-                    this.setAttribute("template-name", value);
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "string")) {
+                    this.setAttribute("template-name", v);
                 }
             }
         });
@@ -783,11 +806,11 @@ Tigerian.Control = Tigerian.UI.extend({
                 return this.getAttribute("template-item");
             },
             /**
-             * @param {string} value
+             * @param {string} v
              */
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "string")) {
-                    this.setAttribute("template-item", value);
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "string")) {
+                    this.setAttribute("template-item", v);
                 }
             }
         });

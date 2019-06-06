@@ -58,13 +58,13 @@ Tigerian.CheckBox = Tigerian.Control.extend({
 			get: function () {
 				return instance.getAttribute("selected") == "indeterminate";
 			},
-			set: function (value) {
-				if (Tigerian.Class.isInstance(value, "boolean")) {
+			set: function (v) {
+				if (Tigerian.Class.isInstance(v, "boolean")) {
 					var lastValue = instance.indeterminate;
 
-					instance.setAttribute("selected", value ? "indeterminate" : "false");
+					instance.setAttribute("selected", v ? "indeterminate" : "false");
 
-					if (value != lastValue) {
+					if (v != lastValue) {
 						instance.dispatchEvent(Tigerian.Event.onIndeterminateChange);
 					}
 				}

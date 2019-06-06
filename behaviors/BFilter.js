@@ -60,11 +60,14 @@ Tigerian.BFilter = Tigerian.Behavior.extend({
                     }
 
                     if (this.filtering) {
-                        for (var i = 0; i < ctrlList.itemCount; i++) {
+                        /* for (var i = 0; i < ctrlList.itemCount; i++) {
                             ctrlList.getItem(i).visible = ((text === "") || ctrlList.getItem(i).text.toLowerCase().includes(text.toLowerCase()));
-                        }
+                        } */
+                        ctrlList.forEach(function (item) {
+                            item.visible = ((text === "") || item.text.toLowerCase().includes(text.toLowerCase()));
+                        });
                     }
-                }
+                };
 
                 /**
                  * @member {boolean}

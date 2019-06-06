@@ -8,8 +8,9 @@ Tigerian.Route = Tigerian.Class.extend({
     /**
      * @constructs
      * @param {string} applicationRoot
+     * @param {boolean} useHashTag
      */
-    init: function (applicationRoot) {
+    init: function (applicationRoot, useHashTag) {
         /**
          *
          * @type {Tigerian.View[]}
@@ -17,6 +18,10 @@ Tigerian.Route = Tigerian.Class.extend({
         var routes = [];
         var lastRoute = "";
         var viewPageNotFound;
+
+        this.super();
+
+        useHashTag = (useHashTag === false) ? false : true;
 
         var getPath = function (path) {
             if (path.startsWith(applicationRoot)) {
@@ -28,7 +33,7 @@ Tigerian.Route = Tigerian.Class.extend({
             if (typeof path === "string") {
                 path = path.replace(/^\/*(.*[^\/])\/*/, "$1");
                 if ((path !== "") && (path !== "/")) {
-                    path = "/" + path + "/";
+                    path = path + "/";
                 } else {
                     path = "/";
                 }
@@ -64,7 +69,7 @@ Tigerian.Route = Tigerian.Class.extend({
             }
         };
 
-        applicationRoot = getGoodPath(applicationRoot);
+        applicationRoot = getGoodPath(applicationRoot) + (useHashTag ? "#/" : "");
 
         /**
          * @param {string|string[]} route
@@ -104,24 +109,33 @@ Tigerian.Route = Tigerian.Class.extend({
          * @param {string} route
          */
         this.redirect = function (route) {
+            route = getGoodPath(route);
+
             if ((typeof route === "string") && (route !== "") && (route !== "/") && (route !== "#")) {
-                var info = route.split("#");
-                if (info[0] === "") {
-                    info[0] = "/";
-                }
-                if (getPath(window.location.pathname) === info[0]) {
-                    window.location.hash = info[1];
+                if (useHashTag) {
+                    window.location.href = window.location.origin + "/" + applicationRoot + route;
                 } else {
-                    window.location.href = window.location.origin + applicationRoot + route;
+                    window.history.pushState({}, undefined, route);
+                    this.render();
                 }
             } else {
-                window.location.hash = "";
+                if (useHashTag) {
+                    window.location.hash = "/";
+                } else {
+                    window.history.pushState({}, undefined, "/" + applicationRoot);
+                    this.render();
+                }
             }
         };
 
         this.render = function () {
-            var url = getGoodPath(window.location.pathname + window.location.hash);
+            var url = getGoodPath(window.location.pathname + (useHashTag ? window.location.hash : ""));
             var check = getBestMatch(getGoodPath(getPath(url)));
+
+            if (useHashTag && (check[0] === "/") && (window.location.hash !== "#/")) {
+                window.location.hash = "/";
+            }
+
             if (check) {
                 var route = check[0];
                 var params = check[1];
@@ -187,7 +201,18 @@ Tigerian.Route = Tigerian.Class.extend({
             },
         });
 
-        window.onhashchange = function (e) {
+        Object.defineProperty(this, "current", {
+            enumerable: true,
+            configurablte: true,
+            get: function () {
+                return lastRoute;
+            },
+            set: function (v) {
+                this.redirect(v);
+            }
+        })
+
+        window.onhashchange = window.onpopstate = function (e) {
             this.render();
         }.bind(this);
     },

@@ -144,8 +144,8 @@ Tigerian.Model = Tigerian.ModelView.extend({
             get: function () {
                 return fields["id"].value;
             },
-            set: function (value) {
-                fields["id"].value = value;
+            set: function (v) {
+                fields["id"].value = v;
             },
         });
 

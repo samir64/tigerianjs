@@ -195,7 +195,7 @@ a[element-type][element-name] {
 }
 
 [visible="true"][fixed="true"] {
-    position: -webkit-sticky;
+    /* position: -webkit-sticky; */
     position: sticky;
     left: 0;
     display: block;
@@ -211,14 +211,6 @@ a[element-type][element-name] {
 
 [element-type][element-name][visible="false"] {
     display: none;
-}
-
-[element-type][element-name][visible="true"][inline-mode="true"] [visible="true"][inline-mode] {
-    display: inline;
-}
-
-[element-type][element-name][visible="true"][inline-mode="true"] [element-name="text"] {
-    display: inline;
 }
 
 [element-type="Application"][element-name="container"] {
@@ -331,6 +323,7 @@ a[element-type][element-name] {
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
+    padding: 1% 5%;
 }
 
 [element-type="Container"][element-name="container"]>[element-type="Container"][element-name="body"] {
@@ -434,6 +427,14 @@ a[element-type][element-name] {
 
 [element-type="Button"][element-name="container"]:not([element-situation="disable"])>[element-type="Button"][element-name="text"]:focus {
     box-shadow: 0 0 2px 1px dodgerblue, 2px 2px 3px 1px rgba(50, 50, 50, 0.2);
+}
+
+[element-type="Label"][element-name][visible="true"][inline-mode="true"] [visible="true"] {
+    display: inline;
+}
+
+[element-type="Label"][element-name][visible="true"][inline-mode="true"] [element-name="text"] {
+    display: inline;
 }
 
 [element-type="Label"][element-name="container"][label-type="tag"]>[element-type="Label"][element-name="text"],
@@ -558,8 +559,8 @@ a[element-type][element-name] {
 }
 
 [element-type="Field"][element-name="container"]>[element-type="TextBox"][element-name="container"]>[element-type="TextBox"][element-name="text"] {
-    height: 37px;
-    padding-top: 14px;
+    height: 45px;
+    padding-top: 15px;
     border-left: none;
     border-top: none;
     border-right: none;
@@ -578,15 +579,15 @@ a[element-type][element-name] {
     -o-transition: all 50ms ease;
     transition: all 500ms ease;
     width: auto;
-    display: content;
+    /* display: content; */
 }
 
 [element-type="Field"][element-name="container"][text=""][focused="true"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"],
 [element-type="Field"][element-name="container"]:not([text=""])>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
     font-weight: bold;
-    left: 5px;
-    top: -6px;
-    font-size: 80%;
+    left: 2px;
+    top: -8px;
+    font-size: 75%;
 }
 
 [element-type="Field"][element-name="container"]>[element-type="Label"][element-name="container"] {
@@ -605,7 +606,7 @@ a[element-type][element-name] {
 [element-type="Field"][element-name="container"][text=""][focused="false"]>[element-type="Label"][element-name="container"]>[element-type="Label"][element-name="text"] {
     color: #aaa;
     left: 10px;
-    top: 6px;
+    top: 10px;
     font-size: 110%;
 }
 

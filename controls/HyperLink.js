@@ -63,9 +63,9 @@ Tigerian.HyperLink = Tigerian.Control.extend({
                 return elmHyperLink.href;
             },
 
-            set: function (value) {
-                if (Tigerian.Class.isInstance(value, "string")) {
-                    elmHyperLink.href = value;
+            set: function (v) {
+                if (Tigerian.Class.isInstance(v, "string")) {
+                    elmHyperLink.href = v;
                 }
             }
         });

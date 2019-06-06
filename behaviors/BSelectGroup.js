@@ -403,7 +403,7 @@ Tigerian.BSelectGroup = Tigerian.Behavior.extend({
                         e.preventDefault();
                     }
                 }.bind(this));
-                this.addEvent("itemadded", onAddItem);
+                this.addEvent("Add", onAddItem);
             }
         }
     }

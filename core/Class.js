@@ -48,7 +48,40 @@ Tigerian.MainClassDefinition.extend = function (properties, behaviors, superClas
             writable: false,
             value: function () {
                 superClass.apply(this, Array.from(arguments));
-            },
+
+                var newSuper = {};
+                this.forEach(function (member, name) {
+                    switch (name) {
+                        case "config":
+                        case "constructor":
+                            break;
+
+                        default:
+                            var getter = Object.getOwnPropertyDescriptor(this, name).get;
+                            var setter = Object.getOwnPropertyDescriptor(this, name).set;
+                            var hasGetter = (getter !== undefined);
+                            var hasSetter = (setter !== undefined);
+
+                            if (hasGetter || hasSetter) {
+                                Object.defineProperty(newSuper, name, {
+                                    enumerable: true,
+                                    configurable: true,
+                                    get: getter,
+                                    set: setter
+                                });
+                            } else {
+                                newSuper[name] = member;
+                            }
+                    }
+                }.bind(this));
+
+                Object.defineProperty(this, "super", {
+                    enumerable: false,
+                    configurable: true,
+                    writable: false,
+                    value: newSuper
+                });
+            }.bind(this),
         });
 
         /*

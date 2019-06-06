@@ -34,15 +34,21 @@ Tigerian.BEvent = Tigerian.Behavior.extend({
             set: function (v) {
                 if (Tigerian.Class.isInstance(v, Element) || (v === undefined)) {
                     if (mainElement !== undefined) {
-                        for (var eventName in events) {
+                        events.forEach(function (event, eventName) {
                             mainElement.removeEventListener(eventName, eventHandler, false);
-                        }
+                        });
+                        /* for (var eventName in events) {
+                            mainElement.removeEventListener(eventName, eventHandler, false);
+                        } */
                     }
 
                     if (v !== undefined) {
-                        for (var eventName in events) {
+                        events.forEach(function (event, eventName) {
                             mainElement.addEventListener(eventName, eventHandler, true);
-                        }
+                        });
+                        /* for (var eventName in events) {
+                            mainElement.addEventListener(eventName, eventHandler, true);
+                        } */
                     }
 
                     mainElement = v;
@@ -58,9 +64,14 @@ Tigerian.BEvent = Tigerian.Behavior.extend({
 
             // if (instance.enabled && instance.visible) {
             if (instance.enabled) {
-                for (var event in events[eventType]) {
-                    events[eventType][event].bind(instance)(e);
+                if (eventType in events) {
+                    events[eventType].forEach(function (event) {
+                        event.bind(instance)(e);
+                    });
                 }
+                /* for (var event in events[eventType]) {
+                    events[eventType][event].bind(instance)(e);
+                } */
             }
         }
 

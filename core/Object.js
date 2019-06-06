@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @param {Function} callback
+ * @param {Function(item, index, list)} callback
  */
 Object.defineProperty(Object.prototype, "forEach", {
     value: function (callback) {
@@ -12,6 +12,6 @@ Object.defineProperty(Object.prototype, "forEach", {
         }
     },
     writable: false,
-    configurable: false,
+    configurable: true,
     enumerable: false,
 });

@@ -24,7 +24,7 @@ Tigerian.Table = Tigerian.Control.extend({
         var ctrlTableBody = new Tigerian.TableBody(this, this.theme);
         var ctrlCaption = new Tigerian.Label(ctrlTableHeader, "", this.theme);
 
-        this.config("group");
+        this.config("group", ctrlTableBody);
         this.config("table", colCount, ctrlTableBody);
 
         ctrlCaption.text = caption;
