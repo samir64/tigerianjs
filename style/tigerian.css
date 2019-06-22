@@ -24,7 +24,7 @@
 
 [element-type][element-name] li {
     display: list-item;
-    margin: 5px 10px 5px 35px;
+    padding: 5px 10px 5px 35px;
 }
 
 [element-type][element-name] pre {
@@ -249,7 +249,7 @@ a[element-type][element-name] {
 }
 
 [element-type][element-name="container"] * {
-    padding: 2px;
+    /* padding: 2px; */
 }
 
 [element-name="container"] *:focus {
@@ -315,15 +315,16 @@ a[element-type][element-name] {
 /* NOTE Control Container*/
 
 [element-type="Container"][element-name="container"] {
-    min-height: 150px;
+    /* min-height: 150px; */
     /* background-color: #ddd; */
     /* border: solid 1px gray; */
-    border-style: solid;
-    border-width: 1px;
+    /* border-style: solid;
+    border-width: 1px; */
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
-    padding: 1% 5%;
+    padding-left: 15px !IMPORTANT;
+    padding-right: 15px !IMPORTANT;
 }
 
 [element-type="Container"][element-name="container"]>[element-type="Container"][element-name="body"] {
@@ -402,7 +403,7 @@ a[element-type][element-name] {
 
 [element-type="Button"][element-name="container"][fit-content="true"][float="center"]>[element-type="Button"][element-name="text"] {
     float: none;
-    margin: auto;
+    margin: 0 auto;
 }
 
 [element-type="Button"][element-name="container"]>[element-type="Button"][element-name="text"] {
@@ -539,9 +540,9 @@ a[element-type][element-name] {
 }
 
 [element-type="FilterList"][element-name="container"]>[element-type="TextBox"][element-name="container"] {
-    margin-left: 1px;
+    /* margin-left: 1px; */
     width: 100%;
-    margin: auto;
+    margin: 0 auto;
 }
 
 [element-type="FilterList"][element-name="container"]>* {
@@ -629,10 +630,15 @@ a[element-type][element-name] {
 [element-type="RadioButton"][element-name="container"]>[element-type="RadioButton"][element-name="button"] {
     width: 18px;
     height: 18px;
-    margin-right: 5px;
+    padding-right: 5px;
     vertical-align: middle;
     border-width: 1px;
     border-style: solid;
+}
+
+[element-type="CheckBox"][element-name="container"]>[element-type="CheckBox"][element-name="text"],
+[element-type="RadioButton"][element-name="container"]>[element-type="RadioButton"][element-name="text"] {
+    padding-left: 5px;
 }
 
 [element-type="CheckBox"][element-name="container"][element-situation="disable"]>[element-type="CheckBox"][element-name="check"],
