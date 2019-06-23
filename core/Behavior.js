@@ -1,4 +1,4 @@
-'use strict';
+("use strict");
 
 /**
  * @namespace {Tigerian}
@@ -6,20 +6,20 @@
  * @extends {Tigerian.Class}
  */
 Tigerian.Behavior = Tigerian.Class.extend({
-    /**
-     * @constructs
-     * @param {string} behavior
-     */
-    init: function (behavior) {
-        if (Tigerian.Class.isInstance(behavior, "string") && (behavior !== "")) {
-            this.super();
+  /**
+   * @constructs
+   * @param {string} behavior
+   */
+  init: function(behavior) {
+    if (Tigerian.Class.isInstance(behavior, "string") && behavior !== "") {
+      this.super();
 
-            Object.defineProperty(this, "Behavior:" + behavior.toTag(false), {
-                enumerable: true,
-                writable: false,
-                configurable: false,
-                value: true,
-            });
-        }
-    },
+      Object.defineProperty(this, "Behavior:" + behavior.toTag(false), {
+        enumerable: true,
+        writable: false,
+        configurable: false,
+        value: true
+      });
+    }
+  }
 });

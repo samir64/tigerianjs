@@ -1,4 +1,4 @@
-"use strict";
+("use strict");
 
 Tigerian.BLabel = Tigerian.Behavior.extend({
     init: function () {

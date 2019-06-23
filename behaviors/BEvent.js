@@ -1,4 +1,4 @@
-"use strict";
+("use strict");
 
 Tigerian.BEvent = Tigerian.Behavior.extend({
     init: function () {

@@ -2,7 +2,7 @@
  * Created by samir on 9/14/18.
  */
 
-'use strict';
+("use strict");
 
 /**
  * @namespace {Tigerian}

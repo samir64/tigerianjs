@@ -2,7 +2,7 @@
  * Created by samir on 11/11/16.
  */
 
-"use strict";
+("use strict");
 
 
 /**

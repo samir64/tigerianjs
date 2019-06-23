@@ -1,4 +1,4 @@
-'use strict';
+("use strict");
 
 /**
  * @param {Function(item, index, list)} callback

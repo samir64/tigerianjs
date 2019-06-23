@@ -2,7 +2,7 @@
  * Created by samir on 10/28/16.
  */
 
-"use strict";
+("use strict");
 
 Tigerian.Event = {};
 Tigerian.Event.onChange = new Event("Change", {
