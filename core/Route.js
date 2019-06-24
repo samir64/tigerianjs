@@ -1,16 +1,18 @@
+import { Tigerian } from "./Tigerian.js";
+
 ("use strict");
 
 /**
  * @class
  * @constructor
  */
-Route = Class.extend({
+export class Route extends Tigerian {
     /**
      * @constructs
      * @param {string} applicationRoot
      * @param {boolean} useHashTag
      */
-    init: function (applicationRoot, useHashTag) {
+    constructor (applicationRoot, useHashTag = false) {
         /**
          *
          * @type {View[]}
@@ -19,7 +21,7 @@ Route = Class.extend({
         var lastRoute = "";
         var viewPageNotFound;
 
-        this.super();
+        super();
 
         useHashTag = (useHashTag === false) ? false : true;
 
@@ -215,5 +217,5 @@ Route = Class.extend({
         window.onhashchange = window.onpopstate = function (e) {
             this.render();
         }.bind(this);
-    },
-});
+    }
+}

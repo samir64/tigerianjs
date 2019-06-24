@@ -7,8 +7,8 @@ import { Behavior } from "./Behavior.js";
 ("use strict");
 
 export class Tigerian {
-  constructor(...behaviors) {
-    if (this.constructor === Behavior) {
+  constructor() {
+    if (this.constructor === Tigerian) {
       throw new Error("Tigerian is an abstract class.");
     } else {
       Object.defineProperty(this, "behaviors", {
@@ -19,9 +19,9 @@ export class Tigerian {
       });
 
       var that = this;
-      var configs = [];
+      // var configs = [];
 
-      behaviors.forEach(behavior => {
+      /* behaviors.forEach(behavior => {
         if (
           behavior.prototype instanceof Behavior &&
           behavior.constructor !== Behavior
@@ -32,18 +32,21 @@ export class Tigerian {
           clone(obj, that);
           // Object.assign(this, new behavior().clone());
         }
-      });
+      }); */
 
       Object.defineProperty(this, "config", {
         enumerable: true,
         configurable: true,
         value(behavior, ...params) {
           if (Object.getPrototypeOf(behavior) === Behavior) {
-            that.behaviors.forEach((item, index) => {
+            this.behaviors.push(behavior);
+            new behavior().config(that, ...params);
+
+            /* that.behaviors.forEach((item, index) => {
               if (item === behavior) {
                 configs[index](that, ...params);
               }
-            });
+            }); */
           }
         }
       });
@@ -274,7 +277,7 @@ export function strToTag(str, addHashSign, toLower) {
     })
     .join("")
     .replace(/_{2,}/g, "_");
-};
+}
 
 /**
  * @param {string} prop
@@ -290,4 +293,4 @@ export function strSplitCapital(str) {
     }
   }
   return result;
-};
+}

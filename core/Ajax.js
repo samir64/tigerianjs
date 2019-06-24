@@ -1,16 +1,18 @@
+import { Tigerian } from "./Tigerian.js";
+
 ("use strict");
 
 /**
  * @class
  * @extends {Class}
  */
-Ajax = Class.extend({
+export class Ajax extends Tigerian {
     /**
      * @constructs
      * @param {string} url
      */
-    init: function (url) {
-        this.super();
+    constructor (url, ...behaviors) {
+        this.super(...behaviors);
 
         var httpRequest;
         var success = function (responseText, responseXml, responseJson) {};
@@ -191,5 +193,5 @@ Ajax = Class.extend({
                 }
             },
         });
-    },
-});
+    }
+};

@@ -1,29 +1,22 @@
+import { Tigerian } from "./Tigerian.js";
+import { BIterator } from "../behaviors/BIterator.js";
+
 ("use strict");
 
 /**
  * @constructor
- * @extends {Class}
+ * @extends {Tigerian}
+ * @implements {BIterator}
  */
-Iterator = Class.extend({
-    /**
-     * @constructs
-     * @param {Array} list
-     * @param {number} currentIndex
-     * @param {Object} out
-     */
-    init: function (list, currentIndex, out) {
-        this.super();
+export class Iterator extends Tigerian {
+  /**
+   * @constructs
+   * @param {Array} list
+   * @param {number} currentIndex
+   */
+  constructor(list, currentIndex) {
+    super();
 
-        if ((out === undefined) || (typeof out !== "object")) {
-            out = {};
-        }
-        if (typeof currentIndex === "number") {
-            out.currentIndex = currentIndex;
-        }
-        if (list instanceof Array) {
-            out.list = list;
-        }
-
-        this.config("iterator", out);
-    },
-}, BIterator);
+    this.config(BIterator, list, currentIndex);
+  }
+}
