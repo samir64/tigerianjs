@@ -6,11 +6,11 @@
 
 
 /**
- * @implements {Tigerian.Behavior}
- * @extends {Tigerian.Control}
+ * @implements {Behavior}
+ * @extends {Control}
  * @interface
  */
-Tigerian.BText = Tigerian.Behavior.extend({
+BText = Behavior.extend({
     /**
      * @constructs
      */
@@ -29,7 +29,7 @@ Tigerian.BText = Tigerian.Behavior.extend({
                 return text;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "string")) {
+                if (Class.isInstance(v, "string")) {
                     text = v;
                 }
             },
@@ -37,15 +37,15 @@ Tigerian.BText = Tigerian.Behavior.extend({
     },
     /**
      * @param {string} behavior
-     * @param {Element|Tigerian.Control} ctrlText
+     * @param {Element|Control} ctrlText
      */
     config: function (behavior, ctrlText) {
-        if ((behavior === "text") && (Tigerian.Class.isInstance(ctrlText, Element) || (Tigerian.Class.isInstance(ctrlText, Tigerian.Control) && ctrlText["Behavior:text"]))) {
+        if ((behavior === "text") && (Class.isInstance(ctrlText, Element) || (Class.isInstance(ctrlText, Control) && ctrlText["Behavior:text"]))) {
             this.setAttribute("text", this.text);
             ctrlText.innerHTML = this.text;
             ctrlText.value = this.text;
 
-            if (Tigerian.Class.isInstance(ctrlText, Element)) {
+            if (Class.isInstance(ctrlText, Element)) {
                 ctrlText.setAttribute("element-name", "text");
             }
 
@@ -55,7 +55,7 @@ Tigerian.BText = Tigerian.Behavior.extend({
                 if (ctrlText["Behavior:text"]) {
                     instance.text = ctrlText.text;
                 } else {
-                    instance.text = (Tigerian.Class.isInstance(e.target.value, "string") ? e.target.value : e.target.innerHTML);
+                    instance.text = (Class.isInstance(e.target.value, "string") ? e.target.value : e.target.innerHTML);
                 }
             }
 
@@ -70,9 +70,9 @@ Tigerian.BText = Tigerian.Behavior.extend({
 
                     if (ctrlText["Behavior:text"]) {
                         result = ctrlText.text;
-                    } else if (Tigerian.Class.isInstance(ctrlText.value, "string")) {
+                    } else if (Class.isInstance(ctrlText.value, "string")) {
                         result = ctrlText.value;
-                    } else if (Tigerian.Class.isInstance(ctrlText.innerHTML, "string")) {
+                    } else if (Class.isInstance(ctrlText.innerHTML, "string")) {
                         result = ctrlText.innerHTML;
                     } else {
                         result = this.getAttribute("text");
@@ -83,7 +83,7 @@ Tigerian.BText = Tigerian.Behavior.extend({
                     return result;
                 },
                 set: function (v) {
-                    if (Tigerian.Class.isInstance(v, "string")) {
+                    if (Class.isInstance(v, "string")) {
                         var lastText = this.getAttribute("text");
                         this.setAttribute("text", v);
                         if (ctrlText["Behavior:text"]) {
@@ -94,7 +94,7 @@ Tigerian.BText = Tigerian.Behavior.extend({
                         }
 
                         if (lastText !== v) {
-                            this.dispatchEvent(Tigerian.Event.onTextChange, {
+                            this.dispatchEvent(Events.onTextChange, {
                                 lastValue: lastText
                             });
                         }
@@ -102,7 +102,7 @@ Tigerian.BText = Tigerian.Behavior.extend({
                 },
             });
 
-            if (Tigerian.Class.isInstance(ctrlText, Tigerian.Control)) {
+            if (Class.isInstance(ctrlText, Control)) {
                 ctrlText.addEvent("change", changeText);
                 ctrlText.addEvent("input", changeText);
             } else {

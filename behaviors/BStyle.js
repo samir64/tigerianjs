@@ -2,9 +2,9 @@
 
 /**
  * @constructor
- * @extends {Tigerian.Behavior}
+ * @extends {Behavior}
  */
-Tigerian.BStyle = Tigerian.Behavior.extend({
+BStyle = Behavior.extend({
     /**
      * @constructs
      */
@@ -16,7 +16,7 @@ Tigerian.BStyle = Tigerian.Behavior.extend({
      * @param {Element} mainElement
      */
     config: function (behavior, mainElement) {
-        if ((behavior === "style") && Tigerian.Class.isInstance(this, Tigerian.UI) && Tigerian.Class.isInstance(mainElement, Element)) {
+        if ((behavior === "style") && Class.isInstance(this, UI) && Class.isInstance(mainElement, Element)) {
             var defineAttribute = function (root, attribute, getter, setter) {
                 if (!(attribute[0] in root)) {
                     root[attribute[0]] = {};

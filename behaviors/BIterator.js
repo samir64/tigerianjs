@@ -2,10 +2,10 @@
 
 /**
  * @constructor
- * @extends {Tigerian.Behavior}
+ * @extends {Behavior}
  * @interface
  */
-Tigerian.BIterator = Tigerian.Behavior.extend({
+BIterator = Behavior.extend({
     init: function () {
         this.super("iterator");
     },

@@ -2,14 +2,14 @@
 
 /**
  * @constructor
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BText}
- * @implements {Tigerian.BCascade}
+ * @extends {Control}
+ * @implements {BText}
+ * @implements {BCascade}
  */
-Tigerian.MenuItem = Tigerian.Control.extend({
+MenuItem = Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {string} text
      * @param {string} theme = ""
      */
@@ -17,7 +17,7 @@ Tigerian.MenuItem = Tigerian.Control.extend({
         this.super(parent, theme);
 
         var elmText = document.createElement("div");
-        var ctrlMenu = new Tigerian.Menu(null, this.theme);
+        var ctrlMenu = new Menu(null, this.theme);
         var superAddControl = this.addControl.bind(this);
 
         this.config("text", elmText);
@@ -41,10 +41,10 @@ Tigerian.MenuItem = Tigerian.Control.extend({
         // elmText.setAttribute("element-name", "text");
 
         /**
-         * @param {Tigerian.MenuItem|Tigerian.Spacer} item
+         * @param {MenuItem|Spacer} item
          */
         this.addControl = this.addChild = this.addSubmenu = function (item) {
-            if (Tigerian.Class.isInstance(item, Tigerian.MenuItem) || Tigerian.Class.isInstance(item, Tigerian.Spacer)) {
+            if (Class.isInstance(item, MenuItem) || Class.isInstance(item, Spacer)) {
                 if (!this.hasSubmenu) {
                     superAddChild(ctrlMenu);
                 }
@@ -81,4 +81,4 @@ Tigerian.MenuItem = Tigerian.Control.extend({
             }, 100);
         });
     },
-}, Tigerian.BText, Tigerian.BCascade);
+}, BText, BCascade);

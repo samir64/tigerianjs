@@ -6,22 +6,22 @@
 
 /**
  * @constructor
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BFixElement}
+ * @extends {Control}
+ * @implements {BFixElement}
  */
-Tigerian.Header = Tigerian.Control.extend({
+Header = Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {string} theme = ""
      */
     init: function (parent, fixed, theme) {
         this.super(parent, theme);
-        this.config("fix_element", Tigerian.BFixElement.ETop);
+        this.config("fix_element", BFixElement.ETop);
 
         this.fixed = fixed;
 
         this.setAttribute("element-type", "Header");
         this.setAttribute("element-name", "container");
     },
-}, Tigerian.BFixElement);
+}, BFixElement);

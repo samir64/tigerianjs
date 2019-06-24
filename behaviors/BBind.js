@@ -1,4 +1,4 @@
-Tigerian.BBind = Tigerian.Behavior.extend({
+BBind = Behavior.extend({
     init: function () {
         this.super("bind");
 
@@ -11,8 +11,8 @@ Tigerian.BBind = Tigerian.Behavior.extend({
          * @param {Function} changer
          */
         this.bind = function (srcProp, target, trgProp, changer) {
-            if (Tigerian.Class.isInstance(srcProp, "string") && Tigerian.Class.isInstance(target, "object") && Tigerian.Class.isInstance(trgProp, "string")) {
-                if (!Tigerian.Class.isInstance(changer, "function")) {
+            if (Class.isInstance(srcProp, "string") && Class.isInstance(target, "object") && Class.isInstance(trgProp, "string")) {
+                if (!Class.isInstance(changer, "function")) {
                     changer = function (value) {
                         return value;
                     };

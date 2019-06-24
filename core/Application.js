@@ -8,9 +8,9 @@
 
 /**
  * @constructor
- * @extends {Tigerian.UI}
+ * @extends {UI}
  */
-Tigerian.Application = Tigerian.UI.extend({
+Application = UI.extend({
     /**
      * @constructs
      * @param {Element} [element = document.body]
@@ -21,10 +21,10 @@ Tigerian.Application = Tigerian.UI.extend({
         this.super(element, null, theme);
 
         /**
-         * @type {Tigerian.GridTemplate[]}
+         * @type {GridTemplate[]}
          */
         var templates = [];
-        if (Tigerian.Class.isInstance(title, "string")) {
+        if (Class.isInstance(title, "string")) {
             document.head.getElementsByTagName("title")[0].innerText = title;
         }
 
@@ -38,14 +38,14 @@ Tigerian.Application = Tigerian.UI.extend({
          * @param {string} templateName
          */
         this.addTemplate = function (templateName) {
-            var template = new Tigerian.GridTemplate(templateName);
+            var template = new GridTemplate(templateName);
             templates[templateName] = template;
             document.head.appendChild(template.element);
         };
 
         /**
          * @param {string} templateName
-         * @returns {Tigerian.GridTemplate}
+         * @returns {GridTemplate}
          */
         this.getTemplate = function (templateName) {
             if (templateName in templates) {
@@ -73,19 +73,19 @@ Tigerian.Application = Tigerian.UI.extend({
                 return document.head.getElementsByTagName("title")[0].innerText;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "string")) {
+                if (Class.isInstance(v, "string")) {
                     document.head.getElementsByTagName("title")[0].innerText = v;
                 }
             },
         });
     }
-}, Tigerian.BWindow);
+}, BWindow);
 
 /**
  * @param {function} main
  */
-Tigerian.Application.run = function (main) {
-    if (Tigerian.Class.isInstance(main, "function")) {
+Application.run = function (main) {
+    if (Class.isInstance(main, "function")) {
         if (document.body) {
             main();
         } else {

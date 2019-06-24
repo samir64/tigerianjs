@@ -7,10 +7,10 @@
 ("use strict");
 
 /**
- * @extends {Tigerian.ModelView}
+ * @extends {ModelView}
  * @constructor
  */
-Tigerian.ModelField = Tigerian.ModelView.extend({
+ModelField = ModelView.extend({
     /**
      * @constructs
      * @param {string} name
@@ -19,14 +19,14 @@ Tigerian.ModelField = Tigerian.ModelView.extend({
      * @param {*} value = undefined
      */
     init: function (name, type, collection, value) {
-        if (Tigerian.Class.isInstance(name, "string") && (name !== "")) {
+        if (Class.isInstance(name, "string") && (name !== "")) {
             this.super();
 
-            if (!(Tigerian.Class.isInstance(type, "string") || Tigerian.Class.isSubclass(type, Tigerian.Model))) {
+            if (!(Class.isInstance(type, "string") || Class.isSubclass(type, Model))) {
                 type = "string";
             }
 
-            if (!Tigerian.Class.isInstance(value, type)) {
+            if (!Class.isInstance(value, type)) {
                 value = undefined;
             }
 
@@ -34,8 +34,8 @@ Tigerian.ModelField = Tigerian.ModelView.extend({
 
             var setValue = function (v) {
                 var val;
-                if (Tigerian.Class.isInstance(v, type) || (v === undefined) || (Tigerian.Class.isInstance(v, "object") && Tigerian.Class.isSubclass(type, Tigerian.Model))) {
-                    if (Tigerian.Class.isInstance(v, "object")) {
+                if (Class.isInstance(v, type) || (v === undefined) || (Class.isInstance(v, "object") && Class.isSubclass(type, Model))) {
+                    if (Class.isInstance(v, "object")) {
                         val = new type();
 
                         for (var field in v) {
@@ -48,7 +48,7 @@ Tigerian.ModelField = Tigerian.ModelView.extend({
                     }
 
                     if (collection) {
-                        if (Tigerian.Class.isInstance(value, Array)) {
+                        if (Class.isInstance(value, Array)) {
                             value.push(val);
                         } else {
                             value = [val];
@@ -99,11 +99,11 @@ Tigerian.ModelField = Tigerian.ModelView.extend({
                     return value;
                 },
                 set: function (v) {
-                    if (collection && Tigerian.Class.isInstance(v, Array)) {
+                    if (collection && Class.isInstance(v, Array)) {
                         for (var i = 0; i < v.length; i++) {
                             setValue(v[i]);
                         }
-                    } else if (!collection && !Tigerian.Class.isInstance(v, Array)) {
+                    } else if (!collection && !Class.isInstance(v, Array)) {
                         setValue(v);
                     } else {
                         // NOTE: Nothing

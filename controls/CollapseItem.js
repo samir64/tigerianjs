@@ -2,14 +2,14 @@
 
 /**
  * @constructor
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BText}
- * @implements {Tigerian.BCascade}
+ * @extends {Control}
+ * @implements {BText}
+ * @implements {BCascade}
  */
-Tigerian.CollapseItem = Tigerian.Control.extend({
+CollapseItem = Control.extend({
     /**
      * @constructs
-30⋅178     * @param {Tigerian.Control} parent
+30⋅178     * @param {Control} parent
      * @param {string} text
      * @param {string} theme = ""
      */
@@ -17,7 +17,7 @@ Tigerian.CollapseItem = Tigerian.Control.extend({
         this.super(parent, theme);
 
         var elmText = document.createElement("div");
-        var ctrlList = new Tigerian.CollapseList(null, this.theme);
+        var ctrlList = new CollapseList(null, this.theme);
         var superAddControl = this.addControl.bind(this);
 
         this.config("text", elmText);
@@ -39,7 +39,7 @@ Tigerian.CollapseItem = Tigerian.Control.extend({
         // elmText.setAttribute("element-name", "text");
 
         this.addControl = this.addChild = this.addSublist = function (item) {
-            if (Tigerian.Class.isInstance(item, Tigerian.CollapseItem) || Tigerian.Class.isInstance(item, Tigerian.Spacer)) {
+            if (Class.isInstance(item, CollapseItem) || Class.isInstance(item, Spacer)) {
                 if (!this.hasSubmenu) {
                     superAddChild(ctrlList);
                 }
@@ -92,4 +92,4 @@ Tigerian.CollapseItem = Tigerian.Control.extend({
 
         this.addControl(elmText);
     },
-}, Tigerian.BText, Tigerian.BCascade);
+}, BText, BCascade);

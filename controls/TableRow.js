@@ -2,13 +2,13 @@
 
 /**
  * @constructor
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BGroup}
+ * @extends {Control}
+ * @implements {BGroup}
  */
-Tigerian.TableRow = Tigerian.Control.extend({
+TableRow = Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {number} colCount = 1
      * @param {string} theme = ""
      */
@@ -22,7 +22,7 @@ Tigerian.TableRow = Tigerian.Control.extend({
         this.setAttribute("element-type", "TableRow");
         this.setAttribute("element-name", "container");
 
-        if (Tigerian.Class.isInstance(colCount, "number")) {
+        if (Class.isInstance(colCount, "number")) {
             colCount = Math.max(1, colCount);
         } else {
             colCount = 1;
@@ -41,7 +41,7 @@ Tigerian.TableRow = Tigerian.Control.extend({
 
 
         for (var i = 0; i < colCount; i++) {
-            var newCell = new Tigerian.TableCell(this, "", this.theme);
+            var newCell = new TableCell(this, "", this.theme);
             newCell.setAttribute("column-number", i.toString());
             newCell.setAttribute("hover", false);
             // newCell.normalColumn = ((colCount <= 12) ? Math.floor(12 / colCount) : 1);
@@ -53,4 +53,4 @@ Tigerian.TableRow = Tigerian.Control.extend({
         delete this.addControl;
         delete this.addItem;
     },
-}, Tigerian.BGroup);
+}, BGroup);

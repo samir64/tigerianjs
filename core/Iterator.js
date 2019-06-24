@@ -2,9 +2,9 @@
 
 /**
  * @constructor
- * @extends {Tigerian.Class}
+ * @extends {Class}
  */
-Tigerian.Iterator = Tigerian.Class.extend({
+Iterator = Class.extend({
     /**
      * @constructs
      * @param {Array} list
@@ -26,4 +26,4 @@ Tigerian.Iterator = Tigerian.Class.extend({
 
         this.config("iterator", out);
     },
-}, Tigerian.BIterator);
+}, BIterator);

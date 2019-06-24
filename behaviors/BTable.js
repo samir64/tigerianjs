@@ -2,9 +2,9 @@
 
 /**
  * @constructor
- * @extends {Tigerian.Behavior}
+ * @extends {Behavior}
  */
-Tigerian.BTable = Tigerian.Behavior.extend({
+BTable = Behavior.extend({
     /**
      * @constructs
      */
@@ -14,16 +14,16 @@ Tigerian.BTable = Tigerian.Behavior.extend({
     /**
      * @param {string} behavior
      * @param {number} colCount
-     * @param {Tigerian.Control} ctrlTableBody
+     * @param {Control} ctrlTableBody
      */
     config: function (behavior, colCount, ctrlTableBody) {
-        if ((behavior === "table") && Tigerian.Class.isInstance(this, Tigerian.Control) && this["Behavior:table"]) {
-            if (!(Tigerian.Class.isInstance(ctrlTableBody, Tigerian.Control) && ctrlTableBody["Behavior:group"] && ctrlTableBody["Behavior:table"])) {
+        if ((behavior === "table") && Class.isInstance(this, Control) && this["Behavior:table"]) {
+            if (!(Class.isInstance(ctrlTableBody, Control) && ctrlTableBody["Behavior:group"] && ctrlTableBody["Behavior:table"])) {
                 ctrlTableBody = this;
             }
 
-            if (Tigerian.Class.isInstance(ctrlTableBody, Tigerian.Control) && ctrlTableBody["Behavior:group"] && ctrlTableBody["Behavior:table"]) {
-                if (Tigerian.Class.isInstance(colCount, "number")) {
+            if (Class.isInstance(ctrlTableBody, Control) && ctrlTableBody["Behavior:group"] && ctrlTableBody["Behavior:table"]) {
+                if (Class.isInstance(colCount, "number")) {
                     colCount = Math.max(1, colCount);
                 } else {
                     colCount = 1;
@@ -31,7 +31,7 @@ Tigerian.BTable = Tigerian.Behavior.extend({
 
                 // this.addControl(ctrlTableBody);
 
-                var ctrlHeadRow = new Tigerian.TableRow(ctrlTableBody, colCount, this.theme);
+                var ctrlHeadRow = new TableRow(ctrlTableBody, colCount, this.theme);
 
                 this.setAttribute("view-mode", "grid");
 
@@ -65,12 +65,12 @@ Tigerian.BTable = Tigerian.Behavior.extend({
                             } else {
                                 instance.getCell(i - 1, c).visible = columnsVisiblity[c];
                                 switch (instance.viewMode) {
-                                    case Tigerian.BTable.EListView:
+                                    case BTable.EListView:
                                         instance.getCell(i - 1, c).headText = "";
                                         instance.getHeadCell(c).unbind("text", instance.getCell(i - 1, c), "headText");
                                         break;
 
-                                    case Tigerian.BTable.EDetailsView:
+                                    case BTable.EDetailsView:
                                         if (instance.getHeadCell(c).text) {
                                             instance.getCell(i - 1, c).headText = instance.getHeadCell(c).text + ": ";
                                         }
@@ -91,7 +91,7 @@ Tigerian.BTable = Tigerian.Behavior.extend({
                 };
 
                 var addRow = function () {
-                    var newRow = new Tigerian.TableRow(null, colCount, instance.theme);
+                    var newRow = new TableRow(null, colCount, instance.theme);
 
                     newRow.setAttribute("hover", "false");
 
@@ -140,7 +140,7 @@ Tigerian.BTable = Tigerian.Behavior.extend({
                         return rowCount;
                     },
                     set: function (v) {
-                        if (Tigerian.Class.isInstance(v, "number")) {
+                        if (Class.isInstance(v, "number")) {
                             var lastRowCount = rowCount;
                             rowCount = v;
                             if (lastRowCount !== v) {
@@ -171,10 +171,10 @@ Tigerian.BTable = Tigerian.Behavior.extend({
                         var v = this.getAttribute("view-mode");
                         switch (v) {
                             case "grid":
-                                return Tigerian.BTable.EGridView;
+                                return BTable.EGridView;
 
                             case "details":
-                                return Tigerian.BTable.EDetailsView;
+                                return BTable.EDetailsView;
 
                             default:
                                 return undefined;
@@ -183,11 +183,11 @@ Tigerian.BTable = Tigerian.Behavior.extend({
                     set: function (v) {
                         var lastViewMode = this.viewMode;
                         switch (v) {
-                            case Tigerian.BTable.EGridView:
+                            case BTable.EGridView:
                                 this.setAttribute("view-mode", "grid");
                                 break;
 
-                            case Tigerian.BTable.EDetailsView:
+                            case BTable.EDetailsView:
                                 this.setAttribute("view-mode", "details");
                                 break;
 
@@ -196,7 +196,7 @@ Tigerian.BTable = Tigerian.Behavior.extend({
 
                         if (lastViewMode !== this.viewMode) {
                             refreshView();
-                            this.dispatchEvent(Tigerian.Event.onViewChange);
+                            this.dispatchEvent(Events.onViewChange);
                         }
                     },
                 });
@@ -221,7 +221,7 @@ Tigerian.BTable = Tigerian.Behavior.extend({
                 /**
                  * @param {number} row
                  * @param {number} col
-                 * @returns {Tigerian.TableCell}
+                 * @returns {TableCell}
                  */
                 this.getItem = this.getCell = function (row, col) {
                     return superGetItem(row + 1).getItem(col);
@@ -229,7 +229,7 @@ Tigerian.BTable = Tigerian.Behavior.extend({
 
                 /**
                  * @param {number} col
-                 * @returns {Tigerian.TableCell}
+                 * @returns {TableCell}
                  */
                 this.getHeadCell = function (col) {
                     return ctrlHeadRow.getItem(col);

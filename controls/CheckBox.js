@@ -6,17 +6,17 @@
 
 
 /**
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BSelect}
- * @implements {Tigerian.BText}
+ * @extends {Control}
+ * @implements {BSelect}
+ * @implements {BText}
  * @constructor
  */
-Tigerian.CheckBox = Tigerian.Control.extend({
+CheckBox = Control.extend({
 	/**
 	 * @constructs
 	 * @param {string} [text = ""]
 	 * @param {string} [theme = ""]
-	 * @param {Tigerian.UI} parent
+	 * @param {UI} parent
 	 */
 	init: function (parent, text, theme) {
 		var elmCheckBox = document.createElement("div");
@@ -59,13 +59,13 @@ Tigerian.CheckBox = Tigerian.Control.extend({
 				return instance.getAttribute("selected") == "indeterminate";
 			},
 			set: function (v) {
-				if (Tigerian.Class.isInstance(v, "boolean")) {
+				if (Class.isInstance(v, "boolean")) {
 					var lastValue = instance.indeterminate;
 
 					instance.setAttribute("selected", v ? "indeterminate" : "false");
 
 					if (v != lastValue) {
-						instance.dispatchEvent(Tigerian.Event.onIndeterminateChange);
+						instance.dispatchEvent(Events.onIndeterminateChange);
 					}
 				}
 			}
@@ -76,11 +76,11 @@ Tigerian.CheckBox = Tigerian.Control.extend({
 			configerable: true,
 			get: superSelected.get.bind(this),
 			set: function (v) {
-				if (Tigerian.Class.isInstance(v, "boolean")) {
+				if (Class.isInstance(v, "boolean")) {
 					instance.indeterminate = false;
 					superSelected.set.bind(this)(v);
 				}
 			}
 		});
 	},
-}, Tigerian.BSelect, Tigerian.BText);
+}, BSelect, BText);

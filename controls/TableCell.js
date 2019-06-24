@@ -2,13 +2,13 @@
 
 /**
  * @constructor
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BText}
+ * @extends {Control}
+ * @implements {BText}
  */
-Tigerian.TableCell = Tigerian.Control.extend({
+TableCell = Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {string} text = ""
      * @param {string} theme = ""
      */
@@ -28,6 +28,6 @@ Tigerian.TableCell = Tigerian.Control.extend({
         elmText.setAttribute("element-type", "TableCell");
         // elmText.setAttribute("element-name", "text");
 
-        this.situation = Tigerian.Control.ETransparent;
+        this.situation = Control.ETransparent;
     },
-}, Tigerian.BText);
+}, BText);

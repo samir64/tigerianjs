@@ -6,15 +6,15 @@
 
 
 /**
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BGroup}
- * @implements {Tigerian.BSelectGroup}
+ * @extends {Control}
+ * @implements {BGroup}
+ * @implements {BSelectGroup}
  * @constructor
  */
-Tigerian.ListBox = Tigerian.Control.extend({
+ListBox = Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {string} theme = ""
      */
     init: function (parent, theme) {
@@ -35,13 +35,13 @@ Tigerian.ListBox = Tigerian.Control.extend({
 
         //NOTE Public Functions
         /**
-         * @param {Tigerian.ListItem|string} item
+         * @param {ListItem|string} item
          */
         this.addControl = this.addItem = function (item) {
-            if (Tigerian.Class.isInstance(item, "string")) {
-                item = new Tigerian.ListItem(null, item, this.theme);
-            } else if (!(Tigerian.Class.isInstance(item, Tigerian.Control) && item["Behavior:select"])) {
-                item = new Tigerian.ListItem(null, "Item " + (this.itemCount + 1).toString(), this.theme);
+            if (Class.isInstance(item, "string")) {
+                item = new ListItem(null, item, this.theme);
+            } else if (!(Class.isInstance(item, Control) && item["Behavior:select"])) {
+                item = new ListItem(null, "Item " + (this.itemCount + 1).toString(), this.theme);
             }
 
             item.autoDeselect = this.multiSelect;
@@ -53,8 +53,8 @@ Tigerian.ListBox = Tigerian.Control.extend({
          */
         this.sort = function (ascending) {
             /**
-             * @param {Tigerian.ListItem} a 
-             * @param {Tigerian.ListItem} b 
+             * @param {ListItem} a 
+             * @param {ListItem} b 
              */
             function sort(a, b) {
                 return ((ascending === false) ? b.text.padNumbers(20, 20) >= a.text.padNumbers(20, 20) : a.text.padNumbers(20, 20) >= b.text.padNumbers(20, 20));
@@ -63,4 +63,4 @@ Tigerian.ListBox = Tigerian.Control.extend({
             bGroupSort(sort);
         };
     }
-}, Tigerian.BGroup, Tigerian.BSelectGroup);
+}, BGroup, BSelectGroup);

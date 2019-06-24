@@ -6,15 +6,15 @@
 
 
 /**
- * @extends {Tigerian.Label}
- * @implements {Tigerian.BSelect}
- * @implements {Tigerian.BText}
+ * @extends {Label}
+ * @implements {BSelect}
+ * @implements {BText}
  * @constructor
  */
-Tigerian.ListItem = Tigerian.Control.extend({
+ListItem = Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {string} text
      * @param {string} [theme = ""]
      */
@@ -27,7 +27,7 @@ Tigerian.ListItem = Tigerian.Control.extend({
 
         this.addControl(elmItem);
 
-        // if (Tigerian.Class.isInstance(text, "string")) {
+        // if (Class.isInstance(text, "string")) {
         //     elmItem.innerHTML = text;
         // }
         this.text = text;
@@ -46,10 +46,10 @@ Tigerian.ListItem = Tigerian.Control.extend({
         //         return elmItem.innerHTML;
         //     },
         //     set: function (v) {
-        //         if (Tigerian.Class.isInstance(v, "string")) {
+        //         if (Class.isInstance(v, "string")) {
         //             elmItem.innerHTML = v;
         //         }
         //     },
         // });
     }
-}, Tigerian.BSelect, Tigerian.BText);
+}, BSelect, BText);

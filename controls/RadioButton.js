@@ -6,15 +6,15 @@
 
 
 /**
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BSelect}
- * @implements {Tigerian.BText}
+ * @extends {Control}
+ * @implements {BSelect}
+ * @implements {BText}
  * @constructor
  */
-Tigerian.RadioButton = Tigerian.Control.extend({
+RadioButton = Control.extend({
 	/**
 	 * @constructs
-	 * @param {Tigerian.UI} parent
+	 * @param {UI} parent
 	 * @param {string} [text = ""]
 	 * @param {string} [theme = ""]
 	 */
@@ -68,4 +68,4 @@ Tigerian.RadioButton = Tigerian.Control.extend({
 			},
 		});
 	},
-}, Tigerian.BSelect, Tigerian.BText);
+}, BSelect, BText);

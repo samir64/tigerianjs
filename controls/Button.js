@@ -6,14 +6,14 @@
 
 
 /**
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BText}
+ * @extends {Control}
+ * @implements {BText}
  * @constructor
  */
-Tigerian.Button = Tigerian.Control.extend({
+Button = Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {string} text = ""
      * @param {string} theme = ""
      */
@@ -34,7 +34,7 @@ Tigerian.Button = Tigerian.Control.extend({
         this.setAttribute("fit-content", "false");
 
 
-        if (Tigerian.Class.isInstance(text, "string")) {
+        if (Class.isInstance(text, "string")) {
             elmButton.innerHTML = text;
         }
 
@@ -54,7 +54,7 @@ Tigerian.Button = Tigerian.Control.extend({
                 return elmButton.hasAttribute("tabindex") ? elmButton.getAttribute("tabindex") : 0;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "number")) {
+                if (Class.isInstance(v, "number")) {
                     if (v > 0) {
                         elmButton.setAttribute("tabindex", v);
                     } else {
@@ -74,7 +74,7 @@ Tigerian.Button = Tigerian.Control.extend({
                 return this.getAttribute("fit-content")
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
+                if (Class.isInstance(v, "boolean")) {
                     this.setAttribute("fit-content", (v ? "true" : "false"));
                 }
             }
@@ -99,4 +99,4 @@ Tigerian.Button = Tigerian.Control.extend({
 
         delete this.addControl;
     }
-}, Tigerian.BText);
+}, BText);

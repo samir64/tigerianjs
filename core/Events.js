@@ -4,8 +4,9 @@
 
 ("use strict");
 
-Tigerian.Event = {};
-Tigerian.Event.onChange = new Event("Change", {
+export let Events = {};
+
+Events.onChange = new Event("Change", {
 	detail: {
 		message: "Changed",
 		time: new Date(),
@@ -14,7 +15,7 @@ Tigerian.Event.onChange = new Event("Change", {
 	cancelable: true,
 });
 
-Tigerian.Event.onSelectedChange = new Event("SelectedChange", {
+Events.onSelectedChange = new Event("SelectedChange", {
 	detail: {
 		message: "Selected changed",
 		time: new Date(),
@@ -23,7 +24,7 @@ Tigerian.Event.onSelectedChange = new Event("SelectedChange", {
 	cancelable: true,
 });
 
-Tigerian.Event.onIndeterminateChange = new Event("IndeterminateChange", {
+Events.onIndeterminateChange = new Event("IndeterminateChange", {
 	detail: {
 		message: "Indeterminate changed",
 		time: new Date(),
@@ -32,7 +33,7 @@ Tigerian.Event.onIndeterminateChange = new Event("IndeterminateChange", {
 	cancelable: true,
 });
 
-Tigerian.Event.onItemIndexChange = new Event("ItemIndexChange", {
+Events.onItemIndexChange = new Event("ItemIndexChange", {
 	detail: {
 		message: "Item index changed",
 		time: new Date(),
@@ -41,7 +42,7 @@ Tigerian.Event.onItemIndexChange = new Event("ItemIndexChange", {
 	cancelable: true,
 });
 
-Tigerian.Event.onSelectedIndexChange = new Event("SelectedIndexChange", {
+Events.onSelectedIndexChange = new Event("SelectedIndexChange", {
 	detail: {
 		message: "Selected index changed",
 		time: new Date(),
@@ -50,7 +51,7 @@ Tigerian.Event.onSelectedIndexChange = new Event("SelectedIndexChange", {
 	cancelable: true,
 });
 
-Tigerian.Event.onSelectedCountChange = new Event("SelectedCountChange", {
+Events.onSelectedCountChange = new Event("SelectedCountChange", {
 	detail: {
 		message: "Selected count changed",
 		time: new Date(),
@@ -59,7 +60,7 @@ Tigerian.Event.onSelectedCountChange = new Event("SelectedCountChange", {
 	cancelable: true,
 });
 
-Tigerian.Event.onAdd = new Event("Add", {
+Events.onAdd = new Event("Add", {
 	detail: {
 		message: "Added",
 		time: new Date(),
@@ -68,7 +69,7 @@ Tigerian.Event.onAdd = new Event("Add", {
 	cancelable: true,
 });
 
-Tigerian.Event.onRemove = new Event("Remove", {
+Events.onRemove = new Event("Remove", {
 	detail: {
 		message: "Removed",
 		time: new Date(),
@@ -77,7 +78,7 @@ Tigerian.Event.onRemove = new Event("Remove", {
 	cancelable: true,
 });
 
-Tigerian.Event.onFocus = new Event("Focus", {
+Events.onFocus = new Event("Focus", {
 	detail: {
 		message: "Control get focus",
 		time: new Date(),
@@ -86,7 +87,7 @@ Tigerian.Event.onFocus = new Event("Focus", {
 	cancelable: true,
 });
 
-Tigerian.Event.onBlur = new Event("Blur", {
+Events.onBlur = new Event("Blur", {
 	detail: {
 		message: "Control lost focus",
 		time: new Date(),
@@ -95,7 +96,7 @@ Tigerian.Event.onBlur = new Event("Blur", {
 	cancelable: true,
 });
 
-Tigerian.Event.onTextChange = new Event("TextChanged", {
+Events.onTextChange = new Event("TextChanged", {
 	detail: {
 		message: "Control text changed",
 		time: new Date(),
@@ -104,7 +105,7 @@ Tigerian.Event.onTextChange = new Event("TextChanged", {
 	cancelable: true,
 });
 
-Tigerian.Event.onVisibleChange = new Event("VisibleChanged", {
+Events.onVisibleChange = new Event("VisibleChanged", {
 	detail: {
 		message: "Control's visible changed",
 		time: new Date(),
@@ -113,7 +114,7 @@ Tigerian.Event.onVisibleChange = new Event("VisibleChanged", {
 	cancelable: true,
 });
 
-Tigerian.Event.onNextPage = new Event("NextPage", {
+Events.onNextPage = new Event("NextPage", {
 	detail: {
 		message: "Next page",
 		time: new Date(),
@@ -122,7 +123,7 @@ Tigerian.Event.onNextPage = new Event("NextPage", {
 	cancelable: true,
 });
 
-Tigerian.Event.onPreviousPage = new Event("PreviousPage", {
+Events.onPreviousPage = new Event("PreviousPage", {
 	detail: {
 		message: "Previous page",
 		time: new Date(),
@@ -131,7 +132,7 @@ Tigerian.Event.onPreviousPage = new Event("PreviousPage", {
 	cancelable: true,
 });
 
-Tigerian.Event.onViewChange = new Event("ViewChanged", {
+Events.onViewChange = new Event("ViewChanged", {
 	detail: {
 		message: "View changed",
 		time: new Date(),
@@ -140,7 +141,7 @@ Tigerian.Event.onViewChange = new Event("ViewChanged", {
 	cancelable: true,
 });
 
-Tigerian.Event.onViewRefresh = new Event("ViewRefresh", {
+Events.onViewRefresh = new Event("ViewRefresh", {
 	detail: {
 		message: "View refreshed",
 		time: new Date(),
@@ -149,7 +150,7 @@ Tigerian.Event.onViewRefresh = new Event("ViewRefresh", {
 	cancelable: true,
 });
 
-Tigerian.Event.onPageChange = new Event("PageChanged", {
+Events.onPageChange = new Event("PageChanged", {
 	detail: {
 		message: "Page changed",
 		time: new Date(),
@@ -158,7 +159,7 @@ Tigerian.Event.onPageChange = new Event("PageChanged", {
 	cancelable: true,
 });
 
-Tigerian.Event.onPageCountChange = new Event("PageCountChanged", {
+Events.onPageCountChange = new Event("PageCountChanged", {
 	detail: {
 		message: "Page count changed",
 		time: new Date(),

@@ -2,22 +2,22 @@
 
 /**
  * @constructor
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BModal}
- * @implements {Tigerian.BCancel}
+ * @extends {Control}
+ * @implements {BModal}
+ * @implements {BCancel}
  */
-Tigerian.ModalForm = Tigerian.Control.extend({
+ModalForm = Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {string} theme = ""
      */
     init: function (parent, theme) {
         this.super(parent, theme);
 
-        var ctrlHeader = new Tigerian.Header(null, true, this.theme);
-        var ctrlBody = new Tigerian.Control(null, this.theme);
-        var ctrlFooter = new Tigerian.Footer(null, false, this.theme);
+        var ctrlHeader = new Header(null, true, this.theme);
+        var ctrlBody = new Control(null, this.theme);
+        var ctrlFooter = new Footer(null, false, this.theme);
 
         this.config("modal", parent);
         this.config("cancel", this, ctrlHeader);
@@ -36,4 +36,4 @@ Tigerian.ModalForm = Tigerian.Control.extend({
         this.footerAddControl = ctrlFooter.addControl.bind(this);
         this.headerAddControl = ctrlHeader.addControl.bind(this);
     },
-}, Tigerian.BModal, Tigerian.BCancel);
+}, BModal, BCancel);

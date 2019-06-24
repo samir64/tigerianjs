@@ -6,22 +6,22 @@
 
 /**
  * @constructor
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BFixElement}
+ * @extends {Control}
+ * @implements {BFixElement}
  */
-Tigerian.Footer = Tigerian.Control.extend({
+Footer = Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {string} theme = ""
      */
     init: function (parent, fixed, theme) {
         this.super(parent, theme);
-        this.config("fix_element", Tigerian.BFixElement.EBottom);
+        this.config("fix_element", BFixElement.EBottom);
 
         this.fixed = fixed;
 
         this.setAttribute("element-type", "Footer");
         this.setAttribute("element-name", "container");
     },
-}, Tigerian.BFixElement);
+}, BFixElement);

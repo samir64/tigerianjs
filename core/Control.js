@@ -8,14 +8,14 @@
 
 /**
  * @param {string} [style = ""]
- * @param {Tigerian.Application|Tigerian.Control} [parent = undefined]
+ * @param {Application|Control} [parent = undefined]
  *
  * @extends {Tigerian}
  * @constructor
  */
-Tigerian.Control = Tigerian.UI.extend({
+Control = UI.extend({
     /**
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {string} theme
      */
     init: function (parent, theme) {
@@ -78,7 +78,7 @@ Tigerian.Control = Tigerian.UI.extend({
              * @param {string} v
              */
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "string")) {
+                if (Class.isInstance(v, "string")) {
                     elmTxtHead.data = v;
                 }
             }
@@ -100,7 +100,7 @@ Tigerian.Control = Tigerian.UI.extend({
              * @param {string} v
              */
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "string")) {
+                if (Class.isInstance(v, "string")) {
                     elmTxtFoot.data = v;
                 }
             }
@@ -121,7 +121,7 @@ Tigerian.Control = Tigerian.UI.extend({
              * @param {string} v
              */
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "string")) {
+                if (Class.isInstance(v, "string")) {
                     this.setAttribute("title", v);
                 }
             }
@@ -137,7 +137,7 @@ Tigerian.Control = Tigerian.UI.extend({
                 return instance.hasAttribute("tabindex") ? instance.getAttribute("tabindex") : 0;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "number")) {
+                if (Class.isInstance(v, "number")) {
                     if (v > 0) {
                         instance.setAttribute("tabindex", v);
                     } else {
@@ -160,23 +160,23 @@ Tigerian.Control = Tigerian.UI.extend({
                 var v = this.getAttribute("small-column");
                 switch (v) {
                     case "":
-                        return Tigerian.BWindow.ENone;
+                        return BWindow.ENone;
                         break;
 
                     case "medium":
-                        return Tigerian.BWindow.EMedium;
+                        return BWindow.EMedium;
                         break;
 
                     case "normal":
-                        return Tigerian.BWindow.ENormal;
+                        return BWindow.ENormal;
                         break;
 
                     case "large":
-                        return Tigerian.BWindow.ELarge;
+                        return BWindow.ELarge;
                         break;
 
                     case "xlarge":
-                        return Tigerian.BWindow.EXLarge;
+                        return BWindow.EXLarge;
                         break;
 
                     default:
@@ -189,28 +189,28 @@ Tigerian.Control = Tigerian.UI.extend({
              */
             set: function (v) {
                 switch (v) {
-                    case Tigerian.BWindow.ENone:
+                    case BWindow.ENone:
                         this.setAttribute("small-column", "");
                         break;
 
-                    case Tigerian.BWindow.EMedium:
+                    case BWindow.EMedium:
                         this.setAttribute("small-column", "medium");
                         break;
 
-                    case Tigerian.BWindow.ENormal:
+                    case BWindow.ENormal:
                         this.setAttribute("small-column", "normal");
                         break;
 
-                    case Tigerian.BWindow.ELarge:
+                    case BWindow.ELarge:
                         this.setAttribute("small-column", "large");
                         break;
 
-                    case Tigerian.BWindow.EXLarge:
+                    case BWindow.EXLarge:
                         this.setAttribute("small-column", "xlarge");
                         break;
 
                     default:
-                        if (Tigerian.Class.isInstance(v, "number")) {
+                        if (Class.isInstance(v, "number")) {
                             this.setAttribute("small-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
                         }
                 }
@@ -230,23 +230,23 @@ Tigerian.Control = Tigerian.UI.extend({
                 var v = this.getAttribute("medium-column");
                 switch (v) {
                     case "":
-                        return Tigerian.BWindow.ENone;
+                        return BWindow.ENone;
                         break;
 
                     case "small":
-                        return Tigerian.BWindow.ESmall;
+                        return BWindow.ESmall;
                         break;
 
                     case "normal":
-                        return Tigerian.BWindow.ENormal;
+                        return BWindow.ENormal;
                         break;
 
                     case "large":
-                        return Tigerian.BWindow.ELarge;
+                        return BWindow.ELarge;
                         break;
 
                     case "xlarge":
-                        return Tigerian.BWindow.EXLarge;
+                        return BWindow.EXLarge;
                         break;
 
                     default:
@@ -259,28 +259,28 @@ Tigerian.Control = Tigerian.UI.extend({
              */
             set: function (v) {
                 switch (v) {
-                    case Tigerian.BWindow.ENone:
+                    case BWindow.ENone:
                         this.setAttribute("medium-column", "");
                         break;
 
-                    case Tigerian.BWindow.ESmall:
+                    case BWindow.ESmall:
                         this.setAttribute("medium-column", "small");
                         break;
 
-                    case Tigerian.BWindow.ENormal:
+                    case BWindow.ENormal:
                         this.setAttribute("medium-column", "normal");
                         break;
 
-                    case Tigerian.BWindow.ELarge:
+                    case BWindow.ELarge:
                         this.setAttribute("medium-column", "large");
                         break;
 
-                    case Tigerian.BWindow.EXLarge:
+                    case BWindow.EXLarge:
                         this.setAttribute("medium-column", "xlarge");
                         break;
 
                     default:
-                        if (Tigerian.Class.isInstance(v, "number")) {
+                        if (Class.isInstance(v, "number")) {
                             this.setAttribute("medium-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
                         }
                 }
@@ -300,23 +300,23 @@ Tigerian.Control = Tigerian.UI.extend({
                 var v = this.getAttribute("normal-column");
                 switch (v) {
                     case "":
-                        return Tigerian.BWindow.ENone;
+                        return BWindow.ENone;
                         break;
 
                     case "small":
-                        return Tigerian.BWindow.ESmall;
+                        return BWindow.ESmall;
                         break;
 
                     case "medium":
-                        return Tigerian.BWindow.EMedium;
+                        return BWindow.EMedium;
                         break;
 
                     case "large":
-                        return Tigerian.BWindow.ELarge;
+                        return BWindow.ELarge;
                         break;
 
                     case "xlarge":
-                        return Tigerian.BWindow.EXLarge;
+                        return BWindow.EXLarge;
                         break;
 
                     default:
@@ -329,28 +329,28 @@ Tigerian.Control = Tigerian.UI.extend({
              */
             set: function (v) {
                 switch (v) {
-                    case Tigerian.BWindow.ENone:
+                    case BWindow.ENone:
                         this.setAttribute("normal-column", "");
                         break;
 
-                    case Tigerian.BWindow.ESmall:
+                    case BWindow.ESmall:
                         this.setAttribute("normal-column", "small");
                         break;
 
-                    case Tigerian.BWindow.EMedium:
+                    case BWindow.EMedium:
                         this.setAttribute("normal-column", "medium");
                         break;
 
-                    case Tigerian.BWindow.ELarge:
+                    case BWindow.ELarge:
                         this.setAttribute("normal-column", "large");
                         break;
 
-                    case Tigerian.BWindow.EXLarge:
+                    case BWindow.EXLarge:
                         this.setAttribute("normal-column", "xlarge");
                         break;
 
                     default:
-                        if (Tigerian.Class.isInstance(v, "number")) {
+                        if (Class.isInstance(v, "number")) {
                             this.setAttribute("normal-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
                         }
                 }
@@ -370,23 +370,23 @@ Tigerian.Control = Tigerian.UI.extend({
                 var v = this.getAttribute("large-column");
                 switch (v) {
                     case "":
-                        return Tigerian.BWindow.ENone;
+                        return BWindow.ENone;
                         break;
 
                     case "small":
-                        return Tigerian.BWindow.ESmall;
+                        return BWindow.ESmall;
                         break;
 
                     case "medium":
-                        return Tigerian.BWindow.EMedium;
+                        return BWindow.EMedium;
                         break;
 
                     case "normal":
-                        return Tigerian.BWindow.ENormal;
+                        return BWindow.ENormal;
                         break;
 
                     case "xlarge":
-                        return Tigerian.BWindow.EXLarge;
+                        return BWindow.EXLarge;
                         break;
 
                     default:
@@ -399,28 +399,28 @@ Tigerian.Control = Tigerian.UI.extend({
              */
             set: function (v) {
                 switch (v) {
-                    case Tigerian.BWindow.ENone:
+                    case BWindow.ENone:
                         this.setAttribute("large-column", "");
                         break;
 
-                    case Tigerian.BWindow.ESmall:
+                    case BWindow.ESmall:
                         this.setAttribute("large-column", "small");
                         break;
 
-                    case Tigerian.BWindow.EMedium:
+                    case BWindow.EMedium:
                         this.setAttribute("large-column", "medium");
                         break;
 
-                    case Tigerian.BWindow.ENormal:
+                    case BWindow.ENormal:
                         this.setAttribute("large-column", "normal");
                         break;
 
-                    case Tigerian.BWindow.EXLarge:
+                    case BWindow.EXLarge:
                         this.setAttribute("large-column", "xlarge");
                         break;
 
                     default:
-                        if (Tigerian.Class.isInstance(v, "number")) {
+                        if (Class.isInstance(v, "number")) {
                             this.setAttribute("large-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
                         }
                 }
@@ -440,23 +440,23 @@ Tigerian.Control = Tigerian.UI.extend({
                 var v = this.getAttribute("xlarge-column");
                 switch (v) {
                     case "":
-                        return Tigerian.BWindow.ENone;
+                        return BWindow.ENone;
                         break;
 
                     case "small":
-                        return Tigerian.BWindow.ESmall;
+                        return BWindow.ESmall;
                         break;
 
                     case "medium":
-                        return Tigerian.BWindow.EMedium;
+                        return BWindow.EMedium;
                         break;
 
                     case "normal":
-                        return Tigerian.BWindow.ENormal;
+                        return BWindow.ENormal;
                         break;
 
                     case "large":
-                        return Tigerian.BWindow.ELarge;
+                        return BWindow.ELarge;
                         break;
 
                     default:
@@ -469,28 +469,28 @@ Tigerian.Control = Tigerian.UI.extend({
              */
             set: function (v) {
                 switch (v) {
-                    case Tigerian.BWindow.ENone:
+                    case BWindow.ENone:
                         this.setAttribute("xlarge-column", "");
                         break;
 
-                    case Tigerian.BWindow.ESmall:
+                    case BWindow.ESmall:
                         this.setAttribute("xlarge-column", "small");
                         break;
 
-                    case Tigerian.BWindow.EMedium:
+                    case BWindow.EMedium:
                         this.setAttribute("xlarge-column", "medium");
                         break;
 
-                    case Tigerian.BWindow.ENormal:
+                    case BWindow.ENormal:
                         this.setAttribute("xlarge-column", "normal");
                         break;
 
-                    case Tigerian.BWindow.ELarge:
+                    case BWindow.ELarge:
                         this.setAttribute("xlarge-column", "large");
                         break;
 
                     default:
-                        if (Tigerian.Class.isInstance(v, "number")) {
+                        if (Class.isInstance(v, "number")) {
                             this.setAttribute("xlarge-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
                         }
                 }
@@ -513,7 +513,7 @@ Tigerian.Control = Tigerian.UI.extend({
              * @param {boolean} v
              */
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
+                if (Class.isInstance(v, "boolean")) {
                     this.setAttribute("hide-on-small", v);
                 }
             }
@@ -535,7 +535,7 @@ Tigerian.Control = Tigerian.UI.extend({
              * @param {boolean} v
              */
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
+                if (Class.isInstance(v, "boolean")) {
                     this.setAttribute("hide-on-medium", v);
                 }
             }
@@ -557,7 +557,7 @@ Tigerian.Control = Tigerian.UI.extend({
              * @param {boolean} v
              */
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
+                if (Class.isInstance(v, "boolean")) {
                     this.setAttribute("hide-on-normal", v);
                 }
             }
@@ -579,7 +579,7 @@ Tigerian.Control = Tigerian.UI.extend({
              * @param {boolean} v
              */
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
+                if (Class.isInstance(v, "boolean")) {
                     this.setAttribute("hide-on-large", v);
                 }
             }
@@ -601,7 +601,7 @@ Tigerian.Control = Tigerian.UI.extend({
              * @param {boolean} v
              */
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
+                if (Class.isInstance(v, "boolean")) {
                     this.setAttribute("hide-on-xlarge", v);
                 }
             }
@@ -619,16 +619,16 @@ Tigerian.Control = Tigerian.UI.extend({
             get: function () {
                 switch (this.getAttribute("float")) {
                     case "left":
-                        return Tigerian.Control.ELeft;
+                        return Control.ELeft;
                         break;
                     case "right":
-                        return Tigerian.Control.ERight;
+                        return Control.ERight;
                         break;
                     case "center":
-                        return Tigerian.Control.ECenter;
+                        return Control.ECenter;
                         break;
                     default:
-                        return Tigerian.Control.ENone;
+                        return Control.ENone;
                         break;
                 }
             },
@@ -637,13 +637,13 @@ Tigerian.Control = Tigerian.UI.extend({
              */
             set: function (v) {
                 switch (v) {
-                    case Tigerian.Control.ELeft:
+                    case Control.ELeft:
                         this.setAttribute("float", "left");
                         break;
-                    case Tigerian.Control.ERight:
+                    case Control.ERight:
                         this.setAttribute("float", "right");
                         break;
-                    case Tigerian.Control.ECenter:
+                    case Control.ECenter:
                         this.setAttribute("float", "center");
                         break;
                     default:
@@ -665,19 +665,19 @@ Tigerian.Control = Tigerian.UI.extend({
             get: function () {
                 switch (this.getAttribute("align")) {
                     case "left":
-                        return Tigerian.Control.ELeft;
+                        return Control.ELeft;
                         break;
                     case "right":
-                        return Tigerian.Control.ERight;
+                        return Control.ERight;
                         break;
                     case "center":
-                        return Tigerian.Control.ECenter;
+                        return Control.ECenter;
                         break;
                     case "justify":
-                        return Tigerian.Control.EJustify;
+                        return Control.EJustify;
                         break;
                     default:
-                        return Tigerian.Control.ENone;
+                        return Control.ENone;
                         break;
                 }
             },
@@ -686,16 +686,16 @@ Tigerian.Control = Tigerian.UI.extend({
              */
             set: function (v) {
                 switch (v) {
-                    case Tigerian.Control.ELeft:
+                    case Control.ELeft:
                         this.setAttribute("align", "left");
                         break;
-                    case Tigerian.Control.ERight:
+                    case Control.ERight:
                         this.setAttribute("align", "right");
                         break;
-                    case Tigerian.Control.ECenter:
+                    case Control.ECenter:
                         this.setAttribute("align", "center");
                         break;
-                    case Tigerian.Control.EJustify:
+                    case Control.EJustify:
                         this.setAttribute("align", "justify");
                         break;
                     default:
@@ -721,7 +721,7 @@ Tigerian.Control = Tigerian.UI.extend({
         //      * @param {string} v
         //      */
         //     set: function (v) {
-        //         if (Tigerian.Class.isInstance(v, "boolean")) {
+        //         if (Class.isInstance(v, "boolean")) {
         //             this.setAttribute("float", (v ? "left" : "false"));
         //         }
         //     }
@@ -743,7 +743,7 @@ Tigerian.Control = Tigerian.UI.extend({
         //      * @param {string} v
         //      */
         //     set: function (v) {
-        //         if (Tigerian.Class.isInstance(v, "boolean")) {
+        //         if (Class.isInstance(v, "boolean")) {
         //             this.setAttribute("float", (v ? "right" : "false"));
         //         }
         //     }
@@ -765,7 +765,7 @@ Tigerian.Control = Tigerian.UI.extend({
         //      * @param {string} v
         //      */
         //     set: function (v) {
-        //         if (Tigerian.Class.isInstance(v, "boolean")) {
+        //         if (Class.isInstance(v, "boolean")) {
         //             this.setAttribute("float", (v ? "center" : "false"));
         //         }
         //     }
@@ -787,7 +787,7 @@ Tigerian.Control = Tigerian.UI.extend({
              * @param {string} v
              */
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "string")) {
+                if (Class.isInstance(v, "string")) {
                     this.setAttribute("template-name", v);
                 }
             }
@@ -809,7 +809,7 @@ Tigerian.Control = Tigerian.UI.extend({
              * @param {string} v
              */
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "string")) {
+                if (Class.isInstance(v, "string")) {
                     this.setAttribute("template-item", v);
                 }
             }
@@ -822,7 +822,7 @@ Tigerian.Control = Tigerian.UI.extend({
                 return (this.getAttribute("element-hoverable") === "true");
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
+                if (Class.isInstance(v, "boolean")) {
                     this.setAttribute("element-hoverable", v ? "true" : "false");
                 }
             },
@@ -836,68 +836,68 @@ Tigerian.Control = Tigerian.UI.extend({
 
                 switch (v) {
                     case "title":
-                        return Tigerian.Control.ETitle;
+                        return Control.ETitle;
 
                     case "default":
-                        return Tigerian.Control.EDefault;
+                        return Control.EDefault;
 
                     case "transparent":
-                        return Tigerian.Control.ETransparent;
+                        return Control.ETransparent;
 
                     case "opposite":
-                        return Tigerian.Control.EOpposite;
+                        return Control.EOpposite;
 
                     case "warning":
-                        return Tigerian.Control.EWarning;
+                        return Control.EWarning;
 
                     case "danger":
-                        return Tigerian.Control.EDanger;
+                        return Control.EDanger;
 
                     case "disable":
-                        return Tigerian.Control.EDisable;
+                        return Control.EDisable;
 
                     case "ok":
-                        return Tigerian.Control.EOk;
+                        return Control.EOk;
 
                     default:
-                        return Tigerian.Control.ENone;
+                        return Control.ENone;
                 }
             },
             set: function (v) {
                 switch (v) {
-                    case Tigerian.Control.ETitle:
+                    case Control.ETitle:
                         this.setAttribute("element-situation", "title");
                         break;
 
-                    case Tigerian.Control.EDefault:
+                    case Control.EDefault:
                         this.setAttribute("element-situation", "default");
                         break;
 
-                    case Tigerian.Control.ETransparent:
+                    case Control.ETransparent:
                         this.setAttribute("element-situation", "transparent");
                         break;
 
-                    case Tigerian.Control.EOpposite:
+                    case Control.EOpposite:
                         this.setAttribute("element-situation", "opposite");
                         break;
 
-                    case Tigerian.Control.EWarning:
+                    case Control.EWarning:
                         this.setAttribute("element-situation", "warning");
                         break;
 
-                    case Tigerian.Control.EDanger:
+                    case Control.EDanger:
                         this.setAttribute("element-situation", "danger");
                         break;
 
-                    case Tigerian.Control.EDisable:
+                    case Control.EDisable:
                         this.setAttribute("element-situation", "disable");
                         break;
 
-                    case Tigerian.Control.EOk:
+                    case Control.EOk:
                         this.setAttribute("element-situation", "ok");
                         break;
 
-                    case Tigerian.Control.ENone:
+                    case Control.ENone:
                     default:
                         this.setAttribute("element-situation", "");
                         break;
@@ -906,7 +906,7 @@ Tigerian.Control = Tigerian.UI.extend({
         });
 
         /**
-         * @param {Element|Tigerian.Control} control
+         * @param {Element|Control} control
          */
         this.addControl = function (control) {
             superAddControl(control);
@@ -922,7 +922,7 @@ Tigerian.Control = Tigerian.UI.extend({
         // };
 
         this.toString = function () {
-            return "[Tigerian.Control (Or one of its sub classes) Instance]";
+            return "[Control (Or one of its sub classes) Instance]";
         };
     },
     enums: ["left", "right", "center", "justify", "none", "default", "title", "transparent", "opposite", "warning", "danger", "disable", "ok"],

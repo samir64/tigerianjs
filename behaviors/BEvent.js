@@ -1,6 +1,6 @@
 ("use strict");
 
-Tigerian.BEvent = Tigerian.Behavior.extend({
+BEvent = Behavior.extend({
     init: function () {
         this.super("event");
 
@@ -19,7 +19,7 @@ Tigerian.BEvent = Tigerian.Behavior.extend({
                 return enabled;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
+                if (Class.isInstance(v, "boolean")) {
                     enabled = v;
                 }
             }
@@ -32,7 +32,7 @@ Tigerian.BEvent = Tigerian.Behavior.extend({
             //     return mainElement;
             // },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, Element) || (v === undefined)) {
+                if (Class.isInstance(v, Element) || (v === undefined)) {
                     if (mainElement !== undefined) {
                         events.forEach(function (event, eventName) {
                             mainElement.removeEventListener(eventName, eventHandler, false);
@@ -81,7 +81,7 @@ Tigerian.BEvent = Tigerian.Behavior.extend({
          */
         this.addEvent = function (eventName, callback) {
             // console.warn(eventName, callback);
-            if ((Tigerian.Class.isInstance(eventName, "string")) && (eventName !== "") && (Tigerian.Class.isInstance(callback, Function))) {
+            if ((Class.isInstance(eventName, "string")) && (eventName !== "") && (Class.isInstance(callback, Function))) {
                 eventName = eventName.toLowerCase();
 
                 if (!events.hasOwnProperty(eventName)) {
@@ -102,10 +102,10 @@ Tigerian.BEvent = Tigerian.Behavior.extend({
          * @param {EventCallback} [callback]
          */
         this.removeEvent = function (eventName, callback) {
-            if ((Tigerian.Class.isInstance(eventName, "string")) && (eventName !== "") && (events[eventName] !== undefined)) {
+            if ((Class.isInstance(eventName, "string")) && (eventName !== "") && (events[eventName] !== undefined)) {
                 eventName = eventName.toLowerCase();
 
-                if (Tigerian.Class.isInstance(callback, Function)) {
+                if (Class.isInstance(callback, Function)) {
                     events[eventName] = events[eventName].filter(function (item, index) {
                         if (item !== callback) {
                             return item;
@@ -129,7 +129,7 @@ Tigerian.BEvent = Tigerian.Behavior.extend({
          * @param {Array} [data]
          */
         this.dispatchEvent = function (e, data) {
-            if (Tigerian.Class.isInstance(e, Event)) {
+            if (Class.isInstance(e, Event)) {
                 e.data = data;
                 eventHandler(e);
             }
@@ -140,7 +140,7 @@ Tigerian.BEvent = Tigerian.Behavior.extend({
      * @param {Element} element
      */
     config: function (behavior, element) {
-        if ((behavior === "event") && (Tigerian.Class.isInstance(element, Element) || (element === undefined))) {
+        if ((behavior === "event") && (Class.isInstance(element, Element) || (element === undefined))) {
             this.element = element;
 
             delete this.element;

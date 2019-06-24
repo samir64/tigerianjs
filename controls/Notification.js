@@ -2,14 +2,14 @@
 
 /**
  * @constructor
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BText}
- * @implements {Tigerian.BCancel}
+ * @extends {Control}
+ * @implements {BText}
+ * @implements {BCancel}
  */
-Tigerian.Notification = Tigerian.Control.extend({
+Notification = Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {string} text = ""
      * @param {string} theme = ""
      */
@@ -29,4 +29,4 @@ Tigerian.Notification = Tigerian.Control.extend({
         this.addControl(elmMessage);
         this.text = text;
     },
-}, Tigerian.BText, Tigerian.BCancel);
+}, BText, BCancel);

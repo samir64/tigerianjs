@@ -6,14 +6,14 @@
 
 
 /**
- * @extends {Tigerian.ModelView}
- * @implements {Tigerian.BWindow}
+ * @extends {ModelView}
+ * @implements {BWindow}
  * @constructor
  */
-Tigerian.View = Tigerian.ModelView.extend({
+View = ModelView.extend({
     /**
      * @constructs
-     * @param {Tigerian.Control} container
+     * @param {Control} container
      */
     init: function (container) {
         this.super();
@@ -38,7 +38,7 @@ Tigerian.View = Tigerian.ModelView.extend({
                 return show;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "function")) {
+                if (Class.isInstance(v, "function")) {
                     show = v;
                 }
             },
@@ -54,7 +54,7 @@ Tigerian.View = Tigerian.ModelView.extend({
                 return hide;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "function")) {
+                if (Class.isInstance(v, "function")) {
                     hide = v;
                 }
             },
@@ -70,10 +70,10 @@ Tigerian.View = Tigerian.ModelView.extend({
                 return refresh;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "function")) {
+                if (Class.isInstance(v, "function")) {
                     refresh = v;
                 }
             },
         });
     }
-}, Tigerian.BWindow);
+}, BWindow);

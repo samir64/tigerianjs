@@ -5,27 +5,27 @@
 ("use strict");
 
 /**
- * @extends {Tigerian.Class}
+ * @extends {Class}
  * @constructor
  */
-Tigerian.GridTemplateItem = Tigerian.Class.extend({
+GridTemplateItem = Class.extend({
     /**
      * @constructs
      * @param {string} name
      * @param {number} colSpan
      */
     init: function (name, colSpan) {
-        if (Tigerian.Class.isInstance(name, "string")) {
+        if (Class.isInstance(name, "string")) {
             this.super();
 
-            if (Tigerian.Class.isInstance(colSpan, "number")) {
+            if (Class.isInstance(colSpan, "number")) {
                 colSpan = Math.max(1, Math.abs(colSpan));
             } else {
                 colSpan = 1;
             }
 
 /*
-            if (Tigerian.Class.isInstance(rowSpan, "number")) {
+            if (Class.isInstance(rowSpan, "number")) {
                 rowSpan = Math.min(1, Math.abs(rowSpan));
             } else {
                 rowSpan = 1;
@@ -42,7 +42,7 @@ Tigerian.GridTemplateItem = Tigerian.Class.extend({
                     return name;
                 },
                 set: function (v) {
-                    if (Tigerian.Class.isInstance(v, "string")) {
+                    if (Class.isInstance(v, "string")) {
                         name = v;
                     }
                 }
@@ -58,7 +58,7 @@ Tigerian.GridTemplateItem = Tigerian.Class.extend({
                     return colSpan;
                 },
                 set: function (v) {
-                    if (Tigerian.Class.isInstance(v, "number")) {
+                    if (Class.isInstance(v, "number")) {
                         colSpan = v;
                     }
                 }
@@ -72,7 +72,7 @@ Tigerian.GridTemplateItem = Tigerian.Class.extend({
                     return rowSpan;
                 },
                 set: function (v) {
-                    if (Tigerian.Class.isInstance(v, "rowSpan")) {
+                    if (Class.isInstance(v, "rowSpan")) {
                         rowSpan = v;
                     }
                 }

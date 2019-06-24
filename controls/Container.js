@@ -7,15 +7,15 @@
 
 /**
  * @property {string} text
- * @property {source} Tigerian.Control
+ * @property {source} Control
  * @property {boolean} visible
  *
- * @extends {Tigerian.Control}
+ * @extends {Control}
  * @constructor
  */
-Tigerian.Container = Tigerian.Control.extend({
+Container = Control.extend({
     /**
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {string} theme = ""
      */
     init: function (parent, theme) {
@@ -39,9 +39,9 @@ Tigerian.Container = Tigerian.Control.extend({
                 thisAddControl(elmBody);
 
                 this.addControl = function (control) {
-                    if (Tigerian.Class.isInstance(control, Element)) {
+                    if (Class.isInstance(control, Element)) {
                         elmBody.appendChild(control);
-                    } else if (Tigerian.Class.isInstance(control, Tigerian.Control)) {
+                    } else if (Class.isInstance(control, Control)) {
                         control.appendTo(this, elmBody);
                     }
                 };

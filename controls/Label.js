@@ -6,15 +6,15 @@
 
 
 /**
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BText}
- * @implements {Tigerian.BLabel}
+ * @extends {Control}
+ * @implements {BText}
+ * @implements {BLabel}
  * @class
  */
-Tigerian.Label = Tigerian.Control.extend({
+Label = Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {string} text = ""
      * @param {string} theme = ""
      */
@@ -43,7 +43,7 @@ Tigerian.Label = Tigerian.Control.extend({
 
         this.setAttribute("inline-mode", "false");
 
-        // if (Tigerian.Class.isInstance(text, "string")) {
+        // if (Class.isInstance(text, "string")) {
         //     elmLabel.innerHTML = text;
         // }
 
@@ -67,7 +67,7 @@ Tigerian.Label = Tigerian.Control.extend({
 
         //NOTE Properties
         /**
-         * @member {Tigerian.Control}
+         * @member {Control}
          */
         Object.defineProperty(this, "source", {
             enumerable: true,
@@ -76,7 +76,7 @@ Tigerian.Label = Tigerian.Control.extend({
                 return source;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, Tigerian.Control)) {
+                if (Class.isInstance(v, Control)) {
                     source = v;
                 }
             }
@@ -119,10 +119,10 @@ Tigerian.Label = Tigerian.Control.extend({
 
         /**
          * @param {string} text
-         * @param {Tigerian.Control[]} ...controls
+         * @param {Control[]} ...controls
          */
         this.format = function (text, controls) {
-            if (Tigerian.Class.isInstance(text, "string")) {
+            if (Class.isInstance(text, "string")) {
                 var lastIndex = 0;
                 var pat = /@/g;
                 var i = 0;
@@ -135,7 +135,7 @@ Tigerian.Label = Tigerian.Control.extend({
 
                 while ((pat.exec(text) != null) && (i < controls.length)) {
                     if (text[pat.lastIndex - 2] !== "\\") {
-                        if (Tigerian.Class.isInstance(controls[i], Tigerian.Control)) {
+                        if (Class.isInstance(controls[i], Control)) {
                             var subText = text.substr(lastIndex, pat.lastIndex - lastIndex - 1).replace("\\@", "@");
                             var textNode = document.createTextNode(subText);
                             elmFormatText.appendChild(textNode);
@@ -161,4 +161,4 @@ Tigerian.Label = Tigerian.Control.extend({
         createFormatText();
     },
     enums: []
-}, Tigerian.BText, Tigerian.BLabel);
+}, BText, BLabel);

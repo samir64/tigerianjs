@@ -2,18 +2,18 @@
 
 /**
  * @constructor
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BFixElement}
- * @implements {Tigerian.BModal}
+ * @extends {Control}
+ * @implements {BFixElement}
+ * @implements {BModal}
  */
-Tigerian.Loading = Tigerian.Control.extend({
+Loading = Control.extend({
     /**
-     * @param {Tigerian.UI} parent 
+     * @param {UI} parent 
      * @param {string} theme = ""
      */
     init: function (parent, theme) {
         this.super(parent, theme);
-        this.config("fix_element", Tigerian.BFixElement.ETop);
+        this.config("fix_element", BFixElement.ETop);
         this.config("modal", parent);
 
         var elmBar = document.createElement("div");
@@ -31,7 +31,7 @@ Tigerian.Loading = Tigerian.Control.extend({
 
         this.addControl(elmBar);
 
-        this.status = Tigerian.BModal.EClose;
+        this.status = BModal.EClose;
         this.fixed = true;
 
         /**
@@ -44,10 +44,10 @@ Tigerian.Loading = Tigerian.Control.extend({
                 return loaded;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "number")) {
+                if (Class.isInstance(v, "number")) {
                     v = Math.max(0, Math.min(100, v));
                     loaded = v;
-                    if (this.state === Tigerian.Loading.EDeterminate) {
+                    if (this.state === Loading.EDeterminate) {
                         elmBar.style.width = "{}%".format(v);
                     } else {
                         elmBar.style.width = "";
@@ -66,21 +66,21 @@ Tigerian.Loading = Tigerian.Control.extend({
                 var v = elmBar.getAttribute("state");
                 switch (v) {
                     case "determinate":
-                        return Tigerian.Loading.EDeterminate;
+                        return Loading.EDeterminate;
 
                     case "indeterminate":
                     default:
-                        return Tigerian.Loading.EIndeterminate;
+                        return Loading.EIndeterminate;
                 }
             },
             set: function (v) {
                 switch (v) {
-                    case Tigerian.Loading.EDeterminate:
+                    case Loading.EDeterminate:
                         this.setAttribute("state", "determinate");
                         elmBar.style.width = "{}%".format(loaded);
                         break;
 
-                    case Tigerian.Loading.EIndeterminate:
+                    case Loading.EIndeterminate:
                         this.setAttribute("state", "indeterminate");
                         elmBar.style.width = "";
                         break;
@@ -101,68 +101,68 @@ Tigerian.Loading = Tigerian.Control.extend({
 
                 switch (v) {
                     case "title":
-                        return Tigerian.Control.ETitle;
+                        return Control.ETitle;
 
                     case "default":
-                        return Tigerian.Control.EDefault;
+                        return Control.EDefault;
 
                     case "transparent":
-                        return Tigerian.Control.ETransparent;
+                        return Control.ETransparent;
 
                     case "opposite":
-                        return Tigerian.Control.EOpposite;
+                        return Control.EOpposite;
 
                     case "warning":
-                        return Tigerian.Control.EWarning;
+                        return Control.EWarning;
 
                     case "danger":
-                        return Tigerian.Control.EDanger;
+                        return Control.EDanger;
 
                     case "disable":
-                        return Tigerian.Control.EDisable;
+                        return Control.EDisable;
 
                     case "ok":
-                        return Tigerian.Control.EOk;
+                        return Control.EOk;
 
                     default:
-                        return Tigerian.Control.ENone;
+                        return Control.ENone;
                 }
             },
             set: function (v) {
                 switch (v) {
-                    case Tigerian.Control.ETitle:
+                    case Control.ETitle:
                         elmBar.setAttribute("element-situation", "title");
                         break;
 
-                    case Tigerian.Control.EDefault:
+                    case Control.EDefault:
                         elmBar.setAttribute("element-situation", "default");
                         break;
 
-                    case Tigerian.Control.ETransparent:
+                    case Control.ETransparent:
                         elmBar.setAttribute("element-situation", "transparent");
                         break;
 
-                    case Tigerian.Control.EOpposite:
+                    case Control.EOpposite:
                         elmBar.setAttribute("element-situation", "opposite");
                         break;
 
-                    case Tigerian.Control.EWarning:
+                    case Control.EWarning:
                         elmBar.setAttribute("element-situation", "warning");
                         break;
 
-                    case Tigerian.Control.EDanger:
+                    case Control.EDanger:
                         elmBar.setAttribute("element-situation", "danger");
                         break;
 
-                    case Tigerian.Control.EDisable:
+                    case Control.EDisable:
                         elmBar.setAttribute("element-situation", "disable");
                         break;
 
-                    case Tigerian.Control.EOk:
+                    case Control.EOk:
                         elmBar.setAttribute("element-situation", "ok");
                         break;
 
-                    case Tigerian.Control.ENone:
+                    case Control.ENone:
                     default:
                         elmBar.setAttribute("element-situation", "");
                         break;
@@ -173,4 +173,4 @@ Tigerian.Loading = Tigerian.Control.extend({
         delete this.addControl;
     },
     enums: ["indeterminate", "determinate"],
-}, Tigerian.BFixElement, Tigerian.BModal);
+}, BFixElement, BModal);

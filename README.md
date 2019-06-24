@@ -1,4 +1,4 @@
-# Tigerian.js Framework v1.0.0 alpha
+# js Framework v1.0.0 alpha
 
 ## Introduction and Story
 
@@ -12,7 +12,7 @@
 > now, in addition to the UI controls, this system has some other modules.
 > `Tigerian` is a MVW framework and fully modular.
 >
-> You can use just `Tigerian.UI` with its children in order to create a web page, or use `Tigerian.ModelView` system with/without `Tigerian.Route` module to manage your website's Views, or any other combination of modules.
+> You can use just `UI` with its children in order to create a web page, or use `ModelView` system with/without `Route` module to manage your website's Views, or any other combination of modules.
 
 Tigerian has 5 special properties
 

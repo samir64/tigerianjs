@@ -2,14 +2,14 @@
 
 /**
  * @constructor
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BGroup}
- * @implements {Tigerian.BTable}
+ * @extends {Control}
+ * @implements {BGroup}
+ * @implements {BTable}
  */
-Tigerian.Table = Tigerian.Control.extend({
+Table = Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {number} colCount = 1
      * @param {string} caption = ""
      * @param {string} theme = ""
@@ -20,9 +20,9 @@ Tigerian.Table = Tigerian.Control.extend({
         this.setAttribute("element-type", "Table");
         this.setAttribute("element-name", "container");
 
-        var ctrlTableHeader = new Tigerian.Header(this, false, this.theme);
-        var ctrlTableBody = new Tigerian.TableBody(this, this.theme);
-        var ctrlCaption = new Tigerian.Label(ctrlTableHeader, "", this.theme);
+        var ctrlTableHeader = new Header(this, false, this.theme);
+        var ctrlTableBody = new TableBody(this, this.theme);
+        var ctrlCaption = new Label(ctrlTableHeader, "", this.theme);
 
         this.config("group", ctrlTableBody);
         this.config("table", colCount, ctrlTableBody);
@@ -39,7 +39,7 @@ Tigerian.Table = Tigerian.Control.extend({
                 return ctrlCaption.text;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "string")) {
+                if (Class.isInstance(v, "string")) {
                     ctrlCaption.text = v;
                 }
             },
@@ -55,7 +55,7 @@ Tigerian.Table = Tigerian.Control.extend({
                 return ctrlCaption.visible;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
+                if (Class.isInstance(v, "boolean")) {
                     ctrlCaption.visible = v;
                     inst
                 }
@@ -66,4 +66,4 @@ Tigerian.Table = Tigerian.Control.extend({
         delete this.removeItem;
         // delete this.clear;
     },
-}, Tigerian.BGroup, Tigerian.BTable);
+}, BGroup, BTable);

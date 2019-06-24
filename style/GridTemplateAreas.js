@@ -5,10 +5,10 @@
 ("use strict");
 
 /**
- * @extends {Tigerian.Class}
+ * @extends {Class}
  * @constructor
  */
-Tigerian.GridTemplateAreas = Tigerian.Class.extend({
+GridTemplateAreas = Class.extend({
     /**
      * @constructs
      * @param {Element} element
@@ -17,16 +17,16 @@ Tigerian.GridTemplateAreas = Tigerian.Class.extend({
      * @param {number} rowCount
      */
     init: function (element, name, rowCount, colCount) {
-        if (Tigerian.Class.isInstance(element, Text) && Tigerian.Class.isInstance(name, "string")) {
+        if (Class.isInstance(element, Text) && Class.isInstance(name, "string")) {
             this.super();
 
-            if (Tigerian.Class.isInstance(colCount, "number")) {
+            if (Class.isInstance(colCount, "number")) {
                 colCount = Math.max(1, Math.abs(colCount));
             } else {
                 colCount = 1;
             }
 
-            if (Tigerian.Class.isInstance(rowCount, "number")) {
+            if (Class.isInstance(rowCount, "number")) {
                 rowCount = Math.max(1, Math.abs(rowCount));
             } else {
                 rowCount = 1;
@@ -34,7 +34,7 @@ Tigerian.GridTemplateAreas = Tigerian.Class.extend({
 
             var queryText = element.data;
             /**
-             * @type {Tigerian.GridTemplateItem[][]}
+             * @type {GridTemplateItem[][]}
              */
             var items = [];
             var itemsName = [];
@@ -101,10 +101,10 @@ Tigerian.GridTemplateAreas = Tigerian.Class.extend({
              */
             this.addItem = function (itemName, rowNo, colNo, rowSpan, colSpan) {
                 if (itemsName.indexOf(itemName) === -1) {
-                    if (Tigerian.Class.isInstance(itemName, "string") && Tigerian.Class.isInstance(colNo, "number") && Tigerian.Class.isInstance(rowNo, "number")) {
+                    if (Class.isInstance(itemName, "string") && Class.isInstance(colNo, "number") && Class.isInstance(rowNo, "number")) {
                         if ((colNo >= 0) && (colNo < colCount) && (rowNo >= 0) && (rowNo < rowCount)) {
                             for (var i = 0; i < rowSpan; i++) {
-                                items[rowNo + i][colNo] = new Tigerian.GridTemplateItem(itemName, colSpan);
+                                items[rowNo + i][colNo] = new GridTemplateItem(itemName, colSpan);
                             }
                         }
                     }
@@ -125,7 +125,7 @@ Tigerian.GridTemplateAreas = Tigerian.Class.extend({
                     return name;
                 },
                 set: function (v) {
-                    if (Tigerian.Class.isInstance(v, "string")) {
+                    if (Class.isInstance(v, "string")) {
                         name = v;
                     }
                 },

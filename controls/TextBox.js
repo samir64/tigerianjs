@@ -6,14 +6,14 @@
 
 
 /**
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BText}
+ * @extends {Control}
+ * @implements {BText}
  * @constructor
  */
-Tigerian.TextBox = Tigerian.Control.extend({
+TextBox = Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {string} [text = ""]
      * @param {string} [theme = ""]
      */
@@ -33,7 +33,7 @@ Tigerian.TextBox = Tigerian.Control.extend({
         elmText.setAttribute("element-type", "TextBox");
         // elmText.setAttribute("element-name", "input");
         // elmText.setAttribute("type", "headText");
-        // if (!Tigerian.Class.isInstance(text, "string")) {
+        // if (!Class.isInstance(text, "string")) {
         //     text = "";
         // }
         // elmText.value = text;
@@ -57,7 +57,7 @@ Tigerian.TextBox = Tigerian.Control.extend({
         //     },
 
         //     set: function (v) {
-        //         if (Tigerian.Class.isInstance(v, "string")) {
+        //         if (Class.isInstance(v, "string")) {
         //             elmText.value = v;
         //         }
         //     }
@@ -74,7 +74,7 @@ Tigerian.TextBox = Tigerian.Control.extend({
             },
 
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
+                if (Class.isInstance(v, "boolean")) {
                     thisEnabled.set.bind(this)(v);
                     if (v === false) {
                         elmText.setAttribute("disabled", "true");
@@ -96,7 +96,7 @@ Tigerian.TextBox = Tigerian.Control.extend({
             },
 
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "string")) {
+                if (Class.isInstance(v, "string")) {
                     elmText.setAttribute("pattern", v);
                     this.checkValidity();
                 }
@@ -114,7 +114,7 @@ Tigerian.TextBox = Tigerian.Control.extend({
             },
 
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
+                if (Class.isInstance(v, "boolean")) {
                     if (v === true) {
                         elmText.setAttribute("required", "true");
                     } else {
@@ -136,7 +136,7 @@ Tigerian.TextBox = Tigerian.Control.extend({
                 return elmText.hasAttribute("tabindex") ? elmButton.getAttribute("tabindex") : 0;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "number")) {
+                if (Class.isInstance(v, "number")) {
                     if (v > 0) {
                         elmText.setAttribute("tabindex", v);
                     } else {
@@ -172,12 +172,12 @@ Tigerian.TextBox = Tigerian.Control.extend({
             this.isValid();
         }.bind(this), true);
         elmText.addEventListener("focus", function (e) {
-            this.dispatchEvent(Tigerian.Event.onFocus);
+            this.dispatchEvent(Events.onFocus);
         }.bind(this), true);
         elmText.addEventListener("blur", function (e) {
-            this.dispatchEvent(Tigerian.Event.onBlur);
+            this.dispatchEvent(Events.onBlur);
         }.bind(this), true);
 
         delete this.addControl;
     }
-}, Tigerian.BText);
+}, BText);

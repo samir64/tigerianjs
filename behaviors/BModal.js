@@ -2,27 +2,27 @@
 
 /**
  * @constructor
- * @extends {Tigerian.Behavior}
+ * @extends {Behavior}
  */
-Tigerian.BModal = Tigerian.Behavior.extend({
+BModal = Behavior.extend({
     /**
      * @constructs
      */
     init: function () {
         this.super("modal");
 
-        var status = Tigerian.BModal.EClose;
+        var status = BModal.EClose;
 
         this.showModal = function () {
-            status = Tigerian.BModal.EModal;
+            status = BModal.EModal;
         };
 
         this.show = function () {
-            status = Tigerian.BModal.EShow;
+            status = BModal.EShow;
         };
 
         this.close = function () {
-            status = Tigerian.BModal.EClose;
+            status = BModal.EClose;
         };
 
         Object.defineProperty(this, "status", {
@@ -32,11 +32,11 @@ Tigerian.BModal = Tigerian.Behavior.extend({
                 return status;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "string")) {
+                if (Class.isInstance(v, "string")) {
                     switch (v) {
-                        case Tigerian.BModal.EShow:
-                        case Tigerian.BModal.EClose:
-                        case Tigerian.BModal.EModal:
+                        case BModal.EShow:
+                        case BModal.EClose:
+                        case BModal.EModal:
                             status = v;
                             break;
                         default:
@@ -47,25 +47,25 @@ Tigerian.BModal = Tigerian.Behavior.extend({
     },
     /**
      * @param {string} behavior
-     * @param {Tigerian.UI} ctrlParent
-     * @param {Tigerian.Control} ctrlModal
+     * @param {UI} ctrlParent
+     * @param {Control} ctrlModal
      */
     config: function (behavior, ctrlParent, ctrlModal) {
-        if ((behavior === "modal") && Tigerian.Class.isInstance(ctrlParent, Tigerian.UI)) {
-            if (!(Tigerian.Class.isInstance(ctrlModal, Tigerian.Control) && ctrlModal["Behavior:modal"])) {
+        if ((behavior === "modal") && Class.isInstance(ctrlParent, UI)) {
+            if (!(Class.isInstance(ctrlModal, Control) && ctrlModal["Behavior:modal"])) {
                 ctrlModal = this;
             }
 
-            if (Tigerian.Class.isInstance(ctrlModal, Tigerian.Control) && ctrlModal["Behavior:modal"]) {
+            if (Class.isInstance(ctrlModal, Control) && ctrlModal["Behavior:modal"]) {
                 var lastStatus = this.status;
 
                 var initStatus = Object.getOwnPropertyDescriptor(ctrlModal, "status");
                 var superVisible = Object.getOwnPropertyDescriptor(this, "visible");
                 // var superAddControl = this.addControl;
 
-                // var elmBody = new Tigerian.Control(this, this.theme);
+                // var elmBody = new Control(this, this.theme);
                 // var elmCoverage = document.createElement("div");
-                var elmCoverage = new Tigerian.Control(ctrlParent, this.theme);
+                var elmCoverage = new Control(ctrlParent, this.theme);
                 // ctrlParent.addControl(elmCoverage);
                 if (this === ctrlModal) {
                     elmCoverage.addControl(this);
@@ -82,19 +82,19 @@ Tigerian.BModal = Tigerian.Behavior.extend({
                 // elmCoverage.setAttribute("element-name", "coverage");
 
                 this.show = function () {
-                    ctrlModal.status = Tigerian.BModal.EShow;
+                    ctrlModal.status = BModal.EShow;
                 };
 
                 this.close = function () {
-                    ctrlModal.status = Tigerian.BModal.EClose;
+                    ctrlModal.status = BModal.EClose;
                 };
 
                 this.showModal = function () {
-                    ctrlModal.status = Tigerian.BModal.EModal;
+                    ctrlModal.status = BModal.EModal;
                 };
 
                 /**
-                 * @param {Tigerian.Control} control 
+                 * @param {Control} control 
                  */
 
                 this.addControl = ctrlModal.addControl.bind(this);
@@ -107,7 +107,7 @@ Tigerian.BModal = Tigerian.Behavior.extend({
                         initStatus.set.bind(this)(v);
 
                         switch (v) {
-                            case Tigerian.BModal.EShow:
+                            case BModal.EShow:
                                 if (this !== ctrlModal) {
                                     ctrlModal.show();
                                 } else {
@@ -119,7 +119,7 @@ Tigerian.BModal = Tigerian.Behavior.extend({
 
                                 break;
 
-                            case Tigerian.BModal.EModal:
+                            case BModal.EModal:
                                 if (this !== ctrlModal) {
                                     ctrlModal.modal();
                                 } else {
@@ -131,7 +131,7 @@ Tigerian.BModal = Tigerian.Behavior.extend({
 
                                 break;
 
-                            case Tigerian.BModal.EClose:
+                            case BModal.EClose:
                                 if (this !== ctrlModal) {
                                     ctrlModal.close();
                                 } else {
@@ -152,8 +152,8 @@ Tigerian.BModal = Tigerian.Behavior.extend({
                     configurable: true,
                     get: superVisible.get.bind(this),
                     set: function (v) {
-                        if (Tigerian.Class.isInstance(v, "boolean")) {
-                            this.status = (v ? Tigerian.BModal.EShow : Tigerian.BModal.EClose);
+                        if (Class.isInstance(v, "boolean")) {
+                            this.status = (v ? BModal.EShow : BModal.EClose);
                         }
                     },
                 });

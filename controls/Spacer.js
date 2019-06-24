@@ -6,13 +6,13 @@
 
 
 /**
- * @extends {Tigerian.Control}
+ * @extends {Control}
  * @constructor
  */
-Tigerian.Spacer = Tigerian.Control.extend({
+Spacer = Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {boolean} [hrLine = false]
      * @param {string} [theme = ""]
      */

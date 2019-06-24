@@ -1,25 +1,21 @@
 ("use strict");
 
 /**
- * @namespace {Tigerian}
- * @interface
- * @extends {Tigerian.Class}
  */
-Tigerian.Behavior = Tigerian.Class.extend({
+export class Behavior {
   /**
    * @constructs
    * @param {string} behavior
    */
-  init: function(behavior) {
-    if (Tigerian.Class.isInstance(behavior, "string") && behavior !== "") {
-      this.super();
-
-      Object.defineProperty(this, "Behavior:" + behavior.toTag(false), {
-        enumerable: true,
-        writable: false,
-        configurable: false,
-        value: true
-      });
+  constructor() {
+    if (this.constructor === Behavior) {
+      throw new Error("Behavior is an abstract class.");
+    } else {
+      if (Object.getPrototypeOf(this.constructor) !== Behavior) {
+        throw new Error("This class extends from another behavior.");
+      }
     }
+
+    this.config = () => {};
   }
-});
+}

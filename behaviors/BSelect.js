@@ -5,10 +5,10 @@
 ("use strict");
 
 /**
- * @extends {Tigerian.Behavior}
+ * @extends {Behavior}
  * @interface
  */
-Tigerian.BSelect = Tigerian.Behavior.extend({
+BSelect = Behavior.extend({
     /**
      * @constructs
      */
@@ -29,7 +29,7 @@ Tigerian.BSelect = Tigerian.Behavior.extend({
                 return autoSelect;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
+                if (Class.isInstance(v, "boolean")) {
                     autoSelect = v;
                 }
             }
@@ -45,7 +45,7 @@ Tigerian.BSelect = Tigerian.Behavior.extend({
                 return autoDeselect;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
+                if (Class.isInstance(v, "boolean")) {
                     autoDeselect = v;
                 }
             }
@@ -63,11 +63,11 @@ Tigerian.BSelect = Tigerian.Behavior.extend({
     },
     /**
      * @param {string} behavior
-     * @param {Tigerian.Control} ctrlSelect
+     * @param {Control} ctrlSelect
      */
     config: function (behavior, ctrlSelect) {
         if (behavior === "select") {
-            if (!(Tigerian.Class.isInstance(ctrlSelect, Tigerian.Control) && ctrlSelect["Behavior:select"])) {
+            if (!(Class.isInstance(ctrlSelect, Control) && ctrlSelect["Behavior:select"])) {
                 ctrlSelect = this;
             } else {
                 this.selected = ctrlSelect.selected;
@@ -75,7 +75,7 @@ Tigerian.BSelect = Tigerian.Behavior.extend({
                 this.autoSelect = ctrlSelect.autoSelect;
             }
 
-            if (Tigerian.Class.isInstance(ctrlSelect, Tigerian.Control) && ctrlSelect["Behavior:select"]) {
+            if (Class.isInstance(ctrlSelect, Control) && ctrlSelect["Behavior:select"]) {
                 //NOTE Attributes
                 this.setAttribute("selected", (this.selected ? "true" : "false"));
 
@@ -93,7 +93,7 @@ Tigerian.BSelect = Tigerian.Behavior.extend({
                     },
 
                     set: function (v) {
-                        if (Tigerian.Class.isInstance(v, "boolean")) {
+                        if (Class.isInstance(v, "boolean")) {
                             this.setAttribute("selected", v);
                         }
                     }
@@ -116,7 +116,7 @@ Tigerian.BSelect = Tigerian.Behavior.extend({
                         }
                     }
                     if (this.selected !== lastValue) {
-                        this.dispatchEvent(Tigerian.Event.onSelectedChange, {
+                        this.dispatchEvent(Events.onSelectedChange, {
                             lastValue: lastValue
                         });
                     }
@@ -141,7 +141,7 @@ Tigerian.BSelect = Tigerian.Behavior.extend({
                         }
                     }
                     if (this.selected !== lastValue) {
-                        this.dispatchEvent(Tigerian.Event.onSelectedChange, {
+                        this.dispatchEvent(Events.onSelectedChange, {
                             lastValue: lastValue
                         });
                     }

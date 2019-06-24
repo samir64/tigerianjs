@@ -2,13 +2,13 @@
 
 /**
  * @constructor
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BGroup}
+ * @extends {Control}
+ * @implements {BGroup}
  */
-Tigerian.CollapseList = Tigerian.Control.extend({
+CollapseList = Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.Control} parent
+     * @param {Control} parent
      * @param {string} theme = ""
      */
     init: function (parent, theme) {
@@ -20,10 +20,10 @@ Tigerian.CollapseList = Tigerian.Control.extend({
         this.setAttribute("element-type", "CollapseList");
         this.setAttribute("element-name", "container");
 
-        this.normalColumn = Tigerian.BWindow.ENone;
+        this.normalColumn = BWindow.ENone;
 
         this.addControl = this.addItem = function (item) {
-            if (Tigerian.Class.isInstance(item, Tigerian.CollapseItem)) {
+            if (Class.isInstance(item, CollapseItem)) {
                 superAddItem(item);
             }
         };
@@ -40,4 +40,4 @@ Tigerian.CollapseList = Tigerian.Control.extend({
             }
         };
     },
-}, Tigerian.BGroup);
+}, BGroup);

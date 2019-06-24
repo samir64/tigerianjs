@@ -8,26 +8,26 @@
 
 
 /**
- * @implements {Tigerian.BBind}
- * @extends {Tigerian.Class}
+ * @implements {BBind}
+ * @extends {Class}
  *
  * @constructor
  * @abstract
  */
-Tigerian.UI = Tigerian.Class.extend({
+UI = Class.extend({
     /**
      * @param {Element} [mainElement = document.body]
-     * @param {Tigerian.UI} [parent = undefined]
+     * @param {UI} [parent = undefined]
      * @param {string} [theme]
      */
     init: function (mainElement, parent, theme) {
         this.super();
 
-        if (!Tigerian.Class.isInstance(mainElement, Element)) {
+        if (!Class.isInstance(mainElement, Element)) {
             mainElement = document.body;
         }
 
-        if (!Tigerian.Class.isInstance(parent, Tigerian.UI)) {
+        if (!Class.isInstance(parent, UI)) {
             parent = undefined;
         }
 
@@ -66,13 +66,13 @@ Tigerian.UI = Tigerian.Class.extend({
             enumerable: true,
             configurable: true,
             /**
-             * @returns {Tigerian.Application}
+             * @returns {Application}
              */
             get: function () {
                 return parent;
             },
             /**
-             * @param {Tigerian.UI} value
+             * @param {UI} value
              */
             set: function (v) {
                 if (v === undefined) {
@@ -80,10 +80,10 @@ Tigerian.UI = Tigerian.Class.extend({
                     if (mainElement.parentNode) {
                         mainElement.parentNode.removeChild(mainElement);
                     }
-                } else if (Tigerian.Class.isInstance(v, Tigerian.UI)) {
+                } else if (Class.isInstance(v, UI)) {
                     parent = v;
                     v.addControl(this);
-                } else if (Tigerian.Class.isInstance(v, Element)) {
+                } else if (Class.isInstance(v, Element)) {
                     v.appendChild(mainElement);
                     parent = v;
                 }
@@ -106,7 +106,7 @@ Tigerian.UI = Tigerian.Class.extend({
              * @param {boolean} value
              */
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
+                if (Class.isInstance(v, "boolean")) {
                     if (v === false) {
                         this.setAttribute("disabled", "true");
                     } else {
@@ -132,7 +132,7 @@ Tigerian.UI = Tigerian.Class.extend({
                 return result;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
+                if (Class.isInstance(v, "boolean")) {
                     this.setAttribute("focused", v);
                     if (v === true) {
                         this.focus();
@@ -154,10 +154,10 @@ Tigerian.UI = Tigerian.Class.extend({
                     var dir = this.getAttribute("dir");
                     switch (dir) {
                         case "ltr":
-                            return Tigerian.UI.ELeftToRight;
+                            return UI.ELeftToRight;
                             break;
                         case "rtl":
-                            return Tigerian.UI.ERightToLeft;
+                            return UI.ERightToLeft;
                             break;
                         default:
                             return "";
@@ -166,10 +166,10 @@ Tigerian.UI = Tigerian.Class.extend({
             },
             set: function (v) {
                 switch (v) {
-                    case Tigerian.UI.ELeftToRight:
+                    case UI.ELeftToRight:
                         this.setAttribute("dir", "ltr");
                         break;
-                    case Tigerian.UI.ERightToLeft:
+                    case UI.ERightToLeft:
                         this.setAttribute("dir", "rtl");
                         break;
                     default:
@@ -218,12 +218,12 @@ Tigerian.UI = Tigerian.Class.extend({
          * @param {boolean} v
          */
         function setVisible(v) {
-            if (Tigerian.Class.isInstance(v, "boolean")) {
+            if (Class.isInstance(v, "boolean")) {
                 var lastVisible = (instance.getAttribute("visible") === "true");
                 instance.setAttribute("visible", (v ? "true" : "false"));
 
                 if (lastVisible !== v) {
-                    instance.dispatchEvent(Tigerian.Event.onVisibleChange);
+                    instance.dispatchEvent(Events.onVisibleChange);
                 }
             }
         }
@@ -233,7 +233,7 @@ Tigerian.UI = Tigerian.Class.extend({
          * @param {string} themeName
          */
         function addThemeToChildren(element, themeName) {
-            var elm = new Tigerian.Iterator(Array.from(element.children));
+            var elm = new Iterator(Array.from(element.children));
             elm.yield = function () {
                 return this.list[this.index];
             };
@@ -253,7 +253,7 @@ Tigerian.UI = Tigerian.Class.extend({
          * @param {string} themeName
          */
         function removeThemeFromChildren(element, themeName) {
-            var elm = new Tigerian.Iterator(Array.from(element.children));
+            var elm = new Iterator(Array.from(element.children));
             elm.yield = function () {
                 return this.list[this.index];
             };
@@ -272,7 +272,7 @@ Tigerian.UI = Tigerian.Class.extend({
          * @param {Elemenet} element
          */
         function removeAllThemesFromChildren(element) {
-            var elm = new Tigerian.Iterator(Array.from(element.children));
+            var elm = new Iterator(Array.from(element.children));
             elm.yield = function () {
                 return this.list[this.index];
             };
@@ -294,13 +294,13 @@ Tigerian.UI = Tigerian.Class.extend({
         };
 
         /**
-         * @param {Tigerian.Control} control
+         * @param {Control} control
          */
         this.addControl = function (control) {
-            // console.warn(Tigerian.Class.isInstance(control, Tigerian.Control));
-            if (Tigerian.Class.isInstance(control, Element) || Tigerian.Class.isInstance(control, Text)) {
+            // console.warn(Class.isInstance(control, Control));
+            if (Class.isInstance(control, Element) || Class.isInstance(control, Text)) {
                 mainElement.appendChild(control);
-            } else if (Tigerian.Class.isInstance(control, Tigerian.Control)) {
+            } else if (Class.isInstance(control, Control)) {
                 control.appendTo(this, mainElement);
             }
         }.bind(this);
@@ -310,7 +310,7 @@ Tigerian.UI = Tigerian.Class.extend({
          * @param {string} attrValue
          */
         this.setAttribute = function (attrName, attrValue) {
-            if (Tigerian.Class.isInstance(mainElement, Element) && Tigerian.Class.isInstance(attrName, "string") && (attributesSetProtected.indexOf(attrName) === -1)) {
+            if (Class.isInstance(mainElement, Element) && Class.isInstance(attrName, "string") && (attributesSetProtected.indexOf(attrName) === -1)) {
                 mainElement.setAttribute(attrName, attrValue.toString());
             }
         };
@@ -320,7 +320,7 @@ Tigerian.UI = Tigerian.Class.extend({
          * @returns {string}
          */
         this.getAttribute = function (attrName) {
-            if (Tigerian.Class.isInstance(mainElement, Element) && Tigerian.Class.isInstance(attrName, "string")) {
+            if (Class.isInstance(mainElement, Element) && Class.isInstance(attrName, "string")) {
                 return mainElement.getAttribute(attrName);
             }
         };
@@ -330,7 +330,7 @@ Tigerian.UI = Tigerian.Class.extend({
          * @returns {boolean}
          */
         this.hasAttribute = function (attrName) {
-            if (Tigerian.Class.isInstance(mainElement, Element) && Tigerian.Class.isInstance(attrName, "string")) {
+            if (Class.isInstance(mainElement, Element) && Class.isInstance(attrName, "string")) {
                 return mainElement.hasAttribute(attrName);
             }
         };
@@ -339,7 +339,7 @@ Tigerian.UI = Tigerian.Class.extend({
          * @param {string} attrName
          */
         this.removeAttribute = function (attrName) {
-            if (Tigerian.Class.isInstance(mainElement, Element) && Tigerian.Class.isInstance(attrName, "string") && (attributesRemoveProtected.indexOf(attrName) === -1)) {
+            if (Class.isInstance(mainElement, Element) && Class.isInstance(attrName, "string") && (attributesRemoveProtected.indexOf(attrName) === -1)) {
                 mainElement.removeAttribute(attrName);
             }
         };
@@ -353,11 +353,11 @@ Tigerian.UI = Tigerian.Class.extend({
         };
 
         /**
-         * @param {Tigerian.UI} parentControl
+         * @param {UI} parentControl
          * @param {Element} elmParentContainer
          */
         this.appendTo = function (parentControl, elmParentContainer) {
-            if (Tigerian.Class.isInstance(parentControl, Tigerian.UI) && parentControl.matchContainer(elmParentContainer)) {
+            if (Class.isInstance(parentControl, UI) && parentControl.matchContainer(elmParentContainer)) {
                 parent = parentControl;
                 elmParentContainer.appendChild(mainElement);
             }
@@ -368,7 +368,7 @@ Tigerian.UI = Tigerian.Class.extend({
          * @param {boolean} affectChildren = true
          */
         this.addTheme = function (themeName, affectChildren) {
-            if (Tigerian.Class.isInstance(themeName, "string") && (themeName !== "")) {
+            if (Class.isInstance(themeName, "string") && (themeName !== "")) {
                 themeName = themeName.split(" ")[0];
                 mainElement.classList.add(themeName);
 
@@ -383,7 +383,7 @@ Tigerian.UI = Tigerian.Class.extend({
          * @param {boolean} affectChildren = true
          */
         this.removeTheme = function (themeName, affectChildren) {
-            if (Tigerian.Class.isInstance(themeName, "string") && (themeName !== "")) {
+            if (Class.isInstance(themeName, "string") && (themeName !== "")) {
                 themeName = themeName.split(" ")[0];
                 mainElement.classList.remove(themeName);
 
@@ -462,7 +462,7 @@ Tigerian.UI = Tigerian.Class.extend({
         this.setAttribute("visible", "true");
         this.setAttribute("focused", (document.activeElement === mainElement) ? "true" : "false");
 
-        if (Tigerian.Class.isInstance(theme, "string") && (theme !== "")) {
+        if (Class.isInstance(theme, "string") && (theme !== "")) {
             this.addTheme(theme);
         }
 
@@ -472,4 +472,4 @@ Tigerian.UI = Tigerian.Class.extend({
         }
     },
     enums: ["rightToLeft", "leftToRight"],
-}, Tigerian.BBind, Tigerian.BStyle, Tigerian.BEvent);
+}, BBind, BStyle, BEvent);

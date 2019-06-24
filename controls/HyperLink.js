@@ -6,15 +6,15 @@
 
 
 /**
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BText}
- * @implements {Tigerian.BLabel}
+ * @extends {Control}
+ * @implements {BText}
+ * @implements {BLabel}
  * @constructor
  */
-Tigerian.HyperLink = Tigerian.Control.extend({
+HyperLink = Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {string} text
      * @param {string} url
      * @param {string} [theme = ""]
@@ -40,10 +40,10 @@ Tigerian.HyperLink = Tigerian.Control.extend({
         this.setAttribute("label-type", "");
 
         this.text = text;
-        // if (Tigerian.Class.isInstance(text, "string")) {
+        // if (Class.isInstance(text, "string")) {
         //     elmHyperLink.innerHTML = text;
         // }
-        if (Tigerian.Class.isInstance(url, "string")) {
+        if (Class.isInstance(url, "string")) {
             elmHyperLink.href = url;
         }
 
@@ -64,7 +64,7 @@ Tigerian.HyperLink = Tigerian.Control.extend({
             },
 
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "string")) {
+                if (Class.isInstance(v, "string")) {
                     elmHyperLink.href = v;
                 }
             }
@@ -78,4 +78,4 @@ Tigerian.HyperLink = Tigerian.Control.extend({
             }
         }.bind(this), true);
     }
-}, Tigerian.BText, Tigerian.BLabel);
+}, BText, BLabel);

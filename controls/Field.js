@@ -7,13 +7,13 @@
 
 /**
  * @class
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BText}
+ * @extends {Control}
+ * @implements {BText}
  */
-Tigerian.Field = Tigerian.Control.extend({
+Field = Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {string} [label = ""]
      * @param {string} [text = ""]
      * @param {string} [theme = ""]
@@ -21,15 +21,15 @@ Tigerian.Field = Tigerian.Control.extend({
     init: function (parent, label, text, theme) {
         this.super(parent, theme);
 
-        var ctrlText = new Tigerian.TextBox(this, text, theme);
-        var ctrlLabel = new Tigerian.Label(this, label, theme);
+        var ctrlText = new TextBox(this, text, theme);
+        var ctrlLabel = new Label(this, label, theme);
 
         var superEnabled = Object.getOwnPropertyDescriptor(this, "enabled");
 
         this.config("text", ctrlText);
 
         ctrlLabel.source = ctrlText;
-        ctrlLabel.situation = Tigerian.Control.ETransparent;
+        ctrlLabel.situation = Control.ETransparent;
 
         //NOTE Attributes
         this.setAttribute("element-type", "Field");
@@ -99,4 +99,4 @@ Tigerian.Field = Tigerian.Control.extend({
         ctrlText.addEvent("focus", onFocus.bind(this));
         ctrlText.addEvent("blur", onBlur.bind(this));
     }
-}, Tigerian.BText);
+}, BText);

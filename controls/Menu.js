@@ -2,13 +2,13 @@
 
 /**
  * @constructor
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BGroup}
+ * @extends {Control}
+ * @implements {BGroup}
  */
-Tigerian.Menu = Tigerian.Control.extend({
+Menu = Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {string} theme = ""
      */
     init: function (parent, theme) {
@@ -25,9 +25,9 @@ Tigerian.Menu = Tigerian.Control.extend({
          * @param {Tigeriam.MenuItem} item
          */
         this.addControl = this.addItem = function (item) {
-            if (Tigerian.Class.isInstance(item, Tigerian.MenuItem) || Tigerian.Class.isInstance(item, Tigerian.Spacer)) {
+            if (Class.isInstance(item, MenuItem) || Class.isInstance(item, Spacer)) {
                 superAddItem(item);
             }
         };
     },
-}, Tigerian.BGroup);
+}, BGroup);

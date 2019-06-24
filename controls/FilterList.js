@@ -6,19 +6,19 @@
 
 
 /**
- * @extends {Tigerian.ListBox}
- * @implements {Tigerian.BFilter}
+ * @extends {ListBox}
+ * @implements {BFilter}
  * @constructor
  */
-Tigerian.FilterList = Tigerian.ListBox.extend({
+FilterList = ListBox.extend({
     /**
      * @constructs
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {string} theme = ""
      */
     init: function (parent, theme) {
         this.super(parent, theme);
-        var ctrlFilter = new Tigerian.TextBox(null, "", this.theme);
+        var ctrlFilter = new TextBox(null, "", this.theme);
         this.config("filter", ctrlFilter);
         this.addGeneralControl(ctrlFilter);
 
@@ -27,4 +27,4 @@ Tigerian.FilterList = Tigerian.ListBox.extend({
         this.setAttribute("element-type", "FilterList");
         this.setAttribute("element-name", "container");
     },
-}, Tigerian.BFilter);
+}, BFilter);

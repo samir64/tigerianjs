@@ -2,9 +2,9 @@
 
 /**
  * @class
- * @extends {Tigerian.Class}
+ * @extends {Class}
  */
-Tigerian.Ajax = Tigerian.Class.extend({
+Ajax = Class.extend({
     /**
      * @constructs
      * @param {string} url
@@ -122,7 +122,7 @@ Tigerian.Ajax = Tigerian.Class.extend({
                 return async;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
+                if (Class.isInstance(v, "boolean")) {
                     async = v;
                 }
             },

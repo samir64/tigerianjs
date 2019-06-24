@@ -1,10 +1,10 @@
 ("use strict");
 
-Tigerian.BLabel = Tigerian.Behavior.extend({
+BLabel = Behavior.extend({
     init: function () {
         this.super("label");
 
-        var labelType = Tigerian.BLabel.ENone;
+        var labelType = BLabel.ENone;
 
         Object.defineProperty(this, "labelType", {
             enumerable: true,
@@ -14,29 +14,29 @@ Tigerian.BLabel = Tigerian.Behavior.extend({
             },
             set: function (v) {
                 switch (v) {
-                    case Tigerian.BLabel.ETag:
-                    case Tigerian.BLabel.EBadge:
-                    case Tigerian.BLabel.ENone:
+                    case BLabel.ETag:
+                    case BLabel.EBadge:
+                    case BLabel.ENone:
                         labelType = v;
                         break;
 
                     default:
-                        labelType = Tigerian.BLabel.ENone;
+                        labelType = BLabel.ENone;
                 }
             }
         });
     },
     /**
      * @param {string} behavior
-     * @param {Tigerian.Control} ctrlLabel
+     * @param {Control} ctrlLabel
      */
     config: function (behavior, ctrlLabel) {
         if (behavior === "label") {
-            if (!(Tigerian.Class.isInstance(ctrlLabel, Tigerian.Control) && ctrlLabel["Behavior:text"] && ctrlLabel["Behavior:label"])) {
+            if (!(Class.isInstance(ctrlLabel, Control) && ctrlLabel["Behavior:text"] && ctrlLabel["Behavior:label"])) {
                 ctrlLabel = this;
             }
 
-            if (Tigerian.Class.isInstance(ctrlLabel, Tigerian.Control) && ctrlLabel["Behavior:text"] && ctrlLabel["Behavior:label"]) {
+            if (Class.isInstance(ctrlLabel, Control) && ctrlLabel["Behavior:text"] && ctrlLabel["Behavior:label"]) {
                 var initLabelType = Object.getOwnPropertyDescriptor(ctrlLabel, "labelType");
 
                 this.setAttribute("label-type", "");
@@ -51,13 +51,13 @@ Tigerian.BLabel = Tigerian.Behavior.extend({
 
                     set: function (v) {
                         switch (v) {
-                            case Tigerian.BLabel.ETag:
+                            case BLabel.ETag:
                                 this.setAttribute("label-type", "tag");
                                 break;
-                            case Tigerian.BLabel.EBadge:
+                            case BLabel.EBadge:
                                 this.setAttribute("label-type", "badge");
                                 break;
-                            case Tigerian.BLabel.ENone:
+                            case BLabel.ENone:
                             default:
                                 this.setAttribute("label-type", "");
                         }

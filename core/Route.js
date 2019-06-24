@@ -4,7 +4,7 @@
  * @class
  * @constructor
  */
-Tigerian.Route = Tigerian.Class.extend({
+Route = Class.extend({
     /**
      * @constructs
      * @param {string} applicationRoot
@@ -13,7 +13,7 @@ Tigerian.Route = Tigerian.Class.extend({
     init: function (applicationRoot, useHashTag) {
         /**
          *
-         * @type {Tigerian.View[]}
+         * @type {View[]}
          */
         var routes = [];
         var lastRoute = "";
@@ -73,10 +73,10 @@ Tigerian.Route = Tigerian.Class.extend({
 
         /**
          * @param {string|string[]} route
-         * @param {Tigerian.View} view
+         * @param {View} view
          */
         this.add = function (route, view) {
-            if ((Tigerian.Class.isInstance(route, "string") || Tigerian.Class.isInstance(route, Array)) && Tigerian.Class.isInstance(view, Tigerian.View)) {
+            if ((Class.isInstance(route, "string") || Class.isInstance(route, Array)) && Class.isInstance(view, View)) {
                 if (!(route instanceof Array)) {
                     route = [route];
                 }
@@ -140,7 +140,7 @@ Tigerian.Route = Tigerian.Class.extend({
                 var route = check[0];
                 var params = check[1];
 
-                if (Tigerian.Class.isInstance(viewPageNotFound, Tigerian.View)) {
+                if (Class.isInstance(viewPageNotFound, View)) {
                     viewPageNotFound.hide();
                 }
 
@@ -162,7 +162,7 @@ Tigerian.Route = Tigerian.Class.extend({
                 for (var r in routes) {
                     routes[r].hide();
                 }
-                if (Tigerian.Class.isInstance(viewPageNotFound, Tigerian.View)) {
+                if (Class.isInstance(viewPageNotFound, View)) {
                     viewPageNotFound.refresh();
                     viewPageNotFound.show();
                 }
@@ -179,14 +179,14 @@ Tigerian.Route = Tigerian.Class.extend({
                 return applicationRoot;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "string")) {
+                if (Class.isInstance(v, "string")) {
                     setBasePath(v);
                 }
             },
         });
 
         /**
-         * @member {Tigerian.View}
+         * @member {View}
          */
         Object.defineProperty(this, "pageNotFound", {
             enumerable: true,
@@ -195,7 +195,7 @@ Tigerian.Route = Tigerian.Class.extend({
                 return viewPageNotFound;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, Tigerian.View) || (v === undefined)) {
+                if (Class.isInstance(v, View) || (v === undefined)) {
                     viewPageNotFound = v;
                 }
             },

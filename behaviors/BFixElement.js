@@ -6,9 +6,9 @@
 
 /**
  * @constructor
- * @extends {Tigerian.Behavior}
+ * @extends {Behavior}
  */
-Tigerian.BFixElement = Tigerian.Behavior.extend({
+BFixElement = Behavior.extend({
     /**
      * @constructs
      */
@@ -28,21 +28,21 @@ Tigerian.BFixElement = Tigerian.Behavior.extend({
     /**
      * @param {string} behavior
      * @param {boolean} stick
-     * @param {Tigerian.Control} ctrlFix
+     * @param {Control} ctrlFix
      */
     config: function (behavior, stick, ctrlFix) {
         if (behavior === "fix_element") {
-            if (!(Tigerian.Class.isInstance(ctrlFix, Tigerian.Control) && ctrlFix["Behavior:fix_element"])) {
+            if (!(Class.isInstance(ctrlFix, Control) && ctrlFix["Behavior:fix_element"])) {
                 ctrlFix = this;
             }
 
-            if (Tigerian.Class.isInstance(ctrlFix, Tigerian.Control) && ctrlFix["Behavior:fix_element"]) {
+            if (Class.isInstance(ctrlFix, Control) && ctrlFix["Behavior:fix_element"]) {
                 switch (stick) {
-                    case Tigerian.BFixElement.ETop:
+                    case BFixElement.ETop:
                         ctrlFix.setAttribute("stick", "top");
                         break;
 
-                    case Tigerian.BFixElement.EBottom:
+                    case BFixElement.EBottom:
                         ctrlFix.setAttribute("stick", "bottom");
                         break;
 
@@ -59,7 +59,7 @@ Tigerian.BFixElement = Tigerian.Behavior.extend({
                         return (ctrlFix.getAttribute("fixed") === "true");
                     },
                     set: function (v) {
-                        if (Tigerian.Class.isInstance(v, "boolean")) {
+                        if (Class.isInstance(v, "boolean")) {
                             // ctrlSpacer.visible = v;
                             ctrlFix.setAttribute("fixed", (v === true) ? "true" : "false");
                         }

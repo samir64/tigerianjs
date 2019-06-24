@@ -5,11 +5,11 @@
 ("use strict");
 
 /**
- * @extends {Tigerian.Behavior}
- * @implements {Tigerian.BGroup}
+ * @extends {Behavior}
+ * @implements {BGroup}
  * @interface
  */
-Tigerian.BSelectGroup = Tigerian.Behavior.extend({
+BSelectGroup = Behavior.extend({
     /**
      * @constructs
      */
@@ -31,7 +31,7 @@ Tigerian.BSelectGroup = Tigerian.Behavior.extend({
                 return itemIndex;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "number")) {
+                if (Class.isInstance(v, "number")) {
                     if (v < -1) {
                         v = -1;
                     }
@@ -82,7 +82,7 @@ Tigerian.BSelectGroup = Tigerian.Behavior.extend({
                     }
                     this.focus();
                 } else {
-                    if (Tigerian.Class.isInstance(v, "number")) {
+                    if (Class.isInstance(v, "number")) {
                         v = ((v < -1) ? -1 : ((v >= this.itemCount) ? this.itemCount - 1 : v));
 
                         for (var i = 0; i < this.itemCount; i++) {
@@ -92,16 +92,16 @@ Tigerian.BSelectGroup = Tigerian.Behavior.extend({
                                 this.itemIndex = i;
                             }
                         }
-                    } else if (multi && Tigerian.Class.isInstance(v, Array)) {
+                    } else if (multi && Class.isInstance(v, Array)) {
                         /**
                          * @param {number} n
                          * @param {number} idx
                          * @param {Array} arr
                          * @returns {boolean|*}
-                         * @this Tigerian.BSelectGroup
+                         * @this BSelectGroup
                          */
                         function getValidItems(n, idx, arr) {
-                            return (Tigerian.Class.isInstance(n, "number") && (n >= 0) && (n < this.itemCount) && (arr.indexOf(n, idx + 1) === -1));
+                            return (Class.isInstance(n, "number") && (n >= 0) && (n < this.itemCount) && (arr.indexOf(n, idx + 1) === -1));
                         }
 
                         v = v.sort(function (a, b) {
@@ -147,7 +147,7 @@ Tigerian.BSelectGroup = Tigerian.Behavior.extend({
                 return multi;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
+                if (Class.isInstance(v, "boolean")) {
                     multi = v;
 
                     if (v) {
@@ -168,11 +168,11 @@ Tigerian.BSelectGroup = Tigerian.Behavior.extend({
     },
     /**
      * @param {string} behavior
-     * @param {Tigerian.Control} ctrlSelectGroup
+     * @param {Control} ctrlSelectGroup
      */
     config: function (behavior, ctrlSelectGroup) {
         if (behavior === "select_group") {
-            if (!(Tigerian.Class.isInstance(ctrlSelectGroup, Tigerian.Control) && ctrlSelectGroup["Behavior:group"] && ctrlSelectGroup["Behavior:select_group"])) {
+            if (!(Class.isInstance(ctrlSelectGroup, Control) && ctrlSelectGroup["Behavior:group"] && ctrlSelectGroup["Behavior:select_group"])) {
                 ctrlSelectGroup = this;
             } else {
                 var itemCount = Object.getOwnPropertyDescriptor(ctrlSelectGroup, "itemCount");
@@ -201,7 +201,7 @@ Tigerian.BSelectGroup = Tigerian.Behavior.extend({
                 });
             }
 
-            if (Tigerian.Class.isInstance(ctrlSelectGroup, Tigerian.Control) && ctrlSelectGroup["Behavior:group"] && ctrlSelectGroup["Behavior:select_group"]) {
+            if (Class.isInstance(ctrlSelectGroup, Control) && ctrlSelectGroup["Behavior:group"] && ctrlSelectGroup["Behavior:select_group"]) {
                 var instance = this;
                 var lastSelectedCount = ctrlSelectGroup.selectedCount;
                 var lastItemIndex = ctrlSelectGroup.itemIndex;
@@ -229,7 +229,7 @@ Tigerian.BSelectGroup = Tigerian.Behavior.extend({
                             if ((v >= 0) && (v < instance.itemCount)) {
                                 instance.getItem(v).setAttribute("focused", "true");
                             }
-                            instance.dispatchEvent(Tigerian.Event.onItemIndexChange);
+                            instance.dispatchEvent(Events.onItemIndexChange);
                             lastItemIndex = initItemIndex.get.bind(this)();
                         }
                     }
@@ -245,15 +245,15 @@ Tigerian.BSelectGroup = Tigerian.Behavior.extend({
                     set: function (v) {
                         initSelectedIndex.set.bind(this)(v);
 
-                        if (!Tigerian.compare(lastSelectedIndex, initSelectedIndex.get.bind(this)())) {
-                            this.dispatchEvent(Tigerian.Event.onSelectedIndexChange, {
+                        if (!compare(lastSelectedIndex, initSelectedIndex.get.bind(this)())) {
+                            this.dispatchEvent(Events.onSelectedIndexChange, {
                                 lastSelectedIndex: lastSelectedIndex
                             });
                             lastSelectedIndex = initSelectedIndex.get.bind(this)();
                         }
 
                         if (this.selectedCount !== lastSelectedCount) {
-                            this.dispatchEvent(Tigerian.Event.onSelectedCountChange, {
+                            this.dispatchEvent(Events.onSelectedCountChange, {
                                 lastSelectedCount: lastSelectedCount
                             });
                             lastSelectedCount = instance.selectedCount;
@@ -276,16 +276,16 @@ Tigerian.BSelectGroup = Tigerian.Behavior.extend({
                         }
                     }
 
-                    // console.log(lastSelectedIndex, instance.selectedIndex, Tigerian.compare(lastSelectedIndex, instance.selectedIndex));
+                    // console.log(lastSelectedIndex, instance.selectedIndex, compare(lastSelectedIndex, instance.selectedIndex));
 
-                    if (!Tigerian.compare(lastSelectedIndex, instance.selectedIndex)) {
-                        instance.dispatchEvent(Tigerian.Event.onSelectedIndexChange, {
+                    if (!compare(lastSelectedIndex, instance.selectedIndex)) {
+                        instance.dispatchEvent(Events.onSelectedIndexChange, {
                             lastSelectedIndex: lastSelectedIndex
                         });
                     }
 
                     if (instance.selectedCount !== lastSelectedCount) {
-                        instance.dispatchEvent(Tigerian.Event.onSelectedCountChange, {
+                        instance.dispatchEvent(Events.onSelectedCountChange, {
                             lastSelectedCount: lastSelectedCount
                         });
                     }
@@ -361,8 +361,8 @@ Tigerian.BSelectGroup = Tigerian.Behavior.extend({
                                 if (instance.multiSelect) {
                                     if (!instance.getItem(instance.itemIndex).selected || instance.getItem(instance.itemIndex).autoDeselect) {
                                         instance.getItem(instance.itemIndex).selected = !instance.getItem(instance.itemIndex).selected;
-                                        if (!Tigerian.compare(lastSelectedIndex, instance.selectedIndex)) {
-                                            this.getItem(instance.itemIndex).dispatchEvent(Tigerian.Event.onSelectedChange, {
+                                        if (!compare(lastSelectedIndex, instance.selectedIndex)) {
+                                            this.getItem(instance.itemIndex).dispatchEvent(Events.onSelectedChange, {
                                                 lastSelectedIndex: lastSelectedIndex
                                             });
                                         }

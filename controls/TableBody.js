@@ -2,14 +2,14 @@
 
 /**
  * @constructor
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BGroup}
- * @implements {Tigerian.BTable}
+ * @extends {Control}
+ * @implements {BGroup}
+ * @implements {BTable}
  */
-Tigerian.TableBody = Tigerian.Control.extend({
+TableBody = Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {string} theme = ""
      */
     init: function (parent, theme) {
@@ -19,4 +19,4 @@ Tigerian.TableBody = Tigerian.Control.extend({
         this.setAttribute("element-type", "TableBody");
         this.setAttribute("element-name", "container");
     }
-}, Tigerian.BGroup, Tigerian.BTable);
+}, BGroup, BTable);

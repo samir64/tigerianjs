@@ -7,10 +7,10 @@
 
 
 /**
- * @extends {Tigerian.Class}
+ * @extends {Class}
  * @constructor
  */
-Tigerian.ModelView = Tigerian.Class.extend({
+ModelView = Class.extend({
     /**
      * @constructs
      */
@@ -18,4 +18,4 @@ Tigerian.ModelView = Tigerian.Class.extend({
         this.super();
         this.config("event");
     },
-}, Tigerian.BBind, Tigerian.BEvent);
+}, BBind, BEvent);

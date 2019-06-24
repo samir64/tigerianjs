@@ -6,11 +6,11 @@
 
 
 /**
- * @implements {Tigerian.Behavior}
- * @extends {Tigerian.Control}
+ * @implements {Behavior}
+ * @extends {Control}
  * @interface
  */
-Tigerian.BFilter = Tigerian.Behavior.extend({
+BFilter = Behavior.extend({
     /**
      * @constructs
      */
@@ -21,7 +21,7 @@ Tigerian.BFilter = Tigerian.Behavior.extend({
 
         /**
          * @member {boolean}
-         * @this {Tigerian.Control}
+         * @this {Control}
          */
         Object.defineProperty(this, "filtering", {
             enumerable: true,
@@ -30,7 +30,7 @@ Tigerian.BFilter = Tigerian.Behavior.extend({
                 return filtering;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
+                if (Class.isInstance(v, "boolean")) {
                     filtering = v;
                 }
             },
@@ -38,16 +38,16 @@ Tigerian.BFilter = Tigerian.Behavior.extend({
     },
     /**
      * @param {string} behavior
-     * @param {Tigerian.Control} ctrlText
-     * @param {Tigerian.Control} ctrlList
+     * @param {Control} ctrlText
+     * @param {Control} ctrlList
      */
     config: function (behavior, ctrlText, ctrlList) {
         if (behavior === "filter") {
-            if (!(Tigerian.Class.isInstance(ctrlList, Tigerian.Control) && ctrlList["Behavior:group"])) {
+            if (!(Class.isInstance(ctrlList, Control) && ctrlList["Behavior:group"])) {
                 ctrlList = this;
             }
 
-            if (Tigerian.Class.isInstance(ctrlList, Tigerian.Control) && ctrlList["Behavior:group"] && Tigerian.Class.isInstance(ctrlText, Tigerian.Control) && ctrlText["Behavior:text"]) {
+            if (Class.isInstance(ctrlList, Control) && ctrlList["Behavior:group"] && Class.isInstance(ctrlText, Control) && ctrlText["Behavior:text"]) {
                 var instance = this;
                 this.setAttribute("filtering", ctrlList.filter ? "true" : "false");
 
@@ -55,7 +55,7 @@ Tigerian.BFilter = Tigerian.Behavior.extend({
                  * @param {string} text
                  */
                 this.filter = function (text) {
-                    if (!Tigerian.Class.isInstance(text, "string")) {
+                    if (!Class.isInstance(text, "string")) {
                         text = ctrlText.text;
                     }
 
@@ -71,7 +71,7 @@ Tigerian.BFilter = Tigerian.Behavior.extend({
 
                 /**
                  * @member {boolean}
-                 * @this {Tigerian.Control}
+                 * @this {Control}
                  */
                 Object.defineProperty(this, "filtering", {
                     enumerable: true,
@@ -80,7 +80,7 @@ Tigerian.BFilter = Tigerian.Behavior.extend({
                         return (this.getAttribute("filtering") === "true");
                     },
                     set: function (v) {
-                        if (Tigerian.Class.isInstance(v, "boolean")) {
+                        if (Class.isInstance(v, "boolean")) {
                             this.setAttribute("filtering", (v === true) ? "true" : "false");
                             if (this !== ctrlList) {
                                 ctrlList.filter = v;

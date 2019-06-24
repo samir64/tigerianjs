@@ -5,10 +5,10 @@
 ("use strict");
 
 /**
- * @extends {Tigerian.ModelView}
+ * @extends {ModelView}
  * @constructor
  */
-Tigerian.Model = Tigerian.ModelView.extend({
+Model = ModelView.extend({
     /**
      * @constructs
      * @param {string} applicationPath
@@ -20,10 +20,10 @@ Tigerian.Model = Tigerian.ModelView.extend({
         this.super();
 
         /**
-         * @type {Tigerian.ModelField[]}
+         * @type {ModelField[]}
          */
         var fields = {
-            id: new Tigerian.ModelField("id", idType)
+            id: new ModelField("id", idType)
         };
         // var relations = [];
         var addPath = controllerPath;
@@ -36,7 +36,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
 
         var instance = this;
 
-        if (!Tigerian.Class.isInstance(fetchField, "string")) {
+        if (!Class.isInstance(fetchField, "string")) {
             fetchField = [];
         } else {
             fetchField = fetchField.split(".");
@@ -75,12 +75,12 @@ Tigerian.Model = Tigerian.ModelView.extend({
             }
             // for (var name in relations) {
             //     switch (relations[name].multi) {
-            //         case Tigerian.Model.EOneToOne:
+            //         case Model.EOneToOne:
             //             relations[name].value[relations[name].roleB] = fields[relations[name].roleA].value;
             //             relations[name].value.reload();
             //             break;
 
-            //         case Tigerian.Model.EOneToStar:
+            //         case Model.EOneToStar:
             //             break;
 
             //         default:
@@ -93,7 +93,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
                 if (json !== undefined) {
                     fillFields(instance, json);
 
-                    if (Tigerian.Class.isInstance(successFunc, "function")) {
+                    if (Class.isInstance(successFunc, "function")) {
                         successFunc();
                     }
                 } else {
@@ -113,11 +113,11 @@ Tigerian.Model = Tigerian.ModelView.extend({
                         rows.push(row);
                     }
 
-                    if (Tigerian.Class.isInstance(successFunc, "function")) {
+                    if (Class.isInstance(successFunc, "function")) {
                         successFunc(rows);
                     }
                 } else {
-                    if (Tigerian.Class.isInstance(unsuccessFunc, "function")) {
+                    if (Class.isInstance(unsuccessFunc, "function")) {
                         unsuccessFunc(text);
                     }
                 }
@@ -126,7 +126,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
 
         var ajaxUnsuccess = function (unsuccessFunc) {
             return function (readystate, status, statusText) {
-                if (Tigerian.Class.isInstance(unsuccessFunc, "function")) {
+                if (Class.isInstance(unsuccessFunc, "function")) {
                     unsuccessFunc(statusText);
                 } else {
                     // console.error(statusText);
@@ -159,7 +159,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
                 return addPath;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "string")) {
+                if (Class.isInstance(v, "string")) {
                     addPath = v;
                 }
             }
@@ -175,7 +175,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
                 return editPath;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "string")) {
+                if (Class.isInstance(v, "string")) {
                     editPath = v;
                 }
             }
@@ -191,7 +191,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
                 return deletePath;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "string")) {
+                if (Class.isInstance(v, "string")) {
                     deletePath = v;
                 }
             }
@@ -207,7 +207,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
                 return reloadPath;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "string")) {
+                if (Class.isInstance(v, "string")) {
                     reloadPath = v;
                 }
             }
@@ -223,7 +223,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
                 return searchPath;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "string")) {
+                if (Class.isInstance(v, "string")) {
                     searchPath = v;
                 }
             }
@@ -239,7 +239,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
                 return countPath;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "string")) {
+                if (Class.isInstance(v, "string")) {
                     countPath = v;
                 }
             }
@@ -252,7 +252,7 @@ Tigerian.Model = Tigerian.ModelView.extend({
          */
         this.addField = function (name, type, collection) {
             if (!(name in fields)) {
-                fields[name] = new Tigerian.ModelField(name, type, collection, undefined);
+                fields[name] = new ModelField(name, type, collection, undefined);
 
                 Object.defineProperty(this, name, {
                     enumerable: false,
@@ -275,10 +275,10 @@ Tigerian.Model = Tigerian.ModelView.extend({
          * @param {function} roleBType
          */
         // this.addRelation = function (name, multiplicity, roleAFieldName, roleBFieldName, roleBType) {
-        //     if (Tigerian.Class.isSubclass(type, Tigerian.Model)) {
+        //     if (Class.isSubclass(type, Model)) {
         //         switch (multiplicity) {
-        //             case Tigerian.Model.EOneToOne:
-        //             case Tigerian.Model.EOneToStar:
+        //             case Model.EOneToOne:
+        //             case Model.EOneToStar:
         //                 relation[name] = {
         //                     multi: multiplicity,
         //                     roleA: roleAFieldName,
@@ -316,10 +316,10 @@ Tigerian.Model = Tigerian.ModelView.extend({
          * @param {function} unsuccess
          */
         this.update = function (success, unsuccess, progress) {
-            var ajax = new Tigerian.Ajax();
+            var ajax = new Ajax();
             ajax.success = ajaxSuccess(success, unsuccess);
             ajax.unsuccess = ajaxUnsuccess(unsuccess);
-            if (Tigerian.Class.isInstance(progress, "function")) {
+            if (Class.isInstance(progress, "function")) {
                 ajax.progress = progress;
             }
 
@@ -348,10 +348,10 @@ Tigerian.Model = Tigerian.ModelView.extend({
          * @param {function} unsuccess
          */
         this.delete = function (success, unsuccess, progress) {
-            var ajax = new Tigerian.Ajax();
+            var ajax = new Ajax();
             ajax.success = ajaxSuccess(success, unsuccess);
             ajax.unsuccess = ajaxUnsuccess(unsuccess);
-            if (Tigerian.Class.isInstance(progress, "function")) {
+            if (Class.isInstance(progress, "function")) {
                 ajax.progress = progress;
             }
 
@@ -368,10 +368,10 @@ Tigerian.Model = Tigerian.ModelView.extend({
          * @param {function} unsuccess
          */
         this.reload = function (success, unsuccess, progress) {
-            var ajax = new Tigerian.Ajax();
+            var ajax = new Ajax();
             ajax.success = ajaxSuccess(success, unsuccess);
             ajax.unsuccess = ajaxUnsuccess(unsuccess);
-            if (Tigerian.Class.isInstance(progress, "function")) {
+            if (Class.isInstance(progress, "function")) {
                 ajax.progress = progress;
             }
 
@@ -389,10 +389,10 @@ Tigerian.Model = Tigerian.ModelView.extend({
          * @param {function} unsuccess
          */
         this.search = function (options, success, unsuccess, progress) {
-            var ajax = new Tigerian.Ajax();
+            var ajax = new Ajax();
             ajax.success = ajaxSearchSuccess(success, unsuccess);
             ajax.unsuccess = ajaxUnsuccess(unsuccess);
-            if (Tigerian.Class.isInstance(progress, "function")) {
+            if (Class.isInstance(progress, "function")) {
                 ajax.progress = progress;
             }
 
@@ -416,14 +416,14 @@ Tigerian.Model = Tigerian.ModelView.extend({
          * @param {function} unsuccess
          */
         this.count = function (success, unsuccess, progress) {
-            var ajax = new Tigerian.Ajax();
+            var ajax = new Ajax();
             ajax.success = function (text, xml, json) {
-                if (Tigerian.Class.isInstance(success, "function")) {
+                if (Class.isInstance(success, "function")) {
                     success(json["count"]);
                 }
             };
             ajax.unsuccess = ajaxUnsuccess(unsuccess);
-            if (Tigerian.Class.isInstance(progress, "function")) {
+            if (Class.isInstance(progress, "function")) {
                 ajax.progress = progress;
             }
 

@@ -6,11 +6,11 @@
 
 
 /**
- * @implements {Tigerian.Behavior}
- * @extends {Tigerian.Control}
+ * @implements {Behavior}
+ * @extends {Control}
  * @interface
  */
-Tigerian.BGroup = Tigerian.Behavior.extend({
+BGroup = Behavior.extend({
     /**
      * @constructs
      */
@@ -19,7 +19,7 @@ Tigerian.BGroup = Tigerian.Behavior.extend({
 
         //NOTE Private Members
         /**
-         * @type {Tigerian.Control[]}
+         * @type {Control[]}
          */
         var items = {};
         // var superFocused = Object.getOwnPropertyDescriptor(this, "focused");
@@ -40,10 +40,10 @@ Tigerian.BGroup = Tigerian.Behavior.extend({
 
         //NOTE Public Functions
         /**
-         * @param {Tigerian.Control} item
+         * @param {Control} item
          */
         this.addItem = function (item) {
-            if (Tigerian.Class.isInstance(item, Tigerian.Control)) {
+            if (Class.isInstance(item, Control)) {
                 var found = false;
 
                 items.list.forEach(function (it, index) {
@@ -62,10 +62,10 @@ Tigerian.BGroup = Tigerian.Behavior.extend({
 
         /**
          * @param {number} itemIndex
-         * @returns {Tigerian.Control}
+         * @returns {Control}
          */
         this.getItem = function (itemIndex) {
-            if ((Tigerian.Class.isInstance(itemIndex, "number")) && (itemIndex >= 0) && (itemIndex < items.list.length)) {
+            if ((Class.isInstance(itemIndex, "number")) && (itemIndex >= 0) && (itemIndex < items.list.length)) {
                 return items.list[itemIndex];
             }
         };
@@ -74,7 +74,7 @@ Tigerian.BGroup = Tigerian.Behavior.extend({
          * @param {number} itemIndex
          */
         this.removeItem = function (itemIndex) {
-            if ((Tigerian.Class.isInstance(itemIndex, "number")) && (itemIndex >= 0) && (itemIndex < items.list.length)) {
+            if ((Class.isInstance(itemIndex, "number")) && (itemIndex >= 0) && (itemIndex < items.list.length)) {
                 items.list = items.list.filter(function (item, index) {
                     if (index !== itemIndex) {
                         return item;
@@ -101,7 +101,7 @@ Tigerian.BGroup = Tigerian.Behavior.extend({
     },
     /**
      * @param {string} behavior
-     * @param {Tigerian.Control} ctrlGroup
+     * @param {Control} ctrlGroup
      */
     config: function (behavior, ctrlGroup) {
         if (behavior === "group") {
@@ -115,7 +115,7 @@ Tigerian.BGroup = Tigerian.Behavior.extend({
                 return items[index];
             }; */
 
-            if (!(Tigerian.Class.isInstance(ctrlGroup, Tigerian.Control) && ctrlGroup["Behavior:group"])) {
+            if (!(Class.isInstance(ctrlGroup, Control) && ctrlGroup["Behavior:group"])) {
                 ctrlGroup = this;
 
                 /* for (i = 0; i < this.itemCount; i++) {
@@ -164,7 +164,7 @@ Tigerian.BGroup = Tigerian.Behavior.extend({
                 });
             }
 
-            if (Tigerian.Class.isInstance(ctrlGroup, Tigerian.Control) && ctrlGroup["Behavior:group"]) {
+            if (Class.isInstance(ctrlGroup, Control) && ctrlGroup["Behavior:group"]) {
                 //NOTE Alias Super Members
                 var superAddControl = this.addControl.bind(this);
                 var initAddItem = ctrlGroup.addItem.bind(this);
@@ -176,7 +176,7 @@ Tigerian.BGroup = Tigerian.Behavior.extend({
                 this.addGeneralControl = ctrlGroup.addControl.bind(this);
 
                 function addItem(item) {
-                    if (Tigerian.Class.isInstance(item, Tigerian.Control)) {
+                    if (Class.isInstance(item, Control)) {
                         initAddItem(item);
                         superAddControl(item);
 
@@ -212,18 +212,18 @@ Tigerian.BGroup = Tigerian.Behavior.extend({
                         return isActive;
                     },
                     set: function (v) {
-                        if (Tigerian.isInstance(v, "boolean")) {
+                        if (isInstance(v, "boolean")) {
                             superFocused.set(v);
                         }
                     },
                 });
 
                 /**
-                 * @param {Tigerian.Control} item
+                 * @param {Control} item
                  */
                 this.addControl = this.addItem = function (item) {
                     if (addItem(item)) {
-                        instance.dispatchEvent(Tigerian.Event.onAdd, {
+                        instance.dispatchEvent(Events.onAdd, {
                             "addedItem": item
                         });
 
@@ -234,7 +234,7 @@ Tigerian.BGroup = Tigerian.Behavior.extend({
                                 }
                             });
 
-                            instance.dispatchEvent(Tigerian.Event.onRemove, {
+                            instance.dispatchEvent(Events.onRemove, {
                                 "removedItem": item
                             });
                         });
@@ -274,4 +274,4 @@ Tigerian.BGroup = Tigerian.Behavior.extend({
             }
         }
     }
-}, Tigerian.BIterator);
+}, BIterator);

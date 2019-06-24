@@ -6,24 +6,24 @@
 
 
 /**
- * @extends {Tigerian.Control}
- * @implements {Tigerian.BGroup}
- * @implements {Tigerian.BFilter}
- * @implements {Tigerian.BText}
+ * @extends {Control}
+ * @implements {BGroup}
+ * @implements {BFilter}
+ * @implements {BText}
  * @constructor
  */
-Tigerian.ComboBox = Tigerian.Control.extend({
+ComboBox = Control.extend({
     /**
      * @constructs
-     * @param {Tigerian.UI} parent
+     * @param {UI} parent
      * @param {string} [theme = ""]
      */
     init: function (parent, theme) {
         this.super(parent, theme);
 
-        var ctrlLabel = new Tigerian.Label(this, "", theme);
-        var ctrlText = new Tigerian.TextBox(this, "", theme);
-        var ctrlList = new Tigerian.ListBox(this, theme);
+        var ctrlLabel = new Label(this, "", theme);
+        var ctrlText = new TextBox(this, "", theme);
+        var ctrlList = new ListBox(this, theme);
 
         this.config("group", ctrlList);
         this.config("filter", ctrlText, ctrlList);
@@ -113,7 +113,7 @@ Tigerian.ComboBox = Tigerian.Control.extend({
                 return editable;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
+                if (Class.isInstance(v, "boolean")) {
                     editable = v;
 
                     ctrlText.visible = v;
@@ -149,7 +149,7 @@ Tigerian.ComboBox = Tigerian.Control.extend({
                 return selectRequire;
             },
             set: function (v) {
-                if (Tigerian.Class.isInstance(v, "boolean")) {
+                if (Class.isInstance(v, "boolean")) {
                     selectRequire = v;
                 }
             },
@@ -157,13 +157,13 @@ Tigerian.ComboBox = Tigerian.Control.extend({
 
         //NOTE Public Functions
         /**
-         * @param {Tigerian.ListItem|string} item
+         * @param {ListItem|string} item
          */
         this.addControl = this.addItem = function (item) {
-            if (Tigerian.Class.isInstance(item, "string")) {
-                item = new Tigerian.ListItem(null, item, this.theme);
-            } else if (!(Tigerian.Class.isInstance(item, Tigerian.Control) && item["Behavior:select"])) {
-                item = new Tigerian.ListItem(null, "Item " + (this.itemCount + 1).toString(), this.theme);
+            if (Class.isInstance(item, "string")) {
+                item = new ListItem(null, item, this.theme);
+            } else if (!(Class.isInstance(item, Control) && item["Behavior:select"])) {
+                item = new ListItem(null, "Item " + (this.itemCount + 1).toString(), this.theme);
             }
 
             item.autoDeselect = this.multiSelect;
@@ -201,4 +201,4 @@ Tigerian.ComboBox = Tigerian.Control.extend({
         });
         ctrlList.addEvent("selectedindexchange", onSelectedIndexChange);
     },
-}, Tigerian.BGroup, Tigerian.BFilter, Tigerian.BText);
+}, BGroup, BFilter, BText);
