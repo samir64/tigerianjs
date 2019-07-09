@@ -1,3 +1,5 @@
+import { instanceOf } from "../core/Tigerian.js";
+
 ("use strict");
 
 /**
@@ -39,7 +41,7 @@ CollapseItem = Control.extend({
         // elmText.setAttribute("element-name", "text");
 
         this.addControl = this.addChild = this.addSublist = function (item) {
-            if (Class.isInstance(item, CollapseItem) || Class.isInstance(item, Spacer)) {
+            if (instanceOf(item, CollapseItem) || instanceOf(item, Spacer)) {
                 if (!this.hasSubmenu) {
                     superAddChild(ctrlList);
                 }

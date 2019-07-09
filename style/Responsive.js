@@ -1,4 +1,46 @@
-(function() {
+import {
+  EWindow
+} from "../behaviors/BWindow.js";
+
+export let responsiveSizes = {
+  xsmall: {
+    name: EWindow.XSMALL,
+    min: undefined,
+    max: 575.98,
+    containerWidth: "100%",
+    containerPadding: 0
+  },
+  small: {
+    name: EWindow.SMALL,
+    min: 576,
+    max: 767.98,
+    containerWidth: "575px",
+    containerPadding: 15
+  },
+  medium: {
+    name: EWindow.MEDIUM,
+    min: 768,
+    max: 991.98,
+    containerWidth: "750px",
+    containerPadding: 15
+  },
+  large: {
+    name: EWindow.LARGE,
+    min: 992,
+    max: 1199.98,
+    containerWidth: "970px",
+    containerPadding: 15
+  },
+  xlarge: {
+    name: EWindow.XLARGE,
+    min: 1200,
+    max: undefined,
+    containerWidth: "1170px",
+    containerPadding: 15
+  }
+};
+
+(function () {
   ("use strict");
 
   var style = document.createElement("style");
@@ -7,110 +49,51 @@
 
   style.innerHTML = "";
 
-  var sizeList = {
-    small: {
-      min: null,
-      max: 575.98,
-      containerWidth: "100%",
-      containerPadding: 0
-    },
-    medium: {
-      min: 576,
-      max: 767.98,
-      containerWidth: "575px",
-      containerPadding: 15
-    },
-    normal: {
-      min: 768,
-      max: 991.98,
-      containerWidth: "750px",
-      containerPadding: 15
-    },
-    large: {
-      min: 992,
-      max: 1199.98,
-      containerWidth: "970px",
-      containerPadding: 15
-    },
-    xlarge: {
-      min: 1200,
-      max: null,
-      containerWidth: "1170px",
-      containerPadding: 15
-    }
-  };
-
-  for (var size in sizeList) {
+  // forEach(responsiveSizes, (sizeInfo, sizeName) => {
+  for (var sizeName in responsiveSizes) {
+    var sizeInfo = responsiveSizes[sizeName];
     var limit = "";
-    if (sizeList[size].min) {
-      limit = `(min-width: ${sizeList[size].min}px)`;
-      // limit = "(min-width: {}px)".format(sizeList[size].min);
+
+    if (sizeInfo.min) {
+      limit = `(min-width: ${sizeInfo.min}px)`;
     }
-    if (sizeList[size].max) {
+    if (sizeInfo.max) {
       if (limit !== "") {
         limit += " and ";
       }
-      limit += `(max-width: ${sizeList[size].max}px)`;
-      // limit += "(max-width: {}px)".format(sizeList[size].max);
+      limit += `(max-width: ${sizeInfo.max}px)`;
     }
     var mediaQuery = `@media only screen and ${limit} {\n`;
-    // var mediaQuery = "@media only screen and {} {\n".format(limit);
 
-    var sizeNames = Object.keys(sizeList);
-    sizeNames.splice(sizeNames.indexOf(size), 1);
+    var sizeNames = Object.keys(responsiveSizes);
+    sizeNames.splice(sizeNames.indexOf(sizeName), 1);
     for (var col = 1; col <= 12; col++) {
-      mediaQuery += `\t[${size}-column="${col}"],\n`;
-      /* mediaQuery += '\t[{this}-column="{col}"],\n'.format({
-        this: size,
-        col: col
-      }); */
+      mediaQuery += `\t[${sizeName}-column="${col}"],\n`;
       for (var j = 0; j < sizeNames.length; j++) {
         if (j > 0) {
           mediaQuery += ",\n";
         }
-        mediaQuery += `\t[${size}-column="${
+        mediaQuery += `\t[${sizeName}-column="${
           sizeNames[j]
         }"][{that}-column="${col}"]`;
-        /* mediaQuery += '\t[{this}-column="{that}"][{that}-column="{col}"]'.format(
-          {
-            this: size,
-            that: sizeNames[j],
-            col: col
-          }
-        ); */
       }
-      mediaQuery += ` {\n\t\twidth: ${(col * 100) / 12}% !IMPORTANT;\n\t}\n\n`;
-      /* mediaQuery += " {\n\t\twidth: {width}% !IMPORTANT;\n\t}\n\n".format({
-        width: (col * 100) / 12
-      }); */
+      mediaQuery += ` {\n\t\twidth: ${(col * 100) / 12}% !important;\n\t}\n\n`;
     }
 
-    mediaQuery += `\t[element-name="container"][hide-on-${size}="true"] {\n`;
-    /* mediaQuery += '\t[element-name="container"][hide-on-{}="true"] {\n'.format(
-      size
-    ); */
+    mediaQuery += `\t[element-name="container"][hide-on-${sizeName}="true"] {\n`;
     mediaQuery += "\t\tdisplay: none;\n\t}\n\n";
 
     mediaQuery += '\t[element-type="Container"][element-name="container"] {\n';
-    mediaQuery += `\t\twidth: ${sizeList[size].containerWidth} !IMPORTANT;\n`;
-    /* mediaQuery += "\t\twidth: {} !IMPORTANT;\n".format(
-      sizeList[size].containerWidth
-    ); */
+    mediaQuery += `\t\twidth: ${sizeInfo.containerWidth} !important;\n`;
 
-    mediaQuery += "\t\tmargin-left: auto !IMPORTANT;\n";
-    mediaQuery += "\t\tmargin-right: auto !IMPORTANT;\n";
+    mediaQuery += "\t\tmargin-left: auto !important;\n";
+    mediaQuery += "\t\tmargin-right: auto !important;\n";
     mediaQuery += `\t\tpadding-left: ${
-      sizeList[size].containerPadding
-    }px !IMPORTANT;\n`;
-    /* mediaQuery += "\t\tpadding-left: {}px !IMPORTANT;\n".format(
-      sizeList[size].containerPadding
-    ); */
+      sizeInfo.containerPadding
+    }px !important;\n`;
     mediaQuery += `\t\tpadding-right: ${
-      sizeList[size].containerPadding
-    }px !IMPORTANT;\n`;
-    /* mediaQuery += "\t\tpadding-right: {}px !IMPORTANT;\n".format(
-      sizeList[size].containerPadding
-    ); */
+      sizeInfo.containerPadding
+    }px !important;\n`;
     mediaQuery += "\t\tdisplay: block;\n";
     mediaQuery += "\t}\n\n";
 

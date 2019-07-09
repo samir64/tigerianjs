@@ -1,260 +1,214 @@
+import { Behavior } from "../core/Behavior";
+
 ("use strict");
 
 /**
  * @constructor
  * @extends {Behavior}
  */
-BTable = Behavior.extend({
-    /**
-     * @constructs
-     */
-    init: function () {
-        this.super("table");
-    },
-    /**
-     * @param {string} behavior
-     * @param {number} colCount
-     * @param {Control} ctrlTableBody
-     */
-    config: function (behavior, colCount, ctrlTableBody) {
-        if ((behavior === "table") && Class.isInstance(this, Control) && this["Behavior:table"]) {
-            if (!(Class.isInstance(ctrlTableBody, Control) && ctrlTableBody["Behavior:group"] && ctrlTableBody["Behavior:table"])) {
-                ctrlTableBody = this;
-            }
+export class BTable extends Behavior {
+  /**
+   * @constructs
+   */
+  constructor() {
+    super();
 
-            if (Class.isInstance(ctrlTableBody, Control) && ctrlTableBody["Behavior:group"] && ctrlTableBody["Behavior:table"]) {
-                if (Class.isInstance(colCount, "number")) {
-                    colCount = Math.max(1, colCount);
-                } else {
-                    colCount = 1;
-                }
+    this.defineMethod("config", (that, ctrlTableBody, colCount = 1) => {
+      var columnsVisiblity = [];
+      var rowCount = 0;
+      var ctrlHeadRow = new TableRow(ctrlTableBody, colCount, that.theme);
 
-                // this.addControl(ctrlTableBody);
+      for (var i = 0; i < colCount; i++) {
+        columnsVisiblity.push(true);
+      }
 
-                var ctrlHeadRow = new TableRow(ctrlTableBody, colCount, this.theme);
+      that.setAttribute("view-mode", "grid");
 
-                this.setAttribute("view-mode", "grid");
-
-                var instance = this;
-                var superAddItem = ctrlTableBody.addItem.bind(this);
-                var superGetItem = ctrlTableBody.getItem.bind(this);
-                var superClear = ctrlTableBody.clear.bind(this);
-                var superRemoveItem = ctrlTableBody.removeItem.bind(this);
-                var ctrlTableBodyStyle = Object.getOwnPropertyDescriptor(ctrlTableBody, "style");
-
-                var columnsVisiblity = [];
-                var rowCount = 0;
-
-                for (var i = 0; i < colCount; i++) {
-                    columnsVisiblity.push(true);
-                }
-
-                var refreshView = function () {
-                    if (ctrlTableBody.itemCount <= rowCount) {
-                        for (var i = ctrlTableBody.itemCount; i <= rowCount; i++) {
-                            addRow();
-                        }
-                    } else {
-                        rowCount = ctrlTableBody.itemCount - 1;
-                    }
-
-                    for (var i = 0; i <= rowCount; i++) {
-                        for (var c = 0; c < colCount; c++) {
-                            if (i === 0) {
-                                instance.getHeadCell(c).visible = columnsVisiblity[c];
-                            } else {
-                                instance.getCell(i - 1, c).visible = columnsVisiblity[c];
-                                switch (instance.viewMode) {
-                                    case BTable.EListView:
-                                        instance.getCell(i - 1, c).headText = "";
-                                        instance.getHeadCell(c).unbind("text", instance.getCell(i - 1, c), "headText");
-                                        break;
-
-                                    case BTable.EDetailsView:
-                                        if (instance.getHeadCell(c).text) {
-                                            instance.getCell(i - 1, c).headText = instance.getHeadCell(c).text + ": ";
-                                        }
-                                        instance.getHeadCell(c).bind("text", instance.getCell(i - 1, c), "headText", function (value) {
-                                            if ((value === "") || (value === undefined)) {
-                                                return "";
-                                            } else {
-                                                return "{}: ".format(value);
-                                            }
-                                        });
-                                        break;
-
-                                    default:
-                                }
-                            }
-                        }
-                    }
-                };
-
-                var addRow = function () {
-                    var newRow = new TableRow(null, colCount, instance.theme);
-
-                    newRow.setAttribute("hover", "false");
-
-                    for (var i = 0; i < colCount; i++) {
-                        newRow.getCell(i).addEvent("mouseover", onMouseOver);
-                        newRow.getCell(i).addEvent("mouseleave", onMouseLeave);
-                    }
-
-                    superAddItem(newRow);
-                };
-
-                var onMouseOver = function (e) {
-                    this.parent.setAttribute("hover", "true");
-                    for (var r = 0; r < rowCount; r++) {
-                        for (var c = 0; c < colCount; c++) {
-                            var cell = instance.getCell(r, c);
-                            cell.setAttribute("hover", ((parseInt(this.getAttribute("column-number")) === c) ? "true" : "false"));
-                            // cell.setAttribute("hover", (((this.parent === cell.parent) || (parseInt(this.getAttribute("column-number")) === c)) ? "true" : "false"));
-                        }
-                    }
-                };
-
-                var onMouseLeave = function (e) {
-                    this.parent.setAttribute("hover", "false");
-                    for (var r = 0; r < rowCount; r++) {
-                        for (var c = 0; c < colCount; c++) {
-                            var cell = instance.getCell(r, c);
-                            cell.setAttribute("hover", "false");
-                        }
-                    }
-                };
-
-                Object.defineProperty(this, "style", {
-                    enumerable: true,
-                    configurable: true,
-                    get: ctrlTableBodyStyle.get.bind(this),
-                });
-
-                /**
-                 * @member {number}
-                 */
-                Object.defineProperty(this, "rowCount", {
-                    enumerable: true,
-                    configurable: true,
-                    get: function () {
-                        return rowCount;
-                    },
-                    set: function (v) {
-                        if (Class.isInstance(v, "number")) {
-                            var lastRowCount = rowCount;
-                            rowCount = v;
-                            if (lastRowCount !== v) {
-                                refreshView();
-                            }
-                        }
-                    }
-                });
-
-                /**
-                 * @member {number}
-                 */
-                Object.defineProperty(this, "colCount", {
-                    enumerable: true,
-                    configurable: true,
-                    get: function () {
-                        return colCount;
-                    },
-                });
-
-                /**
-                 * @member {Symbol}
-                 */
-                Object.defineProperty(this, "viewMode", {
-                    enumerable: true,
-                    configurable: true,
-                    get: function () {
-                        var v = this.getAttribute("view-mode");
-                        switch (v) {
-                            case "grid":
-                                return BTable.EGridView;
-
-                            case "details":
-                                return BTable.EDetailsView;
-
-                            default:
-                                return undefined;
-                        }
-                    },
-                    set: function (v) {
-                        var lastViewMode = this.viewMode;
-                        switch (v) {
-                            case BTable.EGridView:
-                                this.setAttribute("view-mode", "grid");
-                                break;
-
-                            case BTable.EDetailsView:
-                                this.setAttribute("view-mode", "details");
-                                break;
-
-                            default:
-                        }
-
-                        if (lastViewMode !== this.viewMode) {
-                            refreshView();
-                            this.dispatchEvent(Events.onViewChange);
-                        }
-                    },
-                });
-
-                /**
-                 * @param {number} col 
-                 * @param {boolean} visible 
-                 */
-                this.columnVisible = function (col, visible) {
-                    columnsVisiblity[col] = visible;
-                    this.getHeadCell(col).visible = visible;
-                    for (var i = 0; i < rowCount; i++) {
-                        this.getCell(i, col).visible = visible;
-                    }
-                };
-
-                this.addRow = function () {
-                    addRow();
-                    this.rowCount++;
-                };
-
-                /**
-                 * @param {number} row
-                 * @param {number} col
-                 * @returns {TableCell}
-                 */
-                this.getItem = this.getCell = function (row, col) {
-                    return superGetItem(row + 1).getItem(col);
-                };
-
-                /**
-                 * @param {number} col
-                 * @returns {TableCell}
-                 */
-                this.getHeadCell = function (col) {
-                    return ctrlHeadRow.getItem(col);
-                };
-
-                this.clear = function () {
-                    rowCount = 0;
-                    ctrlTableBody.clear();
-                    ctrlTableBody.addControl(ctrlHeadRow);
-                    // refreshView();
-                };
-
-                /**
-                 * @param {number} index 
-                 */
-                // this.removeItem = function (index) {
-                //     superRemoveItem(index);
-                //     refreshView();
-                // };
-
-                // this.removeRow = this.removeItem;
-
-                this.addControl = this.addItem = this.addRow;
-            }
+      var refreshView = function () {
+        if (ctrlTableBody.itemCount <= rowCount) {
+          for (var i = ctrlTableBody.itemCount; i <= rowCount; i++) {
+            addRow();
+          }
+        } else {
+          rowCount = ctrlTableBody.itemCount - 1;
         }
-    },
-    enums: ["unlimit", "gridView", "detailsView"],
+
+        for (var i = 0; i <= rowCount; i++) {
+          for (var c = 0; c < colCount; c++) {
+            if (i === 0) {
+              that.getHeadCell(c).visible = columnsVisiblity[c];
+            } else {
+              that.getCell(i - 1, c).visible = columnsVisiblity[c];
+              switch (that.viewMode) {
+                case ETable.ListView:
+                  that.getCell(i - 1, c).headText = "";
+                  that.getHeadCell(c).unbind("text", that.getCell(i - 1, c), "headText");
+                  break;
+
+                case ETable.DetailsView:
+                  if (that.getHeadCell(c).text) {
+                    that.getCell(i - 1, c).headText = that.getHeadCell(c).text + ": ";
+                  }
+                  that.getHeadCell(c).bind("text", that.getCell(i - 1, c), "headText", function (value) {
+                    if ((value === "") || (value === undefined)) {
+                      return "";
+                    } else {
+                      return `${value}: `;
+                    }
+                  });
+                  break;
+
+                default:
+              }
+            }
+          }
+        }
+      };
+
+      var addRow = function () {
+        var newRow = new TableRow(null, colCount, that.theme);
+
+        newRow.setAttribute("hover", "false");
+
+        for (var i = 0; i < colCount; i++) {
+          newRow.getCell(i).addEvent("mouseover", onMouseOver);
+          newRow.getCell(i).addEvent("mouseleave", onMouseLeave);
+        }
+
+        superAddItem(newRow);
+      };
+
+      var onMouseOver = function (e) {
+        that.parent.setAttribute("hover", "true");
+        for (var r = 0; r < rowCount; r++) {
+          for (var c = 0; c < colCount; c++) {
+            var cell = that.getCell(r, c);
+            cell.setAttribute("hover", ((parseInt(that.getAttribute("column-number")) === c) ? "true" : "false"));
+            // cell.setAttribute("hover", (((that.parent === cell.parent) || (parseInt(that.getAttribute("column-number")) === c)) ? "true" : "false"));
+          }
+        }
+      };
+
+      var onMouseLeave = function (e) {
+        that.parent.setAttribute("hover", "false");
+        for (var r = 0; r < rowCount; r++) {
+          for (var c = 0; c < colCount; c++) {
+            var cell = that.getCell(r, c);
+            cell.setAttribute("hover", "false");
+          }
+        }
+      };
+
+      /**
+       * @member {number}
+       */
+      that.defineProperty("rowCount", {
+        get() {
+          return rowCount;
+        },
+        set(v) {
+          var lastRowCount = rowCount;
+          rowCount = v;
+          if (lastRowCount !== v) {
+            refreshView();
+          }
+        },
+        type: Number
+      });
+
+      /**
+       * @member {number}
+       */
+      that.defineProperty("colCount", {
+        get() {
+          return colCount;
+        },
+      });
+
+      /**
+       * @member {Symbol}
+       */
+      that.defineProperty("viewMode", {
+        get() {
+          var v = that.getAttribute("view-mode");
+          switch (v) {
+            case "grid":
+              return ETable.GRID_VIEW;
+
+            case "details":
+              return ETable.DETAILS_VIEW;
+
+            default:
+              return undefined;
+          }
+        },
+        set(v) {
+          var lastViewMode = that.viewMode;
+          switch (v) {
+            case ETable.GRID_VIEW:
+              that.setAttribute("view-mode", "grid");
+              break;
+
+            case ETable.DETAILS_VIEW:
+              that.setAttribute("view-mode", "details");
+              break;
+
+            default:
+          }
+
+          if (lastViewMode !== that.viewMode) {
+            refreshView();
+            that.dispatchEvent(Events.onViewChange);
+          }
+        },
+        type: Symbol
+      });
+
+      /**
+       * @param {number} col 
+       * @param {boolean} visible 
+       */
+      that.defineMethod("columnVisible", (col, visible) => {
+        columnsVisiblity[col] = visible;
+        that.getHeadCell(col).visible = visible;
+        for (var i = 0; i < rowCount; i++) {
+          that.getCell(i, col).visible = visible;
+        }
+      }, [Number, Boolean]);
+
+      that.addRow = function () {
+        addRow();
+        that.rowCount++;
+      };
+
+      /**
+       * @param {number} row
+       * @param {number} col
+       * @returns {TableCell}
+       */
+      that.defineMethod("getItem", (row, col) => {
+        return superGetItem(row + 1).getItem(col);
+      }, [Number, Number]);
+
+      /**
+       * @param {number} col
+       * @returns {TableCell}
+       */
+      that.defineMethod("getHeadCell", (col) => {
+        return ctrlHeadRow.getItem(col);
+      }, [Number]);
+
+      that.defineMethod("clear", () => {
+        rowCount = 0;
+        ctrlTableBody.clear();
+        ctrlTableBody.addControl(ctrlHeadRow);
+      });
+    }, [Object, Control, Number]);
+  }
+}
+
+export const ETable = Object.freeze({
+  UNLIMIT: Symbol("unlimit"),
+  GRID_VIEW: Symbol("grid_view"),
+  DETAILS_VIEW: Symbol("details_view")
 });

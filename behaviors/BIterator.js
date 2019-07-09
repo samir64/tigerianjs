@@ -1,5 +1,6 @@
-import { Behavior } from "../core/Behavior.js";
-import { clone, instanceOf } from "../core/Tigerian.js";
+import {
+  Behavior
+} from "../core/Behavior.js";
 
 ("use strict");
 
@@ -7,7 +8,6 @@ import { clone, instanceOf } from "../core/Tigerian.js";
  * @constructor
  * @extends {Behavior}
  * @interface
- * @property {number} index
  */
 export class BIterator extends Behavior {
   constructor() {
@@ -17,11 +17,11 @@ export class BIterator extends Behavior {
      * @constructs
      * @param {{list: Array, currentIndex: number, value: *, done: boolean}} params
      */
-    this.config = function(that, list = [], index = 0) {
-      var generator = function(i) {
+    this.config = function (that, list = [], index = 0) {
+      var generator = function (i) {
         return list[i];
       };
-      var iterator = function*() {
+      var iterator = function* () {
         let result = generator(index++);
         do {
           yield result;
@@ -29,17 +29,16 @@ export class BIterator extends Behavior {
         } while (result !== undefined);
       };
 
-      Object.defineProperty(that, "iterator", {
+      that.defineProperty("iterator", {
         enumerable: true,
         configurable: true,
         get() {
           return iterator();
         },
         set(v) {
-          if (instanceOf(v, Function)) {
-            generator = v;
-          }
-        }
+          generator = v;
+        },
+        type: Function
       });
 
       Object.defineProperty(iterator.prototype, "index", {
@@ -49,9 +48,7 @@ export class BIterator extends Behavior {
           return index;
         },
         set(v) {
-          if (instanceOf(v, "number")) {
-            index = v;
-          }
+          index = v;
         }
       });
 
@@ -59,7 +56,7 @@ export class BIterator extends Behavior {
         return iterator();
       };
 
-      iterator.prototype.first = function() {
+      iterator.prototype.first = function () {
         index = 0;
       };
     };

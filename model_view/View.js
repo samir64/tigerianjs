@@ -1,3 +1,13 @@
+import {
+  instanceOf
+} from "../core/Tigerian.js";
+import {
+  BWindow
+} from "../behaviors/BWindow.js";
+import {
+  ModelView
+} from "../core/ModelView.js";
+
 /**
  * Created by samir on 8/27/18.
  */
@@ -10,70 +20,63 @@
  * @implements {BWindow}
  * @constructor
  */
-View = ModelView.extend({
+export class View extends ModelView {
+  /**
+   * @constructs
+   * @param {Control} container
+   */
+  constructor(container) {
+    super();
+
+    this.config(BWindow)
+
+    var show = function () {
+      container.visible = true;
+    };
+
+    var hide = function () {
+      container.visible = false;
+    };
+
+    var refresh = function (params) {};
+
     /**
-     * @constructs
-     * @param {Control} container
+     * @member {Function}
      */
-    init: function (container) {
-        this.super();
+    this.defineProperty("show", {
+      get() {
+        return show;
+      },
+      set(v) {
+        show = v;
+      },
+      type: Function
+    });
 
-        var show = function () {
-            container.visible = true;
-        };
+    /**
+     * @member {Function}
+     */
+    this.defineProperty("hide", {
+      get() {
+        return hide;
+      },
+      set(v) {
+        hide = v;
+      },
+      type: Function
+    });
 
-        var hide = function () {
-            container.visible = false;
-        };
-
-        var refresh = function (params) {};
-
-        /**
-         * @member {Function}
-         */
-        Object.defineProperty(this, "show", {
-            enumerable: false,
-            configurable: true,
-            get: function () {
-                return show;
-            },
-            set: function (v) {
-                if (Class.isInstance(v, "function")) {
-                    show = v;
-                }
-            },
-        });
-
-        /**
-         * @member {Function}
-         */
-        Object.defineProperty(this, "hide", {
-            enumerable: false,
-            configurable: true,
-            get: function () {
-                return hide;
-            },
-            set: function (v) {
-                if (Class.isInstance(v, "function")) {
-                    hide = v;
-                }
-            },
-        });
-
-        /**
-         * @member {Function}
-         */
-        Object.defineProperty(this, "refresh", {
-            enumerable: false,
-            configurable: true,
-            get: function () {
-                return refresh;
-            },
-            set: function (v) {
-                if (Class.isInstance(v, "function")) {
-                    refresh = v;
-                }
-            },
-        });
-    }
-}, BWindow);
+    /**
+     * @member {Function}
+     */
+    this.defineProperty("refresh", {
+      get() {
+        return refresh;
+      },
+      set(v) {
+        refresh = v;
+      },
+      type: Function
+    });
+  }
+}

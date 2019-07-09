@@ -1,3 +1,8 @@
+import {
+  instanceOf,
+  Tigerian
+} from "../core/Tigerian.js";
+
 /**
  * Created by samir on 8/31/18.
  */
@@ -8,76 +13,43 @@
  * @extends {Class}
  * @constructor
  */
-GridTemplateItem = Class.extend({
-    /**
-     * @constructs
-     * @param {string} name
-     * @param {number} colSpan
-     */
-    init: function (name, colSpan) {
-        if (Class.isInstance(name, "string")) {
-            this.super();
+export class GridTemplateItem extends Tigerian {
+  /**
+   * @constructs
+   * @param {string} name
+   * @param {number} colSpan
+   */
+  constructor(name, colSpan = 1) {
+    if (instanceOf(name, String)) {
+      super();
 
-            if (Class.isInstance(colSpan, "number")) {
-                colSpan = Math.max(1, Math.abs(colSpan));
-            } else {
-                colSpan = 1;
-            }
+      colSpan = Math.max(1, Math.abs(colSpan));
 
-/*
-            if (Class.isInstance(rowSpan, "number")) {
-                rowSpan = Math.min(1, Math.abs(rowSpan));
-            } else {
-                rowSpan = 1;
-            }
-*/
+      /**
+       * @member {string}
+       */
+      this.defineProperty("name", {
+        get() {
+          return name;
+        },
+        set(v) {
+          name = v;
+        },
+        type: String
+      });
 
-            /**
-             * @member {string}
-             */
-            Object.defineProperty(this, "name", {
-                enumerable: true,
-                configurable: false,
-                get: function () {
-                    return name;
-                },
-                set: function (v) {
-                    if (Class.isInstance(v, "string")) {
-                        name = v;
-                    }
-                }
-            });
-
-            /**
-             * @member {number}
-             */
-            Object.defineProperty(this, "colSpan", {
-                enumerable: true,
-                configurable: false,
-                get: function () {
-                    return colSpan;
-                },
-                set: function (v) {
-                    if (Class.isInstance(v, "number")) {
-                        colSpan = v;
-                    }
-                }
-            });
-
-/*
-            Object.defineProperty(this, "rowSpan", {
-                enumerable: true,
-                configurable: false,
-                get: function () {
-                    return rowSpan;
-                },
-                set: function (v) {
-                    if (Class.isInstance(v, "rowSpan")) {
-                        rowSpan = v;
-                    }
-                }
-            });
-*/
-        }
+      /**
+       * @member {number}
+       */
+      this.defineProperty("colSpan", {
+        get() {
+          return colSpan;
+        },
+        set(v) {
+          colSpan = v;
+        },
+        type: Number
+      });
     }
-});
+  }
+}

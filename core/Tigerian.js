@@ -1,59 +1,85 @@
-// import "./String.js";
-// import "./Object.js";
 import "../style/Responsive.js";
 
-import { Behavior } from "./Behavior.js";
+import {
+  Behavior
+} from "./Behavior.js";
+import {
+  BIterator
+} from "../behaviors/BIterator.js";
 
 ("use strict");
 
 export class Tigerian {
   constructor() {
+    var behaviors = []
     if (this.constructor === Tigerian) {
       throw new Error("Tigerian is an abstract class.");
     } else {
       Object.defineProperty(this, "behaviors", {
         enumerable: true,
         configurable: false,
-        writable: true,
-        value: []
+        get() {
+          return clone(behaviors);
+        }
       });
 
       var that = this;
-      // var configs = [];
-
-      /* behaviors.forEach(behavior => {
-        if (
-          behavior.prototype instanceof Behavior &&
-          behavior.constructor !== Behavior
-        ) {
-          var obj = new behavior();
-          this.behaviors.push(behavior);
-          configs.push(obj.config);
-          clone(obj, that);
-          // Object.assign(this, new behavior().clone());
-        }
-      }); */
 
       Object.defineProperty(this, "config", {
-        enumerable: true,
+        enumerable: false,
         configurable: true,
         value(behavior, ...params) {
           if (Object.getPrototypeOf(behavior) === Behavior) {
-            this.behaviors.push(behavior);
+            behaviors.push(behavior);
             new behavior().config(that, ...params);
-
-            /* that.behaviors.forEach((item, index) => {
-              if (item === behavior) {
-                configs[index](that, ...params);
-              }
-            }); */
           }
         }
       });
     }
   }
+
+  get[Symbol.toStringTag]() {
+    return this.constructor.name;
+  }
+
+  /**
+   * @param {Function} descriptor
+   * @param {Object} dataTypes
+   */
+  defineMethod(name, descriptor, dataTypes = {}) {
+    return defineMethod(this, name, descriptor, dataTypes);
+  }
+
+  /**
+   * @param {string} name 
+   * @param {Function} get 
+   * @param {Function} set 
+   * @param {boolean} configurable 
+   * @param {boolean} enumurable 
+   */
+  defineProperty(name, {
+    value = undefined,
+    get = undefined,
+    set = undefined,
+    type = undefined,
+    configurable = true,
+    enumerable = true
+  }) {
+    defineProperty(this, name, {
+      value,
+      get,
+      set,
+      type,
+      configurable,
+      enumerable
+    });
+  }
 }
 
+/**
+ * @param {Object} obj1 
+ * @param {Object} obj2 
+ */
 export function compare(obj1, obj2) {
   if (typeof obj1 !== typeof obj2) {
     return false;
@@ -61,7 +87,7 @@ export function compare(obj1, obj2) {
 
   if (obj1 instanceof Array && obj2 instanceof Array) {
     if (obj1.length === obj2.length) {
-      return obj1.every(function(value, index) {
+      return obj1.every(function (value, index) {
         if (value instanceof Array) {
           if (obj2[index] instanceof Array) {
             return compare(value, obj2[index]);
@@ -75,7 +101,7 @@ export function compare(obj1, obj2) {
     } else {
       return false;
     }
-  } else if (typeof obj1 === "object" && typeof obj2 === "object") {
+  } else if (instanceOf(obj1, Object) && instanceOf(obj2, Object)) {
     var result = true;
 
     var key;
@@ -99,18 +125,56 @@ export function compare(obj1, obj2) {
   }
 }
 
+/**
+ * @param {Object} obj 
+ * @param {Function} type 
+ */
 export function instanceOf(obj, type) {
+  if (obj === undefined) {
+    return (type === undefined);
+  }
+
   if (typeof type === "string") {
     return typeof obj === type;
   } else if (typeof type === "function") {
-    return obj instanceof type;
+    var superClass = obj;
+    var result = false;
+
+    while ((superClass !== null) && !result) {
+      result = (superClass.constructor === type);
+      superClass = Object.getPrototypeOf(superClass);
+    }
+
+    return result || (obj instanceof type);
   } else {
     return false;
   }
 }
 
-export function isA(type1, type2) {}
+/**
+ * @param {Function} type1 
+ * @param {Function} type2 
+ */
+export function isA(type1, type2) {
+  var result;
+  if (instanceOf(type1, Function) && instanceOf(type2, Function)) {
+    var superClass = type1;
 
+    result = false;
+
+    do {
+      superClass = Object.getPrototypeOf(superClass);
+      result = (superClass === type2);
+    } while ((superClass !== null) && !result);
+  }
+
+  return result;
+}
+
+/**
+ * @param {Object} obj
+ * @param {Object} appendTo
+ */
 export function clone(obj, appendTo) {
   var result = {};
 
@@ -151,21 +215,31 @@ export function clone(obj, appendTo) {
   return result;
 }
 
+/**
+ * @param {Object} obj 
+ * @param {Function} callback 
+ */
 export function forEach(obj, callback) {
   if (callback instanceof Function) {
-    for (var index in obj) {
-      callback(obj[index], index, obj);
+    if (((obj !== undefined) && (obj[Symbol.toStringTag] !== undefined) && (obj[Symbol.toStringTag].split(" ")[1] === "Iterator")) || instanceOf(obj, BIterator)) {
+      for (var item of obj) {
+        callback(item, obj.iterator.index, obj);
+      }
+    } else {
+      for (var index in obj) {
+        callback(obj[index], index, obj);
+      }
     }
   }
 }
 
 /**
  * @this {String}
- * @param {*} ...params
+ * @param {Number|String} ...params
  */
 export function strFormat(str, ...params) {
   if (params.length == 1 && typeof params[0] == "object") {
-    return str.replace(/\{(\w+)\}/g, function(match, name, offset, mainStr) {
+    return str.replace(/\{(\w+)\}/g, function (match, name, offset, mainStr) {
       return params[0][name] ? params[0][name] : "";
     });
   } else {
@@ -177,7 +251,7 @@ export function strFormat(str, ...params) {
         "}" +
         str.substr(pat.lastIndex);
     }
-    return str.replace(/\{(\d+)\}/g, function(match, number) {
+    return str.replace(/\{(\d+)\}/g, function (match, number) {
       return params[number] !== undefined ? params[number] : match;
     });
   }
@@ -191,7 +265,7 @@ export function strFormat(str, ...params) {
 export function strPadNumbers(str, before, after) {
   return str.replace(
     /(?:(\d+\.\d+)|(\d+)\.[^\d]?|[^\d]?\.(\d+)|(\d+)[^\.\d]?)/g,
-    function(matched, two, left, right, pure) {
+    function (matched, two, left, right, pure) {
       if (two) {
         left = two.split(".")[0];
         right = two.split(".")[1];
@@ -252,7 +326,7 @@ export function strPadNumbers(str, before, after) {
  * @param {boolean} addHashSign true
  * @param {boolean} toLower true
  */
-export function strToTag(str, addHashSign, toLower) {
+export function strToTag(str, addHashSign = true, toLower = true) {
   var result = str;
 
   while (result[0] === "#") {
@@ -261,7 +335,7 @@ export function strToTag(str, addHashSign, toLower) {
   }
   result = result.replace(/[^\w]/g, "_");
   return Array.from(result)
-    .map(function(ch, index, str) {
+    .map(function (ch, index, str) {
       if (ch >= "A" && ch <= "Z" && index > 0) {
         ch = "_" + ch;
       }
@@ -280,7 +354,7 @@ export function strToTag(str, addHashSign, toLower) {
 }
 
 /**
- * @param {string} prop
+ * @param {String} str
  */
 export function strSplitCapital(str) {
   var result = [];
@@ -293,4 +367,113 @@ export function strSplitCapital(str) {
     }
   }
   return result;
+}
+
+/**
+ * @param {Function} descriptor
+ * @param {Object} dataTypes
+ */
+export function defineMethod(obj, name, descriptor, dataTypes = {}) {
+  obj[name] = (...params) => {
+    if (!(compare(dataTypes, {}) || instanceOf(dataTypes, Array))) {
+      params = params[0];
+    }
+
+    forEach(params, (param, index) => {
+      var pName = "";
+      var pType = "";
+      var validType = true;
+      var pConsName = "";
+
+      if (instanceOf(dataTypes[index], Array)) {
+        validType = dataTypes[index].some((type) => {
+          return instanceOf(param, type);
+          // return (param.constructor === type);
+        });
+        pType = dataTypes[index].map((type) => {
+          return type.name;
+        }).join("' or '");
+      } else if (instanceOf(dataTypes[index], Function)) {
+        validType = instanceOf(param, dataTypes[index]);
+        // validType = (param.constructor === dataTypes[index]);
+        pType = dataTypes[index].name;
+      }
+
+      if ((dataTypes[index] !== undefined) && !validType) {
+        if (instanceOf(dataTypes, Array)) {
+          pName = `Argument #${(Number(index) + 1)}`;
+        } else {
+          pName = index;
+        }
+
+        if (param === undefined) {
+          pConsName = "undefined";
+        } else {
+          pConsName = param.constructor.name;
+        }
+
+        throw new Error(`${pName} type error\nExpected '${pType}', got '${pConsName}'`);
+      };
+    });
+
+    return descriptor(...params);
+  }
+}
+
+/**
+ * @param {string} name 
+ * @param {Any} value 
+ * @param {Function} get 
+ * @param {Function} set 
+ * @param {Function|Function[]} type(
+ * @param {boolean} configurable 
+ * @param {boolean} enumurable 
+ */
+export function defineProperty(obj, name, {
+  value = undefined,
+  writable = true,
+  get = undefined,
+  set = undefined,
+  type = undefined,
+  configurable = true,
+  enumerable = true
+}) {
+  if (value !== undefined) {
+    Object.defineProperty(obj, name, {
+      value,
+      writable,
+      enumerable,
+      configurable
+    });
+  } else {
+    Object.defineProperty(obj, name, {
+      get,
+      set(v) {
+        var pType = "";
+        var validType = true;
+
+        if (instanceOf(type, Array)) {
+          validType = type.some((t) => {
+            return (v.constructor === t);
+          });
+          pType = type.map((t) => {
+            return t.name;
+          }).join("' or '");
+        } else if (instanceOf(type, Function)) {
+          validType = (v.constructor === type);
+          pType = type.name;
+        }
+
+        if ((type === undefined) || validType) {
+          if (instanceOf(set, Function)) {
+            set(v);
+          }
+        } else {
+          throw new Error(`Type error\nExpected '${pType}', got '${v.constructor.name}'`);
+        }
+      },
+      enumerable,
+      configurable
+    });
+  }
 }

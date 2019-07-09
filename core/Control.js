@@ -1,3 +1,14 @@
+import {
+  instanceOf
+} from "./Tigerian.js";
+import {
+  EWindow
+} from "../behaviors/BWindow.js";
+import {
+  UI
+} from "./UI.js";
+
+
 /**
  * Created by samir on 8/25/16.
  * Version 1.0.0.100
@@ -13,917 +24,819 @@
  * @extends {Tigerian}
  * @constructor
  */
-Control = UI.extend({
+export class Control extends UI {
+  /**
+   * @param {UI} parent
+   * @param {string} theme
+   */
+  constructor(parent, theme = "") {
+    var elmDivContainer = document.createElement("div");
+    super(elmDivContainer, parent, theme);
+
+    //NOTE Private Variables
+    var that = this;
+    var elmTxtHead = document.createTextNode("");
+    var elmTxtFoot = document.createTextNode("");
+
+
+    //NOTE Append Elements
+    elmDivContainer.appendChild(elmTxtHead);
+    elmDivContainer.appendChild(elmTxtFoot);
+
+
+    //NOTE Attributes
+    this.setAttribute("element-type", "Control");
+    this.setAttribute("element-name", "container");
+    this.setAttribute("element-situation", "");
+    this.setAttribute("element-hoverable", "false");
+
+    this.setAttribute("small-column", "normal");
+    this.setAttribute("medium-column", "normal");
+    this.setAttribute("normal-column", "12");
+    this.setAttribute("large-column", "normal");
+    this.setAttribute("xlarge-column", "normal");
+    this.setAttribute("hide-on-small", "false");
+    this.setAttribute("hide-on-medium", "false");
+    this.setAttribute("hide-on-normal", "false");
+    this.setAttribute("hide-on-large", "false");
+    this.setAttribute("hide-on-xlarge", "false");
+    this.setAttribute("float", "");
+    this.setAttribute("align", "");
+    this.setAttribute("title", "");
+    this.setAttribute("template-name", "");
+    this.setAttribute("template-item", "");
+
+    //NOTE Properties
     /**
-     * @param {UI} parent
-     * @param {string} theme
+     * @member {string}
      */
-    init: function (parent, theme) {
-        var elmDivContainer = document.createElement("div");
+    this.defineProperty("headText", {
+      /**
+       * @returns {string}
+       */
+      get() {
+        return elmTxtHead.data;
+      },
+      /**
+       * @param {string} v
+       */
+      set(v) {
+        elmTxtHead.data = v;
+      },
+      type: String
+    });
 
-        this.super(elmDivContainer, parent, theme);
+    /**
+     * @member {string}
+     */
+    this.defineProperty("footText", {
+      /**
+       * @returns {string}
+       */
+      get() {
+        return elmTxtFoot.data;
+      },
+      /**
+       * @param {string} v
+       */
+      set(v) {
+        elmTxtFoot.data = v;
+      },
+      type: String
+    });
 
-        //NOTE Private Variables
-        var instance = this;
-        var vSuper = this.super;
-        var elmTxtHead = document.createTextNode("");
-        var elmTxtFoot = document.createTextNode("");
+    /**
+     * @member {string}
+     */
+    this.defineProperty("title", {
+      /**
+       * @returns {string}
+       */
+      get() {
+        return this.getAttribute("title");
+      },
+      /**
+       * @param {string} v
+       */
+      set(v) {
+        this.setAttribute("title", v);
+      },
+      type: String
+    });
 
+    /**
+     * @member {number}
+     */
+    this.defineProperty("tabIndex", {
+      get() {
+        return that.hasAttribute("tabindex") ? that.getAttribute("tabindex") : 0;
+      },
+      set(v) {
+        if (instanceOf(v, "number")) {
+          if (v > 0) {
+            that.setAttribute("tabindex", v);
+          } else {
+            that.removeAttribute("tabindex");
+          }
+        }
+      },
+      type: Number
+    });
 
-        //NOTE Alias Super Members
-        var superAddControl = this.addControl;
+    /**
+     * @member {number|symbol}
+     */
+    this.defineProperty("smallColumn", {
+      /**
+       * @returns {string}
+       */
+      get() {
+        var v = this.getAttribute("small-column");
+        switch (v) {
+          case "":
+            return EWindow.NONE;
+            break;
 
+          case "medium":
+            return EWindow.SMALL;
+            break;
 
-        //NOTE Append Elements
-        elmDivContainer.appendChild(elmTxtHead);
-        elmDivContainer.appendChild(elmTxtFoot);
+          case "normal":
+            return EWindow.MEDIUM;
+            break;
 
+          case "large":
+            return EWindow.LARGE;
+            break;
 
-        //NOTE Attributes
-        this.setAttribute("element-type", "Control");
-        this.setAttribute("element-name", "container");
-        this.setAttribute("element-situation", "");
-        this.setAttribute("element-hoverable", "false");
+          case "xlarge":
+            return EWindow.XLARGE;
+            break;
 
-        this.setAttribute("small-column", "normal");
-        this.setAttribute("medium-column", "normal");
-        this.setAttribute("normal-column", "12");
-        this.setAttribute("large-column", "normal");
-        this.setAttribute("xlarge-column", "normal");
-        this.setAttribute("hide-on-small", "false");
-        this.setAttribute("hide-on-medium", "false");
-        this.setAttribute("hide-on-normal", "false");
-        this.setAttribute("hide-on-large", "false");
-        this.setAttribute("hide-on-xlarge", "false");
-        this.setAttribute("float", "");
-        this.setAttribute("align", "");
-        this.setAttribute("title", "");
-        this.setAttribute("template-name", "");
-        this.setAttribute("template-item", "");
+          default:
+            v = parseInt(v, 12);
+            return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
+        }
+      },
+      /**
+       * @param {string} v
+       */
+      set(v) {
+        switch (v) {
+          case EWindow.NONE:
+            this.setAttribute("small-column", "");
+            break;
 
-        //NOTE Properties
-        /**
-         * @member {string}
-         */
-        Object.defineProperty(this, "headText", {
-            enumerable: true,
-            configurable: true,
-            /**
-             * @returns {string}
-             */
-            get: function () {
-                return elmTxtHead.data;
-            },
-            /**
-             * @param {string} v
-             */
-            set: function (v) {
-                if (Class.isInstance(v, "string")) {
-                    elmTxtHead.data = v;
-                }
+          case EWindow.SMALL:
+            this.setAttribute("small-column", "medium");
+            break;
+
+          case EWindow.MEDIUM:
+            this.setAttribute("small-column", "normal");
+            break;
+
+          case EWindow.LARGE:
+            this.setAttribute("small-column", "large");
+            break;
+
+          case EWindow.XLARGE:
+            this.setAttribute("small-column", "xlarge");
+            break;
+
+          default:
+            if (instanceOf(v, "number")) {
+              this.setAttribute("small-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
             }
-        });
+        }
+      },
+      type: [Number, Symbol]
+    });
 
-        /**
-         * @member {string}
-         */
-        Object.defineProperty(this, "footText", {
-            enumerable: true,
-            configurable: true,
-            /**
-             * @returns {string}
-             */
-            get: function () {
-                return elmTxtFoot.data;
-            },
-            /**
-             * @param {string} v
-             */
-            set: function (v) {
-                if (Class.isInstance(v, "string")) {
-                    elmTxtFoot.data = v;
-                }
+    /**
+     * @member {number|symbol}
+     */
+    this.defineProperty("mediumColumn", {
+      /**
+       * @returns {string}
+       */
+      get() {
+        var v = this.getAttribute("medium-column");
+        switch (v) {
+          case "":
+            return EWindow.NONE;
+            break;
+
+          case "small":
+            return EWindow.XSMALL;
+            break;
+
+          case "normal":
+            return EWindow.MEDIUM;
+            break;
+
+          case "large":
+            return EWindow.LARGE;
+            break;
+
+          case "xlarge":
+            return EWindow.XLARGE;
+            break;
+
+          default:
+            v = parseInt(v, 12);
+            return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
+        }
+      },
+      /**
+       * @param {string} v
+       */
+      set(v) {
+        switch (v) {
+          case EWindow.NONE:
+            this.setAttribute("medium-column", "");
+            break;
+
+          case EWindow.XSMALL:
+            this.setAttribute("medium-column", "small");
+            break;
+
+          case EWindow.MEDIUM:
+            this.setAttribute("medium-column", "normal");
+            break;
+
+          case EWindow.LARGE:
+            this.setAttribute("medium-column", "large");
+            break;
+
+          case EWindow.XLARGE:
+            this.setAttribute("medium-column", "xlarge");
+            break;
+
+          default:
+            if (instanceOf(v, "number")) {
+              this.setAttribute("medium-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
             }
-        });
-        /**
-         * @member {string}
-         */
-        Object.defineProperty(this, "title", {
-            enumerable: true,
-            configurable: true,
-            /**
-             * @returns {string}
-             */
-            get: function () {
-                return this.getAttribute("title");
-            },
-            /**
-             * @param {string} v
-             */
-            set: function (v) {
-                if (Class.isInstance(v, "string")) {
-                    this.setAttribute("title", v);
-                }
+        }
+      },
+      type: [Number, Symbol]
+    });
+
+    /**
+     * @member {number|symbol}
+     */
+    this.defineProperty("normalColumn", {
+      /**
+       * @returns {string}
+       */
+      get() {
+        var v = this.getAttribute("normal-column");
+        switch (v) {
+          case "":
+            return EWindow.NONE;
+            break;
+
+          case "small":
+            return EWindow.XSMALL;
+            break;
+
+          case "medium":
+            return EWindow.SMALL;
+            break;
+
+          case "large":
+            return EWindow.LARGE;
+            break;
+
+          case "xlarge":
+            return EWindow.XLARGE;
+            break;
+
+          default:
+            v = parseInt(v, 12);
+            return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
+        }
+      },
+      /**
+       * @param {string} v
+       */
+      set(v) {
+        switch (v) {
+          case EWindow.NONE:
+            this.setAttribute("normal-column", "");
+            break;
+
+          case EWindow.XSMALL:
+            this.setAttribute("normal-column", "small");
+            break;
+
+          case EWindow.SMALL:
+            this.setAttribute("normal-column", "medium");
+            break;
+
+          case EWindow.LARGE:
+            this.setAttribute("normal-column", "large");
+            break;
+
+          case EWindow.XLARGE:
+            this.setAttribute("normal-column", "xlarge");
+            break;
+
+          default:
+            if (instanceOf(v, "number")) {
+              this.setAttribute("normal-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
             }
-        });
+        }
+      },
+      type: [Number, Symbol]
+    });
 
-        /**
-         * @member {number}
-         */
-        Object.defineProperty(this, "tabIndex", {
-            enumerable: true,
-            configurable: true,
-            get: function () {
-                return instance.hasAttribute("tabindex") ? instance.getAttribute("tabindex") : 0;
-            },
-            set: function (v) {
-                if (Class.isInstance(v, "number")) {
-                    if (v > 0) {
-                        instance.setAttribute("tabindex", v);
-                    } else {
-                        instance.removeAttribute("tabindex");
-                    }
-                }
+    /**
+     * @member {number|string}
+     */
+    this.defineProperty("largeColumn", {
+      /**
+       * @returns {string}
+       */
+      get() {
+        var v = this.getAttribute("large-column");
+        switch (v) {
+          case "":
+            return EWindow.NONE;
+            break;
+
+          case "small":
+            return EWindow.XSMALL;
+            break;
+
+          case "medium":
+            return EWindow.SMALL;
+            break;
+
+          case "normal":
+            return EWindow.MEDIUM;
+            break;
+
+          case "xlarge":
+            return EWindow.XLarge;
+            break;
+
+          default:
+            v = parseInt(v, 12);
+            return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
+        }
+      },
+      /**
+       * @param {string} v
+       */
+      set(v) {
+        switch (v) {
+          case EWindow.NONE:
+            this.setAttribute("large-column", "");
+            break;
+
+          case EWindow.XSMALL:
+            this.setAttribute("large-column", "small");
+            break;
+
+          case EWindow.SMALL:
+            this.setAttribute("large-column", "medium");
+            break;
+
+          case EWindow.MEDIUM:
+            this.setAttribute("large-column", "normal");
+            break;
+
+          case EWindow.XLarge:
+            this.setAttribute("large-column", "xlarge");
+            break;
+
+          default:
+            if (instanceOf(v, "number")) {
+              this.setAttribute("large-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
             }
-        });
+        }
+      },
+      type: [Number, Symbol]
+    });
 
-        /**
-         * @member {number|string}
-         */
-        Object.defineProperty(this, "smallColumn", {
-            enumerable: true,
-            configurable: true,
-            /**
-             * @returns {string}
-             */
-            get: function () {
-                var v = this.getAttribute("small-column");
-                switch (v) {
-                    case "":
-                        return BWindow.ENone;
-                        break;
+    /**
+     * @member {number|string}
+     */
+    this.defineProperty("xlargeColumn", {
+      /**
+       * @returns {string}
+       */
+      get() {
+        var v = this.getAttribute("xlarge-column");
+        switch (v) {
+          case "":
+            return EWindow.NONE;
+            break;
 
-                    case "medium":
-                        return BWindow.EMedium;
-                        break;
+          case "small":
+            return EWindow.XSMALL;
+            break;
 
-                    case "normal":
-                        return BWindow.ENormal;
-                        break;
+          case "medium":
+            return EWindow.SMALL;
+            break;
 
-                    case "large":
-                        return BWindow.ELarge;
-                        break;
+          case "normal":
+            return EWindow.MEDIUM;
+            break;
 
-                    case "xlarge":
-                        return BWindow.EXLarge;
-                        break;
+          case "large":
+            return EWindow.LARGE;
+            break;
 
-                    default:
-                        v = parseInt(v, 12);
-                        return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
-                }
-            },
-            /**
-             * @param {string} v
-             */
-            set: function (v) {
-                switch (v) {
-                    case BWindow.ENone:
-                        this.setAttribute("small-column", "");
-                        break;
+          default:
+            v = parseInt(v, 12);
+            return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
+        }
+      },
+      /**
+       * @param {string} v
+       */
+      set(v) {
+        switch (v) {
+          case EWindow.NONE:
+            this.setAttribute("xlarge-column", "");
+            break;
 
-                    case BWindow.EMedium:
-                        this.setAttribute("small-column", "medium");
-                        break;
+          case EWindow.XSMALL:
+            this.setAttribute("xlarge-column", "small");
+            break;
 
-                    case BWindow.ENormal:
-                        this.setAttribute("small-column", "normal");
-                        break;
+          case EWindow.SMALL:
+            this.setAttribute("xlarge-column", "medium");
+            break;
 
-                    case BWindow.ELarge:
-                        this.setAttribute("small-column", "large");
-                        break;
+          case EWindow.MEDIUM:
+            this.setAttribute("xlarge-column", "normal");
+            break;
 
-                    case BWindow.EXLarge:
-                        this.setAttribute("small-column", "xlarge");
-                        break;
+          case EWindow.LARGE:
+            this.setAttribute("xlarge-column", "large");
+            break;
 
-                    default:
-                        if (Class.isInstance(v, "number")) {
-                            this.setAttribute("small-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
-                        }
-                }
+          default:
+            if (instanceOf(v, "number")) {
+              this.setAttribute("xlarge-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
             }
-        });
-
-        /**
-         * @member {number|string}
-         */
-        Object.defineProperty(this, "mediumColumn", {
-            enumerable: true,
-            configurable: true,
-            /**
-             * @returns {string}
-             */
-            get: function () {
-                var v = this.getAttribute("medium-column");
-                switch (v) {
-                    case "":
-                        return BWindow.ENone;
-                        break;
-
-                    case "small":
-                        return BWindow.ESmall;
-                        break;
-
-                    case "normal":
-                        return BWindow.ENormal;
-                        break;
-
-                    case "large":
-                        return BWindow.ELarge;
-                        break;
-
-                    case "xlarge":
-                        return BWindow.EXLarge;
-                        break;
-
-                    default:
-                        v = parseInt(v, 12);
-                        return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
-                }
-            },
-            /**
-             * @param {string} v
-             */
-            set: function (v) {
-                switch (v) {
-                    case BWindow.ENone:
-                        this.setAttribute("medium-column", "");
-                        break;
-
-                    case BWindow.ESmall:
-                        this.setAttribute("medium-column", "small");
-                        break;
-
-                    case BWindow.ENormal:
-                        this.setAttribute("medium-column", "normal");
-                        break;
-
-                    case BWindow.ELarge:
-                        this.setAttribute("medium-column", "large");
-                        break;
-
-                    case BWindow.EXLarge:
-                        this.setAttribute("medium-column", "xlarge");
-                        break;
-
-                    default:
-                        if (Class.isInstance(v, "number")) {
-                            this.setAttribute("medium-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
-                        }
-                }
-            }
-        });
-
-        /**
-         * @member {number|string}
-         */
-        Object.defineProperty(this, "normalColumn", {
-            enumerable: true,
-            configurable: true,
-            /**
-             * @returns {string}
-             */
-            get: function () {
-                var v = this.getAttribute("normal-column");
-                switch (v) {
-                    case "":
-                        return BWindow.ENone;
-                        break;
-
-                    case "small":
-                        return BWindow.ESmall;
-                        break;
-
-                    case "medium":
-                        return BWindow.EMedium;
-                        break;
-
-                    case "large":
-                        return BWindow.ELarge;
-                        break;
-
-                    case "xlarge":
-                        return BWindow.EXLarge;
-                        break;
-
-                    default:
-                        v = parseInt(v, 12);
-                        return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
-                }
-            },
-            /**
-             * @param {string} v
-             */
-            set: function (v) {
-                switch (v) {
-                    case BWindow.ENone:
-                        this.setAttribute("normal-column", "");
-                        break;
-
-                    case BWindow.ESmall:
-                        this.setAttribute("normal-column", "small");
-                        break;
-
-                    case BWindow.EMedium:
-                        this.setAttribute("normal-column", "medium");
-                        break;
-
-                    case BWindow.ELarge:
-                        this.setAttribute("normal-column", "large");
-                        break;
-
-                    case BWindow.EXLarge:
-                        this.setAttribute("normal-column", "xlarge");
-                        break;
-
-                    default:
-                        if (Class.isInstance(v, "number")) {
-                            this.setAttribute("normal-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
-                        }
-                }
-            }
-        });
-
-        /**
-         * @member {number|string}
-         */
-        Object.defineProperty(this, "largeColumn", {
-            enumerable: true,
-            configurable: true,
-            /**
-             * @returns {string}
-             */
-            get: function () {
-                var v = this.getAttribute("large-column");
-                switch (v) {
-                    case "":
-                        return BWindow.ENone;
-                        break;
-
-                    case "small":
-                        return BWindow.ESmall;
-                        break;
-
-                    case "medium":
-                        return BWindow.EMedium;
-                        break;
-
-                    case "normal":
-                        return BWindow.ENormal;
-                        break;
-
-                    case "xlarge":
-                        return BWindow.EXLarge;
-                        break;
-
-                    default:
-                        v = parseInt(v, 12);
-                        return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
-                }
-            },
-            /**
-             * @param {string} v
-             */
-            set: function (v) {
-                switch (v) {
-                    case BWindow.ENone:
-                        this.setAttribute("large-column", "");
-                        break;
-
-                    case BWindow.ESmall:
-                        this.setAttribute("large-column", "small");
-                        break;
-
-                    case BWindow.EMedium:
-                        this.setAttribute("large-column", "medium");
-                        break;
-
-                    case BWindow.ENormal:
-                        this.setAttribute("large-column", "normal");
-                        break;
-
-                    case BWindow.EXLarge:
-                        this.setAttribute("large-column", "xlarge");
-                        break;
-
-                    default:
-                        if (Class.isInstance(v, "number")) {
-                            this.setAttribute("large-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
-                        }
-                }
-            }
-        });
-
-        /**
-         * @member {number|string}
-         */
-        Object.defineProperty(this, "xlargeColumn", {
-            enumerable: true,
-            configurable: true,
-            /**
-             * @returns {string}
-             */
-            get: function () {
-                var v = this.getAttribute("xlarge-column");
-                switch (v) {
-                    case "":
-                        return BWindow.ENone;
-                        break;
-
-                    case "small":
-                        return BWindow.ESmall;
-                        break;
-
-                    case "medium":
-                        return BWindow.EMedium;
-                        break;
-
-                    case "normal":
-                        return BWindow.ENormal;
-                        break;
-
-                    case "large":
-                        return BWindow.ELarge;
-                        break;
-
-                    default:
-                        v = parseInt(v, 12);
-                        return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
-                }
-            },
-            /**
-             * @param {string} v
-             */
-            set: function (v) {
-                switch (v) {
-                    case BWindow.ENone:
-                        this.setAttribute("xlarge-column", "");
-                        break;
-
-                    case BWindow.ESmall:
-                        this.setAttribute("xlarge-column", "small");
-                        break;
-
-                    case BWindow.EMedium:
-                        this.setAttribute("xlarge-column", "medium");
-                        break;
-
-                    case BWindow.ENormal:
-                        this.setAttribute("xlarge-column", "normal");
-                        break;
-
-                    case BWindow.ELarge:
-                        this.setAttribute("xlarge-column", "large");
-                        break;
-
-                    default:
-                        if (Class.isInstance(v, "number")) {
-                            this.setAttribute("xlarge-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
-                        }
-                }
-            }
-        });
-
-        /**
-         * @member {boolean}
-         */
-        Object.defineProperty(this, "hideOnSmall", {
-            enumerable: true,
-            configurable: true,
-            /**
-             * @returns {boolean}
-             */
-            get: function () {
-                return this.getAttribute("hide-on-small");
-            },
-            /**
-             * @param {boolean} v
-             */
-            set: function (v) {
-                if (Class.isInstance(v, "boolean")) {
-                    this.setAttribute("hide-on-small", v);
-                }
-            }
-        });
-
-        /**
-         * @member {boolean}
-         */
-        Object.defineProperty(this, "hideOnMedium", {
-            enumerable: true,
-            configurable: true,
-            /**
-             * @returns {boolean}
-             */
-            get: function () {
-                return this.getAttribute("hide-on-medium");
-            },
-            /**
-             * @param {boolean} v
-             */
-            set: function (v) {
-                if (Class.isInstance(v, "boolean")) {
-                    this.setAttribute("hide-on-medium", v);
-                }
-            }
-        });
-
-        /**
-         * @member {boolean}
-         */
-        Object.defineProperty(this, "hideOnNormal", {
-            enumerable: true,
-            configurable: true,
-            /**
-             * @returns {boolean}
-             */
-            get: function () {
-                return this.getAttribute("hide-on-normal");
-            },
-            /**
-             * @param {boolean} v
-             */
-            set: function (v) {
-                if (Class.isInstance(v, "boolean")) {
-                    this.setAttribute("hide-on-normal", v);
-                }
-            }
-        });
-
-        /**
-         * @member {boolean}
-         */
-        Object.defineProperty(this, "hideOnLarge", {
-            enumerable: true,
-            configurable: true,
-            /**
-             * @returns {boolean}
-             */
-            get: function () {
-                return this.getAttribute("hide-on-large");
-            },
-            /**
-             * @param {boolean} v
-             */
-            set: function (v) {
-                if (Class.isInstance(v, "boolean")) {
-                    this.setAttribute("hide-on-large", v);
-                }
-            }
-        });
-
-        /**
-         * @member {boolean}
-         */
-        Object.defineProperty(this, "hideOnXlarge", {
-            enumerable: true,
-            configurable: true,
-            /**
-             * @returns {boolean}
-             */
-            get: function () {
-                return this.getAttribute("hide-on-xlarge");
-            },
-            /**
-             * @param {boolean} v
-             */
-            set: function (v) {
-                if (Class.isInstance(v, "boolean")) {
-                    this.setAttribute("hide-on-xlarge", v);
-                }
-            }
-        });
-
-        /**
-         * @member {Symbol}
-         */
-        Object.defineProperty(this, "float", {
-            enumerable: true,
-            configurable: true,
-            /**
-             * @returns {string}
-             */
-            get: function () {
-                switch (this.getAttribute("float")) {
-                    case "left":
-                        return Control.ELeft;
-                        break;
-                    case "right":
-                        return Control.ERight;
-                        break;
-                    case "center":
-                        return Control.ECenter;
-                        break;
-                    default:
-                        return Control.ENone;
-                        break;
-                }
-            },
-            /**
-             * @param {string} v
-             */
-            set: function (v) {
-                switch (v) {
-                    case Control.ELeft:
-                        this.setAttribute("float", "left");
-                        break;
-                    case Control.ERight:
-                        this.setAttribute("float", "right");
-                        break;
-                    case Control.ECenter:
-                        this.setAttribute("float", "center");
-                        break;
-                    default:
-                        this.setAttribute("float", "");
-                        break;
-                }
-            }
-        });
-
-        /**
-         * @member {Symbol}
-         */
-        Object.defineProperty(this, "align", {
-            enumerable: true,
-            configurable: true,
-            /**
-             * @returns {string}
-             */
-            get: function () {
-                switch (this.getAttribute("align")) {
-                    case "left":
-                        return Control.ELeft;
-                        break;
-                    case "right":
-                        return Control.ERight;
-                        break;
-                    case "center":
-                        return Control.ECenter;
-                        break;
-                    case "justify":
-                        return Control.EJustify;
-                        break;
-                    default:
-                        return Control.ENone;
-                        break;
-                }
-            },
-            /**
-             * @param {string} v
-             */
-            set: function (v) {
-                switch (v) {
-                    case Control.ELeft:
-                        this.setAttribute("align", "left");
-                        break;
-                    case Control.ERight:
-                        this.setAttribute("align", "right");
-                        break;
-                    case Control.ECenter:
-                        this.setAttribute("align", "center");
-                        break;
-                    case Control.EJustify:
-                        this.setAttribute("align", "justify");
-                        break;
-                    default:
-                        this.setAttribute("align", "");
-                        break;
-                }
-            }
-        });
-
-        // /**
-        //  * @member {boolean}
-        //  */
-        // Object.defineProperty(this, "floatLeft", {
-        //     enumerable: true,
-        //     configurable: true,
-        //     /**
-        //      * @returns {string}
-        //      */
-        //     get: function () {
-        //         return (this.getAttribute("float") === "left");
-        //     },
-        //     /**
-        //      * @param {string} v
-        //      */
-        //     set: function (v) {
-        //         if (Class.isInstance(v, "boolean")) {
-        //             this.setAttribute("float", (v ? "left" : "false"));
-        //         }
-        //     }
-        // });
-
-        // /**
-        //  * @member {boolean}
-        //  */
-        // Object.defineProperty(this, "floatRight", {
-        //     enumerable: true,
-        //     configurable: true,
-        //     /**
-        //      * @returns {string}
-        //      */
-        //     get: function () {
-        //         return (this.getAttribute("float") === "right");
-        //     },
-        //     /**
-        //      * @param {string} v
-        //      */
-        //     set: function (v) {
-        //         if (Class.isInstance(v, "boolean")) {
-        //             this.setAttribute("float", (v ? "right" : "false"));
-        //         }
-        //     }
-        // });
-
-        // /**
-        //  * @member {boolean}
-        //  */
-        // Object.defineProperty(this, "floatCenter", {
-        //     enumerable: true,
-        //     configurable: true,
-        //     /**
-        //      * @returns {string}
-        //      */
-        //     get: function () {
-        //         return (this.getAttribute("float") === "center");
-        //     },
-        //     /**
-        //      * @param {string} v
-        //      */
-        //     set: function (v) {
-        //         if (Class.isInstance(v, "boolean")) {
-        //             this.setAttribute("float", (v ? "center" : "false"));
-        //         }
-        //     }
-        // });
-
-        /**
-         * @member {string}
-         */
-        Object.defineProperty(this, "templateName", {
-            enumerable: true,
-            configurable: true,
-            /**
-             * @returns {string}
-             */
-            get: function () {
-                return this.getAttribute("template-name");
-            },
-            /**
-             * @param {string} v
-             */
-            set: function (v) {
-                if (Class.isInstance(v, "string")) {
-                    this.setAttribute("template-name", v);
-                }
-            }
-        });
-
-        /**
-         * @member {string}
-         */
-        Object.defineProperty(this, "templateItem", {
-            enumerable: true,
-            configurable: true,
-            /**
-             * @returns {string}
-             */
-            get: function () {
-                return this.getAttribute("template-item");
-            },
-            /**
-             * @param {string} v
-             */
-            set: function (v) {
-                if (Class.isInstance(v, "string")) {
-                    this.setAttribute("template-item", v);
-                }
-            }
-        });
-
-        Object.defineProperty(this, "hoverable", {
-            enumerable: true,
-            configurable: true,
-            get: function () {
-                return (this.getAttribute("element-hoverable") === "true");
-            },
-            set: function (v) {
-                if (Class.isInstance(v, "boolean")) {
-                    this.setAttribute("element-hoverable", v ? "true" : "false");
-                }
-            },
-        });
-
-        Object.defineProperty(this, "situation", {
-            enumerable: true,
-            configurable: true,
-            get: function () {
-                var v = this.getAttribute("element-situation");
-
-                switch (v) {
-                    case "title":
-                        return Control.ETitle;
-
-                    case "default":
-                        return Control.EDefault;
-
-                    case "transparent":
-                        return Control.ETransparent;
-
-                    case "opposite":
-                        return Control.EOpposite;
-
-                    case "warning":
-                        return Control.EWarning;
-
-                    case "danger":
-                        return Control.EDanger;
-
-                    case "disable":
-                        return Control.EDisable;
-
-                    case "ok":
-                        return Control.EOk;
-
-                    default:
-                        return Control.ENone;
-                }
-            },
-            set: function (v) {
-                switch (v) {
-                    case Control.ETitle:
-                        this.setAttribute("element-situation", "title");
-                        break;
-
-                    case Control.EDefault:
-                        this.setAttribute("element-situation", "default");
-                        break;
-
-                    case Control.ETransparent:
-                        this.setAttribute("element-situation", "transparent");
-                        break;
-
-                    case Control.EOpposite:
-                        this.setAttribute("element-situation", "opposite");
-                        break;
-
-                    case Control.EWarning:
-                        this.setAttribute("element-situation", "warning");
-                        break;
-
-                    case Control.EDanger:
-                        this.setAttribute("element-situation", "danger");
-                        break;
-
-                    case Control.EDisable:
-                        this.setAttribute("element-situation", "disable");
-                        break;
-
-                    case Control.EOk:
-                        this.setAttribute("element-situation", "ok");
-                        break;
-
-                    case Control.ENone:
-                    default:
-                        this.setAttribute("element-situation", "");
-                        break;
-                }
-            },
-        });
-
-        /**
-         * @param {Element|Control} control
-         */
-        this.addControl = function (control) {
-            superAddControl(control);
-            elmDivContainer.appendChild(elmTxtFoot);
-        };
-
-        this.click = function () {
-            elmDivContainer.click();
-        };
-
-        // this.focus = function () {
-        //     elmDivContainer.focus();
-        // };
-
-        this.toString = function () {
-            return "[Control (Or one of its sub classes) Instance]";
-        };
-    },
-    enums: ["left", "right", "center", "justify", "none", "default", "title", "transparent", "opposite", "warning", "danger", "disable", "ok"],
+        }
+      },
+      type: [Number, Symbol]
+    });
+
+    /**
+     * @member {boolean}
+     */
+    this.defineProperty("hideOnSmall", {
+      /**
+       * @returns {boolean}
+       */
+      get() {
+        return this.getAttribute("hide-on-small");
+      },
+      /**
+       * @param {boolean} v
+       */
+      set(v) {
+        this.setAttribute("hide-on-small", v);
+      },
+      type: Boolean
+    });
+
+    /**
+     * @member {boolean}
+     */
+    this.defineProperty("hideOnMedium", {
+      /**
+       * @returns {boolean}
+       */
+      get() {
+        return this.getAttribute("hide-on-medium");
+      },
+      /**
+       * @param {boolean} v
+       */
+      set(v) {
+        this.setAttribute("hide-on-medium", v);
+      },
+      type: Boolean
+    });
+
+    /**
+     * @member {boolean}
+     */
+    this.defineProperty("hideOnNormal", {
+      /**
+       * @returns {boolean}
+       */
+      get() {
+        return this.getAttribute("hide-on-normal");
+      },
+      /**
+       * @param {boolean} v
+       */
+      set(v) {
+        this.setAttribute("hide-on-normal", v);
+      },
+      type: Boolean
+    });
+
+    /**
+     * @member {boolean}
+     */
+    this.defineProperty("hideOnLarge", {
+      /**
+       * @returns {boolean}
+       */
+      get() {
+        return this.getAttribute("hide-on-large");
+      },
+      /**
+       * @param {boolean} v
+       */
+      set(v) {
+        this.setAttribute("hide-on-large", v);
+      },
+      type: Boolean
+    });
+
+    /**
+     * @member {boolean}
+     */
+    this.defineProperty("hideOnXlarge", {
+      /**
+       * @returns {boolean}
+       */
+      get() {
+        return this.getAttribute("hide-on-xlarge");
+      },
+      /**
+       * @param {boolean} v
+       */
+      set(v) {
+        this.setAttribute("hide-on-xlarge", v);
+      },
+      type: Boolean
+    });
+
+    /**
+     * @member {Symbol}
+     */
+    this.defineProperty("float", {
+      /**
+       * @returns {string}
+       */
+      get() {
+        switch (this.getAttribute("float")) {
+          case "left":
+            return EControl.LEFT;
+            break;
+          case "right":
+            return EControl.RIGHT;
+            break;
+          case "center":
+            return EControl.CENTER;
+            break;
+          default:
+            return EControl.NONE;
+            break;
+        }
+      },
+      /**
+       * @param {string} v
+       */
+      set(v) {
+        switch (v) {
+          case EControl.LEFT:
+            this.setAttribute("float", "left");
+            break;
+          case EControl.RIGHT:
+            this.setAttribute("float", "right");
+            break;
+          case EControl.CENTER:
+            this.setAttribute("float", "center");
+            break;
+          default:
+            this.setAttribute("float", "");
+            break;
+        }
+      },
+      type: Symbol
+    });
+
+    /**
+     * @member {Symbol}
+     */
+    this.defineProperty("align", {
+      /**
+       * @returns {string}
+       */
+      get() {
+        switch (this.getAttribute("align")) {
+          case "left":
+            return EControl.LEFT;
+            break;
+          case "right":
+            return EControl.RIGHT;
+            break;
+          case "center":
+            return EControl.CENTER;
+            break;
+          case "justify":
+            return EControl.JUSTIFY;
+            break;
+          default:
+            return EControl.NONE;
+            break;
+        }
+      },
+      /**
+       * @param {string} v
+       */
+      set(v) {
+        switch (v) {
+          case EControl.LEFT:
+            this.setAttribute("align", "left");
+            break;
+          case EControl.RIGHT:
+            this.setAttribute("align", "right");
+            break;
+          case EControl.CENTER:
+            this.setAttribute("align", "center");
+            break;
+          case EControl.JUSTIFY:
+            this.setAttribute("align", "justify");
+            break;
+          default:
+            this.setAttribute("align", "");
+            break;
+        }
+      },
+      type: Symbol
+    });
+
+    /**
+     * @member {string}
+     */
+    this.defineProperty("templateName", {
+      /**
+       * @returns {string}
+       */
+      get() {
+        return this.getAttribute("template-name");
+      },
+      /**
+       * @param {string} v
+       */
+      set(v) {
+        this.setAttribute("template-name", v);
+      },
+      type: String
+    });
+
+    /**
+     * @member {string}
+     */
+    this.defineProperty("templateItem", {
+      /**
+       * @returns {string}
+       */
+      get() {
+        return this.getAttribute("template-item");
+      },
+      /**
+       * @param {string} v
+       */
+      set(v) {
+        this.setAttribute("template-item", v);
+      },
+      type: String
+    });
+
+    this.defineProperty("hoverable", {
+      get() {
+        return (this.getAttribute("element-hoverable") === "true");
+      },
+      set(v) {
+        this.setAttribute("element-hoverable", v ? "true" : "false");
+      },
+      type: Boolean
+    });
+
+    this.defineProperty("situation", {
+      get() {
+        var v = this.getAttribute("element-situation");
+
+        switch (v) {
+          case "title":
+            return EControl.TITLE;
+
+          case "default":
+            return EControl.DEFAULT;
+
+          case "transparent":
+            return EControl.TRANSPARENT;
+
+          case "opposite":
+            return EControl.OPPOSITE;
+
+          case "warning":
+            return EControl.WARNINg;
+
+          case "danger":
+            return EControl.DANGER;
+
+          case "disable":
+            return EControl.DISABLE;
+
+          case "ok":
+            return EControl.OK;
+
+          default:
+            return EControl.NONE;
+        }
+      },
+      set(v) {
+        switch (v) {
+          case EControl.TITLE:
+            this.setAttribute("element-situation", "title");
+            break;
+
+          case EControl.DEFAULT:
+            this.setAttribute("element-situation", "default");
+            break;
+
+          case EControl.TRANSPARENT:
+            this.setAttribute("element-situation", "transparent");
+            break;
+
+          case EControl.OPPOSITE:
+            this.setAttribute("element-situation", "opposite");
+            break;
+
+          case EControl.WARNINg:
+            this.setAttribute("element-situation", "warning");
+            break;
+
+          case EControl.DANGER:
+            this.setAttribute("element-situation", "danger");
+            break;
+
+          case EControl.DISABLE:
+            this.setAttribute("element-situation", "disable");
+            break;
+
+          case EControl.OK:
+            this.setAttribute("element-situation", "ok");
+            break;
+
+          case EControl.NONE:
+          default:
+            this.setAttribute("element-situation", "");
+            break;
+        }
+      },
+      type: Symbol
+    });
+
+    /**
+     * @param {Element|Control} control
+     */
+    this.defineMethod("addControl", (control) => {
+      super.addControl(control);
+      elmDivContainer.appendChild(elmTxtFoot);
+    }, [Control, Element]);
+
+    this.defineMethod("click", () => {
+      elmDivContainer.click();
+    });
+
+    // this.focus = function () {
+    //     elmDivContainer.focus();
+    // };
+
+    this.defineMethod("toString", () => {
+      return "[Control (Or one of its sub classes) that]";
+    });
+  }
+}
+
+export const EControl = Object.freeze({
+  LEFT: Symbol("left"),
+  RIGHT: Symbol("right"),
+  CENTER: Symbol("center"),
+  JUSTIFY: Symbol("justify"),
+  NONE: Symbol("none"),
+  DEFAULT: Symbol("default"),
+  TITLE: Symbol("title"),
+  TRANSPARENT: Symbol("transparent"),
+  OPPOSITE: Symbol("opposite"),
+  WARNINg: Symbol("warning"),
+  DANGER: Symbol("danger"),
+  DISABLE: Symbol("disable"),
+  OK: Symbol("ok")
 });

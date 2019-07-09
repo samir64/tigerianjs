@@ -1,3 +1,7 @@
+import {
+  Behavior
+} from "../core/Behavior.js";
+
 /**
  * Created by samir on 09/20/18.
  */
@@ -8,67 +12,48 @@
  * @constructor
  * @extends {Behavior}
  */
-BFixElement = Behavior.extend({
-    /**
-     * @constructs
-     */
-    init: function () {
-        this.super("fix_element");
+export class BFixElement extends Behavior {
+  /**
+   * @constructs
+   */
+  constructor() {
+    super();
 
-        /**
-         * @member {boolean}
-         */
-        Object.defineProperty(this, "fixed", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: false,
-        });
-    },
-    /**
-     * @param {string} behavior
-     * @param {boolean} stick
-     * @param {Control} ctrlFix
-     */
-    config: function (behavior, stick, ctrlFix) {
-        if (behavior === "fix_element") {
-            if (!(Class.isInstance(ctrlFix, Control) && ctrlFix["Behavior:fix_element"])) {
-                ctrlFix = this;
-            }
+    thid.defineMethod("config", (that, stick, ctrlFix) => {
+      /**
+       * @member {boolean} fixed
+       */
+      that.defineProperty("fixed", {
+        get() {
+          return (ctrlFix.getAttribute("fixed") === "true");
+        },
+        set(v) {
+          ctrlFix.setAttribute("fixed", (v === true) ? "true" : "false");
+        },
+        type: Boolean
+      });
 
-            if (Class.isInstance(ctrlFix, Control) && ctrlFix["Behavior:fix_element"]) {
-                switch (stick) {
-                    case BFixElement.ETop:
-                        ctrlFix.setAttribute("stick", "top");
-                        break;
+      switch (stick) {
+        case EFixElement.TOP:
+          ctrlFix.setAttribute("stick", "top");
+          break;
 
-                    case BFixElement.EBottom:
-                        ctrlFix.setAttribute("stick", "bottom");
-                        break;
+        case EFixElement.BOTTOM:
+          ctrlFix.setAttribute("stick", "bottom");
+          break;
 
-                    default:
-                        ctrlFix.setAttribute("stick", "none");
-                }
+        default:
+          ctrlFix.setAttribute("stick", "none");
+      }
 
-                ctrlFix.setAttribute("fixed", this.fixed ? "true" : "false");
+      ctrlFix.setAttribute("fixed", "true");
+      that.addControl = ctrlFix.addControl;
+    }, [Object, Boolean, Control]);
+  }
+}
 
-                Object.defineProperty(this, "fixed", {
-                    enumerable: true,
-                    configurable: true,
-                    get: function () {
-                        return (ctrlFix.getAttribute("fixed") === "true");
-                    },
-                    set: function (v) {
-                        if (Class.isInstance(v, "boolean")) {
-                            // ctrlSpacer.visible = v;
-                            ctrlFix.setAttribute("fixed", (v === true) ? "true" : "false");
-                        }
-                    },
-                });
-
-                this.addControl = ctrlFix.addControl;
-            }
-        }
-    },
-    enums: ["top", "bottom", "none"],
+export const EFixElement = Object.freeze({
+  TOP: Symbol("top"),
+  BOTTOM: Symbol("bottom"),
+  NONE: Symbol("none")
 });

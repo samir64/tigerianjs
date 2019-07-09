@@ -1,3 +1,16 @@
+import {
+  instanceOf
+} from "./Tigerian.js";
+import {
+  UI
+} from "./UI.js";
+import {
+  BWindow
+} from "../behaviors/BWindow.js";
+import {
+  GridTemplate
+} from "../style/GridTemplate.js";
+
 /**
  * Created by samir on 8/25/16.
  * Version 1.0.0.100
@@ -5,93 +18,93 @@
 
 ("use strict");
 
-
 /**
  * @constructor
  * @extends {UI}
  */
-Application = UI.extend({
+export class Application extends UI {
+  /**
+   * @constructs
+   * @param {Element} [element = document.body]
+   * @param {string} [title = ""]
+   * @param {string} [theme = ""]
+   */
+  constructor(title = "", element = document.body, theme = "") {
+    super(element, null, theme);
+
+    this.config(BWindow);
+
     /**
-     * @constructs
-     * @param {Element} [element = document.body]
-     * @param {string} [title]
-     * @param {string} [theme = ""]
+     * @type {GridTemplate[]}
      */
-    init: function (element, title, theme) {
-        this.super(element, null, theme);
-
-        /**
-         * @type {GridTemplate[]}
-         */
-        var templates = [];
-        if (Class.isInstance(title, "string")) {
-            document.head.getElementsByTagName("title")[0].innerText = title;
-        }
-
-        //NOTE Attributes
-        this.setAttribute("element-type", "Application");
-        this.setAttribute("element-name", "container");
-
-        //NOTE Public Functions
-
-        /**
-         * @param {string} templateName
-         */
-        this.addTemplate = function (templateName) {
-            var template = new GridTemplate(templateName);
-            templates[templateName] = template;
-            document.head.appendChild(template.element);
-        };
-
-        /**
-         * @param {string} templateName
-         * @returns {GridTemplate}
-         */
-        this.getTemplate = function (templateName) {
-            if (templateName in templates) {
-                return templates[templateName];
-            }
-        };
-
-        /**
-         * @param {string} templateName
-         */
-        this.removeTemplate = function (templateName) {
-            if (templateName in templates) {
-                document.head.removeChild(temlates[templateName].element);
-                delete templates[templateName];
-            }
-        };
-
-        /**
-         * @member {string}
-         */
-        Object.defineProperty(this, "title", {
-            enumerable: true,
-            configurable: true,
-            get: function () {
-                return document.head.getElementsByTagName("title")[0].innerText;
-            },
-            set: function (v) {
-                if (Class.isInstance(v, "string")) {
-                    document.head.getElementsByTagName("title")[0].innerText = v;
-                }
-            },
-        });
+    var templates = [];
+    if (instanceOf(title, String)) {
+      document.head.getElementsByTagName("title")[0].innerText = title;
     }
-}, BWindow);
+
+    //NOTE Attributes
+    this.setAttribute("element-type", "Application");
+    this.setAttribute("element-name", "container");
+
+    //NOTE Public Functions
+
+    /**
+     * @param {string} templateName
+     */
+    this.defineMethod("addTemplate", (templateName) => {
+      var template = new GridTemplate(templateName);
+      templates[templateName] = template;
+      document.head.appendChild(template.element);
+    }, [String]);
+
+    /**
+     * @param {string} templateName
+     * @returns {GridTemplate}
+     */
+    this.defineMethod("getTemplate", (templateName) => {
+      if (templateName in templates) {
+        return templates[templateName];
+      }
+    }, [String]);
+
+    /**
+     * @param {string} templateName
+     */
+    this.defineMethod("removeTemplate", (templateName) => {
+      if (templateName in templates) {
+        document.head.removeChild(temlates[templateName].element);
+        delete templates[templateName];
+      }
+    }, [String]);
+
+    /**
+     * @member {string}
+     */
+    this.defineProperty("title", {
+      get() {
+        return document.head.getElementsByTagName("title")[0].innerText;
+      },
+      set(v) {
+        if (instanceOf(v, String)) {
+          document.head.getElementsByTagName("title")[0].innerText = v;
+        }
+      },
+      type: String
+    });
+  }
+}
 
 /**
  * @param {function} main
  */
 Application.run = function (main) {
-    if (Class.isInstance(main, "function")) {
-        if (document.body) {
-            main();
-        } else {
-            window.addEventListener("load", function (e) {
-                main();
-            });
-        }
+  if (instanceOf(main, "function")) {
+    if (document.body) {
+      main();
+    } else {
+      window.addEventListener("load", function (e) {
+        main();
+      });
     }
+  }
 };

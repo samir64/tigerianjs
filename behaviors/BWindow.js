@@ -1,3 +1,10 @@
+import {
+  instanceOf
+} from "../core/Tigerian.js";
+import {
+  Behavior
+} from "../core/Behavior.js";
+
 /**
  * Created by samir on 9/14/18.
  */
@@ -9,168 +16,178 @@
  * @extends {Behavior}
  * @interface
  */
-BWindow = Behavior.extend({
-    /**
-     * @constructs
-     */
-    init: function () {
-        this.super("window");
+export class BWindow extends Behavior {
+  /**
+   * @constructs
+   */
+  constructor() {
+    super();
 
-        var windowSmallMatch = window.matchMedia("(max-width: 575.98px)");
-        var windowMediumMatch = window.matchMedia("(min-width: 576px) and (max-width: 767.98px)");
-        var windowNormalMatch = window.matchMedia("(min-width: 768px) and (max-width: 991.98px)");
-        var windowLargeMatch = window.matchMedia("(min-width: 992px) and (max-width: 1199.98px)");
-        var windowXlargeMatch = window.matchMedia("(min-width: 1200px)");
+    this.defineMethod("config", (that) => {
+      var windowSmallMatch = window.matchMedia("(max-width: 575.98px)");
+      var windowMediumMatch = window.matchMedia(
+        "(min-width: 576px) and (max-width: 767.98px)"
+      );
+      var windowNormalMatch = window.matchMedia(
+        "(min-width: 768px) and (max-width: 991.98px)"
+      );
+      var windowLargeMatch = window.matchMedia(
+        "(min-width: 992px) and (max-width: 1199.98px)"
+      );
+      var windowXlargeMatch = window.matchMedia("(min-width: 1200px)");
 
-        var onSmallWindow = function (e) {};
-        var onMediumWindow = function (e) {};
-        var onNormalWindow = function (e) {};
-        var onLargeWindow = function (e) {};
-        var onXlargeWindow = function (e) {};
+      var onSmallWindow = function (e) {};
+      var onMediumWindow = function (e) {};
+      var onNormalWindow = function (e) {};
+      var onLargeWindow = function (e) {};
+      var onXlargeWindow = function (e) {};
 
-        /**
-         * @member {Symbol}
-         */
-        Object.defineProperty(this, "windowSize", {
-            enumerable: true,
-            configurable: false,
-            get: function () {
-                if (windowSmallMatch.matches) {
-                    return BWindow.ESmall;
-                }
+      /**
+       * @member {Symbol}
+       */
+      that.defineProperty("windowSize", {
+        get() {
+          if (windowSmallMatch.matches) {
+            return EWindow.XSMALL;
+          }
 
-                if (windowMediumMatch.matches) {
-                    return BWindow.EMedium;
-                }
+          if (windowMediumMatch.matches) {
+            return EWindow.SMALL;
+          }
 
-                if (windowNormalMatch.matches) {
-                    return BWindow.ENormal;
-                }
+          if (windowNormalMatch.matches) {
+            return EWindow.MEDIUM;
+          }
 
-                if (windowLargeMatch.matches) {
-                    return BWindow.ELarge;
-                }
+          if (windowLargeMatch.matches) {
+            return EWindow.LARGE;
+          }
 
-                if (windowXlargeMatch.matches) {
-                    return BWindow.EXLarge;
-                }
-            },
-        });
+          if (windowXlargeMatch.matches) {
+            return EWindow.XLARGE;
+          }
+        }
+      });
 
-        /**
-         * @member {function}
-         */
-        Object.defineProperty(this, "onSmallWindow", {
-            enumerable: false,
-            configurable: false,
-            set: function (v) {
-                if (Class.isInstance(v, "function")) {
-                    v = v.bind(this);
-                    onSmallWindow = v;
-                    if (windowSmallMatch.matches) {
-                        v();
-                    }
-                }
-            },
-        });
-
-        /**
-         * @member {function}
-         */
-        Object.defineProperty(this, "onMediumWindow", {
-            enumerable: false,
-            configurable: false,
-            set: function (v) {
-                if (Class.isInstance(v, "function")) {
-                    v = v.bind(this);
-                    onMediumWindow = v;
-                    if (windowMediumMatch.matches) {
-                        v();
-                    }
-                }
-            },
-        });
-
-        /**
-         * @member {function}
-         */
-        Object.defineProperty(this, "onNormalWindow", {
-            enumerable: false,
-            configurable: false,
-            set: function (v) {
-                if (Class.isInstance(v, "function")) {
-                    v = v.bind(this);
-                    onNormalWindow = v;
-                    if (windowNormalMatch.matches) {
-                        v();
-                    }
-                }
-            },
-        });
-
-        /**
-         * @member {function}
-         */
-        Object.defineProperty(this, "onLargeWindow", {
-            enumerable: false,
-            configurable: false,
-            set: function (v) {
-                if (Class.isInstance(v, "function")) {
-                    v = v.bind(this);
-                    onLargeWindow = v;
-                    if (windowLargeMatch.matches) {
-                        v();
-                    }
-                }
-            },
-        });
-
-        /**
-         * @member {function}
-         */
-        Object.defineProperty(this, "onXlargeWindow", {
-            enumerable: false,
-            configurable: false,
-            set: function (v) {
-                if (Class.isInstance(v, "function")) {
-                    v = v.bind(this);
-                    onXlargeWindow = v;
-                    if (windowXlargeMatch.matches) {
-                        v();
-                    }
-                }
-            },
-        });
-
-        windowSmallMatch.addListener(function (e) {
-            if (e.matches) {
-                onSmallWindow();
+      /**
+       * @member {function}
+       */
+      that.defineProperty("onSmallWindow", {
+        set(v) {
+          if (instanceOf(v, "function")) {
+            v = v.bind(that);
+            onSmallWindow = v;
+            if (windowSmallMatch.matches) {
+              v();
             }
-        });
+          }
+        },
+        type: Function
+      });
 
-        windowMediumMatch.addListener(function (e) {
-            if (e.matches) {
-                onMediumWindow();
+      /**
+       * @member {function}
+       */
+      that.defineProperty("onMediumWindow", {
+        set(v) {
+          if (instanceOf(v, "function")) {
+            v = v.bind(that);
+            onMediumWindow = v;
+            if (windowMediumMatch.matches) {
+              v();
             }
-        });
+          }
+        },
+        type: Function
+      });
 
-        windowNormalMatch.addListener(function (e) {
-            if (e.matches) {
-                onNormalWindow();
+      /**
+       * @member {function}
+       */
+      that.defineProperty("onNormalWindow", {
+        set(v) {
+          if (instanceOf(v, "function")) {
+            v = v.bind(that);
+            onNormalWindow = v;
+            if (windowNormalMatch.matches) {
+              v();
             }
-        });
+          }
+        },
+        type: Function
+      });
 
-        windowLargeMatch.addListener(function (e) {
-            if (e.matches) {
-                onLargeWindow();
+      /**
+       * @member {function}
+       */
+      that.defineProperty("onLargeWindow", {
+        set(v) {
+          if (instanceOf(v, "function")) {
+            v = v.bind(that);
+            onLargeWindow = v;
+            if (windowLargeMatch.matches) {
+              v();
             }
-        });
+          }
+        },
+        type: Function
+      });
 
-        windowXlargeMatch.addListener(function (e) {
-            if (e.matches) {
-                onXlargeWindow();
+      /**
+       * @member {function}
+       */
+      that.defineProperty("onXlargeWindow", {
+        set(v) {
+          if (instanceOf(v, "function")) {
+            v = v.bind(that);
+            onXlargeWindow = v;
+            if (windowXlargeMatch.matches) {
+              v();
             }
-        });
-    },
-    enums: ["none", "small", "medium", "normal", "large", "xLarge"],
+          }
+        },
+        type: Function
+      });
+
+      windowSmallMatch.addListener(function (e) {
+        if (e.matches) {
+          onSmallWindow();
+        }
+      });
+
+      windowMediumMatch.addListener(function (e) {
+        if (e.matches) {
+          onMediumWindow();
+        }
+      });
+
+      windowNormalMatch.addListener(function (e) {
+        if (e.matches) {
+          onNormalWindow();
+        }
+      });
+
+      windowLargeMatch.addListener(function (e) {
+        if (e.matches) {
+          onLargeWindow();
+        }
+      });
+
+      windowXlargeMatch.addListener(function (e) {
+        if (e.matches) {
+          onXlargeWindow();
+        }
+      });
+    });
+  }
+}
+
+
+export const EWindow = Object.freeze({
+  NONE: Symbol("none"),
+  XSMALL: Symbol("xsmall"),
+  SMALL: Symbol("small"),
+  MEDIUM: Symbol("medium"),
+  LARGE: Symbol("large"),
+  XLARGE: Symbol("xLarge")
 });

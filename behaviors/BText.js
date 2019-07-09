@@ -1,3 +1,9 @@
+import {
+  instanceOf
+} from "../core/Tigerian.js";
+import { Behavior } from "../core/Behavior.js";
+import { Control } from "../core/Control.js";
+
 /**
  * Created by samir on 9/14/16.
  */
@@ -10,105 +16,77 @@
  * @extends {Control}
  * @interface
  */
-BText = Behavior.extend({
-    /**
-     * @constructs
-     */
-    init: function () {
-        this.super("text");
+export class BText extends Behavior {
+  /**
+   * @constructs
+   */
+  constructor() {
+    super();
 
-        var text = "";
+    this.defineMethod("config", (that, ctrlText) => {
+      var text = "";
 
-        /**
-         * @member {string}
-         */
-        Object.defineProperty(this, "text", {
-            enumerable: true,
-            configurable: true,
-            get: function () {
-                return text;
-            },
-            set: function (v) {
-                if (Class.isInstance(v, "string")) {
-                    text = v;
-                }
-            },
-        });
-    },
-    /**
-     * @param {string} behavior
-     * @param {Element|Control} ctrlText
-     */
-    config: function (behavior, ctrlText) {
-        if ((behavior === "text") && (Class.isInstance(ctrlText, Element) || (Class.isInstance(ctrlText, Control) && ctrlText["Behavior:text"]))) {
-            this.setAttribute("text", this.text);
-            ctrlText.innerHTML = this.text;
-            ctrlText.value = this.text;
+      if (instanceOf(ctrlText, Element)) {
+        ctrlText.setAttribute("element-name", "text");
+      }
 
-            if (Class.isInstance(ctrlText, Element)) {
-                ctrlText.setAttribute("element-name", "text");
-            }
-
-            var instance = this;
-
-            function changeText(e) {
-                if (ctrlText["Behavior:text"]) {
-                    instance.text = ctrlText.text;
-                } else {
-                    instance.text = (Class.isInstance(e.target.value, "string") ? e.target.value : e.target.innerHTML);
-                }
-            }
-
-            /**
-             * @member {string}
-             */
-            Object.defineProperty(this, "text", {
-                enumerable: true,
-                configurable: true,
-                get: function () {
-                    var result;
-
-                    if (ctrlText["Behavior:text"]) {
-                        result = ctrlText.text;
-                    } else if (Class.isInstance(ctrlText.value, "string")) {
-                        result = ctrlText.value;
-                    } else if (Class.isInstance(ctrlText.innerHTML, "string")) {
-                        result = ctrlText.innerHTML;
-                    } else {
-                        result = this.getAttribute("text");
-                    }
-
-                    this.setAttribute("text", result);
-
-                    return result;
-                },
-                set: function (v) {
-                    if (Class.isInstance(v, "string")) {
-                        var lastText = this.getAttribute("text");
-                        this.setAttribute("text", v);
-                        if (ctrlText["Behavior:text"]) {
-                            ctrlText.text = v;
-                        } else {
-                            ctrlText.innerHTML = v;
-                            ctrlText.value = v;
-                        }
-
-                        if (lastText !== v) {
-                            this.dispatchEvent(Events.onTextChange, {
-                                lastValue: lastText
-                            });
-                        }
-                    }
-                },
-            });
-
-            if (Class.isInstance(ctrlText, Control)) {
-                ctrlText.addEvent("change", changeText);
-                ctrlText.addEvent("input", changeText);
-            } else {
-                ctrlText.addEventListener("change", changeText);
-                ctrlText.addEventListener("input", changeText);
-            }
+      function changeText(e) {
+        if (instanceOf(ctrlText, BText)) {
+          that.text = ctrlText.text;
+        } else {
+          that.text = (instanceOf(e.target.value, String) ? e.target.value : e.target.innerHTML);
         }
-    },
-});
+      }
+
+      /**
+       * @member {string}
+       */
+      that.defineProperty("text", {
+        get() {
+          var result;
+
+          if (ctrlText["Behavior:text"]) {
+            result = ctrlText.text;
+          } else if (instanceOf(ctrlText.value, String)) {
+            result = ctrlText.value;
+          } else if (instanceOf(ctrlText.innerHTML, String)) {
+            result = ctrlText.innerHTML;
+          } else {
+            result = text;
+          }
+
+          that.setAttribute("text", result);
+
+          return result;
+        },
+        set(v) {
+          if (instanceOf(v, String)) {
+            var lastText = text;
+            text = v;
+            that.setAttribute("text", v);
+            if (ctrlText["Behavior:text"]) {
+              ctrlText.text = v;
+            } else {
+              ctrlText.innerHTML = v;
+              ctrlText.value = v;
+            }
+
+            if (lastText !== v) {
+              that.dispatchEvent(Events.onTextChange, {
+                lastValue: lastText
+              });
+            }
+          }
+        },
+      });
+
+      if (instanceOf(ctrlText, Control)) {
+        ctrlText.addEvent("change", changeText);
+        ctrlText.addEvent("input", changeText);
+      } else {
+        ctrlText.addEventListener("change", changeText);
+        ctrlText.addEventListener("input", changeText);
+      }
+    }, [Object, [Element, Control]]);
+  }
+}

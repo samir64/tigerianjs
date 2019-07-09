@@ -1,4 +1,7 @@
-import { Tigerian } from "./Tigerian.js";
+import {
+    Tigerian,
+    instanceOf
+} from "./Tigerian.js";
 
 ("use strict");
 
@@ -11,8 +14,8 @@ export class Ajax extends Tigerian {
      * @constructs
      * @param {string} url
      */
-    constructor (url, ...behaviors) {
-        this.super(...behaviors);
+    constructor(url) {
+        super();
 
         var httpRequest;
         var success = function (responseText, responseXml, responseJson) {};
@@ -37,8 +40,8 @@ export class Ajax extends Tigerian {
             }
         };
 
-        function jsonToQuery(params) {
-            if (typeof params !== "object") {
+        function jsonToQuery(params = {}) {
+            if (!instanceOf(params, Object)) {
                 params = {};
             }
 
@@ -74,66 +77,102 @@ export class Ajax extends Tigerian {
             httpRequest.send(JSON.stringify(params));
         }
 
+        this.defineMethod("addHeader", (label, value) => {
+            httpRequest.setREquestHeader(label, value);
+        }, [String, String]);
         /**
          * @param {string} label
          * @param {string} value
          */
-        this.addHeader = function (label, value) {
+        /* this.addHeader = function (label, value) {
             httpRequest.setRequestHeader(label, value);
-        };
+        }; */
 
-        this.abort = function () {
+        this.defineMethod("abort", () => {
             httpRequest.abort();
-        };
+        });
+        /* this.abort = function () {
+            httpRequest.abort();
+        }; */
 
-        /**
-         * @param {Object} parameters
-         */
-        this.get = function (parameters) {
+        this.defineMethod("get", (parameters) => {
             request("GET", parameters);
-        };
-
+        }, [Object]);
         /**
          * @param {Object} parameters
          */
-        this.post = function (parameters) {
+        /* this.get = function (parameters) {
+            request("GET", parameters);
+        }; */
+
+        this.defineMethod("post", (parameters) => {
             request("POST", parameters);
-        };
-
+        }, [Object]);
         /**
          * @param {Object} parameters
          */
-        this.put = function (parameters) {
+        /* this.post = function (parameters) {
+            request("POST", parameters);
+        }; */
+
+        this.defineMethod("put", (parameters) => {
             request("PUT", parameters);
-        };
-
+        }, [Object]);
         /**
          * @param {Object} parameters
          */
-        this.delete = function (parameters) {
-            request("DELETE", parameters);
-        };
+        /* this.put = function (parameters) {
+            request("PUT", parameters);
+        }; */
 
+        this.defineMethod("delete", (parameters) => {
+            request("DELETE", parameters);
+        }, [Object]);
+        /**
+         * @param {Object} parameters
+         */
+        /* this.delete = function (parameters) {
+            request("DELETE", parameters);
+        }; */
+
+        this.defineProperty("async", {
+            get() {
+                return async;
+            },
+            set(v) {
+                async = v;
+            },
+            type: Boolean
+        });
         /**
          * @member {boolean}
          */
-        Object.defineProperty(this, "async", {
+        /* Object.defineProperty(this, "async", {
             enumerable: false,
             configurable: true,
             get: function () {
                 return async;
             },
             set: function (v) {
-                if (Class.isInstance(v, "boolean")) {
+                if (instanceOf(v, "boolean")) {
                     async = v;
                 }
             },
-        });
+        }); */
 
+        this.defineProperty("success", {
+            get() {
+                return success;
+            },
+            set(v) {
+                success = v;
+            },
+            type: Function
+        });
         /**
          * @member {Function}
          */
-        Object.defineProperty(this, "success", {
+        /* Object.defineProperty(this, "success", {
             enumerable: false,
             configurable: true,
             get: function () {
@@ -144,12 +183,21 @@ export class Ajax extends Tigerian {
                     success = v;
                 }
             },
-        });
+        }); */
 
+        this.defineProperty("unsuccess", {
+            get() {
+                return unsuccess;
+            },
+            set(v) {
+                unsuccess = v;
+            },
+            type: Function
+        });
         /**
          * @member {Function}
          */
-        Object.defineProperty(this, "unsuccess", {
+        /* Object.defineProperty(this, "unsuccess", {
             enumerable: false,
             configurable: true,
             get: function () {
@@ -160,12 +208,21 @@ export class Ajax extends Tigerian {
                     unsuccess = v;
                 }
             },
-        });
+        }); */
 
+        this.defineProperty("progress", {
+            get() {
+                return progress;
+            },
+            set(v) {
+                progress = v;
+            },
+            type: Function
+        });
         /**
          * @member {Function}
          */
-        Object.defineProperty(this, "progress", {
+        /* Object.defineProperty(this, "progress", {
             enumerable: false,
             configurable: true,
             get: function () {
@@ -176,22 +233,16 @@ export class Ajax extends Tigerian {
                     progress = v;
                 }
             },
-        });
+        }); */
 
-        /**
-         * @member {string}
-         */
-        Object.defineProperty(this, "url", {
-            enumerable: false,
-            configurable: false,
-            get: function () {
+        this.defineProperty("url", {
+            get() {
                 return url;
             },
-            set: function (v) {
-                if (typeof v === "string") {
-                    url = v;
-                }
+            set(v) {
+                url = v;
             },
+            type: String
         });
     }
 };

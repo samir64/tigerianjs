@@ -1,9 +1,10 @@
+import { instanceOf } from "../core/Tigerian.js";
+
 /**
  * Created by samir on 8/26/16.
  */
 
 ("use strict");
-
 
 /**
  * @property {string} text
@@ -14,37 +15,33 @@
  * @constructor
  */
 Container = Control.extend({
-    /**
-     * @param {UI} parent
-     * @param {string} theme = ""
-     */
-    init: function (parent, theme) {
-        this.super(parent, theme);
+  /**
+   * @param {UI} parent
+   * @param {string} theme = ""
+   */
+  init: function(parent, theme) {
+    this.super(parent, theme);
 
+    //NOTE Private Variables
+    // var elmBody = document.createElement("div");
+    // var thisAddControl = this.addControl;
 
-        //NOTE Private Variables
-        // var elmBody = document.createElement("div");
-        // var thisAddControl = this.addControl;
+    //NOTE Attributes
+    this.setAttribute("element-type", "Container");
+    this.setAttribute("element-name", "container");
 
+    // elmBody.setAttribute("element-type", "Container");
+    // elmBody.setAttribute("element-name", "body");
 
-        //NOTE Attributes
-        this.setAttribute("element-type", "Container");
-        this.setAttribute("element-name", "container");
+    //NOTE Append Children
+    /* thisAddControl(elmBody);
 
-        // elmBody.setAttribute("element-type", "Container");
-        // elmBody.setAttribute("element-name", "body");
-
-        //NOTE Append Children
-        /*
-                thisAddControl(elmBody);
-
-                this.addControl = function (control) {
-                    if (Class.isInstance(control, Element)) {
-                        elmBody.appendChild(control);
-                    } else if (Class.isInstance(control, Control)) {
-                        control.appendTo(this, elmBody);
-                    }
-                };
-        */
-    }
+    this.addControl = function(control) {
+      if (instanceOf(control, Element)) {
+        elmBody.appendChild(control);
+      } else if (instanceOf(control, Control)) {
+        control.appendTo(this, elmBody);
+      }
+    }; */
+  }
 });

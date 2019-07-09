@@ -1,108 +1,71 @@
+import {
+  instanceOf,
+  forEach
+} from "../core/Tigerian.js";
+import {
+  Behavior
+} from "../core/Behavior.js";
+
 /**
  * Created by samir on 9/14/16.
  */
 
 ("use strict");
 
-
 /**
  * @implements {Behavior}
  * @extends {Control}
  * @interface
  */
-BFilter = Behavior.extend({
-    /**
-     * @constructs
-     */
-    init: function () {
-        this.super("filter");
+export class BFilter extends Behavior {
+  /**
+   * @constructs
+   */
+  constructor() {
+    super();
 
-        var filtering = false;
+    this.defineMethod("config", (that, ctrlText, ctrlList) => {
+      that.setAttribute("filtering", ctrlList.filter ? "true" : "false");
 
-        /**
-         * @member {boolean}
-         * @this {Control}
-         */
-        Object.defineProperty(this, "filtering", {
-            enumerable: true,
-            configurable: true,
-            get: function () {
-                return filtering;
-            },
-            set: function (v) {
-                if (Class.isInstance(v, "boolean")) {
-                    filtering = v;
-                }
-            },
-        });
-    },
-    /**
-     * @param {string} behavior
-     * @param {Control} ctrlText
-     * @param {Control} ctrlList
-     */
-    config: function (behavior, ctrlText, ctrlList) {
-        if (behavior === "filter") {
-            if (!(Class.isInstance(ctrlList, Control) && ctrlList["Behavior:group"])) {
-                ctrlList = this;
-            }
-
-            if (Class.isInstance(ctrlList, Control) && ctrlList["Behavior:group"] && Class.isInstance(ctrlText, Control) && ctrlText["Behavior:text"]) {
-                var instance = this;
-                this.setAttribute("filtering", ctrlList.filter ? "true" : "false");
-
-                /**
-                 * @param {string} text
-                 */
-                this.filter = function (text) {
-                    if (!Class.isInstance(text, "string")) {
-                        text = ctrlText.text;
-                    }
-
-                    if (this.filtering) {
-                        /* for (var i = 0; i < ctrlList.itemCount; i++) {
-                            ctrlList.getItem(i).visible = ((text === "") || ctrlList.getItem(i).text.toLowerCase().includes(text.toLowerCase()));
-                        } */
-                        ctrlList.forEach(function (item) {
-                            item.visible = ((text === "") || item.text.toLowerCase().includes(text.toLowerCase()));
-                        });
-                    }
-                };
-
-                /**
-                 * @member {boolean}
-                 * @this {Control}
-                 */
-                Object.defineProperty(this, "filtering", {
-                    enumerable: true,
-                    configurable: true,
-                    get: function () {
-                        return (this.getAttribute("filtering") === "true");
-                    },
-                    set: function (v) {
-                        if (Class.isInstance(v, "boolean")) {
-                            this.setAttribute("filtering", (v === true) ? "true" : "false");
-                            if (this !== ctrlList) {
-                                ctrlList.filter = v;
-                            }
-                        }
-                    },
-                });
-
-                ctrlText.addEvent("input", function (e) {
-                    instance.filter();
-                });
-
-                this.filter();
-
-                // ctrlText.addEvent("keydown", function (e) {
-                //     switch (e.code) {
-                //         case "Space":
-                //             // this.text += " ";
-                //             e.preventDefault();
-                //     }
-                // });
-            }
+      /**
+       * @param {string} text
+       */
+      that.defineMethod("filter", (text) => {
+        if (!instanceOf(text, String)) {
+          text = ctrlText.text;
         }
-    },
-});
+
+        if (that.filtering) {
+          forEach(ctrlList, (item) => {
+            item.visible =
+              text === "" ||
+              item.text.toLowerCase().includes(text.toLowerCase());
+          });
+        }
+      });
+
+      /**
+       * @member {boolean}
+       * @this {Control}
+       */
+      that.defineProperty("filtering", {
+        get() {
+          return (this.getAttribute("filtering") === "true");
+        },
+        set(v) {
+          this.setAttribute("filtering", (v === true) ? "true" : "false");
+          if (this !== ctrlList) {
+            ctrlList.filter = v;
+          }
+        },
+        type: Boolean
+      });
+
+      ctrlText.addEvent("input", function (e) {
+        that.filter();
+      });
+
+      // that.filter();
+    }, [Object, BText, BGroup]);
+  }
+}

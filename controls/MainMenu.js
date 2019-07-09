@@ -1,3 +1,5 @@
+import { instanceOf } from "../core/Tigerian.js";
+
 ("use strict");
 
 /**
@@ -25,7 +27,7 @@ MainMenu = Control.extend({
          * @param {Tigeriam.MenuItem} item
          */
         this.addControl = this.addItem = function (item) {
-            if (Class.isInstance(item, MenuItem)) {
+            if (instanceOf(item, MenuItem)) {
                 superAddItem(item);
             }
         };

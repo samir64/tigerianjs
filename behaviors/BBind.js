@@ -1,103 +1,179 @@
-BBind = Behavior.extend({
-    init: function () {
-        this.super("bind");
+import {
+  Behavior
+} from "../core/Behavior.js";
+import {
+  instanceOf,
+  forEach,
+  Tigerian
+} from "../core/Tigerian.js";
 
-        var binds = [];
+("use strict");
 
-        /**
-         * @param {string} srcProp
-         * @param {Object} target
-         * @param {string} trgProp
-         * @param {Function} changer
-         */
-        this.bind = function (srcProp, target, trgProp, changer) {
-            if (Class.isInstance(srcProp, "string") && Class.isInstance(target, "object") && Class.isInstance(trgProp, "string")) {
-                if (!Class.isInstance(changer, "function")) {
-                    changer = function (value) {
-                        return value;
-                    };
-                }
+export class BBind extends Behavior {
+  constructor() {
+    super();
 
-                if (binds[srcProp] == undefined) {
-                    binds[srcProp] = {
-                        main: undefined,
-                        targets: [],
-                    };
-                }
-                binds[srcProp].targets.push({
-                    trg: target,
-                    prop: trgProp,
-                    changer: changer,
-                });
+    this.defineMethod("config", (that) => {
+      var binds = {};
+      var watchs = {};
 
-                if (this.hasOwnProperty(srcProp) && target.hasOwnProperty(trgProp)) {
-                    var lastProp = Object.getOwnPropertyDescriptor(this, srcProp);
-                    if (binds[srcProp].main === undefined) {
-                        binds[srcProp].main = lastProp;
-                    }
-                    Object.defineProperty(this, srcProp, {
-                        enumerable: false,
-                        configurable: true,
-                        get: function () {
-                            if (lastProp.hasOwnProperty("get")) {
-                                return lastProp.get.bind(target)();
-                            } else if (lastProp.hasOwnProperty("value")) {
-                                return lastProp.value;
-                            }
-                        },
-                        set: function (v) {
-                            if (lastProp.hasOwnProperty("set")) {
-                                // console.log(srcProp, target, trgProp, v, target[trgProp]);
-                                lastProp.set.bind(target)(v);
-                            } else if (lastProp.hasOwnProperty("value")) {
-                                lastProp.value = v;
-                            }
-                            binds[srcProp].targets.forEach(function (trg) {
-                                trg.trg[trg.prop] = changer(v);
-                            });
-                            /* for (var i in binds[srcProp].targets) {
-                                var trg = binds[srcProp].targets[i].trg;
-                                var prop = binds[srcProp].targets[i].prop;
-                                trg[prop] = changer(v);
-                            } */
-                        },
-                    });
-                }
+      /**
+       * @param {string} srcProp
+       * @param {Object} target
+       * @param {string} trgProp
+       * @param {Function} changer
+       */
+      that.defineMethod("bind", (srcProp, target, trgProp, changer = ((v) => v)) => {
+        if (binds[srcProp] == undefined) {
+          binds[srcProp] = {
+            main: undefined,
+            targets: []
+          };
+        }
+        binds[srcProp].targets.push({
+          trg: target,
+          prop: trgProp,
+          changer: changer
+        });
+
+        if (that.hasOwnProperty(srcProp) && target.hasOwnProperty(trgProp)) {
+          var lastProp = Object.getOwnPropertyDescriptor(that, srcProp);
+          if (binds[srcProp].main === undefined) {
+            binds[srcProp].main = lastProp;
+          }
+          Object.defineProperty(that, srcProp, {
+            enumerable: lastProp.enumerable,
+            configurable: true,
+            get: function () {
+              if (lastProp.hasOwnProperty("get")) {
+                return lastProp.get.bind(that)();
+              } else if (lastProp.hasOwnProperty("value")) {
+                return lastProp.value;
+              }
+            },
+            set: function (v) {
+              if (lastProp.hasOwnProperty("set")) {
+                lastProp.set.bind(that)(v);
+              } else if (lastProp.hasOwnProperty("value")) {
+                lastProp.value = v;
+              }
+              forEach(binds[srcProp].targets, (trg) => {
+                trg.trg[trg.prop] = trg.changer(v);
+              });
             }
-        };
+          });
+        }
+      }, [String, [Object, Function], String]);
 
-        this.unbind = function (srcProp, target, trgProp) {
-            if ((typeof srcProp == "string") && (binds[srcProp] != "") && (binds[srcProp] != undefined) && (binds[srcProp] != null)) {
-                result = [];
-                var main = binds[srcProp].main;
-                binds[srcProp].targets.forEach(function (trg) {
-                    if (((typeof target == "object") && (target != undefined) && (target != null) && (target != trg.trg)) || ((typeof trgProp == "string") && (trgProp != "") && (trgProp != undefined) && (trgProp != null) && (trgProp != trg.prop))) {
-                        result.push(trg);
-                    }
-                });
-                /* for (var i in binds[srcProp].targets) {
-                    var trg = binds[srcProp].targets[i].trg;
-                    var prop = binds[srcProp].targets[i].prop;
-
-                    if (((typeof target == "object") && (target != undefined) && (target != null) && (target != trg)) || ((typeof trgProp == "string") && (trgProp != "") && (trgProp != undefined) && (trgProp != null) && (trgProp != prop))) {
-                        result.push(binds[srcProp].targets[i]);
-                    }
-                } */
-
-                binds[srcProp].target = result;
-
-                if (binds[srcProp].target.length == 0) {
-                    Object.defineProperty(this, srcProp, main);
-                    delete binds[srcProp];
-                }
-            } else {
-                binds.forEach(function (b, idx) {
-                    this.unbind(idx, target, trgProp);
-                });
-                /* for (var idx in binds) {
-                    this.unbind(idx, target, trgProp);
-                } */
+      /**
+       * @param {string} srcProp
+       * @param {Object} target
+       * @param {string} trgProp
+       */
+      // that.unbind = function (srcProp, target, trgProp) {
+      that.defineMethod("unbind", (srcProp, target, trgProp) => {
+        if (
+          binds[srcProp] != "" &&
+          binds[srcProp] != undefined &&
+          binds[srcProp] != null
+        ) {
+          var result = [];
+          var main = binds[srcProp].main;
+          forEach(binds[srcProp].targets, (trg) => {
+            if (
+              (
+                target != undefined &&
+                target != null &&
+                target != trg.trg
+              ) || (
+                trgProp != "" &&
+                trgProp != undefined &&
+                trgProp != null &&
+                trgProp != trg.prop)
+            ) {
+              result.push(trg);
             }
-        };
-    },
-});
+          });
+          binds[srcProp].target = result;
+
+          if (binds[srcProp].target.length == 0) {
+            Object.defineProperty(that, srcProp, main);
+            delete binds[srcProp];
+          }
+        } else {
+          forEach(binds, (b, idx) => {
+            that.unbind(idx, target, trgProp);
+          });
+        }
+      }, [String, [Object, Function], String]);
+
+      that.defineMethod("watch", (prop, callback) => {
+        if (watchs[prop] == undefined) {
+          watchs[prop] = {
+            main: undefined,
+            callbacks: []
+          };
+        }
+        watchs[prop].callbacks.push(callback);
+
+        if (that.hasOwnProperty(prop)) {
+          var lastProp = Object.getOwnPropertyDescriptor(that, prop);
+          if (watchs[prop].main === undefined) {
+            watchs[prop].main = lastProp;
+          }
+          Object.defineProperty(that, prop, {
+            enumerable: lastProp.enumerable,
+            configurable: true,
+            get: function () {
+              if (lastProp.hasOwnProperty("get")) {
+                return lastProp.get.bind(that)();
+              } else if (lastProp.hasOwnProperty("value")) {
+                return lastProp.value;
+              }
+            },
+            set: function (v) {
+              if (lastProp.hasOwnProperty("set")) {
+                lastProp.set.bind(that)(v);
+              } else if (lastProp.hasOwnProperty("value")) {
+                lastProp.value = v;
+              }
+              forEach(watchs[prop].callbacks, (cb) => {
+                cb(v);
+              });
+            }
+          });
+        }
+      }, [String, Function]);
+
+      that.defineMethod("unwatch", (prop, callback) => {
+        if (
+          watchs[prop] != "" &&
+          watchs[prop] != undefined &&
+          watchs[prop] != null
+        ) {
+          var result = [];
+          var main = watchs[prop].main;
+          forEach(watchs[prop].callbacks, (cb) => {
+            if (
+              (callback != undefined) &&
+              (callback != null) &&
+              (callback != cb)
+            ) {
+              result.push(cb);
+            }
+          });
+          watchs[prop].callbacks = result;
+
+          if (watchs[prop].callbacks.length == 0) {
+            Object.defineProperty(that, prop, main);
+            delete watchs[prop];
+          }
+        } else {
+          forEach(watchs, (b, idx) => {
+            that.unwatch(idx, callback);
+          });
+        }
+      }, [String]);
+    });
+  }
+}

@@ -1,76 +1,67 @@
+import {
+  instanceOf
+} from "../core/Tigerian.js";
+
 ("use strict");
 
 /**
  * @constructor
  * @extends {Behavior}
  */
-BCascade = Behavior.extend({
-    /**
-     * @constructs
-     */
-    init: function () {
-        this.super("cascade");
+export class BCascade extends Behavior {
+  /**
+   * @constructs
+   */
+  constructor() {
+    super();
 
+    this.defineMethod("config", (that) => {
+      if (instanceOf(that, Control)) {
+        var ctrlSubMenu;
 
-        /**
-         * @param {Control|BGroup} child 
-         */
-        this.addChild = function (child) {};
+        var superClass = that.super;
 
-        /**
-         * @param {boolean} visible
-         */
-        this.viewSubmenu = function (visible) {};
-    },
-    config: function (behavior) {
-        if (behavior === "cascade" && Class.isInstance(this, Control) && this["Behavior:cascade"]) {
-            var ctrlSubMenu;
+        that.setAttribute("has-child", "false");
+        that.setAttribute("open-child", "false");
+      }
 
-            var instance = this;
-            // var superAddControl = this.addControl;
-            var superClass = this.super;
-
-            this.setAttribute("has-child", "false");
-            this.setAttribute("open-child", "false");
-
-            /**
-             * @member {boolean}
-             */
-            Object.defineProperty(this, "hasChild", {
-                enumerable: true,
-                configurable: true,
-                get: function () {
-                    return (this.getAttribute("has-child") === "true");
-                },
-            });
-
-            /**
-             * @param {boolean} visible
-             */
-            this.viewChild = function (visible) {
-                if (instance.hasChild) {
-                    if (Class.isInstance(visible, "boolean")) {
-                        ctrlSubMenu.visible = visible;
-                    } else {
-                        ctrlSubMenu.visible = !ctrlSubMenu.visible;
-                    }
-
-                    this.setAttribute("open-child", (ctrlSubMenu.visible ? "true" : "false"));
-                }
-            };
-
-            /**
-             * @param {Control|BGroup} child 
-             */
-            this.addControl = this.addChild = function (child) {
-                if (Class.isInstance(child, Control) && child["Behavior:group"]) {
-                    ctrlSubMenu = child;
-                    child.visible = false;
-                    this.setAttribute("has-child", "true");
-                    // superAddControl(child);
-                    superClass.addControl(child);
-                }
-            };
+      /**
+       * @member {boolean} hasChild
+       */
+      that.defineProperty("hasChild", {
+        get() {
+          return (that.getAttribute("has-child") === "true");
         }
-    },
-});
+      });
+
+      that.defineMethod("viewChild", (visible) => {
+        if (that.hasChild) {
+          ctrlSubMenu.visible = visible;
+
+          that.setAttribute(
+            "open-child",
+            ctrlSubMenu.visible ? "true" : "false"
+          );
+        }
+      }, [Boolean]);
+
+      that.defineMethod("toggle", () => {
+        if (that.hasChild) {
+          ctrlSubMenu.visible = !ctrlSubMenu.visible;
+
+          that.setAttribute(
+            "open-child",
+            ctrlSubMenu.visible ? "true" : "false"
+          );
+        }
+      });
+
+      that.defineMethod("addControl", (child) => {
+        ctrlSubMenu = child;
+        child.visible = false;
+        that.setAttribute("has-child", "true");
+        that.addControl(child);
+      }, [Control]);
+    });
+  }
+}

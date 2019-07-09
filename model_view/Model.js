@@ -1,3 +1,18 @@
+import {
+  strFormat,
+  instanceOf,
+  forEach
+} from "../core/Tigerian.js";
+import {
+  ModelView
+} from "../core/ModelView.js";
+import {
+  ModelField
+} from "./ModelField.js";
+import {
+  Ajax
+} from "../core/Ajax.js";
+
 /**
  * Created by samir on 8/27/18.
  */
@@ -8,449 +23,435 @@
  * @extends {ModelView}
  * @constructor
  */
-Model = ModelView.extend({
+export class Model extends ModelView {
+  /**
+   * @constructs
+   * @param {string} applicationPath
+   * @param {string} controllerPath
+   * @param {string|Function} idType = Number
+   * @param {string} fetchField = ""
+   */
+  constructor(applicationPath, controllerPath, idType = Number, fetchField = "") {
+    super();
+
     /**
-     * @constructs
-     * @param {string} applicationPath
-     * @param {string} controllerPath
-     * @param {string} idType
-     * @param {string} fetchField = ""
+     * @type {ModelField[]}
      */
-    init: function (applicationPath, controllerPath, idType, fetchField) {
-        this.super();
+    var fields = {
+      id: new ModelField("id", idType)
+    };
+    // var relations = [];
+    var addPath = controllerPath;
+    var editPath = controllerPath;
+    var deletePath = controllerPath;
+    var reloadPath = controllerPath;
+    var searchPath = controllerPath;
+    var countPath = controllerPath;
+    // var constructorArgs = Array.from(arguments);
 
-        /**
-         * @type {ModelField[]}
-         */
-        var fields = {
-            id: new ModelField("id", idType)
-        };
-        // var relations = [];
-        var addPath = controllerPath;
-        var editPath = controllerPath;
-        var deletePath = controllerPath;
-        var reloadPath = controllerPath;
-        var searchPath = controllerPath;
-        var countPath = controllerPath;
-        // var constructorArgs = Array.from(arguments);
+    var instance = this;
 
-        var instance = this;
+    if (!instanceOf(fetchField, String) || (fetchField === "")) {
+      fetchField = [];
+    } else {
+      fetchField = fetchField.split(".");
+    }
 
-        if (!Class.isInstance(fetchField, "string")) {
-            fetchField = [];
+    var getPath = function (path) {
+      var result = applicationPath;
+      var flds = {};
+
+      forEach(fields, (field, idx) => {
+        flds[idx] = field.value;
+      });
+
+      if (!result.endsWith("/")) {
+        result += "/";
+      }
+
+      if (path.startsWith("/")) {
+        path = path.substring(1);
+      }
+
+      result += strFormat(path, flds);
+
+      return result;
+    };
+
+    var fillFields = function (out, values) {
+      for (var i = 0;
+        (i < fetchField.length) && (Object.keys(values).length > 0); i++) {
+        if (fetchField[i] in values) {
+          values = values[fetchField[i]];
         } else {
-            fetchField = fetchField.split(".");
+          values = {};
         }
+      }
+      forEach(values, (fieldValue, fieldName) => {
+        if (out.hasOwnProperty(fieldName)) {
+          out[fieldName] = fieldValue;
+        }
+      })
 
-        var getPath = function (path) {
-            var result = applicationPath;
-            var flds = {};
+      // for (var name in relations) {
+      //     switch (relations[name].multi) {
+      //         case Model.EOneToOne:
+      //             relations[name].value[relations[name].roleB] = fields[relations[name].roleA].value;
+      //             relations[name].value.reload();
+      //             break;
 
-            for (var idx in fields) {
-                flds[idx] = fields[idx].value;
-            }
+      //         case Model.EOneToStar:
+      //             break;
 
-            if (!result.endsWith("/")) {
-                result += "/";
-            }
+      //         default:
+      //     }
+      // }
+    };
 
-            result += path.format(flds);
+    var ajaxSuccess = function (successFunc, unsuccessFunc) {
+      return function (text, xml, json) {
+        if (json !== undefined) {
+          fillFields(instance, json);
 
-            return result;
-        };
-
-        var fillFields = function (out, values) {
-            for (var i = 0;
-                (i < fetchField.length) && (Object.keys(values).length > 0); i++) {
-                if (fetchField[i] in values) {
-                    values = values[fetchField[i]];
-                } else {
-                    values = {};
-                }
-            }
-            for (var field in values) {
-                if (out.hasOwnProperty(field)) {
-                    out[field] = values[field];
-                }
-            }
-            // for (var name in relations) {
-            //     switch (relations[name].multi) {
-            //         case Model.EOneToOne:
-            //             relations[name].value[relations[name].roleB] = fields[relations[name].roleA].value;
-            //             relations[name].value.reload();
-            //             break;
-
-            //         case Model.EOneToStar:
-            //             break;
-
-            //         default:
-            //     }
-            // }
-        };
-
-        var ajaxSuccess = function (successFunc, unsuccessFunc) {
-            return function (text, xml, json) {
-                if (json !== undefined) {
-                    fillFields(instance, json);
-
-                    if (Class.isInstance(successFunc, "function")) {
-                        successFunc();
-                    }
-                } else {
-                    ajaxUnsuccess(unsuccessFunc)(4, 501, text);
-                }
-            };
-        };
+          if (instanceOf(successFunc, "function")) {
+            successFunc();
+          }
+        } else {
+          ajaxUnsuccess(unsuccessFunc)(4, 501, text);
+        }
+      };
+    };
 
 
-        var ajaxSearchSuccess = function (successFunc, unsuccessFunc) {
-            return function (text, xml, json) {
-                if (json !== undefined) {
-                    var rows = [];
-                    for (var recordNo in json) {
-                        var row = new instance.constructor();
-                        fillFields(row, json[recordNo]);
-                        rows.push(row);
-                    }
+    var ajaxSearchSuccess = function (successFunc, unsuccessFunc) {
+      return function (text, xml, json) {
+        if (json !== undefined) {
+          var rows = [];
+          forEach(json, (item, recordNo) => {
+            var row = new instance.constructor();
+            fillFields(row, item);
+            rows.push(row);
+          });
 
-                    if (Class.isInstance(successFunc, "function")) {
-                        successFunc(rows);
-                    }
-                } else {
-                    if (Class.isInstance(unsuccessFunc, "function")) {
-                        unsuccessFunc(text);
-                    }
-                }
-            };
-        };
+          if (instanceOf(successFunc, "function")) {
+            successFunc(rows);
+          }
+        } else {
+          if (instanceOf(unsuccessFunc, "function")) {
+            unsuccessFunc(text);
+          }
+        }
+      };
+    };
 
-        var ajaxUnsuccess = function (unsuccessFunc) {
-            return function (readystate, status, statusText) {
-                if (Class.isInstance(unsuccessFunc, "function")) {
-                    unsuccessFunc(statusText);
-                } else {
-                    // console.error(statusText);
-                    throw statusText;
-                }
-            }
-        };
+    var ajaxUnsuccess = function (unsuccessFunc) {
+      return function (readystate, status, statusText) {
+        if (instanceOf(unsuccessFunc, "function")) {
+          unsuccessFunc(statusText);
+        } else {
+          // console.error(statusText);
+          throw statusText;
+        }
+      }
+    };
 
-        /**
-         * @member {string|number}
-         */
-        Object.defineProperty(this, "id", {
-            enumerable: true,
-            configurable: false,
-            get: function () {
-                return fields["id"].value;
-            },
-            set: function (v) {
-                fields["id"].value = v;
-            },
+    /**
+     * @member {string|number}
+     */
+    this.defineProperty("id", {
+      get() {
+        return fields["id"].value;
+      },
+      set(v) {
+        fields["id"].value = v;
+      },
+      type: idType
+    });
+
+    /**
+     * @member {string}
+     */
+    this.defineProperty("addPath", {
+      get() {
+        return addPath;
+      },
+      set(v) {
+        addPath = v;
+      },
+      type: String
+    });
+
+    /**
+     * @member {string}
+     */
+    this.defineProperty("editPath", {
+      get() {
+        return editPath;
+      },
+      set(v) {
+        editPath = v;
+      },
+      type: String
+    });
+
+    /**
+     * @member {string}
+     */
+    this.defineProperty("deletePath", {
+      get() {
+        return deletePath;
+      },
+      set(v) {
+        deletePath = v;
+      },
+      type: String
+    });
+
+    /**
+     * @member {string}
+     */
+    this.defineProperty("reloadPath", {
+      get() {
+        return reloadPath;
+      },
+      set(v) {
+        reloadPath = v;
+      },
+      type: String
+    });
+
+    /**
+     * @member {string}
+     */
+    this.defineProperty("searchPath", {
+      get() {
+        return searchPath;
+      },
+      set(v) {
+        searchPath = v;
+      },
+      type: String
+    });
+
+    /**
+     * @member {string}
+     */
+    this.defineProperty("countPath", {
+      get() {
+        return countPath;
+      },
+      set(v) {
+        countPath = v;
+      },
+      type: String
+    });
+
+    /**
+     * @param {string} name
+     * @param {string|Function} type
+     * @param {boolean} collection
+     */
+    this.defineMethod("addField", (name, type = String, collection = false) => {
+      if (!(name in fields)) {
+        fields[name] = new ModelField(name, type, collection, undefined);
+
+        this.defineProperty(name, {
+          get() {
+            return fields[name].value;
+          },
+          set(v) {
+            fields[name].value = v;
+          },
+          type: [type, Object]
         });
+      }
+    }, [String, [String, Function], Boolean]);
 
-        /**
-         * @member {string}
-         */
-        Object.defineProperty(this, "addPath", {
-            enumerable: true,
-            configurable: false,
-            get: function () {
-                return addPath;
-            },
-            set: function (v) {
-                if (Class.isInstance(v, "string")) {
-                    addPath = v;
-                }
-            }
-        });
+    /**
+     * 
+     * @param {enumerator} multiplicity
+     * @param {string} roleAFieldName
+     * @param {string} roleBFieldName
+     * @param {function} roleBType
+     */
+    // this.addRelation = function (name, multiplicity, roleAFieldName, roleBFieldName, roleBType) {
+    //     if (isA(type, Model)) {
+    //         switch (multiplicity) {
+    //             case Model.EOneToOne:
+    //             case Model.EOneToStar:
+    //                 relation[name] = {
+    //                     multi: multiplicity,
+    //                     roleA: roleAFieldName,
+    //                     roleB: roleBFieldName,
+    //                     type: roleBType,
+    //                     value: new roleBType(),
+    //                 };
+    //                 break;
 
-        /**
-         * @member {string}
-         */
-        Object.defineProperty(this, "editPath", {
-            enumerable: true,
-            configurable: false,
-            get: function () {
-                return editPath;
-            },
-            set: function (v) {
-                if (Class.isInstance(v, "string")) {
-                    editPath = v;
-                }
-            }
-        });
+    //             default:
+    //         }
 
-        /**
-         * @member {string}
-         */
-        Object.defineProperty(this, "deletePath", {
-            enumerable: true,
-            configurable: false,
-            get: function () {
-                return deletePath;
-            },
-            set: function (v) {
-                if (Class.isInstance(v, "string")) {
-                    deletePath = v;
-                }
-            }
-        });
+    //         this.defineProperty(name, {
+    //             enumerable: false,
+    //             configurable: false,
+    //             get () {
+    //                 return relations[name].value;
+    //             },
+    //         });
+    //     }
+    // };
 
-        /**
-         * @member {string}
-         */
-        Object.defineProperty(this, "reloadPath", {
-            enumerable: true,
-            configurable: false,
-            get: function () {
-                return reloadPath;
-            },
-            set: function (v) {
-                if (Class.isInstance(v, "string")) {
-                    reloadPath = v;
-                }
-            }
-        });
+    /**
+     * @param {string} name
+     */
+    this.defineMethod("removeField", (name) => {
+      if (name in fields) {
+        delete fields[name];
+        delete this[name];
+      }
+    }, [String]);
 
-        /**
-         * @member {string}
-         */
-        Object.defineProperty(this, "searchPath", {
-            enumerable: true,
-            configurable: false,
-            get: function () {
-                return searchPath;
-            },
-            set: function (v) {
-                if (Class.isInstance(v, "string")) {
-                    searchPath = v;
-                }
-            }
-        });
+    /**
+     * @param {function} success
+     * @param {function} unsuccess
+     */
+    this.defineMethod("update", (success = () => {}, unsuccess = () => {}, progress = () => {}) => {
+      var ajax = new Ajax();
+      ajax.success = ajaxSuccess(success, unsuccess);
+      ajax.unsuccess = ajaxUnsuccess(unsuccess);
+      if (instanceOf(progress, "function")) {
+        ajax.progress = progress;
+      }
 
-        /**
-         * @member {string}
-         */
-        Object.defineProperty(this, "countPath", {
-            enumerable: true,
-            configurable: false,
-            get: function () {
-                return countPath;
-            },
-            set: function (v) {
-                if (Class.isInstance(v, "string")) {
-                    countPath = v;
-                }
-            }
-        });
+      var params = {};
+      for (var field in fields) {
+        if (fields[field].value !== undefined) {
+          params[field] = fields[field].value;
+        }
+      }
 
-        /**
-         * @param {string} name
-         * @param {string|function} type
-         * @param {boolean} collection
-         */
-        this.addField = function (name, type, collection) {
-            if (!(name in fields)) {
-                fields[name] = new ModelField(name, type, collection, undefined);
-
-                Object.defineProperty(this, name, {
-                    enumerable: false,
-                    configurable: false,
-                    get: function () {
-                        return fields[name].value;
-                    },
-                    set: function (v) {
-                        fields[name].value = v;
-                    },
-                });
-            }
-        };
-
-        /**
-         * 
-         * @param {enumerator} multiplicity
-         * @@param {string} roleAFieldName
-         * @@param {string} roleBFieldName
-         * @param {function} roleBType
-         */
-        // this.addRelation = function (name, multiplicity, roleAFieldName, roleBFieldName, roleBType) {
-        //     if (Class.isSubclass(type, Model)) {
-        //         switch (multiplicity) {
-        //             case Model.EOneToOne:
-        //             case Model.EOneToStar:
-        //                 relation[name] = {
-        //                     multi: multiplicity,
-        //                     roleA: roleAFieldName,
-        //                     roleB: roleBFieldName,
-        //                     type: roleBType,
-        //                     value: new roleBType(),
-        //                 };
-        //                 break;
-
-        //             default:
-        //         }
-
-        //         Object.defineProperty(this, name, {
-        //             enumerable: false,
-        //             configurable: false,
-        //             get: function () {
-        //                 return relations[name].value;
-        //             },
-        //         });
-        //     }
+      if (fields["id"].value !== undefined) {
+        ajax.url = getPath(editPath);
+        // params = {
+        //     id: fields["id"].value,
+        //     value: params
         // };
+        ajax.put(params);
+      } else {
+        ajax.url = getPath(addPath);
+        ajax.post(params);
+      }
+    }, [Function, Function, Function]);
 
-        /**
-         * @param {string} name
-         */
-        this.removeField = function (name) {
-            if (name in fields) {
-                delete fields[name];
-                delete this[name];
-            }
-        };
+    /**
+     * @param {function} success
+     * @param {function} unsuccess
+     */
+    this.defineMethod("delete", (success = () => {}, unsuccess = () => {}, progress = () => {}) => {
+      var ajax = new Ajax();
+      ajax.success = ajaxSuccess(success, unsuccess);
+      ajax.unsuccess = ajaxUnsuccess(unsuccess);
+      if (instanceOf(progress, "function")) {
+        ajax.progress = progress;
+      }
 
-        /**
-         * @param {function} success
-         * @param {function} unsuccess
-         */
-        this.update = function (success, unsuccess, progress) {
-            var ajax = new Ajax();
-            ajax.success = ajaxSuccess(success, unsuccess);
-            ajax.unsuccess = ajaxUnsuccess(unsuccess);
-            if (Class.isInstance(progress, "function")) {
-                ajax.progress = progress;
-            }
+      if (fields["id"].value !== undefined) {
+        ajax.url = getPath(deletePath);
+        ajax.delete({
+          id: fields["id"].value
+        }, ajaxSuccess, ajaxUnsuccess);
+      }
+    }, [Function, Function, Function]);
 
-            var params = {};
-            for (var field in fields) {
-                if (fields[field].value !== undefined) {
-                    params[field] = fields[field].value;
-                }
-            }
+    /**
+     * @param {function} success
+     * @param {function} unsuccess
+     */
+    this.defineMethod("reload", (success = () => {}, unsuccess = () => {}, progress = () => {}) => {
+      var ajax = new Ajax();
+      ajax.success = ajaxSuccess(success, unsuccess);
+      ajax.unsuccess = ajaxUnsuccess(unsuccess);
+      if (instanceOf(progress, "function")) {
+        ajax.progress = progress;
+      }
 
-            if (fields["id"].value !== undefined) {
-                ajax.url = getPath(editPath);
-                // params = {
-                //     id: fields["id"].value,
-                //     value: params
-                // };
-                ajax.put(params);
-            } else {
-                ajax.url = getPath(addPath);
-                ajax.post(params);
-            }
-        };
+      if (fields["id"].value !== undefined) {
+        ajax.url = getPath(reloadPath);
+        ajax.get({
+          id: fields["id"].value
+        });
+      }
+    }, [Function, Function, Function]);
 
-        /**
-         * @param {function} success
-         * @param {function} unsuccess
-         */
-        this.delete = function (success, unsuccess, progress) {
-            var ajax = new Ajax();
-            ajax.success = ajaxSuccess(success, unsuccess);
-            ajax.unsuccess = ajaxUnsuccess(unsuccess);
-            if (Class.isInstance(progress, "function")) {
-                ajax.progress = progress;
-            }
+    /**
+     * @param {{}} options
+     * @param {function} success
+     * @param {function} unsuccess
+     */
+    this.defineMethod("search", (options = {}, success = () => {}, unsuccess = () => {}, progress = () => {}) => {
+      var ajax = new Ajax();
+      ajax.success = ajaxSearchSuccess(success, unsuccess);
+      ajax.unsuccess = ajaxUnsuccess(unsuccess);
+      ajax.progress = progress;
 
-            if (fields["id"].value !== undefined) {
-                ajax.url = getPath(deletePath);
-                ajax.delete({
-                    id: fields["id"].value
-                }, ajaxSuccess, ajaxUnsuccess);
-            }
-        };
+      var params = {
+        options
+      };
+      for (var field in fields) {
+        if (fields[field].value !== undefined) {
+          if (field !== "id") {
+            params[field] = fields[field].value;
+          }
+        }
+      }
 
-        /**
-         * @param {function} success
-         * @param {function} unsuccess
-         */
-        this.reload = function (success, unsuccess, progress) {
-            var ajax = new Ajax();
-            ajax.success = ajaxSuccess(success, unsuccess);
-            ajax.unsuccess = ajaxUnsuccess(unsuccess);
-            if (Class.isInstance(progress, "function")) {
-                ajax.progress = progress;
-            }
+      ajax.url = getPath(searchPath);
+      ajax.get(params, ajaxSearchSuccess, ajaxUnsuccess);
+    }, [Object, Function, Function, Function]);
 
-            if (fields["id"].value !== undefined) {
-                ajax.url = getPath(reloadPath);
-                ajax.get({
-                    id: fields["id"].value
-                });
-            }
-        };
-
-        /**
-         * @param {{}} options
-         * @param {function} success
-         * @param {function} unsuccess
-         */
-        this.search = function (options, success, unsuccess, progress) {
-            var ajax = new Ajax();
-            ajax.success = ajaxSearchSuccess(success, unsuccess);
-            ajax.unsuccess = ajaxUnsuccess(unsuccess);
-            if (Class.isInstance(progress, "function")) {
-                ajax.progress = progress;
-            }
-
-            var params = (((options !== undefined) && (typeof options === "object")) ? {
-                options: options
-            } : {});
-            for (var field in fields) {
-                if (fields[field].value !== undefined) {
-                    if (field !== "id") {
-                        params[field] = fields[field].value;
-                    }
-                }
-            }
-
-            ajax.url = getPath(searchPath);
-            ajax.get(params, ajaxSearchSuccess, ajaxUnsuccess);
-        };
-
-        /**
-         * @param {function} success
-         * @param {function} unsuccess
-         */
-        this.count = function (success, unsuccess, progress) {
-            var ajax = new Ajax();
-            ajax.success = function (text, xml, json) {
-                if (Class.isInstance(success, "function")) {
-                    success(json["count"]);
-                }
-            };
-            ajax.unsuccess = ajaxUnsuccess(unsuccess);
-            if (Class.isInstance(progress, "function")) {
-                ajax.progress = progress;
-            }
+    /**
+     * @param {function} success
+     * @param {function} unsuccess
+     */
+    this.defineMethod("count", (success = () => {}, unsuccess = () => {}, progress = () => {}) => {
+      var ajax = new Ajax();
+      ajax.success = function (text, xml, json) {
+        if (instanceOf(success, "function")) {
+          success(json["count"]);
+        }
+      };
+      ajax.unsuccess = ajaxUnsuccess(unsuccess);
+      if (instanceOf(progress, "function")) {
+        ajax.progress = progress;
+      }
 
 
-            var params = {
-                options: {
-                    count: true
-                }
-            };
-            for (var field in fields) {
-                if (fields[field].value !== undefined) {
-                    params[field] = fields[field].value;
-                }
-            }
+      var params = {
+        options: {
+          count: true
+        }
+      };
+      for (var field in fields) {
+        if (fields[field].value !== undefined) {
+          params[field] = fields[field].value;
+        }
+      }
 
-            ajax.url = getPath(countPath);
-            ajax.get(params);
-        };
+      ajax.url = getPath(countPath);
+      ajax.get(params);
+    }, [Function, Function, Function]);
 
-        this.toJSON = function () {
-            var result = {};
-            for (var field in fields) {
-                result[field] = fields[field].value;
-            }
+    this.defineMethod("toJSON", () => {
+      var result = {};
+      forEach(fields, (field, fieldName) => {
+        if (instanceOf(field.value, Model)) {
+          result[fieldName] = field.value.toJSON();
+        } else {
+          result[fieldName] = field.value;
+        }
+      });
 
-            return result;
-        };
-    },
-    // enums: ["oneToOne", "oneToStar"],
-});
+      return result;
+    });
+  }
+}
