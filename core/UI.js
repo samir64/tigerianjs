@@ -349,8 +349,8 @@ export class UI extends Tigerian {
         control.appendTo(that, mainElement);
       }
     }, [
-      [UI, Element, Text]
-    ]);
+        [UI, Element, Text]
+      ]);
 
     /**
      * @param {string} attrName

@@ -37,6 +37,7 @@ export class Control extends UI {
     var that = this;
     var elmTxtHead = document.createTextNode("");
     var elmTxtFoot = document.createTextNode("");
+    var superAddControl = this.addControl;
 
 
     //NOTE Append Elements
@@ -113,13 +114,13 @@ export class Control extends UI {
        * @returns {string}
        */
       get() {
-        return this.getAttribute("title");
+        return that.getAttribute("title");
       },
       /**
        * @param {string} v
        */
       set(v) {
-        this.setAttribute("title", v);
+        that.setAttribute("title", v);
       },
       type: String
     });
@@ -151,7 +152,7 @@ export class Control extends UI {
        * @returns {string}
        */
       get() {
-        var v = this.getAttribute("small-column");
+        var v = that.getAttribute("small-column");
         switch (v) {
           case "":
             return EWindow.NONE;
@@ -184,28 +185,28 @@ export class Control extends UI {
       set(v) {
         switch (v) {
           case EWindow.NONE:
-            this.setAttribute("small-column", "");
+            that.setAttribute("small-column", "");
             break;
 
           case EWindow.SMALL:
-            this.setAttribute("small-column", "medium");
+            that.setAttribute("small-column", "medium");
             break;
 
           case EWindow.MEDIUM:
-            this.setAttribute("small-column", "normal");
+            that.setAttribute("small-column", "normal");
             break;
 
           case EWindow.LARGE:
-            this.setAttribute("small-column", "large");
+            that.setAttribute("small-column", "large");
             break;
 
           case EWindow.XLARGE:
-            this.setAttribute("small-column", "xlarge");
+            that.setAttribute("small-column", "xlarge");
             break;
 
           default:
             if (instanceOf(v, "number")) {
-              this.setAttribute("small-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
+              that.setAttribute("small-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
             }
         }
       },
@@ -220,7 +221,7 @@ export class Control extends UI {
        * @returns {string}
        */
       get() {
-        var v = this.getAttribute("medium-column");
+        var v = that.getAttribute("medium-column");
         switch (v) {
           case "":
             return EWindow.NONE;
@@ -253,28 +254,28 @@ export class Control extends UI {
       set(v) {
         switch (v) {
           case EWindow.NONE:
-            this.setAttribute("medium-column", "");
+            that.setAttribute("medium-column", "");
             break;
 
           case EWindow.XSMALL:
-            this.setAttribute("medium-column", "small");
+            that.setAttribute("medium-column", "small");
             break;
 
           case EWindow.MEDIUM:
-            this.setAttribute("medium-column", "normal");
+            that.setAttribute("medium-column", "normal");
             break;
 
           case EWindow.LARGE:
-            this.setAttribute("medium-column", "large");
+            that.setAttribute("medium-column", "large");
             break;
 
           case EWindow.XLARGE:
-            this.setAttribute("medium-column", "xlarge");
+            that.setAttribute("medium-column", "xlarge");
             break;
 
           default:
             if (instanceOf(v, "number")) {
-              this.setAttribute("medium-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
+              that.setAttribute("medium-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
             }
         }
       },
@@ -289,7 +290,7 @@ export class Control extends UI {
        * @returns {string}
        */
       get() {
-        var v = this.getAttribute("normal-column");
+        var v = that.getAttribute("normal-column");
         switch (v) {
           case "":
             return EWindow.NONE;
@@ -322,28 +323,28 @@ export class Control extends UI {
       set(v) {
         switch (v) {
           case EWindow.NONE:
-            this.setAttribute("normal-column", "");
+            that.setAttribute("normal-column", "");
             break;
 
           case EWindow.XSMALL:
-            this.setAttribute("normal-column", "small");
+            that.setAttribute("normal-column", "small");
             break;
 
           case EWindow.SMALL:
-            this.setAttribute("normal-column", "medium");
+            that.setAttribute("normal-column", "medium");
             break;
 
           case EWindow.LARGE:
-            this.setAttribute("normal-column", "large");
+            that.setAttribute("normal-column", "large");
             break;
 
           case EWindow.XLARGE:
-            this.setAttribute("normal-column", "xlarge");
+            that.setAttribute("normal-column", "xlarge");
             break;
 
           default:
             if (instanceOf(v, "number")) {
-              this.setAttribute("normal-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
+              that.setAttribute("normal-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
             }
         }
       },
@@ -358,7 +359,7 @@ export class Control extends UI {
        * @returns {string}
        */
       get() {
-        var v = this.getAttribute("large-column");
+        var v = that.getAttribute("large-column");
         switch (v) {
           case "":
             return EWindow.NONE;
@@ -391,28 +392,28 @@ export class Control extends UI {
       set(v) {
         switch (v) {
           case EWindow.NONE:
-            this.setAttribute("large-column", "");
+            that.setAttribute("large-column", "");
             break;
 
           case EWindow.XSMALL:
-            this.setAttribute("large-column", "small");
+            that.setAttribute("large-column", "small");
             break;
 
           case EWindow.SMALL:
-            this.setAttribute("large-column", "medium");
+            that.setAttribute("large-column", "medium");
             break;
 
           case EWindow.MEDIUM:
-            this.setAttribute("large-column", "normal");
+            that.setAttribute("large-column", "normal");
             break;
 
           case EWindow.XLarge:
-            this.setAttribute("large-column", "xlarge");
+            that.setAttribute("large-column", "xlarge");
             break;
 
           default:
             if (instanceOf(v, "number")) {
-              this.setAttribute("large-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
+              that.setAttribute("large-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
             }
         }
       },
@@ -427,7 +428,7 @@ export class Control extends UI {
        * @returns {string}
        */
       get() {
-        var v = this.getAttribute("xlarge-column");
+        var v = that.getAttribute("xlarge-column");
         switch (v) {
           case "":
             return EWindow.NONE;
@@ -460,28 +461,28 @@ export class Control extends UI {
       set(v) {
         switch (v) {
           case EWindow.NONE:
-            this.setAttribute("xlarge-column", "");
+            that.setAttribute("xlarge-column", "");
             break;
 
           case EWindow.XSMALL:
-            this.setAttribute("xlarge-column", "small");
+            that.setAttribute("xlarge-column", "small");
             break;
 
           case EWindow.SMALL:
-            this.setAttribute("xlarge-column", "medium");
+            that.setAttribute("xlarge-column", "medium");
             break;
 
           case EWindow.MEDIUM:
-            this.setAttribute("xlarge-column", "normal");
+            that.setAttribute("xlarge-column", "normal");
             break;
 
           case EWindow.LARGE:
-            this.setAttribute("xlarge-column", "large");
+            that.setAttribute("xlarge-column", "large");
             break;
 
           default:
             if (instanceOf(v, "number")) {
-              this.setAttribute("xlarge-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
+              that.setAttribute("xlarge-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
             }
         }
       },
@@ -496,13 +497,13 @@ export class Control extends UI {
        * @returns {boolean}
        */
       get() {
-        return this.getAttribute("hide-on-small");
+        return that.getAttribute("hide-on-small");
       },
       /**
        * @param {boolean} v
        */
       set(v) {
-        this.setAttribute("hide-on-small", v);
+        that.setAttribute("hide-on-small", v);
       },
       type: Boolean
     });
@@ -515,13 +516,13 @@ export class Control extends UI {
        * @returns {boolean}
        */
       get() {
-        return this.getAttribute("hide-on-medium");
+        return that.getAttribute("hide-on-medium");
       },
       /**
        * @param {boolean} v
        */
       set(v) {
-        this.setAttribute("hide-on-medium", v);
+        that.setAttribute("hide-on-medium", v);
       },
       type: Boolean
     });
@@ -534,13 +535,13 @@ export class Control extends UI {
        * @returns {boolean}
        */
       get() {
-        return this.getAttribute("hide-on-normal");
+        return that.getAttribute("hide-on-normal");
       },
       /**
        * @param {boolean} v
        */
       set(v) {
-        this.setAttribute("hide-on-normal", v);
+        that.setAttribute("hide-on-normal", v);
       },
       type: Boolean
     });
@@ -553,13 +554,13 @@ export class Control extends UI {
        * @returns {boolean}
        */
       get() {
-        return this.getAttribute("hide-on-large");
+        return that.getAttribute("hide-on-large");
       },
       /**
        * @param {boolean} v
        */
       set(v) {
-        this.setAttribute("hide-on-large", v);
+        that.setAttribute("hide-on-large", v);
       },
       type: Boolean
     });
@@ -572,13 +573,13 @@ export class Control extends UI {
        * @returns {boolean}
        */
       get() {
-        return this.getAttribute("hide-on-xlarge");
+        return that.getAttribute("hide-on-xlarge");
       },
       /**
        * @param {boolean} v
        */
       set(v) {
-        this.setAttribute("hide-on-xlarge", v);
+        that.setAttribute("hide-on-xlarge", v);
       },
       type: Boolean
     });
@@ -591,7 +592,7 @@ export class Control extends UI {
        * @returns {string}
        */
       get() {
-        switch (this.getAttribute("float")) {
+        switch (that.getAttribute("float")) {
           case "left":
             return EControl.LEFT;
             break;
@@ -612,16 +613,16 @@ export class Control extends UI {
       set(v) {
         switch (v) {
           case EControl.LEFT:
-            this.setAttribute("float", "left");
+            that.setAttribute("float", "left");
             break;
           case EControl.RIGHT:
-            this.setAttribute("float", "right");
+            that.setAttribute("float", "right");
             break;
           case EControl.CENTER:
-            this.setAttribute("float", "center");
+            that.setAttribute("float", "center");
             break;
           default:
-            this.setAttribute("float", "");
+            that.setAttribute("float", "");
             break;
         }
       },
@@ -636,7 +637,7 @@ export class Control extends UI {
        * @returns {string}
        */
       get() {
-        switch (this.getAttribute("align")) {
+        switch (that.getAttribute("align")) {
           case "left":
             return EControl.LEFT;
             break;
@@ -660,19 +661,19 @@ export class Control extends UI {
       set(v) {
         switch (v) {
           case EControl.LEFT:
-            this.setAttribute("align", "left");
+            that.setAttribute("align", "left");
             break;
           case EControl.RIGHT:
-            this.setAttribute("align", "right");
+            that.setAttribute("align", "right");
             break;
           case EControl.CENTER:
-            this.setAttribute("align", "center");
+            that.setAttribute("align", "center");
             break;
           case EControl.JUSTIFY:
-            this.setAttribute("align", "justify");
+            that.setAttribute("align", "justify");
             break;
           default:
-            this.setAttribute("align", "");
+            that.setAttribute("align", "");
             break;
         }
       },
@@ -687,13 +688,13 @@ export class Control extends UI {
        * @returns {string}
        */
       get() {
-        return this.getAttribute("template-name");
+        return that.getAttribute("template-name");
       },
       /**
        * @param {string} v
        */
       set(v) {
-        this.setAttribute("template-name", v);
+        that.setAttribute("template-name", v);
       },
       type: String
     });
@@ -706,30 +707,30 @@ export class Control extends UI {
        * @returns {string}
        */
       get() {
-        return this.getAttribute("template-item");
+        return that.getAttribute("template-item");
       },
       /**
        * @param {string} v
        */
       set(v) {
-        this.setAttribute("template-item", v);
+        that.setAttribute("template-item", v);
       },
       type: String
     });
 
     this.defineProperty("hoverable", {
       get() {
-        return (this.getAttribute("element-hoverable") === "true");
+        return (that.getAttribute("element-hoverable") === "true");
       },
       set(v) {
-        this.setAttribute("element-hoverable", v ? "true" : "false");
+        that.setAttribute("element-hoverable", v ? "true" : "false");
       },
       type: Boolean
     });
 
     this.defineProperty("situation", {
       get() {
-        var v = this.getAttribute("element-situation");
+        var v = that.getAttribute("element-situation");
 
         switch (v) {
           case "title":
@@ -763,40 +764,40 @@ export class Control extends UI {
       set(v) {
         switch (v) {
           case EControl.TITLE:
-            this.setAttribute("element-situation", "title");
+            that.setAttribute("element-situation", "title");
             break;
 
           case EControl.DEFAULT:
-            this.setAttribute("element-situation", "default");
+            that.setAttribute("element-situation", "default");
             break;
 
           case EControl.TRANSPARENT:
-            this.setAttribute("element-situation", "transparent");
+            that.setAttribute("element-situation", "transparent");
             break;
 
           case EControl.OPPOSITE:
-            this.setAttribute("element-situation", "opposite");
+            that.setAttribute("element-situation", "opposite");
             break;
 
           case EControl.WARNINg:
-            this.setAttribute("element-situation", "warning");
+            that.setAttribute("element-situation", "warning");
             break;
 
           case EControl.DANGER:
-            this.setAttribute("element-situation", "danger");
+            that.setAttribute("element-situation", "danger");
             break;
 
           case EControl.DISABLE:
-            this.setAttribute("element-situation", "disable");
+            that.setAttribute("element-situation", "disable");
             break;
 
           case EControl.OK:
-            this.setAttribute("element-situation", "ok");
+            that.setAttribute("element-situation", "ok");
             break;
 
           case EControl.NONE:
           default:
-            this.setAttribute("element-situation", "");
+            that.setAttribute("element-situation", "");
             break;
         }
       },
@@ -807,7 +808,7 @@ export class Control extends UI {
      * @param {Element|Control} control
      */
     this.defineMethod("addControl", (control) => {
-      super.addControl(control);
+      superAddControl(control);
       elmDivContainer.appendChild(elmTxtFoot);
     }, [Control, Element]);
 
@@ -820,7 +821,7 @@ export class Control extends UI {
     // };
 
     this.defineMethod("toString", () => {
-      return "[Control (Or one of its sub classes) that]";
+      return "[Control]";
     });
   }
 }
