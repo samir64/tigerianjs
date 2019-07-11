@@ -17,7 +17,11 @@ export class BGridBlock extends Behavior {
     super();
 
     this.defineMethod("config", (that) => {
+      var elm = document.createElement("style");
       var rows = {};
+
+      document.head.appendChild(elm);
+      elm.innerHTML = "";
 
       forEach(responsiveSizes, (size, sizeName) => {
         rows[size.name] = ((sizeName === "medium") ? [] : EWindow.MEDIUM);
@@ -29,9 +33,13 @@ export class BGridBlock extends Behavior {
         } else {
           rows[size].push(pattern);
         }
+
+        forEach(pattern.replace(/:\d+/g, "").split(" "), (item) => {
+          elm.innerHTML += `  [element-name="container"][template-item="${item}"][visible="true"] {\n    grid-area:\n${item}\n}\n\n`;
+        });
       }, [
-        [String, Symbol], Symbol
-      ]);
+          [String, Symbol], Symbol
+        ]);
 
       that.defineMethod("regenerate", (size = EWindow.MEDIUM) => {
         var row = rows[size];
@@ -40,9 +48,9 @@ export class BGridBlock extends Behavior {
           row = rows[row];
         };
 
-        return "\t\t\n'" + row.join("';\n'").replace(/([\w-]+):(\d+)(\s*)/g, (...p) => {
+        return "\t\t\n'" + row.join("'\n'").replace(/([\w-]+):(\d+)(\s*)/g, (...p) => {
           return (p[1] + " ").repeat(p[2] - 1) + p[1] + p[3];
-        }).trim() + "';\n\n";
+        }).trim() + "';\n";
       }, [Symbol]);
     });
   }

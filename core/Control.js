@@ -714,6 +714,7 @@ export class Control extends UI {
        */
       set(v) {
         that.setAttribute("template-item", v);
+        // elmDivContainer.style.gridArea = v;
       },
       type: String
     });
