@@ -17,9 +17,9 @@ export class Route extends Tigerian {
   /**
    * @constructs
    * @param {string} applicationRoot
-   * @param {boolean} useHashTag
+   * @param {boolean} useHashTag = true
    */
-  constructor(applicationRoot, useHashTag = false) {
+  constructor(applicationRoot, useHashTag = true) {
     super();
 
     /**
