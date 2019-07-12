@@ -50,7 +50,7 @@ export class BGridBlock extends Behavior {
 
         return "\t\t\n'" + row.join("'\n'").replace(/([\w-]+):(\d+)(\s*)/g, (...p) => {
           return (p[1] + " ").repeat(p[2] - 1) + p[1] + p[3];
-        }).trim() + "';\n";
+        }).trim() + "'\n";
       }, [Symbol]);
     });
   }

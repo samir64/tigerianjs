@@ -77,7 +77,7 @@ export class BGridTemplate extends Behavior {
           forEach(blocks, (block) => {
             template += block.regenerate(size.name);
           });
-          templatesText[sizeName].data = `  [element-name="container"][template-name="${name}"][visible="true"] {\n    display: grid;\n    max-width: ${size.containerWidth};\n    margin-left: auto;\n    margin-right: auto;\n    grid-template-areas:\n${template}\n}\n\n`;
+          templatesText[sizeName].data = `  [element-name="container"][template-name="${name}"][visible="true"] {\n    display: grid;\n    max-width: ${size.containerWidth};\n    margin-left: auto;\n    margin-right: auto;\n    grid-template-areas:\n${template};\n}\n\n`;
         })
       });
 
