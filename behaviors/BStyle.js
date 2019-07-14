@@ -2,10 +2,10 @@ import {
   Behavior
 } from "../core/Behavior.js";
 import {
-  UI
-} from "../core/UI.js";
-import {
-  strSplitCapital
+  strSplitCapital,
+  forEach,
+  Tigerian,
+  instanceOf,
 } from "../core/Tigerian.js";
 
 ("use strict");
@@ -22,88 +22,68 @@ export class BStyle extends Behavior {
     super();
 
     this.defineMethod("config", (that, mainElement) => {
-      var defineAttribute = function (root, attribute, getter, setter) {
-        if (!(attribute[0] in root)) {
-          root[attribute[0]] = {};
-        }
+      var defineAttribute = (root, attributes, getter, setter) => {
+        /* if ((attributes[0] === "padding") && (attributes.length === 1)) {
+          console.log({
+            root,
+            attributes
+          });
+          debugger;
+        } */
 
-        if (attribute.length > 1) {
-          defineAttribute(
-            root[attribute[0]],
-            attribute.slice(1),
-            getter,
-            setter
-          );
-        }
-      };
+        if (attributes.length === 1) {
+          if (attributes[0] in root) {
+            var descriptor = Object.getOwnPropertyDescriptor(root, attributes[0]);
 
-      var optimizeAttributes = function (root) {
-        var result = {};
-
-        for (var attr in root) {
-          var keys = Object.keys(root[attr]);
-          if (keys.length === 0) {
-            result[attr] = root[attr];
-          } else if (keys.length === 1) {
-            var nextNode = keys[0];
-            result[attr + nextNode.charAt(0).toUpperCase() + nextNode.slice(1)] =
-              root[attr][nextNode];
+            Object.defineProperty(root, attributes[0], {
+              enumerable: true,
+              configurable: true,
+              get: descriptor.get,
+              set: setter
+            });
           } else {
-            result[attr] = optimizeAttributes(root[attr]);
+            Object.defineProperty(root, attributes[0], {
+              enumerable: true,
+              configurable: true,
+              get: getter,
+              set: setter
+            });
           }
-        }
-
-        return result;
-      };
-
-      var defineDescriptors = function (root, key, source) {
-        for (var attr in root) {
-          var keys = Object.keys(root[attr]);
-          var styleAttr =
-            key === "" ?
-            attr :
-            key + attr.charAt(0).toUpperCase() + attr.slice(1);
-          if (keys.length === 0) {
-            (function (styleAttr) {
-              Object.defineProperty(root, attr, {
-                enumerable: true,
-                configurable: true,
-                get: function () {
-                  return source[styleAttr];
-                },
-                set: function (v) {
-                  source[styleAttr] = v;
-                }
-              });
-            })(styleAttr);
+        } else {
+          var res;
+          if (attributes[0] in root) {
+            res = Object.getOwnPropertyDescriptor(root, attributes[0]).get();
+            if (instanceOf(res, String)) {
+              res = {};
+            }
           } else {
-            defineDescriptors(root[attr], styleAttr, source);
+            res = {}
           }
+
+          Object.defineProperty(root, attributes[0], {
+            enumerable: true,
+            configurable: true,
+            get() {
+              return res;
+            }
+          });
+
+          defineAttribute(res, attributes.slice(1), getter, setter);
         }
       };
 
       var result = {};
 
-      for (var prop in mainElement.style) {
-        var p = prop;
-        if (p.indexOf("-") === -1) {
-          var attrs = strSplitCapital(prop);
-
-          defineAttribute(
-            result,
-            attrs,
-            function () {
-              return mainElement.style[prop];
-            },
-            function (v) {
-              mainElement.style[prop] = v;
-            }
-          );
+      forEach(mainElement.style, (prop, name, style) => {
+        if ((parseInt(name) != name) && (name.indexOf("-") === -1)) {
+          var attrs = strSplitCapital(name);
+          defineAttribute(result, attrs, () => {
+            return style[name]
+          }, (v) => {
+            style[name] = v;
+          });
         }
-      }
-
-      result = optimizeAttributes(result);
-      defineDescriptors(result, "", mainElement.style);
+      });
 
       Object.defineProperty(that, "style", {
         enumerable: true,
@@ -112,7 +92,7 @@ export class BStyle extends Behavior {
           return result;
         }
       });
-    }, [UI, Element]);
+    }, [Tigerian, Element]);
   }
 }
 

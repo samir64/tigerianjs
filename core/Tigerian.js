@@ -215,6 +215,7 @@ export function clone(obj, appendTo) {
   return result;
 }
 
+
 /**
  * @param {Object} obj 
  * @param {Function} callback 
