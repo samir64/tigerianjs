@@ -1,4 +1,12 @@
-import { instanceOf } from "../core/Tigerian.js";
+import {
+  instanceOf
+} from "../core/Tigerian.js";
+import {
+  Control
+} from "../core/Control.js";
+import {
+  BText
+} from "../behaviors/BText.js";
 
 /**
  * Created by samir on 8/26/16.
@@ -11,115 +19,108 @@ import { instanceOf } from "../core/Tigerian.js";
  * @implements {BText}
  * @constructor
  */
-Button = Control.extend(
-  {
-    /**
-     * @constructs
-     * @param {UI} parent
-     * @param {string} text = ""
-     * @param {string} theme = ""
-     */
-    init: function(parent, text, theme) {
-      //NOTE Private Variables
-      var elmButton = document.createElement("div");
+export class Button extends Control {
+  /**
+   * @constructs
+   * @param {UI} parent
+   * @param {string} text = ""
+   * @param {string} theme = ""
+   */
+  constructor(parent, text = "", theme = "") {
+    //NOTE Private Variables
+    var elmButton = document.createElement("div");
 
-      this.super(parent, theme);
-      this.config("text", elmButton);
+    super(parent, theme);
+    this.config(BText, elmButton);
 
-      //NOTE Attributes
-      this.setAttribute("element-type", "Button");
-      this.setAttribute("element-name", "container");
+    var that = this;
 
-      elmButton.setAttribute("element-type", "Button");
-      // elmButton.setAttribute("element-name", "text");
+    //NOTE Attributes
+    this.setAttribute("element-type", "Button");
+    this.setAttribute("element-name", "container");
 
-      this.setAttribute("fit-content", "false");
+    elmButton.setAttribute("element-type", "Button");
+    // elmButton.setAttribute("element-name", "text");
 
-      if (instanceOf(text, String)) {
-        elmButton.innerHTML = text;
-      }
+    this.setAttribute("fit-content", "false");
 
-      //NOTE Append Children
-      this.addControl(elmButton);
-      this.hoverable = true;
-
-      //NOTE Properties
-      /**
-       * @member {number}
-       */
-      Object.defineProperty(this, "tabIndex", {
-        enumerable: true,
-        configerable: true,
-        get: function() {
-          return elmButton.hasAttribute("tabindex")
-            ? elmButton.getAttribute("tabindex")
-            : 0;
-        },
-        set: function(v) {
-          if (instanceOf(v, "number")) {
-            if (v > 0) {
-              elmButton.setAttribute("tabindex", v);
-            } else {
-              elmButton.removeAttribute("tabindex");
-            }
-          }
-        }
-      });
-
-      /**
-       * @member {boolean}
-       */
-      Object.defineProperty(this, "fitContent", {
-        enumerable: true,
-        configerable: true,
-        get: function() {
-          return this.getAttribute("fit-content");
-        },
-        set: function(v) {
-          if (instanceOf(v, "boolean")) {
-            this.setAttribute("fit-content", v ? "true" : "false");
-          }
-        }
-      });
-
-      this.select = function() {
-        elmButton.focus();
-      };
-
-      window.addEventListener(
-        "keypress",
-        function(e) {
-          if (
-            this.default &&
-            !e.ctrlKey &&
-            !e.altKey &&
-            !e.shiftKey &&
-            e.code === "Enter" &&
-            document.activeElement.getAttribute("element-type") !== "Button"
-          ) {
-            elmButton.click(this);
-          }
-        }.bind(this),
-        true
-      );
-
-      this.addEvent(
-        "keypress",
-        function(e) {
-          if (
-            !e.ctrlKey &&
-            !e.altKey &&
-            !e.shiftKey &&
-            (e.code === "Enter" || e.code === "Space")
-          ) {
-            elmButton.click(this);
-          }
-        }.bind(this),
-        true
-      );
-
-      delete this.addControl;
+    if (instanceOf(text, String)) {
+      elmButton.innerHTML = text;
     }
-  },
-  BText
-);
+
+    //NOTE Append Children
+    this.addControl(elmButton);
+    this.hoverable = true;
+
+    //NOTE Properties
+    /**
+     * @member {number}
+     */
+    this.defineProperty("tabIndex", {
+      get() {
+        return elmButton.hasAttribute("tabindex") ?
+          elmButton.getAttribute("tabindex") :
+          0;
+      },
+      set(v) {
+        if (v > 0) {
+          elmButton.setAttribute("tabindex", v);
+        } else {
+          elmButton.removeAttribute("tabindex");
+        }
+      },
+      type: Number
+    });
+
+    /**
+     * @member {boolean}
+     */
+    this.defineProperty("fitContent", {
+      get() {
+        return this.getAttribute("fit-content");
+      },
+      set(v) {
+        this.setAttribute("fit-content", v ? "true" : "false");
+      },
+      type: Boolean
+    });
+
+    this.defineMethod("select", () => {
+      elmButton.focus();
+    });
+
+    window.addEventListener(
+      "keypress",
+      (e) => {
+        if (
+          that.default &&
+          !e.ctrlKey &&
+          !e.altKey &&
+          !e.shiftKey &&
+          e.code === "Enter" &&
+          document.activeElement.getAttribute("element-type") !== "Button"
+        ) {
+          elmButton.click(that);
+        }
+      },
+      true
+    );
+
+    this.addEvent(
+      "keypress",
+      (e) => {
+        if (
+          !e.ctrlKey &&
+          !e.altKey &&
+          !e.shiftKey &&
+          (e.code === "Enter" || e.code === "Space")
+        ) {
+          elmButton.click(that);
+        }
+      },
+      true
+    );
+
+    delete this.addControl;
+  }
+}

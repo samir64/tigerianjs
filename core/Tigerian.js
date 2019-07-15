@@ -1,4 +1,4 @@
-import "../style/Responsive.js";
+import "./Responsive.js";
 
 import {
   Behavior

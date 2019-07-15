@@ -811,7 +811,9 @@ export class Control extends UI {
     this.defineMethod("addControl", (control) => {
       superAddControl(control);
       elmDivContainer.appendChild(elmTxtFoot);
-    }, [Control, Element]);
+    }, [
+      [Control, Text, Element]
+    ]);
 
     this.defineMethod("click", () => {
       elmDivContainer.click();

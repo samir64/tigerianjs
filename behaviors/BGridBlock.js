@@ -10,7 +10,7 @@ import {
 } from "../core/Tigerian.js";
 import {
   responsiveSizes
-} from "../style/Responsive.js";
+} from "../core/Responsive.js";
 
 export class BGridBlock extends Behavior {
   constructor() {
@@ -35,11 +35,13 @@ export class BGridBlock extends Behavior {
         }
 
         forEach(pattern.replace(/:\d+/g, "").split(" "), (item) => {
-          elm.innerHTML += `  [element-name="container"][template-item="${item}"][visible="true"] {\n    grid-area:\n${item}\n}\n\n`;
+          if (item !== ".") {
+            elm.innerHTML += `  [element-name="container"][template-item="${item}"][visible="true"] {\n    grid-area:\n${item}\n}\n\n`;
+          }
         });
       }, [
-          [String, Symbol], Symbol
-        ]);
+        [String, Symbol], Symbol
+      ]);
 
       that.defineMethod("regenerate", (size = EWindow.MEDIUM) => {
         var row = rows[size];
@@ -48,7 +50,7 @@ export class BGridBlock extends Behavior {
           row = rows[row];
         };
 
-        return "\t\t\n'" + row.join("'\n'").replace(/([\w-]+):(\d+)(\s*)/g, (...p) => {
+        return "\t\t\n'" + row.join("'\n'").replace(/([\w-\.]+):(\d+)(\s*)/g, (...p) => {
           return (p[1] + " ").repeat(p[2] - 1) + p[1] + p[3];
         }).trim() + "'\n";
       }, [Symbol]);

@@ -9,7 +9,7 @@ import {
 } from "./BGridBlock.js";
 import {
   responsiveSizes
-} from "../style/Responsive.js";
+} from "../core/Responsive.js";
 
 /**
  * Created by samir on 8/31/18.

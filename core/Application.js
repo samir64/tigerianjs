@@ -8,8 +8,8 @@ import {
   BWindow
 } from "../behaviors/BWindow.js";
 import {
-  GridTemplate
-} from "../style/GridTemplate.js";
+  BGridTemplate
+} from "../behaviors/BGridTemplate.js";
 
 /**
  * Created by samir on 8/25/16.
@@ -35,7 +35,7 @@ export class Application extends UI {
     this.config(BWindow);
 
     /**
-     * @type {GridTemplate[]}
+     * @type {BGridTemplate[]}
      */
     var templates = [];
     if (instanceOf(title, String)) {
@@ -52,14 +52,14 @@ export class Application extends UI {
      * @param {string} templateName
      */
     this.defineMethod("addTemplate", (templateName) => {
-      var template = new GridTemplate(templateName);
+      var template = new BGridTemplate(templateName);
       templates[templateName] = template;
       document.head.appendChild(template.element);
     }, [String]);
 
     /**
      * @param {string} templateName
-     * @returns {GridTemplate}
+     * @returns {BGridTemplate}
      */
     this.defineMethod("getTemplate", (templateName) => {
       if (templateName in templates) {
