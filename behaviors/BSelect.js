@@ -1,6 +1,9 @@
 import {
   Behavior
-} from "../core/Behavior";
+} from "../core/Behavior.js";
+import {
+  Events
+} from "../core/Events.js";
 
 /**
  * Created by samir on 9/7/18.
@@ -116,8 +119,8 @@ export class BSelect extends Behavior {
 
 
       //NOTE Default Events
-      ctrlSelect.addEvent("click", onClick.bind(that));
-      ctrlSelect.addEvent("keydown", onKeyDown.bind(that));
+      that.addEvent("click", onClick.bind(that));
+      that.addEvent("keydown", onKeyDown.bind(that));
     });
   }
 }

@@ -1,4 +1,4 @@
-import { Behavior } from "../core/Behavior";
+import { Behavior } from "../core/Behavior.js";
 
 ("use strict");
 

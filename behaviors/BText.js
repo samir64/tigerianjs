@@ -1,8 +1,15 @@
 import {
   instanceOf
 } from "../core/Tigerian.js";
-import { Behavior } from "../core/Behavior.js";
-import { Control } from "../core/Control.js";
+import {
+  Behavior
+} from "../core/Behavior.js";
+import {
+  Control
+} from "../core/Control.js";
+import {
+  Events
+} from "../core/Events.js";
 
 /**
  * Created by samir on 9/14/16.

@@ -23,14 +23,6 @@ export class BStyle extends Behavior {
 
     this.defineMethod("config", (that, mainElement) => {
       var defineAttribute = (root, attributes, getter, setter) => {
-        /* if ((attributes[0] === "padding") && (attributes.length === 1)) {
-          console.log({
-            root,
-            attributes
-          });
-          debugger;
-        } */
-
         if (attributes.length === 1) {
           if (attributes[0] in root) {
             var descriptor = Object.getOwnPropertyDescriptor(root, attributes[0]);

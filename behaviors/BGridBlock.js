@@ -18,41 +18,82 @@ export class BGridBlock extends Behavior {
 
     this.defineMethod("config", (that) => {
       var elm = document.createElement("style");
-      var rows = {};
+      var patterns = {};
+      var colCount = {};
 
       document.head.appendChild(elm);
       elm.innerHTML = "";
 
       forEach(responsiveSizes, (size, sizeName) => {
-        rows[size.name] = ((sizeName === "medium") ? [] : EWindow.MEDIUM);
+        patterns[size.name] = ((sizeName === "medium") ? [] : EWindow.MEDIUM);
+        colCount[size.name] = ((sizeName === "medium") ? [] : EWindow.MEDIUM);
       });
 
       that.defineMethod("addBlockRow", (pattern, size = EWindow.MEDIUM) => {
-        if (instanceOf(rows[size], Symbol)) {
-          rows[size] = [pattern];
+        if (instanceOf(pattern, Symbol)) {
+          patterns[size] = pattern;
         } else {
-          rows[size].push(pattern);
-        }
-
-        forEach(pattern.replace(/:\d+/g, "").split(" "), (item) => {
-          if (item !== ".") {
-            elm.innerHTML += `  [element-name="container"][template-item="${item}"][visible="true"] {\n    grid-area:\n${item}\n}\n\n`;
+          var cnt;
+          var re = /(?:\w+|\.)(?::(\d+))?/g;
+          var rowColCount = 0;
+          while ((cnt = re.exec(pattern)) !== null) {
+            rowColCount += ((cnt[1] !== undefined) ? parseInt(cnt[1]) : 1);
           }
-        });
+
+          colCount[size] = Math.max(instanceOf(colCount[size], Symbol) ? 0 : colCount[size], rowColCount);
+          if (instanceOf(patterns[size], Symbol)) {
+            patterns[size] = [];
+          }
+
+          patterns[size].push({
+            pattern,
+            rowColCount
+          });
+
+          forEach(pattern.replace(/:\d+/g, "").split(" "), (item) => {
+            if (item !== ".") {
+              elm.innerHTML += `  [element-name="container"][template-item="${item}"][visible="true"] {\n    grid-area:\n${item}\n}\n\n`;
+            }
+          });
+        }
       }, [
         [String, Symbol], Symbol
       ]);
 
       that.defineMethod("regenerate", (size = EWindow.MEDIUM) => {
-        var row = rows[size];
+        var blocks = patterns[size];
+        var col = colCount[size];
         var i = 0;
-        while (instanceOf(row, Symbol) && (++i < 5)) {
-          row = rows[row];
+        while (instanceOf(blocks, Symbol) && (++i < 5)) {
+          blocks = patterns[blocks];
+        };
+        i = 0;
+        while (instanceOf(col, Symbol) && (++i < 5)) {
+          col = colCount[col];
         };
 
-        return "\t\t\n'" + row.join("'\n'").replace(/([\w-\.]+):(\d+)(\s*)/g, (...p) => {
+        return "\t\t\n'" + blocks.map((r) => {
+          var result = r.pattern;
+
+          if (r.rowColCount < col) {
+            result += ` .:${col - r.rowColCount}`;
+          }
+
+          return result;
+        }).join("'\n'").replace(/([\w-\.]+):(\d+)(\s*)/g, (...p) => {
           return (p[1] + " ").repeat(p[2] - 1) + p[1] + p[3];
         }).trim() + "'\n";
+      }, [Symbol]);
+
+      that.defineMethod("getColCount", (size = EWindow.MEDIUM) => {
+        var col = colCount[size];
+        var i = 0;
+
+        while (instanceOf(col, Symbol) && (++i < 5)) {
+          col = colCount[col];
+        };
+
+        return col;
       }, [Symbol]);
     });
   }
