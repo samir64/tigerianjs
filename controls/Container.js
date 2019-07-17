@@ -14,13 +14,13 @@ import { instanceOf } from "../core/Tigerian.js";
  * @extends {Control}
  * @constructor
  */
-Container = Control.extend({
+export class Continer extends Control {
   /**
    * @param {UI} parent
    * @param {string} theme = ""
    */
-  init: function(parent, theme) {
-    this.super(parent, theme);
+  constructor(parent, theme = "") {
+    super(parent, theme);
 
     //NOTE Private Variables
     // var elmBody = document.createElement("div");
@@ -44,4 +44,4 @@ Container = Control.extend({
       }
     }; */
   }
-});
+}

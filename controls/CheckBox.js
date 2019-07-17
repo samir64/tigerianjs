@@ -1,4 +1,12 @@
-import { instanceOf } from "../core/Tigerian.js";
+import {
+  Control
+} from "../core/Control.js";
+import {
+  BText
+} from "../behaviors/BText.js";
+import {
+  BSelect
+} from "../behaviors/BSelect.js";
 
 /**
  * Created by samir on 8/26/16.
@@ -12,78 +20,68 @@ import { instanceOf } from "../core/Tigerian.js";
  * @implements {BText}
  * @constructor
  */
-CheckBox = Control.extend(
-  {
-    /**
-     * @constructs
-     * @param {string} [text = ""]
-     * @param {string} [theme = ""]
-     * @param {UI} parent
-     */
-    init: function(parent, text, theme) {
-      var elmCheckBox = document.createElement("div");
-      var elmLabel = document.createElement("div");
+export class CheckBox extends Control {
+  /**
+   * @constructs
+   * @param {string} [text = ""]
+   * @param {string} [theme = ""]
+   * @param {UI} parent
+   */
+  constructor(parent, text = "", theme = "") {
+    var elmCheckBox = document.createElement("div");
+    var elmLabel = document.createElement("div");
 
-      this.super(parent, theme);
-      this.config("select");
-      this.config("text", elmLabel);
+    super(parent, theme);
+    this.config(BSelect);
+    this.config(BText, elmLabel);
 
-      //NOTE Alias Super Members
-      var superSelected = Object.getOwnPropertyDescriptor(this, "selected");
+    //NOTE Alias Super Members
+    var superSelected = Object.getOwnPropertyDescriptor(this, "selected");
 
-      //NOTE Private Variables
-      var instance = this;
+    //NOTE Private Variables
+    var that = this;
 
-      //NOTE Attributes
-      this.setAttribute("element-name", "container");
-      this.setAttribute("element-type", "CheckBox");
+    //NOTE Attributes
+    this.setAttribute("element-name", "container");
+    this.setAttribute("element-type", "CheckBox");
 
-      elmCheckBox.setAttribute("element-name", "check");
-      elmCheckBox.setAttribute("element-type", "CheckBox");
-      elmCheckBox.setAttribute("element-situation", "");
-      elmCheckBox.setAttribute("element-hoverable", "true");
+    elmCheckBox.setAttribute("element-name", "check");
+    elmCheckBox.setAttribute("element-type", "CheckBox");
+    elmCheckBox.setAttribute("element-situation", "");
+    elmCheckBox.setAttribute("element-hoverable", "true");
 
-      // elmLabel.setAttribute("element-name", "label");
-      elmLabel.setAttribute("element-type", "CheckBox");
+    // elmLabel.setAttribute("element-name", "label");
+    elmLabel.setAttribute("element-type", "CheckBox");
 
-      //NOTE Append Children
-      this.addControl(elmCheckBox);
-      this.addControl(elmLabel);
+    //NOTE Append Children
+    this.addControl(elmCheckBox);
+    this.addControl(elmLabel);
 
-      this.text = text;
+    this.text = text;
 
-      Object.defineProperty(this, "indeterminate", {
-        enumerable: true,
-        configerable: true,
-        get: function() {
-          return instance.getAttribute("selected") == "indeterminate";
-        },
-        set: function(v) {
-          if (instanceOf(v, "boolean")) {
-            var lastValue = instance.indeterminate;
+    this.defineProperty("indeterminate", {
+      get() {
+        return that.getAttribute("selected") == "indeterminate";
+      },
+      set(v) {
+        var lastValue = that.indeterminate;
 
-            instance.setAttribute("selected", v ? "indeterminate" : "false");
+        that.setAttribute("selected", v ? "indeterminate" : "false");
 
-            if (v != lastValue) {
-              instance.dispatchEvent(Events.onIndeterminateChange);
-            }
-          }
+        if (v != lastValue) {
+          that.dispatchEvent(Events.onIndeterminateChange);
         }
-      });
+      },
+      type: Boolean
+    });
 
-      Object.defineProperty(this, "selected", {
-        enumerable: true,
-        configerable: true,
-        get: superSelected.get.bind(this),
-        set: function(v) {
-          if (instanceOf(v, "boolean")) {
-            instance.indeterminate = false;
-            superSelected.set.bind(this)(v);
-          }
-        }
-      });
-    }
-  },
-  BSelect,
-  BText
-);
+    this.defineProperty("selected", {
+      get: superSelected.get.bind(this),
+      set(v) {
+        that.indeterminate = false;
+        superSelected.set.bind(this)(v);
+      },
+      type: Boolean
+    });
+  }
+}
