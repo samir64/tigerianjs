@@ -51,14 +51,14 @@ export class Control extends UI {
     this.setAttribute("element-situation", "");
     this.setAttribute("element-hoverable", "false");
 
+    this.setAttribute("xsmall-column", "normal");
     this.setAttribute("small-column", "normal");
-    this.setAttribute("medium-column", "normal");
-    this.setAttribute("normal-column", "12");
+    this.setAttribute("medium-column", "12");
     this.setAttribute("large-column", "normal");
     this.setAttribute("xlarge-column", "normal");
+    this.setAttribute("hide-on-xsmall", "false");
     this.setAttribute("hide-on-small", "false");
     this.setAttribute("hide-on-medium", "false");
-    this.setAttribute("hide-on-normal", "false");
     this.setAttribute("hide-on-large", "false");
     this.setAttribute("hide-on-xlarge", "false");
     this.setAttribute("float", "");
@@ -152,7 +152,7 @@ export class Control extends UI {
        * @returns {string}
        */
       get() {
-        var v = that.getAttribute("small-column");
+        var v = that.getAttribute("xsmall-column");
         switch (v) {
           case "":
             return EWindow.NONE;
@@ -160,6 +160,75 @@ export class Control extends UI {
 
           case "medium":
             return EWindow.SMALL;
+            break;
+
+          case "normal":
+            return EWindow.MEDIUM;
+            break;
+
+          case "large":
+            return EWindow.LARGE;
+            break;
+
+          case "xlarge":
+            return EWindow.XLARGE;
+            break;
+
+          default:
+            v = parseInt(v, 12);
+            return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
+        }
+      },
+      /**
+       * @param {string} v
+       */
+      set(v) {
+        switch (v) {
+          case EWindow.NONE:
+            that.setAttribute("xsmall-column", "");
+            break;
+
+          case EWindow.SMALL:
+            that.setAttribute("xsmall-column", "medium");
+            break;
+
+          case EWindow.MEDIUM:
+            that.setAttribute("xsmall-column", "normal");
+            break;
+
+          case EWindow.LARGE:
+            that.setAttribute("xsmall-column", "large");
+            break;
+
+          case EWindow.XLARGE:
+            that.setAttribute("xsmall-column", "xlarge");
+            break;
+
+          default:
+            if (instanceOf(v, "number")) {
+              that.setAttribute("xsmall-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
+            }
+        }
+      },
+      type: [Number, Symbol]
+    });
+
+    /**
+     * @member {number|symbol}
+     */
+    this.defineProperty("mediumColumn", {
+      /**
+       * @returns {string}
+       */
+      get() {
+        var v = that.getAttribute("small-column");
+        switch (v) {
+          case "":
+            return EWindow.NONE;
+            break;
+
+          case "small":
+            return EWindow.XSMALL;
             break;
 
           case "normal":
@@ -188,8 +257,8 @@ export class Control extends UI {
             that.setAttribute("small-column", "");
             break;
 
-          case EWindow.SMALL:
-            that.setAttribute("small-column", "medium");
+          case EWindow.XSMALL:
+            that.setAttribute("small-column", "small");
             break;
 
           case EWindow.MEDIUM:
@@ -216,81 +285,12 @@ export class Control extends UI {
     /**
      * @member {number|symbol}
      */
-    this.defineProperty("mediumColumn", {
-      /**
-       * @returns {string}
-       */
-      get() {
-        var v = that.getAttribute("medium-column");
-        switch (v) {
-          case "":
-            return EWindow.NONE;
-            break;
-
-          case "small":
-            return EWindow.XSMALL;
-            break;
-
-          case "normal":
-            return EWindow.MEDIUM;
-            break;
-
-          case "large":
-            return EWindow.LARGE;
-            break;
-
-          case "xlarge":
-            return EWindow.XLARGE;
-            break;
-
-          default:
-            v = parseInt(v, 12);
-            return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
-        }
-      },
-      /**
-       * @param {string} v
-       */
-      set(v) {
-        switch (v) {
-          case EWindow.NONE:
-            that.setAttribute("medium-column", "");
-            break;
-
-          case EWindow.XSMALL:
-            that.setAttribute("medium-column", "small");
-            break;
-
-          case EWindow.MEDIUM:
-            that.setAttribute("medium-column", "normal");
-            break;
-
-          case EWindow.LARGE:
-            that.setAttribute("medium-column", "large");
-            break;
-
-          case EWindow.XLARGE:
-            that.setAttribute("medium-column", "xlarge");
-            break;
-
-          default:
-            if (instanceOf(v, "number")) {
-              that.setAttribute("medium-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
-            }
-        }
-      },
-      type: [Number, Symbol]
-    });
-
-    /**
-     * @member {number|symbol}
-     */
     this.defineProperty("normalColumn", {
       /**
        * @returns {string}
        */
       get() {
-        var v = that.getAttribute("normal-column");
+        var v = that.getAttribute("medium-column");
         switch (v) {
           case "":
             return EWindow.NONE;
@@ -323,28 +323,28 @@ export class Control extends UI {
       set(v) {
         switch (v) {
           case EWindow.NONE:
-            that.setAttribute("normal-column", "");
+            that.setAttribute("medium-column", "");
             break;
 
           case EWindow.XSMALL:
-            that.setAttribute("normal-column", "small");
+            that.setAttribute("medium-column", "small");
             break;
 
           case EWindow.SMALL:
-            that.setAttribute("normal-column", "medium");
+            that.setAttribute("medium-column", "medium");
             break;
 
           case EWindow.LARGE:
-            that.setAttribute("normal-column", "large");
+            that.setAttribute("medium-column", "large");
             break;
 
           case EWindow.XLARGE:
-            that.setAttribute("normal-column", "xlarge");
+            that.setAttribute("medium-column", "xlarge");
             break;
 
           default:
             if (instanceOf(v, "number")) {
-              that.setAttribute("normal-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
+              that.setAttribute("medium-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
             }
         }
       },
@@ -492,6 +492,25 @@ export class Control extends UI {
     /**
      * @member {boolean}
      */
+    this.defineProperty("hideOnXsmall", {
+      /**
+       * @returns {boolean}
+       */
+      get() {
+        return that.getAttribute("hide-on-xsmall");
+      },
+      /**
+       * @param {boolean} v
+       */
+      set(v) {
+        that.setAttribute("hide-on-xsmall", v);
+      },
+      type: Boolean
+    });
+
+    /**
+     * @member {boolean}
+     */
     this.defineProperty("hideOnSmall", {
       /**
        * @returns {boolean}
@@ -523,25 +542,6 @@ export class Control extends UI {
        */
       set(v) {
         that.setAttribute("hide-on-medium", v);
-      },
-      type: Boolean
-    });
-
-    /**
-     * @member {boolean}
-     */
-    this.defineProperty("hideOnNormal", {
-      /**
-       * @returns {boolean}
-       */
-      get() {
-        return that.getAttribute("hide-on-normal");
-      },
-      /**
-       * @param {boolean} v
-       */
-      set(v) {
-        that.setAttribute("hide-on-normal", v);
       },
       type: Boolean
     });
