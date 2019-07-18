@@ -5,7 +5,7 @@ import {
 export let responsiveSizes = {
   xsmall: {
     name: EWindow.XSMALL,
-    min: undefined,
+    min: 1,
     max: 575.98,
     containerWidth: "100%",
     containerPadding: 0

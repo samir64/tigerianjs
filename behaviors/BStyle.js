@@ -34,6 +34,38 @@ export class BStyle extends Behavior {
 
       var nodeStyles = {}
 
+      var addPageSizes = (getter, setter, propName, result = {}) => {
+        forEach(responsiveSizes, (size, sizeName) => {
+          Object.defineProperty(result, size.name, {
+            get() {
+              var re = /\s*[\w-]+\s*:\s*([\w-'"\(\)\.%\s]+);/;
+              var result = re.exec(nodeStyles[size.name][propName].data);
+              return ((result !== null) ? result[1].trim() : "");
+            },
+            set(v) {
+              if (instanceOf(v, String)) {
+                if (v === "") {
+                  nodeStyles[size.name][propName].data = "";
+                } else {
+                  nodeStyles[size.name][propName].data = `${" ".repeat(8)}${propName}: ${v};\n`;
+                }
+              } else if (instanceOf(v, Symbol)) {}
+            },
+            enumerable: true,
+            configurable: true
+          });
+        });
+
+        Object.defineProperty(result, EStyle.INLINE, {
+          get: getter,
+          set: setter,
+          enumerable: true,
+          configurable: true
+        });
+
+        return result;
+      };
+
       var defineAttribute = (root, attributes, getter, setter, propName) => {
         if (attributes.length === 1) {
           if (attributes[0] in root) {
@@ -42,7 +74,9 @@ export class BStyle extends Behavior {
             Object.defineProperty(root, attributes[0], {
               enumerable: true,
               configurable: true,
-              get: descriptor.get,
+              get() {
+                return addPageSizes(getter, setter, propName, descriptor.get());
+              },
               set: setter
             });
           } else {
@@ -50,37 +84,7 @@ export class BStyle extends Behavior {
               enumerable: true,
               configurable: true,
               get() {
-                var result = {};
-
-                forEach(responsiveSizes, (size, sizeName) => {
-                  Object.defineProperty(result, size.name, {
-                    get() {
-                      var re = /\s*[\w-]+\s*:\s*([\w-'"\(\)]+);/;
-                      var result = re.exec(nodeStyles[size.name][propName].data);
-                      return ((result !== null) ? result[1] : "");
-                    },
-                    set(v) {
-                      if (instanceOf(v, String)) {
-                        if (v === "") {
-                          nodeStyles[size.name][propName].data = "";
-                        } else {
-                          nodeStyles[size.name][propName].data = `${" ".repeat(8)}${propName}: ${v};\n`;
-                        }
-                      } else if (instanceOf(v, Symbol)) {}
-                    },
-                    enumerable: true,
-                    configurable: true
-                  });
-                });
-
-                Object.defineProperty(result, EStyle.INLINE, {
-                  get: getter,
-                  set: setter,
-                  enumerable: true,
-                  configurable: true
-                });
-
-                return result;
+                return addPageSizes(getter, setter, propName);
               },
               set: setter
             });
@@ -93,7 +97,7 @@ export class BStyle extends Behavior {
               res = {};
             }
           } else {
-            res = {}
+            res = {};
           }
 
           Object.defineProperty(root, attributes[0], {

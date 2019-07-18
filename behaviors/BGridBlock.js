@@ -20,6 +20,7 @@ export class BGridBlock extends Behavior {
       var elm = document.createElement("style");
       var patterns = {};
       var colCount = {};
+      var addedAreas = [];
 
       document.head.appendChild(elm);
       elm.innerHTML = "";
@@ -51,7 +52,8 @@ export class BGridBlock extends Behavior {
           });
 
           forEach(pattern.replace(/:\d+/g, "").split(" "), (item) => {
-            if (item !== ".") {
+            if ((item !== ".") && (addedAreas.indexOf(item) === -1)) {
+              addedAreas.push(item);
               elm.innerHTML += `  [element-name="container"][template-item="${item}"][visible="true"] {\n    grid-area:\n${item}\n}\n\n`;
             }
           });
