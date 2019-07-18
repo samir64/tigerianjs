@@ -28,8 +28,8 @@ export class BStyle extends Behavior {
     super();
 
     this.defineMethod("config", (that, mainElement) => {
-      var styleElement = document.createElement("style");
       var specificClass = `control-${Math.round(Date.now() * Math.random())}`;
+      var styleElement = document.createElement("style");
       var styleProperty = {};
 
       var nodeStyles = {}
@@ -54,7 +54,11 @@ export class BStyle extends Behavior {
 
                 forEach(responsiveSizes, (size, sizeName) => {
                   Object.defineProperty(result, size.name, {
-                    get() {},
+                    get() {
+                      var re = /\s*[\w-]+\s*:\s*([\w-'"\(\)]+);/;
+                      var result = re.exec(nodeStyles[size.name][propName].data);
+                      return ((result !== null) ? result[1] : "");
+                    },
                     set(v) {
                       if (instanceOf(v, String)) {
                         if (v === "") {
@@ -67,7 +71,6 @@ export class BStyle extends Behavior {
                     enumerable: true,
                     configurable: true
                   });
-                  // result[size.name] = getter;
                 });
 
                 Object.defineProperty(result, EStyle.INLINE, {
@@ -81,12 +84,6 @@ export class BStyle extends Behavior {
               },
               set: setter
             });
-            // Object.defineProperty(root, attributes[0], {
-            //   enumerable: true,
-            //   configurable: true,
-            //   get: getter,
-            //   set: setter
-            // });
           }
         } else {
           var res;
@@ -113,7 +110,7 @@ export class BStyle extends Behavior {
 
       forEach(mainElement.style, (prop, propName, style) => {
         if (parseInt(propName) != propName) {
-          if ((propName.indexOf("-") === -1)) {
+          if ((propName.indexOf("-") === -1) && ((propName[0] < "A") || (propName[0] > "Z"))) {
             var attrs = strSplitCapital(propName);
 
             var propDashName = attrs.join("-");
