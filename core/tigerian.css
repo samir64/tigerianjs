@@ -1046,7 +1046,8 @@ a[element-type][element-name] {
 
 [element-type="CollapseList"][element-name="container"] {
   width: auto;
-  display: block;
+  /* display: block; */
+  text-align: left;
 }
 
 [element-type="CollapseList"][element-name="container"]>[element-type="CollapseItem"][element-name="container"]>[element-type="CollapseItem"][element-name="text"] {
