@@ -1,4 +1,18 @@
-import { instanceOf } from "../core/Tigerian.js";
+import {
+  instanceOf
+} from "../core/Tigerian.js";
+import {
+  Control
+} from "../core/Control.js";
+import {
+  BText
+} from "../behaviors/BText.js";
+import {
+  BCascade
+} from "../behaviors/BCascade.js";
+import {
+  CollapseList
+} from "./CollapseList.js";
 
 ("use strict");
 
@@ -8,90 +22,98 @@ import { instanceOf } from "../core/Tigerian.js";
  * @implements {BText}
  * @implements {BCascade}
  */
-CollapseItem = Control.extend({
-    /**
-     * @constructs
-30⋅178     * @param {Control} parent
-     * @param {string} text
-     * @param {string} theme = ""
-     */
-    init: function (parent, text, theme) {
-        this.super(parent, theme);
+export class CollapseItem extends Control {
+  /**
+   * @constructs
+   * @param {Control} parent
+   * @param {string} text = ""
+   * @param {string} theme = ""
+   */
+  constructor(parent, text = "", theme = "") {
+    super(parent, theme);
 
-        var elmText = document.createElement("div");
-        var ctrlList = new CollapseList(null, this.theme);
-        var superAddControl = this.addControl.bind(this);
+    var elmText = document.createElement("div");
+    var ctrlList = new CollapseList(null, this.theme);
 
-        this.config("text", elmText);
-        this.config("cascade");
+    this.addControl(elmText);
+    this.addControl(ctrlList);
 
-        var superAddChild = this.addChild.bind(this);
-        var canChangeChildState = true;
-        var touchStarted = false;
-        var instance = this;
+    this.config(BText, elmText);
+    this.config(BCascade, ctrlList);
 
-        superAddControl(elmText);
+    var that = this;
+    var superAddControl = this.addControl;
+    var canChangeChildState = true;
+    var touchStarted = false;
 
-        this.text = text;
+    this.text = text;
+    ctrlList.visible = false;
 
-        this.setAttribute("element-type", "CollapseItem");
-        this.setAttribute("element-name", "container");
+    this.setAttribute("element-type", "CollapseItem");
+    this.setAttribute("element-name", "container");
 
-        elmText.setAttribute("element-type", "CollapseItem");
-        // elmText.setAttribute("element-name", "text");
+    elmText.setAttribute("element-type", "CollapseItem");
+    // elmText.setAttribute("element-name", "text");
 
-        this.addControl = this.addChild = this.addSublist = function (item) {
-            if (instanceOf(item, CollapseItem) || instanceOf(item, Spacer)) {
-                if (!this.hasSubmenu) {
-                    superAddChild(ctrlList);
-                }
-                ctrlList.addControl(item);
-            }
-        };
+    this.defineMethod("addControl", (item) => {
+      if (instanceOf(item, String)) {
+        var item = new CollapseItem(undefined, item, theme);
+      }
 
-        this.collapse = function () {
-            instance.viewChild(false);
-            if (instance.hasChild) {
-                ctrlList.collapseAll();
-            }
-        };
+      superAddControl(item);
+    }, [
+      [String, CollapseItem /* , Spacer */ ]
+    ]);
+    /* this.defineMethod("addControl", (item) => {
+      if (instanceOf(item, CollapseItem) || instanceOf(item, Spacer)) {
+        if (!this.hasSubmenu) {
+          superAddChild(ctrlList);
+        }
+        ctrlList.addControl(item);
+      }
+    }); */
 
-        this.expand = function () {
-            instance.viewChild(true);
-            for (var i = 0; i < this.itemCount; i++) {
-                ctrlList.expandAll();
-            }
-        };
+    this.defineMethod("collapse", () => {
+      that.viewChild(false);
+      if (that.hasChild) {
+        ctrlList.collapseAll();
+      }
+    });
 
-        elmText.addEventListener("click", function (e) {
-            if (canChangeChildState && !touchStarted) {
-                instance.viewChild();
-                canChangeChildState = false;
-            }
+    this.defineMethod("expand", () => {
+      that.viewChild(true);
+      for (var i = 0; i < this.itemCount; i++) {
+        ctrlList.expandAll();
+      }
+    });
 
-            setTimeout(function () {
-                canChangeChildState = true;
-            }, 100);
-        });
+    elmText.addEventListener("click", function (e) {
+      if (canChangeChildState && !touchStarted) {
+        that.toggle();
+        canChangeChildState = false;
+      }
 
-        elmText.addEventListener("touchstart", function (e) {
-            if (canChangeChildState) {
-                touchStarted = true;
-            }
-        });
+      setTimeout(function () {
+        canChangeChildState = true;
+      }, 100);
+    });
 
-        elmText.addEventListener("touchend", function (e) {
-            if (canChangeChildState && touchStarted && (document.elementFromPoint(e.changedTouches[0].pageX, e.changedTouches[0].pageY) === e.changedTouches[0].target)) {
-                instance.viewChild();
-                canChangeChildState = false;
-                touchStarted = true;
-            }
+    elmText.addEventListener("touchstart", function (e) {
+      if (canChangeChildState) {
+        touchStarted = true;
+      }
+    });
 
-            setTimeout(function () {
-                canChangeChildState = true;
-            }, 100);
-        });
+    elmText.addEventListener("touchend", function (e) {
+      if (canChangeChildState && touchStarted && (document.elementFromPoint(e.changedTouches[0].pageX, e.changedTouches[0].pageY) === e.changedTouches[0].target)) {
+        that.viewChild();
+        canChangeChildState = false;
+        touchStarted = true;
+      }
 
-        this.addControl(elmText);
-    },
-}, BText, BCascade);
+      setTimeout(function () {
+        canChangeChildState = true;
+      }, 100);
+    });
+  }
+}

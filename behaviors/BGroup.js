@@ -5,7 +5,15 @@ import {
 import {
   Behavior
 } from "../core/Behavior.js";
-import { Control } from "../core/Control.js";
+import {
+  Control
+} from "../core/Control.js";
+import {
+  BIterator
+} from "./BIterator.js";
+import {
+  Events
+} from "../core/Events.js";
 
 /**
  * Created by samir on 9/14/16.
@@ -30,7 +38,8 @@ export class BGroup extends Behavior {
       /**
        * @type {Control[]}
        */
-      var items = {};
+      var items = [];
+      var superAddControl = ctrlGroup.addControl;
 
       that.config(BIterator, items);
 
@@ -40,7 +49,7 @@ export class BGroup extends Behavior {
        */
       that.defineProperty("itemCount", {
         get() {
-          return items.list.length;
+          return items.length;
         }
       });
 
@@ -68,29 +77,29 @@ export class BGroup extends Behavior {
       /**
        * @param {Control} item
        */
-      that.defineMethod("addItem", (item) => {
+      that.defineMethod("addControl", (item) => {
         var found = false;
 
-        forEach(items.list, (it, index) => {
+        forEach(items, (it, index) => {
           if (item === it) {
             found = true;
           }
         });
 
         if (!found) {
-          items.list.push(item);
-          ctrlGroup.addControl(item);
+          items.push(item);
+          superAddControl(item);
 
           that.dispatchEvent(Events.onAdd, {
             addedItem: item
           });
 
           item.addEvent("Remove", function (e) {
-            forEach(that, (it, index) => {
-              if (item === it) {
-                initRemoveItem(index);
-              }
+            items = items.filter((it, index) => {
+              return (it !== item);
             });
+
+            that.config(BIterator, items);
 
             that.dispatchEvent(Events.onRemove, {
               removedItem: item
@@ -106,9 +115,9 @@ export class BGroup extends Behavior {
       that.defineMethod("getItem", (itemIndex) => {
         if (
           itemIndex >= 0 &&
-          itemIndex < items.list.length
+          itemIndex < items.length
         ) {
-          return items.list[itemIndex];
+          return items[itemIndex];
         } else {
           throw new Error("Index out of range");
         }
@@ -120,15 +129,16 @@ export class BGroup extends Behavior {
       that.defineMethod("removeItem", (itemIndex) => {
         if (
           itemIndex >= 0 &&
-          itemIndex < items.list.length
+          itemIndex < items.length
         ) {
-          items.list = items.list.filter(function (item, index) {
+          items = items.filter(function (item, index) {
             if (index !== itemIndex) {
               return item;
             } else {
               item.remove();
             }
           });
+          that.config(BIterator, items);
           ctrlGroup.removeItem(itemIndex);
         } else {
           throw new Error("Index out of range");
@@ -136,11 +146,12 @@ export class BGroup extends Behavior {
       }, [Number]);
 
       that.defineMethod("clear", () => {
-        items.list = items.list.filter(function (item, itemIndex) {
+        items = items.filter(function (item, itemIndex) {
           item.remove();
           return false;
         });
 
+        that.config(BIterator, items);
         ctrlGroup.clear();
       });
 
@@ -148,11 +159,11 @@ export class BGroup extends Behavior {
        * @param {function} func
        */
       that.defineMethod("sort", (func) => {
-        items.list = items.list.sort(func);
+        items = items.sort(func);
 
         ctrlGroup.clear();
         forEach(items, (item, index) => {
-          ctrlGroup.addItem(item);
+          ctrlGroup.addControl(item);
         });
       }, [Function]);
     }, [Control]);
