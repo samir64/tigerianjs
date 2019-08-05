@@ -1,3 +1,6 @@
+import { Control, EControl } from "../core/Control.js";
+import { BText } from "../behaviors/BText.js";
+
 ("use strict");
 
 /**
@@ -27,6 +30,6 @@ export class TableCell extends Control {
     elmText.setAttribute("element-type", "TableCell");
     // elmText.setAttribute("element-name", "text");
 
-    this.situation = Control.ETransparent;
+    this.situation = EControl.TRANSPARENT;
   }
 }

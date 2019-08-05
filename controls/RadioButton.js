@@ -1,3 +1,13 @@
+import {
+  Control
+} from "../core/Control.js";
+import {
+  BSelect
+} from "../behaviors/BSelect.js";
+import {
+  BText
+} from "../behaviors/BText.js";
+
 /**
  * Created by samir on 8/26/16.
  */

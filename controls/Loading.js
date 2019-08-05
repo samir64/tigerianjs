@@ -1,6 +1,16 @@
 import {
   instanceOf
 } from "../core/Tigerian.js";
+import {
+  Control
+} from "../core/Control.js";
+import {
+  BFixElement,
+  EFixElement
+} from "../behaviors/BFixElement.js";
+import {
+  BModal
+} from "../behaviors/BModal.js";
 
 ("use strict");
 

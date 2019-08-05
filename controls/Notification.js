@@ -1,3 +1,13 @@
+import {
+  Control
+} from "../core/Control.js";
+import {
+  BText
+} from "../behaviors/BText.js";
+import {
+  BCancel
+} from "../behaviors/BCancel.js";
+
 ("use strict");
 
 /**

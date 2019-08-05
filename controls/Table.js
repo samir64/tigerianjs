@@ -1,6 +1,10 @@
 import {
-  instanceOf
-} from "../core/Tigerian.js";
+  Control
+} from "../core/Control.js";
+import {
+  BGroup
+} from "../behaviors/BGroup.js";
+import { BTable } from "../behaviors/BTable.js";
 
 ("use strict");
 

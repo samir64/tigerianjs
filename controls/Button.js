@@ -1,7 +1,4 @@
 import {
-  instanceOf
-} from "../core/Tigerian.js";
-import {
   Control
 } from "../core/Control.js";
 import {

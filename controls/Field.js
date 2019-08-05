@@ -1,6 +1,15 @@
 import {
     Control
 } from "../core/Control.js";
+import {
+    BText
+} from "../behaviors/BText.js";
+import {
+    TextBox
+} from "./TextBox.js";
+import {
+    Label
+} from "./Label.js";
 
 /**
  * Created by samir on 8/26/16.

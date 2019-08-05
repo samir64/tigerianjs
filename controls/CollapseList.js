@@ -1,5 +1,4 @@
 import {
-  instanceOf,
   forEach
 } from "../core/Tigerian.js";
 import {

@@ -1,3 +1,13 @@
+import {
+  Control
+} from "../core/Control.js";
+import {
+  BText
+} from "../behaviors/BText.js";
+import {
+  Events
+} from "../core/Events.js";
+
 /**
  * Created by samir on 8/26/16.
  */

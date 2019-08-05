@@ -1,3 +1,19 @@
+import {
+  Control
+} from "../core/Control.js";
+import {
+  Header
+} from "./Header.js";
+import {
+  Footer
+} from "./Footer.js";
+import {
+  BModal
+} from "../behaviors/BModal.js";
+import {
+  BCancel
+} from "../behaviors/BCancel.js";
+
 ("use strict");
 
 /**

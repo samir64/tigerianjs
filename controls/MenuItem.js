@@ -1,6 +1,15 @@
 import {
   instanceOf
 } from "../core/Tigerian.js";
+import {
+  Control
+} from "../core/Control.js";
+import {
+  BText
+} from "../behaviors/BText.js";
+import {
+  BCascade
+} from "../behaviors/BCascade.js";
 
 ("use strict");
 

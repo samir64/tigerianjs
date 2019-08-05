@@ -7,6 +7,13 @@ import {
 import {
   BSelect
 } from "../behaviors/BSelect.js";
+import {
+  BGroup
+} from "../behaviors/BGroup.js";
+import {
+  BText
+} from "../behaviors/BText.js";
+import { BFilter } from "../behaviors/BFilter.js";
 
 /**
  * Created by samir on 11/11/16.

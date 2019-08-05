@@ -1,6 +1,18 @@
 import {
   instanceOf
 } from "../core/Tigerian.js";
+import {
+  Control
+} from "../core/Control.js";
+import {
+  BGroup
+} from "../behaviors/BGroup.js";
+import {
+  BSelectGroup
+} from "../behaviors/BSelectGroup.js";
+import {
+  BSelect
+} from "../behaviors/BSelect.js";
 
 /**
  * Created by samir on 11/10/16.
@@ -22,8 +34,8 @@ export class ListBox extends Control {
    */
   constructor(parent, theme = "") {
     super(parent, theme);
-    this.config(Broup);
-    this.config(BelectGroup);
+    this.config(BGroup);
+    this.config(BSelectGroup);
 
     //NOTE Private Variables
     var that = this;
@@ -43,7 +55,7 @@ export class ListBox extends Control {
     this.defineMethod("addControl", (item) => {
       if (instanceOf(item, String)) {
         item = new ListItem(null, item, that.theme);
-      } else if (!(instanceOf(item, Control) && item["Behavior:select"])) {
+      } else if (!(instanceOf(item, Control) && instanceOf(item, BSelect))) {
         item = new ListItem(
           null,
           "Item " + (that.itemCount + 1).toString(),

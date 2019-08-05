@@ -4,7 +4,7 @@ import {
 import {
     BFixElement,
     EFixElement
-} from "../behaviors/BFixElement";
+} from "../behaviors/BFixElement.js";
 
 /**
  * Created by samir on 09/20/18.

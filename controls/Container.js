@@ -1,4 +1,6 @@
-import { instanceOf } from "../core/Tigerian.js";
+import {
+  Control
+} from "../core/Control.js";
 
 /**
  * Created by samir on 8/26/16.

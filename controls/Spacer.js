@@ -1,3 +1,5 @@
+import { Control } from "../core/Control.js";
+
 /**
  * Created by samir on 11/11/16.
  */
