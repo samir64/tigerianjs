@@ -1,4 +1,6 @@
-import { instanceOf } from "../core/Tigerian.js";
+import {
+  instanceOf
+} from "../core/Tigerian.js";
 
 ("use strict");
 
@@ -8,90 +10,85 @@ import { instanceOf } from "../core/Tigerian.js";
  * @implements {BText}
  * @implements {BCascade}
  */
-MenuItem = Control.extend(
-  {
+export class MenuItem extends Control {
+  /**
+   * @constructs
+   * @param {UI} parent
+   * @param {string} text
+   * @param {string} theme = ""
+   */
+  construcotr(parent, text, theme = "") {
+    super(parent, theme);
+
+    var elmText = document.createElement("div");
+    var ctrlMenu = new Menu(null, this.theme);
+    var superAddControl = this.addControl.bind(this);
+
+    this.config(BText, elmText, text);
+    this.config(BCascade);
+
+    var superAddChild = this.addChild.bind(this);
+    var canChangeChildState = true;
+    var touchStarted = false;
+    var openByClick = false;
+
+    var that = this;
+
+    superAddControl(elmText);
+    this.hoverable = true;
+
+    this.setAttribute("element-type", "MenuItem");
+    this.setAttribute("element-name", "container");
+
+    elmText.setAttribute("element-type", "MenuItem");
+    // elmText.setAttribute("element-name", "text");
+
     /**
-     * @constructs
-     * @param {UI} parent
-     * @param {string} text
-     * @param {string} theme = ""
+     * @param {MenuItem|Spacer} item
      */
-    init: function(parent, text, theme) {
-      this.super(parent, theme);
-
-      var elmText = document.createElement("div");
-      var ctrlMenu = new Menu(null, this.theme);
-      var superAddControl = this.addControl.bind(this);
-
-      this.config("text", elmText);
-      this.config("cascade");
-
-      var superAddChild = this.addChild.bind(this);
-      var canChangeChildState = true;
-      var touchStarted = false;
-      var openByClick = false;
-
-      var instance = this;
-
-      superAddControl(elmText);
-      this.text = text;
-      this.hoverable = true;
-
-      this.setAttribute("element-type", "MenuItem");
-      this.setAttribute("element-name", "container");
-
-      elmText.setAttribute("element-type", "MenuItem");
-      // elmText.setAttribute("element-name", "text");
-
-      /**
-       * @param {MenuItem|Spacer} item
-       */
-      this.addControl = this.addChild = this.addSubmenu = function(item) {
-        if (instanceOf(item, MenuItem) || instanceOf(item, Spacer)) {
-          if (!this.hasSubmenu) {
-            superAddChild(ctrlMenu);
-          }
-          ctrlMenu.addControl(item);
+    this.defineMethod("addControl", (item) => {
+      if (instanceOf(item, MenuItem) || instanceOf(item, Spacer)) {
+        if (!that.hasSubmenu) {
+          superAddChild(ctrlMenu);
         }
-      };
+        ctrlMenu.addControl(item);
+      }
+    });
 
-      this.addEvent("mouseover", function(e) {
-        if (canChangeChildState && !touchStarted) {
-          instance.viewChild(true);
-        }
-      });
-      this.addEvent("mouseleave", function(e) {
-        if (canChangeChildState && !touchStarted) {
-          instance.viewChild(false);
-        }
-      });
+    this.addEvent("mouseover", function (e) {
+      if (canChangeChildState && !touchStarted) {
+        that.viewChild(true);
+      }
+    });
+    this.addEvent("mouseleave", function (e) {
+      if (canChangeChildState && !touchStarted) {
+        that.viewChild(false);
+      }
+    });
 
-      elmText.addEventListener("touchstart", function(e) {
-        if (canChangeChildState) {
-          touchStarted = true;
-        }
-      });
+    elmText.addEventListener("touchstart", function (e) {
+      if (canChangeChildState) {
+        touchStarted = true;
+      }
+    });
 
-      elmText.addEventListener("touchend", function(e) {
-        if (
-          canChangeChildState &&
-          touchStarted &&
-          document.elementFromPoint(
-            e.changedTouches[0].pageX,
-            e.changedTouches[0].pageY
-          ) === e.changedTouches[0].target
-        ) {
-          instance.viewChild();
-          canChangeChildState = false;
-          touchStarted = false;
-        }
+    elmText.addEventListener("touchend", function (e) {
+      if (
+        canChangeChildState &&
+        touchStarted &&
+        document.elementFromPoint(
+          e.changedTouches[0].pageX,
+          e.changedTouches[0].pageY
+        ) === e.changedTouches[0].target
+      ) {
+        that.viewChild();
+        canChangeChildState = false;
+        touchStarted = false;
+      }
 
-        setTimeout(function() {
-          canChangeChildState = true;
-        }, 100);
-      });
-    }
-  },
-  BText,
-  BCascade
-);
+      setTimeout(function () {
+        canChangeChildState = true;
+      }, 100);
+    });
+  }
+}

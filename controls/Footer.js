@@ -1,3 +1,11 @@
+import {
+    Control
+} from "../core/Control.js";
+import {
+    BFixElement,
+    EFixElement
+} from "../behaviors/BFixElement.js";
+
 /**
  * Created by samir on 09/20/18.
  */
@@ -9,19 +17,19 @@
  * @extends {Control}
  * @implements {BFixElement}
  */
-Footer = Control.extend({
+export class Footer extends Control {
     /**
      * @constructs
      * @param {UI} parent
      * @param {string} theme = ""
      */
-    init: function (parent, fixed, theme) {
-        this.super(parent, theme);
-        this.config("fix_element", BFixElement.EBottom);
+    constructor(parent, fixed = true, theme = "") {
+        super(parent, theme);
+        this.config(BFixElement, EFixElement.BOTTOM);
 
         this.fixed = fixed;
 
         this.setAttribute("element-type", "Footer");
         this.setAttribute("element-name", "container");
-    },
-}, BFixElement);
+    }
+}

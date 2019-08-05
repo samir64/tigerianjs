@@ -1,4 +1,6 @@
-import { instanceOf } from "../core/Tigerian.js";
+import {
+  instanceOf
+} from "../core/Tigerian.js";
 
 ("use strict");
 
@@ -8,68 +10,57 @@ import { instanceOf } from "../core/Tigerian.js";
  * @implements {BGroup}
  * @implements {BTable}
  */
-Table = Control.extend(
-  {
+export class Table extends Control {
+  /**
+   * @constructs
+   * @param {UI} parent
+   * @param {number} colCount = 1
+   * @param {string} caption = ""
+   * @param {string} theme = ""
+   */
+  constructor(parent, colCount = 1, caption = "", theme = "") {
+    super(parent, theme);
+
+    this.setAttribute("element-type", "Table");
+    this.setAttribute("element-name", "container");
+
+    var ctrlTableHeader = new Header(this, false, this.theme);
+    var ctrlTableBody = new TableBody(this, this.theme);
+    var ctrlCaption = new Label(ctrlTableHeader, "", this.theme);
+
+    this.config(BGroup, ctrlTableBody);
+    this.config(BTable, colCount, ctrlTableBody);
+
+    ctrlCaption.text = caption;
+
     /**
-     * @constructs
-     * @param {UI} parent
-     * @param {number} colCount = 1
-     * @param {string} caption = ""
-     * @param {string} theme = ""
+     * @member {string}
      */
-    init: function(parent, colCount, caption, theme) {
-      this.super(parent, theme);
+    this.defineProperty("caption", {
+      get() {
+        return ctrlCaption.text;
+      },
+      set(v) {
+        ctrlCaption.text = v;
+      },
+      type: String
+    });
 
-      this.setAttribute("element-type", "Table");
-      this.setAttribute("element-name", "container");
+    /**
+     * @member {boolean}
+     */
+    this.defineProperty("captionVisible", {
+      get() {
+        return ctrlCaption.visible;
+      },
+      set(v) {
+        ctrlCaption.visible = v;
+      },
+      type: Boolean
+    });
 
-      var ctrlTableHeader = new Header(this, false, this.theme);
-      var ctrlTableBody = new TableBody(this, this.theme);
-      var ctrlCaption = new Label(ctrlTableHeader, "", this.theme);
-
-      this.config("group", ctrlTableBody);
-      this.config("table", colCount, ctrlTableBody);
-
-      ctrlCaption.text = caption;
-
-      /**
-       * @member {string}
-       */
-      Object.defineProperty(this, "caption", {
-        enumerable: true,
-        configurable: true,
-        get: function() {
-          return ctrlCaption.text;
-        },
-        set: function(v) {
-          if (instanceOf(v, String)) {
-            ctrlCaption.text = v;
-          }
-        }
-      });
-
-      /**
-       * @member {boolean}
-       */
-      Object.defineProperty(this, "captionVisible", {
-        enumerable: true,
-        configurable: true,
-        get: function() {
-          return ctrlCaption.visible;
-        },
-        set: function(v) {
-          if (instanceOf(v, "boolean")) {
-            ctrlCaption.visible = v;
-            inst;
-          }
-        }
-      });
-
-      this.addControl = this.addItem = this.addRow;
-      delete this.removeItem;
-      // delete this.clear;
-    }
-  },
-  BGroup,
-  BTable
-);
+    this.addControl = this.addItem = this.addRow;
+    delete this.removeItem;
+    // delete this.clear;
+  }
+}

@@ -10,49 +10,44 @@
  * @implements {BText}
  * @constructor
  */
-ListItem = Control.extend(
-  {
-    /**
-     * @constructs
-     * @param {UI} parent
-     * @param {string} text
-     * @param {string} [theme = ""]
-     */
-    init: function(parent, text, theme) {
-      var elmItem = document.createElement("div");
+export class ListItem extends Control {
+  /**
+   * @constructs
+   * @param {UI} parent
+   * @param {string} text
+   * @param {string} [theme = ""]
+   */
+  constructor(parent, text, theme = "") {
+    var elmItem = document.createElement("div");
 
-      this.super(parent, theme);
-      this.config("select");
-      this.config("text", elmItem);
+    super(parent, theme);
+    this.config(BSelect);
+    this.config(BText, elmItem, text);
 
-      this.addControl(elmItem);
+    this.addControl(elmItem);
 
-      // if (instanceOf(text, String)) {
-      //     elmItem.innerHTML = text;
-      // }
-      this.text = text;
+    // if (instanceOf(text, String)) {
+    //     elmItem.innerHTML = text;
+    // }
 
-      //NOTE Attributes
-      this.setAttribute("element-type", "ListItem");
-      this.setAttribute("element-name", "container");
+    //NOTE Attributes
+    this.setAttribute("element-type", "ListItem");
+    this.setAttribute("element-name", "container");
 
-      elmItem.setAttribute("element-type", "ListItem");
-      elmItem.setAttribute("element-name", "item");
+    elmItem.setAttribute("element-type", "ListItem");
+    elmItem.setAttribute("element-name", "item");
 
-      // Object.defineProperty(this, "text", {
-      //     enumerable: true,
-      //     configurable: true,
-      //     get: function () {
-      //         return elmItem.innerHTML;
-      //     },
-      //     set: function (v) {
-      //         if (instanceOf(v, String)) {
-      //             elmItem.innerHTML = v;
-      //         }
-      //     },
-      // });
-    }
-  },
-  BSelect,
-  BText
-);
+    // Object.defineProperty(this, "text", {
+    //     enumerable: true,
+    //     configurable: true,
+    //     get: function () {
+    //         return elmItem.innerHTML;
+    //     },
+    //     set: function (v) {
+    //         if (instanceOf(v, String)) {
+    //             elmItem.innerHTML = v;
+    //         }
+    //     },
+    // });
+  }
+}

@@ -9,32 +9,33 @@
  * @extends {Control}
  * @constructor
  */
-Spacer = Control.extend({
-    /**
-     * @constructs
-     * @param {UI} parent
-     * @param {boolean} [hrLine = false]
-     * @param {string} [theme = ""]
-     */
-    init: function (parent, hrLine, vertical, theme) {
-        this.super(parent, theme);
+export class Spacer extends Control {
+  /**
+   * @constructs
+   * @param {UI} parent
+   * @param {boolean} [hrLine = false]
+   * @param {boolean} [vertical = false]
+   * @param {string} [theme = ""]
+   */
+  constructor(parent, hrLine = false, vertical = false, theme = "") {
+    super(parent, theme);
 
-        this.setAttribute("element-type", "Spacer");
-        this.setAttribute("element-name", "container");
+    this.setAttribute("element-type", "Spacer");
+    this.setAttribute("element-name", "container");
 
-        this.setAttribute("horizontal-line", ((hrLine === true) ? "true" : "false"));
-        this.setAttribute("vertical", ((vertical === true) ? "true" : "false"));
+    this.setAttribute("horizontal-line", ((hrLine === true) ? "true" : "false"));
+    this.setAttribute("vertical", ((vertical === true) ? "true" : "false"));
 
-        // if (hrLine === true) {
-        //     var elmHr = document.createElement("hr");
-        //     this.addControl(elmHr);
+    // if (hrLine === true) {
+    //     var elmHr = document.createElement("hr");
+    //     this.addControl(elmHr);
 
-        //     elmHr.setAttribute("element-type", "Spacer");
-        //     elmHr.setAttribute("element-name", "hr");
-        // }
+    //     elmHr.setAttribute("element-type", "Spacer");
+    //     elmHr.setAttribute("element-name", "hr");
+    // }
 
-        delete this.headText;
-        delete this.footText;
-        delete this.addControl;
-    },
-});
+    delete this.headText;
+    delete this.footText;
+    delete this.addControl;
+  }
+}

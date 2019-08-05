@@ -10,162 +10,126 @@
  * @implements {BLabel}
  * @class
  */
-Label = Control.extend(
-  {
+export class Label extends Control {
+  /**
+   * @constructs
+   * @param {UI} parent
+   * @param {string} text = ""
+   * @param {string} theme = ""
+   */
+  constructor(parent, text, theme = "") {
+    var elmLabel = document.createElement("div");
+    var elmFormatText;
+    var formatTextRenew = true;
+
+    super(parent, theme);
+    this.config(BText, elmLabel, text);
+    this.config(BLabel);
+
+    var initText = Object.getOwnPropertyDescriptor(this, "text");
+    var source;
+    var that = this;
+
+    //NOTE Attributes
+    this.setAttribute("element-type", "Label");
+    this.setAttribute("element-name", "container");
+
+    elmLabel.setAttribute("element-type", "Label");
+    // elmLabel.setAttribute("element-name", "text");
+
+    this.setAttribute("inline-mode", "false");
+
+    // if (instanceOf(text, String)) {
+    //     elmLabel.innerHTML = text;
+    // }
+
+    //NOTE Append Children
+    this.addControl(elmLabel);
+
+    var createFormatText = () => {
+      if (formatTextRenew) {
+        elmFormatText = document.createElement("div");
+
+        elmFormatText.setAttribute("element-type", "Label");
+        elmFormatText.setAttribute("element-name", "text");
+
+        formatTextRenew = false;
+      }
+    };
+
+    //NOTE Properties
     /**
-     * @constructs
-     * @param {UI} parent
-     * @param {string} text = ""
-     * @param {string} theme = ""
+     * @member {Control}
      */
-    init: function(parent, text, theme) {
-      var elmLabel = document.createElement("div");
-      var elmFormatText;
-      var formatTextRenew = true;
+    this.defineProperty("source", {
+      get() {
+        return source;
+      },
+      set(v) {
+        source = v;
+      },
+      type: Control
+    });
 
-      this.super(parent, theme);
-      this.config("text", elmLabel);
-      this.config("label");
+    this.defineProperty("text", {
+      get: initText.get.bind(this),
+      set(v) {
+        elmFormatText.remove();
+        createFormatText();
+        initText.set.bind(this)(v);
+      },
+      type: String
+    });
 
-      var initText = Object.getOwnPropertyDescriptor(this, "text");
+    /**
+     * @param {string} text
+     * @param {Control[]} ...controls
+     */
+    this.defineMethod("format", (text, controls) => {
+      if (instanceOf(text, String)) {
+        var lastIndex = 0;
+        var pat = /@/g;
+        var i = 0;
 
-      //NOTE Private Variables
-      var source;
+        controls = Array.from(arguments).slice(1);
 
-      //NOTE Attributes
-      this.setAttribute("element-type", "Label");
-      this.setAttribute("element-name", "container");
+        formatTextRenew = true;
+        that.text = "";
+        that.addControl(elmFormatText);
 
-      elmLabel.setAttribute("element-type", "Label");
-      // elmLabel.setAttribute("element-name", "text");
-
-      this.setAttribute("inline-mode", "false");
-
-      // if (instanceOf(text, String)) {
-      //     elmLabel.innerHTML = text;
-      // }
-
-      this.text = text;
-
-      //NOTE Append Children
-      this.addControl(elmLabel);
-
-      var createFormatText = function() {
-        if (formatTextRenew) {
-          elmFormatText = document.createElement("div");
-
-          elmFormatText.setAttribute("element-type", "Label");
-          elmFormatText.setAttribute("element-name", "text");
-
-          formatTextRenew = false;
-        }
-      };
-
-      //NOTE Properties
-      /**
-       * @member {Control}
-       */
-      Object.defineProperty(this, "source", {
-        enumerable: true,
-        configurable: true,
-        get: function() {
-          return source;
-        },
-        set: function(v) {
-          if (instanceOf(v, Control)) {
-            source = v;
-          }
-        }
-      });
-
-      /**
-       * @member {boolean}
-       */
-      Object.defineProperty(this, "inline", {
-        enumerable: true,
-        configurable: true,
-        /**
-         * @returns {boolean}
-         */
-        get: function() {
-          return this.getAttribute("inline-mode") === "true";
-        },
-        /**
-         * @param {boolean} v = false
-         */
-        set: function(v) {
-          if (v === true) {
-            this.setAttribute("inline-mode", "true");
-          } else {
-            this.setAttribute("inline-mode", "false");
-          }
-        }
-      });
-
-      Object.defineProperty(this, "text", {
-        enumerable: true,
-        configurable: true,
-        get: initText.get.bind(this),
-        set: function(v) {
-          elmFormatText.remove();
-          createFormatText();
-          initText.set.bind(this)(v);
-        }
-      });
-
-      /**
-       * @param {string} text
-       * @param {Control[]} ...controls
-       */
-      this.format = function(text, controls) {
-        if (instanceOf(text, String)) {
-          var lastIndex = 0;
-          var pat = /@/g;
-          var i = 0;
-
-          controls = Array.from(arguments).slice(1);
-
-          formatTextRenew = true;
-          this.text = "";
-          this.addControl(elmFormatText);
-
-          while (pat.exec(text) != null && i < controls.length) {
-            if (text[pat.lastIndex - 2] !== "\\") {
-              if (instanceOf(controls[i], Control)) {
-                var subText = text
-                  .substr(lastIndex, pat.lastIndex - lastIndex - 1)
-                  .replace("\\@", "@");
-                var textNode = document.createTextNode(subText);
-                elmFormatText.appendChild(textNode);
-                controls[i].parent = elmFormatText;
-                lastIndex = pat.lastIndex;
-              }
-              i++;
+        while (pat.exec(text) != null && i < controls.length) {
+          if (text[pat.lastIndex - 2] !== "\\") {
+            if (instanceOf(controls[i], Control)) {
+              var subText = text
+                .substr(lastIndex, pat.lastIndex - lastIndex - 1)
+                .replace("\\@", "@");
+              var textNode = document.createTextNode(subText);
+              elmFormatText.appendChild(textNode);
+              controls[i].parent = elmFormatText;
+              lastIndex = pat.lastIndex;
             }
+            i++;
           }
-
-          var textNode = document.createTextNode(
-            text.substr(lastIndex).replace("\\@", "@")
-          );
-          elmFormatText.appendChild(textNode);
         }
-      };
 
-      elmLabel.addEventListener(
-        "click",
-        function(e) {
-          if (source) {
-            source.select();
-          }
-        },
-        true
-      );
+        var textNode = document.createTextNode(
+          text.substr(lastIndex).replace("\\@", "@")
+        );
+        elmFormatText.appendChild(textNode);
+      }
+    });
 
-      // delete this.addControl;
-      createFormatText();
-    },
-    enums: []
-  },
-  BText,
-  BLabel
-);
+    elmLabel.addEventListener(
+      "click",
+      (e) => {
+        if (source) {
+          source.select();
+        }
+      },
+      true
+    );
+
+    // delete this.addControl;
+    createFormatText();
+  }
+}

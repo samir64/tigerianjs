@@ -6,17 +6,17 @@
  * @implements {BGroup}
  * @implements {BTable}
  */
-TableBody = Control.extend({
-    /**
-     * @constructs
-     * @param {UI} parent
-     * @param {string} theme = ""
-     */
-    init: function (parent, theme) {
-        this.super(parent, theme);
-        this.config("group");
+export class TableBody extends Control {
+  /**
+   * @constructs
+   * @param {UI} parent
+   * @param {string} theme = ""
+   */
+  constructor(parent, theme = "") {
+    super(parent, theme);
+    this.config(BGroup);
 
-        this.setAttribute("element-type", "TableBody");
-        this.setAttribute("element-name", "container");
-    }
-}, BGroup, BTable);
+    this.setAttribute("element-type", "TableBody");
+    this.setAttribute("element-name", "container");
+  }
+}

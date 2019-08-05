@@ -6,27 +6,26 @@
  * @implements {BText}
  * @implements {BCancel}
  */
-Notification = Control.extend({
-    /**
-     * @constructs
-     * @param {UI} parent
-     * @param {string} text = ""
-     * @param {string} theme = ""
-     */
-    init: function (parent, text, theme) {
-        var elmMessage = document.createElement("div");
+export class Notification extends Control {
+  /**
+   * @constructs
+   * @param {UI} parent
+   * @param {string} text = ""
+   * @param {string} theme = ""
+   */
+  constructor(parent, text, theme = "") {
+    var elmMessage = document.createElement("div");
 
-        this.super(parent, theme);
-        this.config("text", elmMessage);
-        this.config("cancel");
+    super(parent, theme);
+    this.config(BText, elmMessage, text);
+    this.config(BCancel);
 
-        this.setAttribute("element-type", "Notification");
-        this.setAttribute("element-name", "container");
+    this.setAttribute("element-type", "Notification");
+    this.setAttribute("element-name", "container");
 
-        elmMessage.setAttribute("element-type", "Notification");
-        // elmMessage.setAttribute("element-name", "message");
+    elmMessage.setAttribute("element-type", "Notification");
+    // elmMessage.setAttribute("element-name", "message");
 
-        this.addControl(elmMessage);
-        this.text = text;
-    },
-}, BText, BCancel);
+    this.addControl(elmMessage);
+  }
+}

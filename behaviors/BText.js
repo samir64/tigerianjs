@@ -30,9 +30,7 @@ export class BText extends Behavior {
   constructor() {
     super();
 
-    this.defineMethod("config", (that, ctrlText) => {
-      var text = "";
-
+    this.defineMethod("config", (that, ctrlText, text = "") => {
       if (instanceOf(ctrlText, Element)) {
         ctrlText.setAttribute("element-name", "text");
       }

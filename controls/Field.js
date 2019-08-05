@@ -1,3 +1,7 @@
+import {
+    Control
+} from "../core/Control.js";
+
 /**
  * Created by samir on 8/26/16.
  */
@@ -10,7 +14,7 @@
  * @extends {Control}
  * @implements {BText}
  */
-Field = Control.extend({
+export class Field extends Control {
     /**
      * @constructs
      * @param {UI} parent
@@ -18,15 +22,15 @@ Field = Control.extend({
      * @param {string} [text = ""]
      * @param {string} [theme = ""]
      */
-    init: function (parent, label, text, theme) {
-        this.super(parent, theme);
+    constructor(parent, label = "", text = "", theme = "") {
+        super(parent, theme);
 
         var ctrlText = new TextBox(this, text, theme);
         var ctrlLabel = new Label(this, label, theme);
 
         var superEnabled = Object.getOwnPropertyDescriptor(this, "enabled");
 
-        this.config("text", ctrlText);
+        this.config(BText, ctrlText);
 
         ctrlLabel.source = ctrlText;
         ctrlLabel.situation = Control.ETransparent;
@@ -42,11 +46,9 @@ Field = Control.extend({
         /**
          * @member {boolean}
          */
-        Object.defineProperty(this, "enabled", {
-            enumerable: true,
-            configurable: true,
+        this.defineProperty("enabled", {
             get: superEnabled.get.bind(this),
-            set: function (v) {
+            set(v) {
                 ctrlLabel.enabled = v;
                 ctrlText.enabled = v;
                 superEnabled.set.bind(this)(v);
@@ -56,14 +58,12 @@ Field = Control.extend({
         /**
          * @member {string}
          */
-        Object.defineProperty(this, "label", {
-            enumerable: true,
-            configurable: true,
-            get: function () {
+        this.defineProperty("label", {
+            get() {
                 // return ctrlLabel;
                 return ctrlLabel.text;
             },
-            set: function (v) {
+            set(v) {
                 ctrlLabel.text = v;
             },
 
@@ -88,9 +88,9 @@ Field = Control.extend({
         }
 
         //NOTE Public Functions
-        this.select = function () {
+        this.defineMethod("select", () => {
             ctrlText.select();
-        };
+        });
 
 
         //NOTE Default Event
@@ -99,4 +99,4 @@ Field = Control.extend({
         ctrlText.addEvent("focus", onFocus.bind(this));
         ctrlText.addEvent("blur", onBlur.bind(this));
     }
-}, BText);
+}

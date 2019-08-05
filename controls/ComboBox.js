@@ -4,6 +4,9 @@ import {
 import {
   Control
 } from "../core/Control.js";
+import {
+  BSelect
+} from "../behaviors/BSelect.js";
 
 /**
  * Created by samir on 11/11/16.
@@ -165,7 +168,7 @@ export class ComboBox extends Control {
     this.defineMethod("addControl", (item) => {
       if (instanceOf(item, String)) {
         item = new ListItem(null, item, that.theme);
-      } else if (!(instanceOf(item, Control) && item["Behavior:select"])) {
+      } else if (!instanceOf(item, BSelect)) {
         item = new ListItem(
           null,
           "Item " + (that.itemCount + 1).toString(),

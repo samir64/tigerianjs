@@ -11,61 +11,58 @@
  * @implements {BText}
  * @constructor
  */
-RadioButton = Control.extend({
-	/**
-	 * @constructs
-	 * @param {UI} parent
-	 * @param {string} [text = ""]
-	 * @param {string} [theme = ""]
-	 */
-	init: function (parent, text, theme) {
-		var elmRadioButton = document.createElement("div");
-		var elmLabel = document.createElement("div");
+export class RadioButton extends Control {
+  /**
+   * @constructs
+   * @param {UI} parent
+   * @param {string} [text = ""]
+   * @param {string} [theme = ""]
+   */
+  constructor(parent, text, theme = "") {
+    var elmRadioButton = document.createElement("div");
+    var elmLabel = document.createElement("div");
 
-		this.super(parent, theme);
-		this.config("select");
-		this.config("text", elmLabel);
-
-
-		//NOTE Alias Super Members
-		var superSelected = Object.getOwnPropertyDescriptor(this, "selected");
+    super(parent, theme);
+    this.config(BSelect);
+    this.config(BText, elmLabel, text);
 
 
-		//NOTE Private Variables
-		var instance = this;
+    //NOTE Alias Super Members
+    var superSelected = Object.getOwnPropertyDescriptor(this, "selected");
 
-		//NOTE Attributes
-		this.setAttribute("element-name", "container");
-		this.setAttribute("element-type", "RadioButton");
 
-		elmRadioButton.setAttribute("element-name", "button");
-		elmRadioButton.setAttribute("element-type", "RadioButton");
-		elmRadioButton.setAttribute("element-situation", "");
-		elmRadioButton.setAttribute("element-hoverable", "true");
+    //NOTE Private Variables
+    var that = this;
 
-		// elmLabel.setAttribute("element-name", "label");
-		elmLabel.setAttribute("element-type", "RadioButton");
+    //NOTE Attributes
+    this.setAttribute("element-name", "container");
+    this.setAttribute("element-type", "RadioButton");
 
-		//NOTE Append Children
-		this.addControl(elmRadioButton);
-		this.addControl(elmLabel);
+    elmRadioButton.setAttribute("element-name", "button");
+    elmRadioButton.setAttribute("element-type", "RadioButton");
+    elmRadioButton.setAttribute("element-situation", "");
+    elmRadioButton.setAttribute("element-hoverable", "true");
 
-		this.text = text;
+    // elmLabel.setAttribute("element-name", "label");
+    elmLabel.setAttribute("element-type", "RadioButton");
 
-		this.autoDeselect = false;
+    //NOTE Append Children
+    this.addControl(elmRadioButton);
+    this.addControl(elmLabel);
 
-		/**
-		 * @member {boolean}
-		 */
-		Object.defineProperty(this, "autoDeselect", {
-			enumerable: true,
-			configurable: true,
-			get: function () {
-				return false;
-			},
-			set: function (v) {
+    this.autoDeselect = false;
 
-			},
-		});
-	},
-}, BSelect, BText);
+    /**
+     * @member {boolean}
+     */
+    this.defineProperty("autoDeselect", {
+      get() {
+        return false;
+      },
+      set(v) {
+
+      },
+      type: Boolean
+    });
+  }
+}

@@ -1,4 +1,6 @@
-import { instanceOf } from "../core/Tigerian.js";
+import {
+    instanceOf
+} from "../core/Tigerian.js";
 
 ("use strict");
 
@@ -7,29 +9,29 @@ import { instanceOf } from "../core/Tigerian.js";
  * @extends {Control}
  * @implements {BGroup}
  */
-MainMenu = Control.extend({
+export class MainMenu extends Control {
+  /**
+   * @constructs
+   * @param {UI} parent
+   * @param {string} theme = ""
+   */
+  constructor(parent, theme = "") {
+    super(parent, theme);
+    this.config(BGroup);
+
+    var superAddControl = this.addControl.bind(this);
+    var superAddItem = this.addItem.bind(this);
+
+    this.setAttribute("element-type", "MainMenu");
+    this.setAttribute("element-name", "container");
+
     /**
-     * @constructs
-     * @param {UI} parent
-     * @param {string} theme = ""
+     * @param {Tigeriam.MenuItem} item
      */
-    init: function (parent, theme) {
-        this.super(parent, theme);
-        this.config("group");
-
-        var superAddControl = this.addControl.bind(this);
-        var superAddItem = this.addItem.bind(this);
-
-        this.setAttribute("element-type", "MainMenu");
-        this.setAttribute("element-name", "container");
-
-        /**
-         * @param {Tigeriam.MenuItem} item
-         */
-        this.addControl = this.addItem = function (item) {
-            if (instanceOf(item, MenuItem)) {
-                superAddItem(item);
-            }
-        };
-    },
-}, BGroup);
+    this.defineMethod("addControl", (item) => {
+      if (instanceOf(item, MenuItem)) {
+        superAddItem(item);
+      }
+    });
+  }
+}
