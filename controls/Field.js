@@ -30,7 +30,7 @@ export class Field extends Control {
 
         var superEnabled = Object.getOwnPropertyDescriptor(this, "enabled");
 
-        this.config(BText, ctrlText);
+        this.config(BText, ctrlText, text);
 
         ctrlLabel.source = ctrlText;
         ctrlLabel.situation = Control.ETransparent;

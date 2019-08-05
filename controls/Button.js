@@ -31,7 +31,7 @@ export class Button extends Control {
     var elmButton = document.createElement("div");
 
     super(parent, theme);
-    this.config(BText, elmButton);
+    this.config(BText, elmButton, text);
 
     var that = this;
 
@@ -43,10 +43,6 @@ export class Button extends Control {
     // elmButton.setAttribute("element-name", "text");
 
     this.setAttribute("fit-content", "false");
-
-    if (instanceOf(text, String)) {
-      elmButton.innerHTML = text;
-    }
 
     //NOTE Append Children
     this.addControl(elmButton);

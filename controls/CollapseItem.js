@@ -38,7 +38,7 @@ export class CollapseItem extends Control {
     this.addControl(elmText);
     this.addControl(ctrlList);
 
-    this.config(BText, elmText);
+    this.config(BText, elmText, text);
     this.config(BCascade, ctrlList);
 
     var that = this;
@@ -46,7 +46,6 @@ export class CollapseItem extends Control {
     var canChangeChildState = true;
     var touchStarted = false;
 
-    this.text = text;
     ctrlList.visible = false;
 
     this.setAttribute("element-type", "CollapseItem");

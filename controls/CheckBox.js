@@ -33,7 +33,7 @@ export class CheckBox extends Control {
 
     super(parent, theme);
     this.config(BSelect);
-    this.config(BText, elmLabel);
+    this.config(BText, elmLabel, text);
 
     //NOTE Alias Super Members
     var superSelected = Object.getOwnPropertyDescriptor(this, "selected");
@@ -56,8 +56,6 @@ export class CheckBox extends Control {
     //NOTE Append Children
     this.addControl(elmCheckBox);
     this.addControl(elmLabel);
-
-    this.text = text;
 
     this.defineProperty("indeterminate", {
       get() {
