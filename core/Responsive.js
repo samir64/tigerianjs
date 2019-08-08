@@ -75,7 +75,7 @@ export let responsiveSizes = {
         }
         mediaQuery += `\t[${sizeName}-column="${
           sizeNames[j]
-        }"][{that}-column="${col}"]`;
+          }"][${sizeNames[j]}-column="${col}"]`;
       }
       mediaQuery += ` {\n\t\twidth: ${(col * 100) / 12}% !important;\n\t}\n\n`;
     }
@@ -90,10 +90,10 @@ export let responsiveSizes = {
     mediaQuery += "\t\tmargin-right: auto !important;\n";
     mediaQuery += `\t\tpadding-left: ${
       sizeInfo.containerPadding
-    }px !important;\n`;
+      }px !important;\n`;
     mediaQuery += `\t\tpadding-right: ${
       sizeInfo.containerPadding
-    }px !important;\n`;
+      }px !important;\n`;
     mediaQuery += "\t\tdisplay: block;\n";
     mediaQuery += "\t}\n\n";
 
