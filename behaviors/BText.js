@@ -92,6 +92,8 @@ export class BText extends Behavior {
         ctrlText.addEventListener("change", changeText);
         ctrlText.addEventListener("input", changeText);
       }
+
+      that.text = text;
     }, [Object, [Element, Control]]);
   }
 }

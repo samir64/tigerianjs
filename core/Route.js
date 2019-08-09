@@ -43,9 +43,9 @@ export class Route extends Tigerian {
 
     var getGoodPath = function (path) {
       if (instanceOf(path, String)) {
-        path = path.replace(/^\/*(.*[^\/])\/*/, "$1");
+        path = path.replace(/^\/*#?\/*([^\/].*[^\/])\/*$/, "$1");
         if ((path !== "") && (path !== "/")) {
-          path = path + "/";
+          // path = path + "/";
         } else {
           path = "/";
         }
@@ -128,7 +128,9 @@ export class Route extends Tigerian {
 
       if (instanceOf(route, String) && (route !== "") && (route !== "/") && (route !== "#")) {
         if (useHashTag) {
-          window.location.href = window.location.origin + "/" + applicationRoot + route;
+          // var separator = (applicationRoot.startsWith("/") ? "" : "/");
+          // window.location.href = window.location.origin + separator + applicationRoot + route;
+          window.location.hash = "/" + route;
         } else {
           window.history.pushState({}, undefined, applicationRoot + route);
           that.render();
@@ -146,6 +148,7 @@ export class Route extends Tigerian {
     this.defineMethod("render", () => {
       var url = getGoodPath(window.location.pathname + (useHashTag ? window.location.hash : ""));
       var check = getBestMatch(getGoodPath(getPath(url)));
+
       if (useHashTag && (check[0] === "/") && (window.location.hash !== "#/")) {
         window.location.hash = "/";
       }
@@ -167,8 +170,15 @@ export class Route extends Tigerian {
         } else {
           routesList[lastRoute].hide();
         }
-        var pureRoute = route.substring((route.startsWith("/") ? 1 : 0), (route.endsWith("/") ? route.length - 1 : undefined));
-        routesList[route].refresh(params, pureRoute, pureRoute.split("/"));
+        var limit = [route.startsWith("/") ? 1 : 0, route.endsWith("/") ? route.length - 1 : route.length];
+        var pureRoute = "/";
+        var routeParts = [];
+        if (limit[0] < limit[1]) {
+          pureRoute = route.substring(limit[0], limit[1]);
+          routeParts = pureRoute.split("/");
+        }
+
+        routesList[route].refresh(params, pureRoute, routeParts);
         routesList[route].show();
 
         lastRoute = route;
@@ -216,12 +226,20 @@ export class Route extends Tigerian {
         return lastRoute;
       },
       set(v) {
-        this.redirect(v);
+        that.redirect(v);
       }
     })
 
-    window.onhashchange = window.onpopstate = function (e) {
-      this.render();
-    }.bind(this);
+    window.onhashchange = (e) => {
+      if (useHashTag) {
+        that.render();
+      }
+    };
+
+    window.onpopstate = (e) => {
+      if (!useHashTag) {
+        that.render();
+      }
+    };
   }
 }
