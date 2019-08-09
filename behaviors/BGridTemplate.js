@@ -81,7 +81,7 @@ export class BGridTemplate extends Behavior {
 
           var colCount = blocks[0].getColCount(size.name);
           // var colWidth = Math.round(10000 / colCount) / 100;
-          templatesText[sizeName].data = `  [element-name="container"][template-name="${name}"][visible="true"] {\n    display: grid;\n    max-width: ${size.containerWidth};\n    margin-left: auto;\n    margin-right: auto;\n    grid-template-areas:\n${template};\ngrid-template-columns: repeat(auto-fit, minmax(0px, 1fr));\n}\n\n`;
+          templatesText[sizeName].data = `  [element-name="container"][template-name="${name}"][visible="true"] {\n    display: grid;\n    max-width: ${size.containerWidth};\n    margin-left: auto;\n    margin-right: auto;\n    grid-template-areas:\n${template};\ngrid-template-columns: repeat(${colCount}, minmax(0px, 1fr));\n}\n\n`;
           // templatesText[sizeName].data = `  [element-name="container"][template-name="${name}"][visible="true"] {\n    display: grid;\n    max-width: ${size.containerWidth};\n    margin-left: auto;\n    margin-right: auto;\n    grid-template-areas:\n${template};\ngrid-template-columns: repeat(${colCount}, 1fr);\n}\n\n`;
           // templatesText[sizeName].data = `  [element-name="container"][template-name="${name}"][visible="true"] {\n    display: grid;\n    column-gap: ${columnGap};\n    max-width: ${size.containerWidth};\n    margin-left: auto;\n    margin-right: auto;\n    grid-template-areas:\n${template};\ngrid-template-columns: repeat(${colCount}, calc(${size.containerWidth} / ${colCount} - ${columnGap}));\n}\n\n`;
         })
