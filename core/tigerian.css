@@ -323,8 +323,8 @@ a[element-type][element-name] {
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
-  padding-left: 15px !IMPORTANT;
-  padding-right: 15px !IMPORTANT;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 [element-type="Container"][element-name="container"]>[element-type="Container"][element-name="body"] {

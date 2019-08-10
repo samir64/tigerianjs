@@ -16,13 +16,13 @@ import {
  * @extends {Control}
  * @constructor
  */
-export class Continer extends Control {
+export class Container extends Control {
   /**
    * @param {UI} parent
    * @param {string} theme = ""
    */
   constructor(parent, theme = "") {
-    super(parent, theme);
+    super(parent, theme, "section");
 
     //NOTE Private Variables
     // var elmBody = document.createElement("div");

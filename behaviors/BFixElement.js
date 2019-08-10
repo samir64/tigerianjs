@@ -1,6 +1,7 @@
 import {
   Behavior
 } from "../core/Behavior.js";
+import { Control } from "../core/Control.js";
 
 /**
  * Created by samir on 09/20/18.
@@ -19,7 +20,7 @@ export class BFixElement extends Behavior {
   constructor() {
     super();
 
-    thid.defineMethod("config", (that, stick, ctrlFix) => {
+    this.defineMethod("config", (that, stick, ctrlFix) => {
       /**
        * @member {boolean} fixed
        */
@@ -48,7 +49,7 @@ export class BFixElement extends Behavior {
 
       ctrlFix.setAttribute("fixed", "true");
       that.addControl = ctrlFix.addControl;
-    }, [Object, Boolean, Control]);
+    }, [Object, Symbol, Control]);
   }
 }
 

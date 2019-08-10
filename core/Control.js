@@ -30,8 +30,8 @@ export class Control extends UI {
    * @param {UI} parent
    * @param {string} theme
    */
-  constructor(parent, theme = "") {
-    var elmDivContainer = document.createElement("div");
+  constructor(parent, theme = "", htmlTag = "div") {
+    var elmDivContainer = document.createElement(htmlTag);
     super(elmDivContainer, parent, theme);
 
     //NOTE Private Variables
@@ -887,11 +887,21 @@ export class Control extends UI {
 }
 
 export const EControl = Object.freeze({
+  // DIVISION: Symbol("div"),
+  // PARAGRAPH: Symbol("p"),
+  // SPAN: Symbol("span"),
+  // SECTION: Symbol("section"),
+  // ARTICLE: Symbol("article"),
+  // HEADER: Symbol("header"),
+  // FOOTER: Symbol("footer"),
+
   LEFT: Symbol("left"),
   RIGHT: Symbol("right"),
   CENTER: Symbol("center"),
   JUSTIFY: Symbol("justify"),
+
   NONE: Symbol("none"),
+
   DEFAULT: Symbol("default"),
   TITLE: Symbol("title"),
   TRANSPARENT: Symbol("transparent"),
