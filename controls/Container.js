@@ -22,7 +22,7 @@ export class Container extends Control {
    * @param {string} theme = ""
    */
   constructor(parent, theme = "") {
-    super(parent, theme, "section");
+    super(parent, theme);
 
     //NOTE Private Variables
     // var elmBody = document.createElement("div");
