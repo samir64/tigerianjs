@@ -4,7 +4,7 @@ import {
 import {
   BText
 } from "../behaviors/BText.js";
-import { BLabel } from "../behaviors/BLabel.js";
+import { BLabel, ELabel } from "../behaviors/BLabel.js";
 
 /**
  * Created by samir on 8/26/16.
@@ -25,8 +25,39 @@ export class Label extends Control {
    * @param {string} text = ""
    * @param {string} theme = ""
    */
-  constructor(parent, text, theme = "") {
-    var elmLabel = document.createElement("div");
+  constructor(parent, text, heading = ELabel.NONE, theme = "") {
+    var tag;
+
+    switch (heading) {
+      case ELabel.HEADING_ONE:
+        tag = "h1";
+        break;
+
+      case ELabel.HEADING_TWO:
+        tag = "h2";
+        break;
+
+      case ELabel.HEADING_THREE:
+        tag = "h3";
+        break;
+
+      case ELabel.HEADING_FOUR:
+        tag = "h4";
+        break;
+
+      case ELabel.HEADING_FIVE:
+        tag = "h5";
+        break;
+
+      case ELabel.HEADING_SIX:
+        tag = "h6";
+        break;
+
+      default:
+        tag = "div";
+    }
+
+    var elmLabel = document.createElement(tag);
     var elmFormatText;
     var formatTextRenew = true;
 

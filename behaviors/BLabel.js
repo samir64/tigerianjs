@@ -44,6 +44,13 @@ export class BLabel extends Behavior {
 }
 
 export const ELabel = Object.freeze({
+  HEADING_ONE: Symbol("h1"),
+  HEADING_TWO: Symbol("h2"),
+  HEADING_THREE: Symbol("h3"),
+  HEADING_FOUR: Symbol("h4"),
+  HEADING_FIVE: Symbol("h5"),
+  HEADING_SIX: Symbol("h6"),
+
   NONE: Symbol("none"),
   TAG: Symbol("tag"),
   BADGE: Symbol("badge")
