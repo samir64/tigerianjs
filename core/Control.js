@@ -1,5 +1,5 @@
 import {
-  instanceOf
+  instanceOf, forEach
 } from "./Tigerian.js";
 import {
   EWindow
@@ -7,6 +7,7 @@ import {
 import {
   UI
 } from "./UI.js";
+import { responsiveSizes } from "./Responsive.js";
 
 
 /**
@@ -56,11 +57,11 @@ export class Control extends UI {
     this.setAttribute("medium-column", "12");
     this.setAttribute("large-column", "medium");
     this.setAttribute("xlarge-column", "medium");
-    this.setAttribute("hide-on-xsmall", "false");
-    this.setAttribute("hide-on-small", "false");
-    this.setAttribute("hide-on-medium", "false");
-    this.setAttribute("hide-on-large", "false");
-    this.setAttribute("hide-on-xlarge", "false");
+    // this.setAttribute("hide-on-xsmall", "false");
+    // this.setAttribute("hide-on-small", "false");
+    // this.setAttribute("hide-on-medium", "false");
+    // this.setAttribute("hide-on-large", "false");
+    // this.setAttribute("hide-on-xlarge", "false");
     this.setAttribute("float", "");
     this.setAttribute("align", "");
     this.setAttribute("title", "");
@@ -144,445 +145,501 @@ export class Control extends UI {
       type: Number
     });
 
-    /**
-     * @member {number|symbol}
-     */
-    this.defineProperty("smallColumn", {
-      /**
-       * @returns {string}
-       */
+    this.defineProperty("column", {
       get() {
-        var v = that.getAttribute("xsmall-column");
-        switch (v) {
-          case "":
-            return EWindow.NONE;
-            break;
+        var result = {};
 
-          case "small":
-            return EWindow.SMALL;
-            break;
-
-          case "medium":
-            return EWindow.MEDIUM;
-            break;
-
-          case "large":
-            return EWindow.LARGE;
-            break;
-
-          case "xlarge":
-            return EWindow.XLARGE;
-            break;
-
-          default:
-            v = parseInt(v, 12);
-            return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
-        }
-      },
-      /**
-       * @param {string} v
-       */
-      set(v) {
-        switch (v) {
-          case EWindow.NONE:
-            that.setAttribute("xsmall-column", "");
-            break;
-
-          case EWindow.SMALL:
-            that.setAttribute("xsmall-column", "small");
-            break;
-
-          case EWindow.MEDIUM:
-            that.setAttribute("xsmall-column", "medium");
-            break;
-
-          case EWindow.LARGE:
-            that.setAttribute("xsmall-column", "large");
-            break;
-
-          case EWindow.XLARGE:
-            that.setAttribute("xsmall-column", "xlarge");
-            break;
-
-          default:
-            if (instanceOf(v, "number")) {
-              that.setAttribute("xsmall-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
+        forEach(responsiveSizes, (size, sizeName) => {
+          Object.defineProperty(result, size.name, {
+            enumerable: true,
+            configurable: false,
+            get() {
+              return that.getAttribute(`${sizeName}-column`);
+            },
+            set(v) {
+              if (instanceOf(v, Number)) {
+                that.setAttribute(`${sizeName}-column`, v);
+              } else if (instanceOf(v, Symbol)) {
+                forEach(responsiveSizes, (s, sn) => {
+                  if (v === s.name) {
+                    that.setAttribute(`${sizeName}-column`, sn);
+                  }
+                });
+              }
             }
+          });
+        });
+
+        return result;
+      },
+      set(v) {
+        if (instanceOf(v, Number)) {
+          that.setAttribute("xsmall-column", "medium");
+          that.setAttribute("small-column", "medium");
+          that.setAttribute("medium-column", `${v}`);
+          that.setAttribute("large-column", "medium");
+          that.setAttribute("xlarge-column", "medium");
+        } else {
+          var vSizeName = "";
+          forEach(responsiveSizes, (size, sizeName) => {
+            if (size.name === v) {
+              vSizeName = sizeName;
+              var value = that.getAttribute(`${sizeName}-column`);
+              if (parseInt(value) != value) {
+                that.setAttribute(`${sizeName}-column`, 12);
+              }
+            }
+          });
+
+          forEach(responsiveSizes, (size, sizeName) => {
+            if (size.name !== v) {
+              that.setAttribute(`${sizeName}-column`, vSizeName);
+            }
+          });
         }
       },
       type: [Number, Symbol]
     });
 
-    /**
-     * @member {number|symbol}
-     */
-    this.defineProperty("mediumColumn", {
-      /**
-       * @returns {string}
-       */
-      get() {
-        var v = that.getAttribute("small-column");
-        switch (v) {
-          case "":
-            return EWindow.NONE;
-            break;
+    // /**
+    //  * @member {number|symbol}
+    //  */
+    // this.defineProperty("xsmallColumn", {
+    //   /**
+    //    * @returns {string}
+    //    */
+    //   get() {
+    //     var v = that.getAttribute("xsmall-column");
+    //     switch (v) {
+    //       case "":
+    //         return EWindow.NONE;
+    //         break;
 
-          case "xsmall":
-            return EWindow.XSMALL;
-            break;
+    //       case "small":
+    //         return EWindow.SMALL;
+    //         break;
 
-          case "medium":
-            return EWindow.MEDIUM;
-            break;
+    //       case "medium":
+    //         return EWindow.MEDIUM;
+    //         break;
 
-          case "large":
-            return EWindow.LARGE;
-            break;
+    //       case "large":
+    //         return EWindow.LARGE;
+    //         break;
 
-          case "xlarge":
-            return EWindow.XLARGE;
-            break;
+    //       case "xlarge":
+    //         return EWindow.XLARGE;
+    //         break;
 
-          default:
-            v = parseInt(v, 12);
-            return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
-        }
-      },
-      /**
-       * @param {string} v
-       */
-      set(v) {
-        switch (v) {
-          case EWindow.NONE:
-            that.setAttribute("small-column", "");
-            break;
+    //       default:
+    //         v = parseInt(v, 12);
+    //         return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
+    //     }
+    //   },
+    //   /**
+    //    * @param {string} v
+    //    */
+    //   set(v) {
+    //     switch (v) {
+    //       case EWindow.NONE:
+    //         that.setAttribute("xsmall-column", "");
+    //         break;
 
-          case EWindow.XSMALL:
-            that.setAttribute("small-column", "xsmall");
-            break;
+    //       case EWindow.SMALL:
+    //         that.setAttribute("xsmall-column", "small");
+    //         break;
 
-          case EWindow.MEDIUM:
-            that.setAttribute("small-column", "medium");
-            break;
+    //       case EWindow.MEDIUM:
+    //         that.setAttribute("xsmall-column", "medium");
+    //         break;
 
-          case EWindow.LARGE:
-            that.setAttribute("small-column", "large");
-            break;
+    //       case EWindow.LARGE:
+    //         that.setAttribute("xsmall-column", "large");
+    //         break;
 
-          case EWindow.XLARGE:
-            that.setAttribute("small-column", "xlarge");
-            break;
+    //       case EWindow.XLARGE:
+    //         that.setAttribute("xsmall-column", "xlarge");
+    //         break;
 
-          default:
-            if (instanceOf(v, "number")) {
-              that.setAttribute("small-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
-            }
-        }
-      },
-      type: [Number, Symbol]
-    });
+    //       default:
+    //         if (instanceOf(v, "number")) {
+    //           that.setAttribute("xsmall-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
+    //         }
+    //     }
+    //   },
+    //   type: [Number, Symbol]
+    // });
 
-    /**
-     * @member {number|symbol}
-     */
-    this.defineProperty("normalColumn", {
-      /**
-       * @returns {string}
-       */
-      get() {
-        var v = that.getAttribute("medium-column");
-        switch (v) {
-          case "":
-            return EWindow.NONE;
-            break;
+    // /**
+    //  * @member {number|symbol}
+    //  */
+    // this.defineProperty("smallColumn", {
+    //   /**
+    //    * @returns {string}
+    //    */
+    //   get() {
+    //     var v = that.getAttribute("small-column");
+    //     switch (v) {
+    //       case "":
+    //         return EWindow.NONE;
+    //         break;
 
-          case "xsmall":
-            return EWindow.XSMALL;
-            break;
+    //       case "xsmall":
+    //         return EWindow.XSMALL;
+    //         break;
 
-          case "small":
-            return EWindow.SMALL;
-            break;
+    //       case "medium":
+    //         return EWindow.MEDIUM;
+    //         break;
 
-          case "large":
-            return EWindow.LARGE;
-            break;
+    //       case "large":
+    //         return EWindow.LARGE;
+    //         break;
 
-          case "xlarge":
-            return EWindow.XLARGE;
-            break;
+    //       case "xlarge":
+    //         return EWindow.XLARGE;
+    //         break;
 
-          default:
-            v = parseInt(v, 12);
-            return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
-        }
-      },
-      /**
-       * @param {string} v
-       */
-      set(v) {
-        switch (v) {
-          case EWindow.NONE:
-            that.setAttribute("medium-column", "");
-            break;
+    //       default:
+    //         v = parseInt(v, 12);
+    //         return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
+    //     }
+    //   },
+    //   /**
+    //    * @param {string} v
+    //    */
+    //   set(v) {
+    //     switch (v) {
+    //       case EWindow.NONE:
+    //         that.setAttribute("small-column", "");
+    //         break;
 
-          case EWindow.XSMALL:
-            that.setAttribute("medium-column", "xsmall");
-            break;
+    //       case EWindow.XSMALL:
+    //         that.setAttribute("small-column", "xsmall");
+    //         break;
 
-          case EWindow.SMALL:
-            that.setAttribute("medium-column", "small");
-            break;
+    //       case EWindow.MEDIUM:
+    //         that.setAttribute("small-column", "medium");
+    //         break;
 
-          case EWindow.LARGE:
-            that.setAttribute("medium-column", "large");
-            break;
+    //       case EWindow.LARGE:
+    //         that.setAttribute("small-column", "large");
+    //         break;
 
-          case EWindow.XLARGE:
-            that.setAttribute("medium-column", "xlarge");
-            break;
+    //       case EWindow.XLARGE:
+    //         that.setAttribute("small-column", "xlarge");
+    //         break;
 
-          default:
-            if (instanceOf(v, "number")) {
-              that.setAttribute("medium-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
-            }
-        }
-      },
-      type: [Number, Symbol]
-    });
+    //       default:
+    //         if (instanceOf(v, "number")) {
+    //           that.setAttribute("small-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
+    //         }
+    //     }
+    //   },
+    //   type: [Number, Symbol]
+    // });
 
-    /**
-     * @member {number|string}
-     */
-    this.defineProperty("largeColumn", {
-      /**
-       * @returns {string}
-       */
-      get() {
-        var v = that.getAttribute("large-column");
-        switch (v) {
-          case "":
-            return EWindow.NONE;
-            break;
+    // /**
+    //  * @member {number|symbol}
+    //  */
+    // this.defineProperty("mediumColumn", {
+    //   /**
+    //    * @returns {string}
+    //    */
+    //   get() {
+    //     var v = that.getAttribute("medium-column");
+    //     switch (v) {
+    //       case "":
+    //         return EWindow.NONE;
+    //         break;
 
-          case "xsmall":
-            return EWindow.XSMALL;
-            break;
+    //       case "xsmall":
+    //         return EWindow.XSMALL;
+    //         break;
 
-          case "small":
-            return EWindow.SMALL;
-            break;
+    //       case "small":
+    //         return EWindow.SMALL;
+    //         break;
 
-          case "medium":
-            return EWindow.MEDIUM;
-            break;
+    //       case "large":
+    //         return EWindow.LARGE;
+    //         break;
 
-          case "xlarge":
-            return EWindow.XLarge;
-            break;
+    //       case "xlarge":
+    //         return EWindow.XLARGE;
+    //         break;
 
-          default:
-            v = parseInt(v, 12);
-            return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
-        }
-      },
-      /**
-       * @param {string} v
-       */
-      set(v) {
-        switch (v) {
-          case EWindow.NONE:
-            that.setAttribute("large-column", "");
-            break;
+    //       default:
+    //         v = parseInt(v, 12);
+    //         return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
+    //     }
+    //   },
+    //   /**
+    //    * @param {string} v
+    //    */
+    //   set(v) {
+    //     switch (v) {
+    //       case EWindow.NONE:
+    //         that.setAttribute("medium-column", "");
+    //         break;
 
-          case EWindow.XSMALL:
-            that.setAttribute("large-column", "xsmall");
-            break;
+    //       case EWindow.XSMALL:
+    //         that.setAttribute("medium-column", "xsmall");
+    //         break;
 
-          case EWindow.SMALL:
-            that.setAttribute("large-column", "small");
-            break;
+    //       case EWindow.SMALL:
+    //         that.setAttribute("medium-column", "small");
+    //         break;
 
-          case EWindow.MEDIUM:
-            that.setAttribute("large-column", "medium");
-            break;
+    //       case EWindow.LARGE:
+    //         that.setAttribute("medium-column", "large");
+    //         break;
 
-          case EWindow.XLarge:
-            that.setAttribute("large-column", "xlarge");
-            break;
+    //       case EWindow.XLARGE:
+    //         that.setAttribute("medium-column", "xlarge");
+    //         break;
 
-          default:
-            if (instanceOf(v, "number")) {
-              that.setAttribute("large-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
-            }
-        }
-      },
-      type: [Number, Symbol]
-    });
+    //       default:
+    //         if (instanceOf(v, "number")) {
+    //           that.setAttribute("medium-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
+    //         }
+    //     }
+    //   },
+    //   type: [Number, Symbol]
+    // });
 
-    /**
-     * @member {number|string}
-     */
-    this.defineProperty("xlargeColumn", {
-      /**
-       * @returns {string}
-       */
-      get() {
-        var v = that.getAttribute("xlarge-column");
-        switch (v) {
-          case "":
-            return EWindow.NONE;
-            break;
+    // /**
+    //  * @member {number|string}
+    //  */
+    // this.defineProperty("largeColumn", {
+    //   /**
+    //    * @returns {string}
+    //    */
+    //   get() {
+    //     var v = that.getAttribute("large-column");
+    //     switch (v) {
+    //       case "":
+    //         return EWindow.NONE;
+    //         break;
 
-          case "xsmall":
-            return EWindow.XSMALL;
-            break;
+    //       case "xsmall":
+    //         return EWindow.XSMALL;
+    //         break;
 
-          case "small":
-            return EWindow.SMALL;
-            break;
+    //       case "small":
+    //         return EWindow.SMALL;
+    //         break;
 
-          case "medium":
-            return EWindow.MEDIUM;
-            break;
+    //       case "medium":
+    //         return EWindow.MEDIUM;
+    //         break;
 
-          case "large":
-            return EWindow.LARGE;
-            break;
+    //       case "xlarge":
+    //         return EWindow.XLarge;
+    //         break;
 
-          default:
-            v = parseInt(v, 12);
-            return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
-        }
-      },
-      /**
-       * @param {string} v
-       */
-      set(v) {
-        switch (v) {
-          case EWindow.NONE:
-            that.setAttribute("xlarge-column", "");
-            break;
+    //       default:
+    //         v = parseInt(v, 12);
+    //         return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
+    //     }
+    //   },
+    //   /**
+    //    * @param {string} v
+    //    */
+    //   set(v) {
+    //     switch (v) {
+    //       case EWindow.NONE:
+    //         that.setAttribute("large-column", "");
+    //         break;
 
-          case EWindow.XSMALL:
-            that.setAttribute("xlarge-column", "xsmall");
-            break;
+    //       case EWindow.XSMALL:
+    //         that.setAttribute("large-column", "xsmall");
+    //         break;
 
-          case EWindow.SMALL:
-            that.setAttribute("xlarge-column", "small");
-            break;
+    //       case EWindow.SMALL:
+    //         that.setAttribute("large-column", "small");
+    //         break;
 
-          case EWindow.MEDIUM:
-            that.setAttribute("xlarge-column", "medium");
-            break;
+    //       case EWindow.MEDIUM:
+    //         that.setAttribute("large-column", "medium");
+    //         break;
 
-          case EWindow.LARGE:
-            that.setAttribute("xlarge-column", "large");
-            break;
+    //       case EWindow.XLarge:
+    //         that.setAttribute("large-column", "xlarge");
+    //         break;
 
-          default:
-            if (instanceOf(v, "number")) {
-              that.setAttribute("xlarge-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
-            }
-        }
-      },
-      type: [Number, Symbol]
-    });
+    //       default:
+    //         if (instanceOf(v, "number")) {
+    //           that.setAttribute("large-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
+    //         }
+    //     }
+    //   },
+    //   type: [Number, Symbol]
+    // });
 
-    /**
-     * @member {boolean}
-     */
-    this.defineProperty("hideOnXsmall", {
-      /**
-       * @returns {boolean}
-       */
-      get() {
-        return that.getAttribute("hide-on-xsmall");
-      },
-      /**
-       * @param {boolean} v
-       */
-      set(v) {
-        that.setAttribute("hide-on-xsmall", v);
-      },
-      type: Boolean
-    });
+    // /**
+    //  * @member {number|string}
+    //  */
+    // this.defineProperty("xlargeColumn", {
+    //   /**
+    //    * @returns {string}
+    //    */
+    //   get() {
+    //     var v = that.getAttribute("xlarge-column");
+    //     switch (v) {
+    //       case "":
+    //         return EWindow.NONE;
+    //         break;
 
-    /**
-     * @member {boolean}
-     */
-    this.defineProperty("hideOnSmall", {
-      /**
-       * @returns {boolean}
-       */
-      get() {
-        return that.getAttribute("hide-on-small");
-      },
-      /**
-       * @param {boolean} v
-       */
-      set(v) {
-        that.setAttribute("hide-on-small", v);
-      },
-      type: Boolean
-    });
+    //       case "xsmall":
+    //         return EWindow.XSMALL;
+    //         break;
 
-    /**
-     * @member {boolean}
-     */
-    this.defineProperty("hideOnMedium", {
-      /**
-       * @returns {boolean}
-       */
-      get() {
-        return that.getAttribute("hide-on-medium");
-      },
-      /**
-       * @param {boolean} v
-       */
-      set(v) {
-        that.setAttribute("hide-on-medium", v);
-      },
-      type: Boolean
-    });
+    //       case "small":
+    //         return EWindow.SMALL;
+    //         break;
 
-    /**
-     * @member {boolean}
-     */
-    this.defineProperty("hideOnLarge", {
-      /**
-       * @returns {boolean}
-       */
-      get() {
-        return that.getAttribute("hide-on-large");
-      },
-      /**
-       * @param {boolean} v
-       */
-      set(v) {
-        that.setAttribute("hide-on-large", v);
-      },
-      type: Boolean
-    });
+    //       case "medium":
+    //         return EWindow.MEDIUM;
+    //         break;
 
-    /**
-     * @member {boolean}
-     */
-    this.defineProperty("hideOnXlarge", {
-      /**
-       * @returns {boolean}
-       */
-      get() {
-        return that.getAttribute("hide-on-xlarge");
-      },
-      /**
-       * @param {boolean} v
-       */
-      set(v) {
-        that.setAttribute("hide-on-xlarge", v);
-      },
-      type: Boolean
-    });
+    //       case "large":
+    //         return EWindow.LARGE;
+    //         break;
+
+    //       default:
+    //         v = parseInt(v, 12);
+    //         return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
+    //     }
+    //   },
+    //   /**
+    //    * @param {string} v
+    //    */
+    //   set(v) {
+    //     switch (v) {
+    //       case EWindow.NONE:
+    //         that.setAttribute("xlarge-column", "");
+    //         break;
+
+    //       case EWindow.XSMALL:
+    //         that.setAttribute("xlarge-column", "xsmall");
+    //         break;
+
+    //       case EWindow.SMALL:
+    //         that.setAttribute("xlarge-column", "small");
+    //         break;
+
+    //       case EWindow.MEDIUM:
+    //         that.setAttribute("xlarge-column", "medium");
+    //         break;
+
+    //       case EWindow.LARGE:
+    //         that.setAttribute("xlarge-column", "large");
+    //         break;
+
+    //       default:
+    //         if (instanceOf(v, "number")) {
+    //           that.setAttribute("xlarge-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
+    //         }
+    //     }
+    //   },
+    //   type: [Number, Symbol]
+    // });
+
+    // /**
+    //  * @member {boolean}
+    //  */
+    // this.defineProperty("hideOnXsmall", {
+    //   /**
+    //    * @returns {boolean}
+    //    */
+    //   get() {
+    //     return that.getAttribute("hide-on-xsmall");
+    //   },
+    //   /**
+    //    * @param {boolean} v
+    //    */
+    //   set(v) {
+    //     that.setAttribute("hide-on-xsmall", v);
+    //   },
+    //   type: Boolean
+    // });
+
+    // /**
+    //  * @member {boolean}
+    //  */
+    // this.defineProperty("hideOnSmall", {
+    //   /**
+    //    * @returns {boolean}
+    //    */
+    //   get() {
+    //     return that.getAttribute("hide-on-small");
+    //   },
+    //   /**
+    //    * @param {boolean} v
+    //    */
+    //   set(v) {
+    //     that.setAttribute("hide-on-small", v);
+    //   },
+    //   type: Boolean
+    // });
+
+    // /**
+    //  * @member {boolean}
+    //  */
+    // this.defineProperty("hideOnMedium", {
+    //   /**
+    //    * @returns {boolean}
+    //    */
+    //   get() {
+    //     return that.getAttribute("hide-on-medium");
+    //   },
+    //   /**
+    //    * @param {boolean} v
+    //    */
+    //   set(v) {
+    //     that.setAttribute("hide-on-medium", v);
+    //   },
+    //   type: Boolean
+    // });
+
+    // /**
+    //  * @member {boolean}
+    //  */
+    // this.defineProperty("hideOnLarge", {
+    //   /**
+    //    * @returns {boolean}
+    //    */
+    //   get() {
+    //     return that.getAttribute("hide-on-large");
+    //   },
+    //   /**
+    //    * @param {boolean} v
+    //    */
+    //   set(v) {
+    //     that.setAttribute("hide-on-large", v);
+    //   },
+    //   type: Boolean
+    // });
+
+    // /**
+    //  * @member {boolean}
+    //  */
+    // this.defineProperty("hideOnXlarge", {
+    //   /**
+    //    * @returns {boolean}
+    //    */
+    //   get() {
+    //     return that.getAttribute("hide-on-xlarge");
+    //   },
+    //   /**
+    //    * @param {boolean} v
+    //    */
+    //   set(v) {
+    //     that.setAttribute("hide-on-xlarge", v);
+    //   },
+    //   type: Boolean
+    // });
 
     /**
      * @member {Symbol}

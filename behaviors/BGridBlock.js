@@ -27,7 +27,7 @@ export class BGridBlock extends Behavior {
 
       forEach(responsiveSizes, (size, sizeName) => {
         patterns[size.name] = ((sizeName === "medium") ? [] : EWindow.MEDIUM);
-        colCount[size.name] = ((sizeName === "medium") ? [] : EWindow.MEDIUM);
+        colCount[size.name] = ((sizeName === "medium") ? 0 : EWindow.MEDIUM);
       });
 
       that.defineMethod("addBlockRow", (pattern, size = EWindow.MEDIUM) => {
@@ -54,18 +54,19 @@ export class BGridBlock extends Behavior {
           forEach(pattern.replace(/:\d+/g, "").split(" "), (item) => {
             if ((item !== ".") && (addedAreas.indexOf(item) === -1)) {
               addedAreas.push(item);
-              elm.innerHTML += `  [element-name="container"][template-item="${item}"][visible="true"] {\n    grid-area:\n${item}\n}\n\n`;
+              elm.innerHTML += `\t[element-name="container"][template-item="${item}"][visible="true"] {\n\t\tgrid-area: ${item};\n\t}\n\n`;
             }
           });
         }
       }, [
-        [String, Symbol], Symbol
-      ]);
+          [String, Symbol], Symbol
+        ]);
 
       that.defineMethod("regenerate", (size = EWindow.MEDIUM) => {
         var blocks = patterns[size];
         var col = colCount[size];
         var i = 0;
+
         while (instanceOf(blocks, Symbol) && (++i < 5)) {
           blocks = patterns[blocks];
         };
@@ -74,7 +75,7 @@ export class BGridBlock extends Behavior {
           col = colCount[col];
         };
 
-        return "\t\t\n'" + blocks.map((r) => {
+        return "\n\t\t'" + blocks.map((r) => {
           var result = r.pattern;
 
           if (r.rowColCount < col) {
@@ -82,9 +83,9 @@ export class BGridBlock extends Behavior {
           }
 
           return result;
-        }).join("'\n'").replace(/([\w-\.]+):(\d+)(\s*)/g, (...p) => {
+        }).join("'\n\t\t'").replace(/([\w-\.]+):(\d+)(\s*)/g, (...p) => {
           return (p[1] + " ").repeat(p[2] - 1) + p[1] + p[3];
-        }).trim() + "'\n";
+        }).trim() + "'";
       }, [Symbol]);
 
       that.defineMethod("getColCount", (size = EWindow.MEDIUM) => {
