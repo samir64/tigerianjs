@@ -51,11 +51,11 @@ export class Control extends UI {
     this.setAttribute("element-situation", "");
     this.setAttribute("element-hoverable", "false");
 
-    this.setAttribute("xsmall-column", "normal");
-    this.setAttribute("small-column", "normal");
+    this.setAttribute("xsmall-column", "medium");
+    this.setAttribute("small-column", "medium");
     this.setAttribute("medium-column", "12");
-    this.setAttribute("large-column", "normal");
-    this.setAttribute("xlarge-column", "normal");
+    this.setAttribute("large-column", "medium");
+    this.setAttribute("xlarge-column", "medium");
     this.setAttribute("hide-on-xsmall", "false");
     this.setAttribute("hide-on-small", "false");
     this.setAttribute("hide-on-medium", "false");
@@ -158,11 +158,11 @@ export class Control extends UI {
             return EWindow.NONE;
             break;
 
-          case "medium":
+          case "small":
             return EWindow.SMALL;
             break;
 
-          case "normal":
+          case "medium":
             return EWindow.MEDIUM;
             break;
 
@@ -189,11 +189,11 @@ export class Control extends UI {
             break;
 
           case EWindow.SMALL:
-            that.setAttribute("xsmall-column", "medium");
+            that.setAttribute("xsmall-column", "small");
             break;
 
           case EWindow.MEDIUM:
-            that.setAttribute("xsmall-column", "normal");
+            that.setAttribute("xsmall-column", "medium");
             break;
 
           case EWindow.LARGE:
@@ -227,11 +227,11 @@ export class Control extends UI {
             return EWindow.NONE;
             break;
 
-          case "small":
+          case "xsmall":
             return EWindow.XSMALL;
             break;
 
-          case "normal":
+          case "medium":
             return EWindow.MEDIUM;
             break;
 
@@ -258,11 +258,11 @@ export class Control extends UI {
             break;
 
           case EWindow.XSMALL:
-            that.setAttribute("small-column", "small");
+            that.setAttribute("small-column", "xsmall");
             break;
 
           case EWindow.MEDIUM:
-            that.setAttribute("small-column", "normal");
+            that.setAttribute("small-column", "medium");
             break;
 
           case EWindow.LARGE:
@@ -296,11 +296,11 @@ export class Control extends UI {
             return EWindow.NONE;
             break;
 
-          case "small":
+          case "xsmall":
             return EWindow.XSMALL;
             break;
 
-          case "medium":
+          case "small":
             return EWindow.SMALL;
             break;
 
@@ -327,11 +327,11 @@ export class Control extends UI {
             break;
 
           case EWindow.XSMALL:
-            that.setAttribute("medium-column", "small");
+            that.setAttribute("medium-column", "xsmall");
             break;
 
           case EWindow.SMALL:
-            that.setAttribute("medium-column", "medium");
+            that.setAttribute("medium-column", "small");
             break;
 
           case EWindow.LARGE:
@@ -365,15 +365,15 @@ export class Control extends UI {
             return EWindow.NONE;
             break;
 
-          case "small":
+          case "xsmall":
             return EWindow.XSMALL;
             break;
 
-          case "medium":
+          case "small":
             return EWindow.SMALL;
             break;
 
-          case "normal":
+          case "medium":
             return EWindow.MEDIUM;
             break;
 
@@ -396,15 +396,15 @@ export class Control extends UI {
             break;
 
           case EWindow.XSMALL:
-            that.setAttribute("large-column", "small");
+            that.setAttribute("large-column", "xsmall");
             break;
 
           case EWindow.SMALL:
-            that.setAttribute("large-column", "medium");
+            that.setAttribute("large-column", "small");
             break;
 
           case EWindow.MEDIUM:
-            that.setAttribute("large-column", "normal");
+            that.setAttribute("large-column", "medium");
             break;
 
           case EWindow.XLarge:
@@ -434,15 +434,15 @@ export class Control extends UI {
             return EWindow.NONE;
             break;
 
-          case "small":
+          case "xsmall":
             return EWindow.XSMALL;
             break;
 
-          case "medium":
+          case "small":
             return EWindow.SMALL;
             break;
 
-          case "normal":
+          case "medium":
             return EWindow.MEDIUM;
             break;
 
@@ -465,15 +465,15 @@ export class Control extends UI {
             break;
 
           case EWindow.XSMALL:
-            that.setAttribute("xlarge-column", "small");
+            that.setAttribute("xlarge-column", "xsmall");
             break;
 
           case EWindow.SMALL:
-            that.setAttribute("xlarge-column", "medium");
+            that.setAttribute("xlarge-column", "small");
             break;
 
           case EWindow.MEDIUM:
-            that.setAttribute("xlarge-column", "normal");
+            that.setAttribute("xlarge-column", "medium");
             break;
 
           case EWindow.LARGE:
@@ -812,8 +812,8 @@ export class Control extends UI {
       superAddControl(control);
       elmDivContainer.appendChild(elmTxtFoot);
     }, [
-      [Control, Text, Element]
-    ]);
+        [Control, Text, Element]
+      ]);
 
     this.defineMethod("click", () => {
       elmDivContainer.click();
