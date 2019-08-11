@@ -847,7 +847,7 @@ a[element-type][element-name] {
 [element-type="Header"][element-name="container"][fixed="false"] {}
 
 [element-type="MainMenu"][element-name="container"] {
-  text-align: center;
+  /* text-align: center; */
 }
 
 [element-type="MainMenu"][element-name="container"]>[element-type="MainMenu"][element-name="list"] {
