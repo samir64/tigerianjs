@@ -105,6 +105,7 @@ Tigerian has 5 special properties
   - [X] TableBody
   - [X] TableRow
   - [X] TableCell
+  - [ ] Breadcrumb
   - [ ] ProcessLine
   - [ ] ProcessState
   - [ ] PrograessBar
