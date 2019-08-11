@@ -854,9 +854,11 @@ a[element-type][element-name] {
   padding-left: 0;
 }
 
-[element-type="MainMenu"][element-name="container"]>[element-type="MainMenu"][element-name="list"]>[element-type="MenuItem"][element-name="container"] {
+[element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MainMenu"][element-name="list"]>[element-type="MenuItem"][element-name="container"] {
   list-style: none;
   padding: 10px;
+  width: auto;
+  display: inline-block;
 }
 
 [element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MainMenu"][element-name="list"]>[element-type="MenuItem"][element-name="container"]>[element-type="MenuItem"][element-name="text"] {
@@ -871,11 +873,11 @@ a[element-type][element-name] {
 [element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MainMenu"][element-name="list"]>[element-type="MenuItem"][element-name="container"][has-child="true"]>[element-type="MenuItem"][element-name="text"]::after {
   content: '';
   position: absolute;
-  vertical-align: middle;
-  margin-left: 5px;
+  /* vertical-align: middle; */
+  /* margin-left: 5px; */
   /* margin-top: -4px; */
-  top: 50%;
-  left: 100%;
+  top: calc(50% - 2.5px);
+  right: -15px;
   width: 0;
   height: 0;
   border-style: solid;
@@ -914,22 +916,27 @@ a[element-type][element-name] {
   display: block;
 }
 
+[element-type="Menu"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="container"] {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
 [element-type="Menu"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="container"][has-child="true"]::after {
   content: '';
   position: absolute;
-  vertical-align: middle;
-  left: 100%;
+  /* vertical-align: middle; */
+  right: -5px;
   top: 50%;
   width: 0;
   height: 0;
   border-style: solid;
-  border-width: 10px;
-  border-top-width: 7px;
-  border-bottom-width: 7px;
+  border-width: 7px;
+  border-top-width: 5px;
+  border-bottom-width: 5px;
   border-right-color: transparent;
   border-top-color: transparent;
   border-bottom-color: transparent;
-  transform: translate(-75%, -50%);
+  transform: translateY(-60%);
   /* border-left-color: #aaa; */
 }
 
