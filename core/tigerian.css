@@ -850,7 +850,16 @@ a[element-type][element-name] {
   text-align: center;
 }
 
-[element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="container"]>[element-type="MenuItem"][element-name="text"] {
+[element-type="MainMenu"][element-name="container"]>[element-type="MainMenu"][element-name="list"] {
+  padding-left: 0;
+}
+
+[element-type="MainMenu"][element-name="container"]>[element-type="MainMenu"][element-name="list"]>[element-type="MenuItem"][element-name="container"] {
+  list-style: none;
+  padding: 10px;
+}
+
+[element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MainMenu"][element-name="list"]>[element-type="MenuItem"][element-name="container"]>[element-type="MenuItem"][element-name="text"] {
   margin: 0 10px 0;
   /* border-radius: 5px;
     border-width: 1px;
@@ -859,9 +868,7 @@ a[element-type][element-name] {
   width: auto;
 }
 
-[element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="text"] {}
-
-[element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="container"][has-child="true"]>[element-type="MenuItem"][element-name="text"]::after {
+[element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MainMenu"][element-name="list"]>[element-type="MenuItem"][element-name="container"][has-child="true"]>[element-type="MenuItem"][element-name="text"]::after {
   content: '';
   position: absolute;
   vertical-align: middle;
@@ -880,12 +887,13 @@ a[element-type][element-name] {
   border-right-color: transparent;
 }
 
-[element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="container"]>[element-type="Menu"][element-name="container"] {
+[element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MainMenu"][element-name="list"]>[element-type="MenuItem"][element-name="container"]>[element-type="Menu"][element-name="container"] {
   left: 0;
   top: 100%;
 }
 
 [element-type="Menu"][element-name="container"] {
+  padding-left: 0;
   position: absolute;
   box-shadow: 0 2px 5px 1px rgba(50, 50, 50, .5);
   /* background-color: #eee; */
@@ -894,6 +902,11 @@ a[element-type][element-name] {
   left: 100%;
   top: 0;
   z-index: 1003;
+}
+
+[element-type="Menu"][element-name="container"]>[element-type="MenuItem"][element-name="container"] {
+  padding: 10px;
+  list-style: none;
 }
 
 [element-type="Menu"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="container"][has-child="true"]::after {

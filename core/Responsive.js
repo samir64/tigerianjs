@@ -77,23 +77,23 @@ export let responsiveSizes = {
           sizeNames[j]
           }"][${sizeNames[j]}-column="${col}"]`;
       }
-      mediaQuery += ` {\n\t\twidth: ${(col * 100) / 12}% !important;\n\t}\n\n`;
+      mediaQuery += ` {\n\t\twidth: ${(col * 100) / 12}%;\n\t}\n\n`;
     }
 
     mediaQuery += `\t[element-name="container"][hide-on-${sizeName}="true"] {\n`;
     mediaQuery += "\t\tdisplay: none;\n\t}\n\n";
 
     mediaQuery += '\t[element-type="Container"][element-name="container"] {\n';
-    mediaQuery += `\t\twidth: ${sizeInfo.containerWidth} !important;\n`;
+    mediaQuery += `\t\twidth: ${sizeInfo.containerWidth};\n`;
 
-    mediaQuery += "\t\tmargin-left: auto !important;\n";
-    mediaQuery += "\t\tmargin-right: auto !important;\n";
+    mediaQuery += "\t\tmargin-left: auto;\n";
+    mediaQuery += "\t\tmargin-right: auto;\n";
     mediaQuery += `\t\tpadding-left: ${
       sizeInfo.containerPadding
-      }px !important;\n`;
+      }px;\n`;
     mediaQuery += `\t\tpadding-right: ${
       sizeInfo.containerPadding
-      }px !important;\n`;
+      }px;\n`;
     mediaQuery += "\t\tdisplay: block;\n";
     mediaQuery += "\t}\n\n";
 

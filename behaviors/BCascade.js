@@ -27,6 +27,7 @@ export class BCascade extends Behavior {
 
         that.setAttribute("has-child", "false");
         that.setAttribute("open-child", "false");
+        ctrlSubMenu.visible = false;
 
         /**
          * @member {boolean} hasChild

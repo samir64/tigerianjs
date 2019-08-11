@@ -10,6 +10,8 @@ import {
 import {
   BCascade
 } from "../behaviors/BCascade.js";
+import { Menu } from "./Menu.js";
+import { Spacer } from "./Spacer.js";
 
 ("use strict");
 
@@ -26,17 +28,18 @@ export class MenuItem extends Control {
    * @param {string} text
    * @param {string} theme = ""
    */
-  construcotr(parent, text, theme = "") {
-    super(parent, theme);
+  constructor(parent, text, theme = "") {
+    super(parent, theme, "li");
 
     var elmText = document.createElement("div");
-    var ctrlMenu = new Menu(null, this.theme);
+    var ctrlMenu = new Menu(null, theme);
     var superAddControl = this.addControl.bind(this);
 
     this.config(BText, elmText, text);
-    this.config(BCascade);
+    this.config(BCascade, ctrlMenu);
 
-    var superAddChild = this.addChild.bind(this);
+    var cascadeAddControl = this.addControl.bind(this);
+
     var canChangeChildState = true;
     var touchStarted = false;
     var openByClick = false;
@@ -44,6 +47,7 @@ export class MenuItem extends Control {
     var that = this;
 
     superAddControl(elmText);
+    superAddControl(ctrlMenu);
     this.hoverable = true;
 
     this.setAttribute("element-type", "MenuItem");
@@ -58,11 +62,11 @@ export class MenuItem extends Control {
     this.defineMethod("addControl", (item) => {
       if (instanceOf(item, MenuItem) || instanceOf(item, Spacer)) {
         if (!that.hasSubmenu) {
-          superAddChild(ctrlMenu);
         }
-        ctrlMenu.addControl(item);
+        // ctrlMenu.addControl(item);
+        cascadeAddControl(item);
       }
-    });
+    }, [MenuItem, Spacer]);
 
     this.addEvent("mouseover", function (e) {
       if (canChangeChildState && !touchStarted) {

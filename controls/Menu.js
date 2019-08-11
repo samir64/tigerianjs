@@ -7,6 +7,8 @@ import {
 import {
   BGroup
 } from "../behaviors/BGroup.js";
+import { Spacer } from "./Spacer.js";
+import { BText } from "../behaviors/BText.js";
 
 ("use strict");
 
@@ -22,11 +24,10 @@ export class Menu extends Control {
    * @param {string} theme = ""
    */
   constructor(parent, theme = "") {
-    super(parent, theme);
-    this.config(BGroup);
+    super(parent, theme, "ul");
+    this.config(BGroup, this);
 
     var superAddControl = this.addControl.bind(this);
-    var superAddItem = this.addItem.bind(this);
 
     this.setAttribute("element-type", "Menu");
     this.setAttribute("element-name", "container");
@@ -35,9 +36,7 @@ export class Menu extends Control {
      * @param {Tigeriam.MenuItem} item
      */
     this.defineMethod("addControl", (item) => {
-      if (instanceOf(item, MenuItem) || instanceOf(item, Spacer)) {
-        superAddItem(item);
-      }
-    });
+      superAddControl(item);
+    }, [Control]);
   }
 }
