@@ -895,6 +895,10 @@ a[element-type][element-name] {
 [element-type="Menu"][element-name="container"] {
   padding-left: 0;
   position: absolute;
+  width: max-content !important;
+  width: intrinsic !important;           /* Safari/WebKit uses a non-standard name */
+  width: -moz-max-content !important;    /* Firefox/Gecko */
+  width: -webkit-max-content !important; /* Chrome */
   box-shadow: 0 2px 5px 1px rgba(50, 50, 50, .5);
   /* background-color: #eee; */
   margin: 0;
@@ -904,9 +908,10 @@ a[element-type][element-name] {
   z-index: 1003;
 }
 
-[element-type="Menu"][element-name="container"]>[element-type="MenuItem"][element-name="container"] {
+[element-type="Menu"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="container"] {
   padding: 10px;
   list-style: none;
+  display: block;
 }
 
 [element-type="Menu"][element-name="container"][visible="true"]>[element-type="MenuItem"][element-name="container"][has-child="true"]::after {
