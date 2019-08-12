@@ -1,9 +1,15 @@
 import {
   instanceOf
 } from "../core/Tigerian.js";
-import { Control } from "../core/Control.js";
-import { BGroup } from "../behaviors/BGroup.js";
-import { MenuItem } from "./MenuItem.js";
+import {
+  Control
+} from "../core/Control.js";
+import {
+  BGroup
+} from "../behaviors/BGroup.js";
+import {
+  MenuItem
+} from "./MenuItem.js";
 
 ("use strict");
 
@@ -30,7 +36,7 @@ export class MainMenu extends Control {
     this.setAttribute("element-name", "container");
 
     ctrlItemsList.setAttribute("element-type", "MainMenu");
-    ctrlItemsList.setAttribute("element-name", "list");
+    ctrlItemsList.setAttribute("element-name", "items");
 
     /**
      * @param {MenuItem} item

@@ -850,18 +850,18 @@ a[element-type][element-name] {
   /* text-align: center; */
 }
 
-[element-type="MainMenu"][element-name="container"]>[element-type="MainMenu"][element-name="list"] {
+[element-type="MainMenu"][element-name="container"]>[element-type="MainMenu"][element-name="items"] {
   padding-left: 0;
 }
 
-[element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MainMenu"][element-name="list"]>[element-type="MenuItem"][element-name="container"] {
+[element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MainMenu"][element-name="items"]>[element-type="MenuItem"][element-name="container"] {
   list-style: none;
   padding: 10px;
   width: auto;
   display: inline-block;
 }
 
-[element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MainMenu"][element-name="list"]>[element-type="MenuItem"][element-name="container"]>[element-type="MenuItem"][element-name="text"] {
+[element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MainMenu"][element-name="items"]>[element-type="MenuItem"][element-name="container"]>[element-type="MenuItem"][element-name="text"] {
   margin: 0 10px 0;
   /* border-radius: 5px;
     border-width: 1px;
@@ -870,7 +870,7 @@ a[element-type][element-name] {
   width: auto;
 }
 
-[element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MainMenu"][element-name="list"]>[element-type="MenuItem"][element-name="container"][has-child="true"]>[element-type="MenuItem"][element-name="text"]::after {
+[element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MainMenu"][element-name="items"]>[element-type="MenuItem"][element-name="container"][has-child="true"]>[element-type="MenuItem"][element-name="text"]::after {
   content: '';
   position: absolute;
   /* vertical-align: middle; */
@@ -889,7 +889,7 @@ a[element-type][element-name] {
   border-right-color: transparent;
 }
 
-[element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MainMenu"][element-name="list"]>[element-type="MenuItem"][element-name="container"]>[element-type="Menu"][element-name="container"] {
+[element-type="MainMenu"][element-name="container"][visible="true"]>[element-type="MainMenu"][element-name="items"]>[element-type="MenuItem"][element-name="container"]>[element-type="Menu"][element-name="container"] {
   left: 0;
   top: 100%;
 }
@@ -898,9 +898,12 @@ a[element-type][element-name] {
   padding-left: 0;
   position: absolute;
   width: max-content !important;
-  width: intrinsic !important;           /* Safari/WebKit uses a non-standard name */
-  width: -moz-max-content !important;    /* Firefox/Gecko */
-  width: -webkit-max-content !important; /* Chrome */
+  width: intrinsic !important;
+  /* Safari/WebKit uses a non-standard name */
+  width: -moz-max-content !important;
+  /* Firefox/Gecko */
+  width: -webkit-max-content !important;
+  /* Chrome */
   box-shadow: 0 2px 5px 1px rgba(50, 50, 50, .5);
   /* background-color: #eee; */
   margin: 0;
@@ -1073,6 +1076,11 @@ a[element-type][element-name] {
   width: auto;
   /* display: block; */
   text-align: left;
+}
+
+[element-type="CollapseList"][element-name="container"]>[element-type="CollapseItem"][element-name="container"] {
+  list-style: none;
+  padding-left: 0;
 }
 
 [element-type="CollapseList"][element-name="container"]>[element-type="CollapseItem"][element-name="container"]>[element-type="CollapseItem"][element-name="text"] {

@@ -30,7 +30,7 @@ export class CollapseItem extends Control {
    * @param {string} theme = ""
    */
   constructor(parent, text = "", theme = "") {
-    super(parent, theme);
+    super(parent, theme, "li");
 
     var elmText = document.createElement("div");
     var ctrlList = new CollapseList(null, this.theme);
