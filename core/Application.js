@@ -97,7 +97,7 @@ export class Application extends UI {
 /**
  * @param {function} main
  */
-Application.run = function (main) {
+/* Application.run = function (main) {
   if (instanceOf(main, "function")) {
     if (document.body) {
       main();
@@ -107,4 +107,4 @@ Application.run = function (main) {
       });
     }
   }
-};
+}; */
