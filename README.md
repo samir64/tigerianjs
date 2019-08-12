@@ -29,7 +29,10 @@ Tigerian has 5 special properties
   - [ ] Samples and Tutorials
 
 - Core
+  - [X] Main Tigerian stylesheet
+
   - [X] Tigerian
+  - [X] Responsive
   - [X] Class
   - [X] Behavior
   - [X] Events
@@ -42,6 +45,8 @@ Tigerian has 5 special properties
   - [ ] Dictionary
 
 - Behaviors
+  - [X] BGridTemplate
+  - [X] BGridBlock
   - [X] BBind
   - [X] BFilter
   - [X] BGroup
@@ -68,14 +73,6 @@ Tigerian has 5 special properties
   - [X] Model
   - [X] ModelField
   - [X] View
-
-- Styles and Layouts
-  - [X] Responsive
-  - [X] Main Tigerian stylesheet
-  - [X] Sample dark theme stylesheet
-  - [X] GridTemplate
-  - [X] GridTemplateAreas
-  - [X] GridTemplateItem
 
 - Controls
   - [X] Header
