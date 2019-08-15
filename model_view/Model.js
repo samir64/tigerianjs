@@ -58,7 +58,7 @@ export class Model extends ModelView {
     }
 
     var getPath = function (path) {
-      var result = applicationPath;
+      var result = (applicationPath === "") ? "/" : applicationPath;
       var flds = {};
 
       forEach(fields, (field, idx) => {
@@ -67,6 +67,10 @@ export class Model extends ModelView {
 
       if (!result.endsWith("/")) {
         result += "/";
+      }
+
+      if (!result.startsWith("/")) {
+        result = "/" + result;
       }
 
       if (path.startsWith("/")) {
@@ -262,7 +266,8 @@ export class Model extends ModelView {
           set(v) {
             fields[name].value = v;
           },
-          type: [type, Object]
+          type: (collection ? Array : type)
+          // type: [type, Object]
         });
       }
     }, [String, [String, Function], Boolean]);
@@ -406,6 +411,7 @@ export class Model extends ModelView {
       }
 
       ajax.url = getPath(searchPath);
+      // console.warning(ajax.url);
       ajax.get(params, ajaxSearchSuccess, ajaxUnsuccess);
     }, [Object, Function, Function, Function]);
 

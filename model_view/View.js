@@ -28,7 +28,7 @@ export class View extends ModelView {
   constructor(container) {
     super();
 
-    this.config(BWindow)
+    this.config(BWindow);
 
     var show = function () {
       container.visible = true;

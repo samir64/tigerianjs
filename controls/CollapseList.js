@@ -1,5 +1,6 @@
 import {
-  forEach
+  forEach,
+  instanceOf
 } from "../core/Tigerian.js";
 import {
   Control
@@ -7,6 +8,9 @@ import {
 import {
   BGroup
 } from "../behaviors/BGroup.js";
+import {
+  CollapseItem
+} from "./CollapseItem.js";
 
 ("use strict");
 
@@ -41,7 +45,9 @@ export class CollapseList extends Control {
 
     this.defineMethod("collapseAll", () => {
       forEach(that, (item) => {
-        item.collapse();
+        if (instanceOf(item, CollapseItem)) {
+          item.collapse();
+        }
       });
       /* for (var i = 0; i < this.itemCount; i++) {
         this.getItem(i).collapse();

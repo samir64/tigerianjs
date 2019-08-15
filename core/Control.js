@@ -1,5 +1,6 @@
 import {
-  instanceOf, forEach
+  instanceOf,
+  forEach
 } from "./Tigerian.js";
 import {
   EWindow
@@ -7,7 +8,9 @@ import {
 import {
   UI
 } from "./UI.js";
-import { responsiveSizes } from "./Responsive.js";
+import {
+  responsiveSizes
+} from "./Responsive.js";
 
 
 /**
@@ -62,8 +65,8 @@ export class Control extends UI {
     // this.setAttribute("hide-on-medium", "false");
     // this.setAttribute("hide-on-large", "false");
     // this.setAttribute("hide-on-xlarge", "false");
-    this.setAttribute("float", "");
-    this.setAttribute("align", "");
+    // this.setAttribute("float", "");
+    // this.setAttribute("align", "");
     this.setAttribute("title", "");
     this.setAttribute("template-name", "");
     this.setAttribute("template-item", "");
@@ -641,101 +644,101 @@ export class Control extends UI {
     //   type: Boolean
     // });
 
-    /**
-     * @member {Symbol}
-     */
-    this.defineProperty("float", {
-      /**
-       * @returns {string}
-       */
-      get() {
-        switch (that.getAttribute("float")) {
-          case "left":
-            return EControl.LEFT;
-            break;
-          case "right":
-            return EControl.RIGHT;
-            break;
-          case "center":
-            return EControl.CENTER;
-            break;
-          default:
-            return EControl.NONE;
-            break;
-        }
-      },
-      /**
-       * @param {string} v
-       */
-      set(v) {
-        switch (v) {
-          case EControl.LEFT:
-            that.setAttribute("float", "left");
-            break;
-          case EControl.RIGHT:
-            that.setAttribute("float", "right");
-            break;
-          case EControl.CENTER:
-            that.setAttribute("float", "center");
-            break;
-          default:
-            that.setAttribute("float", "");
-            break;
-        }
-      },
-      type: Symbol
-    });
+    // /**
+    //  * @member {Symbol}
+    //  */
+    // this.defineProperty("float", {
+    //   /**
+    //    * @returns {string}
+    //    */
+    //   get() {
+    //     switch (that.getAttribute("float")) {
+    //       case "left":
+    //         return EControl.LEFT;
+    //         break;
+    //       case "right":
+    //         return EControl.RIGHT;
+    //         break;
+    //       case "center":
+    //         return EControl.CENTER;
+    //         break;
+    //       default:
+    //         return EControl.NONE;
+    //         break;
+    //     }
+    //   },
+    //   /**
+    //    * @param {string} v
+    //    */
+    //   set(v) {
+    //     switch (v) {
+    //       case EControl.LEFT:
+    //         that.setAttribute("float", "left");
+    //         break;
+    //       case EControl.RIGHT:
+    //         that.setAttribute("float", "right");
+    //         break;
+    //       case EControl.CENTER:
+    //         that.setAttribute("float", "center");
+    //         break;
+    //       default:
+    //         that.setAttribute("float", "");
+    //         break;
+    //     }
+    //   },
+    //   type: Symbol
+    // });
 
-    /**
-     * @member {Symbol}
-     */
-    this.defineProperty("align", {
-      /**
-       * @returns {string}
-       */
-      get() {
-        switch (that.getAttribute("align")) {
-          case "left":
-            return EControl.LEFT;
-            break;
-          case "right":
-            return EControl.RIGHT;
-            break;
-          case "center":
-            return EControl.CENTER;
-            break;
-          case "justify":
-            return EControl.JUSTIFY;
-            break;
-          default:
-            return EControl.NONE;
-            break;
-        }
-      },
-      /**
-       * @param {string} v
-       */
-      set(v) {
-        switch (v) {
-          case EControl.LEFT:
-            that.setAttribute("align", "left");
-            break;
-          case EControl.RIGHT:
-            that.setAttribute("align", "right");
-            break;
-          case EControl.CENTER:
-            that.setAttribute("align", "center");
-            break;
-          case EControl.JUSTIFY:
-            that.setAttribute("align", "justify");
-            break;
-          default:
-            that.setAttribute("align", "");
-            break;
-        }
-      },
-      type: Symbol
-    });
+    // /**
+    //  * @member {Symbol}
+    //  */
+    // this.defineProperty("align", {
+    //   /**
+    //    * @returns {string}
+    //    */
+    //   get() {
+    //     switch (that.getAttribute("align")) {
+    //       case "left":
+    //         return EControl.LEFT;
+    //         break;
+    //       case "right":
+    //         return EControl.RIGHT;
+    //         break;
+    //       case "center":
+    //         return EControl.CENTER;
+    //         break;
+    //       case "justify":
+    //         return EControl.JUSTIFY;
+    //         break;
+    //       default:
+    //         return EControl.NONE;
+    //         break;
+    //     }
+    //   },
+    //   /**
+    //    * @param {string} v
+    //    */
+    //   set(v) {
+    //     switch (v) {
+    //       case EControl.LEFT:
+    //         that.setAttribute("align", "left");
+    //         break;
+    //       case EControl.RIGHT:
+    //         that.setAttribute("align", "right");
+    //         break;
+    //       case EControl.CENTER:
+    //         that.setAttribute("align", "center");
+    //         break;
+    //       case EControl.JUSTIFY:
+    //         that.setAttribute("align", "justify");
+    //         break;
+    //       default:
+    //         that.setAttribute("align", "");
+    //         break;
+    //     }
+    //   },
+    //   type: Symbol
+    // });
 
     /**
      * @member {string}
@@ -869,8 +872,8 @@ export class Control extends UI {
       superAddControl(control);
       elmDivContainer.appendChild(elmTxtFoot);
     }, [
-        [Control, Text, Element]
-      ]);
+      [Control, Text, Element]
+    ]);
 
     this.defineMethod("click", () => {
       elmDivContainer.click();
@@ -895,10 +898,10 @@ export const EControl = Object.freeze({
   // HEADER: Symbol("header"),
   // FOOTER: Symbol("footer"),
 
-  LEFT: Symbol("left"),
-  RIGHT: Symbol("right"),
-  CENTER: Symbol("center"),
-  JUSTIFY: Symbol("justify"),
+  // LEFT: Symbol("left"),
+  // RIGHT: Symbol("right"),
+  // CENTER: Symbol("center"),
+  // JUSTIFY: Symbol("justify"),
 
   NONE: Symbol("none"),
 

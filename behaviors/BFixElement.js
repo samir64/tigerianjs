@@ -1,7 +1,9 @@
 import {
   Behavior
 } from "../core/Behavior.js";
-import { Control } from "../core/Control.js";
+import {
+  Control
+} from "../core/Control.js";
 
 /**
  * Created by samir on 09/20/18.
@@ -20,7 +22,11 @@ export class BFixElement extends Behavior {
   constructor() {
     super();
 
-    this.defineMethod("config", (that, stick, ctrlFix) => {
+    this.defineMethod("config", (that, stick = EFixElement.NONE, ctrlFix = undefined) => {
+      if (ctrlFix === undefined) {
+        ctrlFix = that;
+      }
+
       /**
        * @member {boolean} fixed
        */

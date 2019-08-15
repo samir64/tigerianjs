@@ -23,14 +23,18 @@ export class BModal extends Behavior {
 
     this.defineMethod("config", (that, ctrlParent, ctrlModal) => {
       var status = EModal.CLOSE;
-      var elmCoverage = new Control(ctrlParent, this.theme);
+      var elmCoverage = new Control(ctrlParent, that.theme);
 
       elmCoverage.setAttribute("element-type", "Modal");
       elmCoverage.setAttribute("element-name", "coverage");
       elmCoverage.setAttribute("element-situation", "opposite");
 
-      if (this === ctrlModal) {
-        elmCoverage.addControl(this);
+      if (ctrlModal === undefined) {
+        ctrlModal = that;
+      }
+
+      if (that === ctrlModal) {
+        elmCoverage.addControl(that);
       }
 
       that.defineProperty("status", {
@@ -85,12 +89,13 @@ export class BModal extends Behavior {
       });
 
       that.defineProperty("visible", {
-        get: (that.status !== EModal.CLOSE),
-        set(v) {
-          if (instanceOf(v, "boolean")) {
-            that.status = (v ? EModal.SHOW : EModal.CLOSE);
-          }
+        get() {
+          return (that.status !== EModal.CLOSE)
         },
+        set(v) {
+          that.status = (v ? EModal.SHOW : EModal.CLOSE);
+        },
+        type: Boolean
       });
 
       that.defineMethod("showModal", () => {
