@@ -909,7 +909,7 @@ export const EControl = Object.freeze({
   TITLE: Symbol("title"),
   TRANSPARENT: Symbol("transparent"),
   OPPOSITE: Symbol("opposite"),
-  WARNINg: Symbol("warning"),
+  WARNING: Symbol("warning"),
   DANGER: Symbol("danger"),
   DISABLE: Symbol("disable"),
   OK: Symbol("ok")

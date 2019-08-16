@@ -104,9 +104,9 @@ export class Route extends Tigerian {
           forEach(routesList, (route, index) => {
             var params = {};
             var groups = [];
-            var r = index.replace(/\{(\w+)\}/g, function () {
+            var r = index.replace(/\{([\w-]+)\}/g, function () {
               this.push(arguments[1]);
-              return "(\\w+)";
+              return "([\\w-]+)";
             }.bind(groups));
             var reg = new RegExp("^" + r + "$");
             var match = reg.exec(path);
@@ -192,7 +192,7 @@ export class Route extends Tigerian {
           // window.location.href = window.location.origin + separator + applicationRoot + route;
           window.location.hash = "/" + route;
         } else {
-          window.history.pushState({}, undefined, applicationRoot + route);
+          window.history.pushState({}, undefined, route);
           that.render();
         }
       } else {
