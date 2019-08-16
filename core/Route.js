@@ -208,11 +208,6 @@ export class Route extends Tigerian {
     this.defineMethod("render", () => {
       var routeCheck = findRoute(getClearPath(window.location.pathname + (useHashTag ? window.location.hash : "")));
 
-      console.log({
-        pathname: window.location.pathname,
-        routeCheck
-      });
-
       /* var url = getGoodPath(window.location.pathname + (useHashTag ? window.location.hash : ""));
       var check = getBestMatch(getGoodPath(getPath(url)));
       console.log(applicationRoot, url, getPath(url), getGoodPath(getPath(url)), getBestMatch(getGoodPath(getPath(url))));
