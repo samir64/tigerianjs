@@ -840,7 +840,7 @@ export class Control extends UI {
             that.setAttribute("element-situation", "opposite");
             break;
 
-          case EControl.WARNINg:
+          case EControl.WARNING:
             that.setAttribute("element-situation", "warning");
             break;
 
