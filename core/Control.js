@@ -807,7 +807,7 @@ export class Control extends UI {
             return EControl.OPPOSITE;
 
           case "warning":
-            return EControl.WARNINg;
+            return EControl.WARNING;
 
           case "danger":
             return EControl.DANGER;
