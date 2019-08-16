@@ -14,7 +14,7 @@
 }
 
 [element-type="Application"][element-name="container"] * {
-  /* display: inline-block; */
+  display: inline-block;
 }
 
 [element-type][element-name] ul,

@@ -99,8 +99,10 @@ export class Route extends Tigerian {
             params: {}
           };
         } else {
-          var params = {};
+          var result;
+
           forEach(routesList, (route, index) => {
+            var params = {};
             var groups = [];
             var r = index.replace(/\{(\w+)\}/g, function () {
               this.push(arguments[1]);
@@ -114,7 +116,7 @@ export class Route extends Tigerian {
                 params[groups[i - 1]] = match[i];
               }
 
-              return {
+              result = {
                 index,
                 path,
                 route,
@@ -122,6 +124,8 @@ export class Route extends Tigerian {
               };
             }
           });
+
+          return result;
         }
 
 
@@ -202,7 +206,13 @@ export class Route extends Tigerian {
     });
 
     this.defineMethod("render", () => {
-      var routeCheck = findRoute(getClearPath(window.location.pathname));
+      var routeCheck = findRoute(getClearPath(window.location.pathname + (useHashTag ? window.location.hash : "")));
+
+      console.log({
+        pathname: window.location.pathname,
+        routeCheck
+      });
+
       /* var url = getGoodPath(window.location.pathname + (useHashTag ? window.location.hash : ""));
       var check = getBestMatch(getGoodPath(getPath(url)));
       console.log(applicationRoot, url, getPath(url), getGoodPath(getPath(url)), getBestMatch(getGoodPath(getPath(url))));

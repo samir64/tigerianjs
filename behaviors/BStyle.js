@@ -49,7 +49,7 @@ export class BStyle extends Behavior {
                 } else {
                   nodeStyles[size.name][propName].data = `${" ".repeat(8)}${propName}: ${v};\n`;
                 }
-              } else if (instanceOf(v, Symbol)) { }
+              } else if (instanceOf(v, Symbol)) {}
             },
             enumerable: true,
             configurable: true
@@ -137,7 +137,8 @@ export class BStyle extends Behavior {
       });
 
       document.head.appendChild(styleElement);
-      mainElement.classList.add(specificClass);
+      // mainElement.classList.add(specificClass);
+      mainElement.id = specificClass;
 
       forEach(responsiveSizes, (size, sizeName) => {
         if (size.min) {
@@ -145,7 +146,7 @@ export class BStyle extends Behavior {
         } else {
           styleElement.appendChild(document.createTextNode(`@media only screen and (max-width: ${size.max}px) {\n`));
         }
-        styleElement.appendChild(document.createTextNode(`${" ".repeat(4)}.${specificClass}[element-type][element-name="container"] {\n`));
+        styleElement.appendChild(document.createTextNode(`${" ".repeat(4)}#${specificClass}[element-type][element-name="container"] {\n`));
 
         forEach(nodeStyles[size.name], (prop, propName) => {
           styleElement.appendChild(prop);

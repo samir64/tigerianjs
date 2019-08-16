@@ -24,6 +24,7 @@ export class BModal extends Behavior {
     this.defineMethod("config", (that, ctrlParent, ctrlModal) => {
       var status = EModal.CLOSE;
       var elmCoverage = new Control(ctrlParent, that.theme);
+      var superVisible = Object.getOwnPropertyDescriptor(that, "visible");
 
       elmCoverage.setAttribute("element-type", "Modal");
       elmCoverage.setAttribute("element-name", "coverage");
@@ -99,15 +100,15 @@ export class BModal extends Behavior {
       });
 
       that.defineMethod("showModal", () => {
-        ctrlModal.status = BModal.EModal;
+        ctrlModal.status = EModal.MODAL;
       });
 
       that.defineMethod("show", () => {
-        ctrlModal.status = BModal.EShow;
+        ctrlModal.status = EModal.SHOW;
       });
 
       that.defineMethod("close", () => {
-        ctrlModal.status = BModal.EClose;
+        ctrlModal.status = EModal.CLOSE;
       });
 
       if (that !== ctrlModal) {
