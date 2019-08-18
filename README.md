@@ -1,4 +1,4 @@
-# js Framework v1.0.0 alpha
+# Tigerian: Javascript Framework v1.0.0 alpha
 
 ## Introduction and Story
 
