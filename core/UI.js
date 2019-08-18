@@ -45,7 +45,7 @@ export class UI extends Tigerian {
       if (mainElement[0] === "#") {
         mainElement = document.getElementById(mainElement.substring(1));
       }
-    } else if (!instanceOf(mainElement, Element)) {
+    } else if (!(instanceOf(mainElement, Element) || instanceOf(mainElement, DocumentFragment))) {
       mainElement = document.body;
     }
 
@@ -349,8 +349,8 @@ export class UI extends Tigerian {
         control.appendTo(that, mainElement);
       }
     }, [
-        [UI, Element, Text]
-      ]);
+      [UI, Element, Text]
+    ]);
 
     /**
      * @param {string} attrName
@@ -407,7 +407,9 @@ export class UI extends Tigerian {
      */
     this.defineMethod("matchContainer", (elmContainer) => {
       return elmContainer === mainElement;
-    }, [Element]);
+    }, [
+      [Element, DocumentFragment]
+    ]);
 
     /**
      * @param {UI} parentControl
@@ -421,7 +423,7 @@ export class UI extends Tigerian {
         parent = parentControl;
         elmParentContainer.appendChild(mainElement);
       }
-    }, [UI, Element]);
+    }, [UI, [Element, DocumentFragment]]);
 
     /**
      * @param {string} themeName

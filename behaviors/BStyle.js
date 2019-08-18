@@ -31,8 +31,15 @@ export class BStyle extends Behavior {
       var specificClass = `control-${Math.round(Date.now() * Math.random())}`;
       var styleElement = document.createElement("style");
       var styleProperty = {};
+      var nodeStyles = {};
+      var fragment = document.createDocumentFragment();
+      var emptyNode = document.createTextNode("");
+      var cloneNode = (text) => {
+        var result = emptyNode.cloneNode(false);
+        result.data = text;
 
-      var nodeStyles = {}
+        return result;
+      };
 
       var addPageSizes = (getter, setter, propName, result = {}) => {
         forEach(responsiveSizes, (size, sizeName) => {
@@ -47,7 +54,7 @@ export class BStyle extends Behavior {
                 if (v === "") {
                   nodeStyles[size.name][propName].data = "";
                 } else {
-                  nodeStyles[size.name][propName].data = `${" ".repeat(8)}${propName}: ${v};\n`;
+                  nodeStyles[size.name][propName].data = `\t\t${propName}: ${v};\n`;
                 }
               } else if (instanceOf(v, Symbol)) {}
             },
@@ -124,7 +131,7 @@ export class BStyle extends Behavior {
                 nodeStyles[size.name] = {};
               }
 
-              nodeStyles[size.name][propDashName] = document.createTextNode("");
+              nodeStyles[size.name][propDashName] = cloneNode("");
             });
 
             defineAttribute(styleProperty, attrs, () => {
@@ -136,25 +143,27 @@ export class BStyle extends Behavior {
         }
       });
 
-      document.head.appendChild(styleElement);
       // mainElement.classList.add(specificClass);
       mainElement.id = specificClass;
 
       forEach(responsiveSizes, (size, sizeName) => {
         if (size.min) {
-          styleElement.appendChild(document.createTextNode(`@media only screen and (min-width: ${size.min}px) {\n`));
+          fragment.appendChild(cloneNode(`@media only screen and (min-width: ${size.min}px) {\n`));
         } else {
-          styleElement.appendChild(document.createTextNode(`@media only screen and (max-width: ${size.max}px) {\n`));
+          fragment.appendChild(cloneNode(`@media only screen and (max-width: ${size.max}px) {\n`));
         }
-        styleElement.appendChild(document.createTextNode(`${" ".repeat(4)}#${specificClass}[element-type][element-name="container"] {\n`));
+        fragment.appendChild(cloneNode(`\t#${specificClass}[element-type][element-name="container"] {\n`));
 
         forEach(nodeStyles[size.name], (prop, propName) => {
-          styleElement.appendChild(prop);
+          fragment.appendChild(prop);
         });
 
-        styleElement.appendChild(document.createTextNode(`${" ".repeat(4)}}\n`));
-        styleElement.appendChild(document.createTextNode(`}\n\n`));
+        fragment.appendChild(cloneNode(`\t}\n`));
+        fragment.appendChild(cloneNode(`}\n\n`));
       });
+
+      styleElement.appendChild(fragment);
+      document.head.appendChild(styleElement);
 
       Object.defineProperty(that, "style", {
         enumerable: true,
@@ -163,7 +172,7 @@ export class BStyle extends Behavior {
           return styleProperty;
         }
       });
-    }, [Tigerian, Element]);
+    }, [Tigerian, [Element, DocumentFragment]]);
   }
 }
 

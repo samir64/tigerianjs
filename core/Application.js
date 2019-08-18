@@ -30,6 +30,7 @@ export class Application extends UI {
    * @param {string} [theme = ""]
    */
   constructor(title = "", element = document.body, theme = "") {
+    var fragment = document.createDocumentFragment();
     super(element, null, theme);
 
     this.config(BWindow);

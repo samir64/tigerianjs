@@ -120,6 +120,6 @@ export class BEvent extends Behavior {
         e.data = data;
         eventHandler(e);
       }, [Event]);
-    }, [Object, Element]);
+    }, [Object, [Element, DocumentFragment]]);
   }
 }
