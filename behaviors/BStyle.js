@@ -133,7 +133,6 @@ export class BStyle extends Behavior {
         }
       };
 
-      console.time("properties");
       forEach(allStylesList, (propName) => {
         if (parseInt(propName) != propName) {
           // if ((propName.indexOf("-") === -1) && ((propName[0] < "A") || (propName[0] > "Z"))) {
@@ -159,9 +158,6 @@ export class BStyle extends Behavior {
           // }
         }
       });
-      console.timeEnd("properties");
-
-      console.log(styleProperty);
 
       // mainElement.classList.add(specificClass);
       mainElement.id = specificClass;
