@@ -16,6 +16,19 @@ import {
 
 ("use strict");
 
+var allStylesList = [];
+
+forEach(document.body.style, (prop, propName) => {
+  allStylesList.push(propName);
+});
+
+allStylesList = allStylesList.filter((item) => {
+  return (item[0] < "A" || item[0] > "Z") && !allStylesList.some((it) => {
+    return (it !== item) && (it.replace(/-/g, "") === item.toLowerCase());
+  });
+});
+
+
 /**
  * @constructor
  * @extends {Behavior}
@@ -40,6 +53,7 @@ export class BStyle extends Behavior {
 
         return result;
       };
+      var style = mainElement.style;
 
       var addPageSizes = (getter, setter, propName, result = {}) => {
         forEach(responsiveSizes, (size, sizeName) => {
@@ -119,29 +133,35 @@ export class BStyle extends Behavior {
         }
       };
 
-      forEach(mainElement.style, (prop, propName, style) => {
+      console.time("properties");
+      forEach(allStylesList, (propName) => {
         if (parseInt(propName) != propName) {
-          if ((propName.indexOf("-") === -1) && ((propName[0] < "A") || (propName[0] > "Z"))) {
-            var attrs = strSplitCapital(propName);
+          // if ((propName.indexOf("-") === -1) && ((propName[0] < "A") || (propName[0] > "Z"))) {
+          var propNameClear = propName.replace(/^-*(\w[\w-]+\w)-*$/, "$1");
+          var attrs = propNameClear.split("-");
+          // console.log(propName, propNameClear, attrs);
 
-            var propDashName = attrs.join("-");
+          // var propDashName = attrs.join("-");
 
-            forEach(responsiveSizes, (size, sizeName) => {
-              if (nodeStyles[size.name] === undefined) {
-                nodeStyles[size.name] = {};
-              }
+          forEach(responsiveSizes, (size, sizeName) => {
+            if (nodeStyles[size.name] === undefined) {
+              nodeStyles[size.name] = {};
+            }
 
-              nodeStyles[size.name][propDashName] = cloneNode("");
-            });
+            nodeStyles[size.name][propNameClear] = cloneNode("");
+          });
 
-            defineAttribute(styleProperty, attrs, () => {
-              return style[propName];
-            }, (v) => {
-              style[propName] = v;
-            }, propDashName);
-          }
+          defineAttribute(styleProperty, attrs, () => {
+            return style[propName];
+          }, (v) => {
+            style[propName] = v;
+          }, propNameClear);
+          // }
         }
       });
+      console.timeEnd("properties");
+
+      console.log(styleProperty);
 
       // mainElement.classList.add(specificClass);
       mainElement.id = specificClass;
