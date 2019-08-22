@@ -29,7 +29,8 @@
 
 [element-type][element-name] pre {
   padding: 0;
-  margin: 0;
+  margin: 5px;
+  text-align: left;
   font-family: monospace;
 }
 
