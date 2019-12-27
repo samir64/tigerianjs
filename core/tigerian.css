@@ -20,6 +20,7 @@
 [element-type][element-name] ul,
 [element-type][element-name] ol {
   display: block;
+  padding-left: 15px;
 }
 
 [element-type][element-name] li {
@@ -226,7 +227,6 @@ a[element-type][element-name] {
 }
 
 /* NOTE Application's children*/
-
 [element-type="Application"][element-name="container"],
 [element-type="Application"][element-name="container"] * {
   -webkit-box-sizing: border-box;
@@ -242,7 +242,6 @@ a[element-type][element-name] {
 }
 
 /* NOTE Containers and childrens*/
-
 [element-type][element-name="container"],
 [element-type][element-name="container"] * {
   max-width: 100%;
@@ -314,7 +313,6 @@ a[element-type][element-name] {
 }
 
 /* NOTE Control Container*/
-
 [element-type="Container"][element-name="container"] {
   /* min-height: 150px; */
   /* background-color: #ddd; */
@@ -333,8 +331,15 @@ a[element-type][element-name] {
   width: 100%;
 }
 
-/* NOTE Textbox */
 
+/* NOTE Control*/
+[element-type="Control"][element-name="container"] {
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+
+/* NOTE Textbox */
 [element-type="TextBox"][element-name="container"]>input {
   width: 100%;
   /* border: 1px solid #bbb; */
@@ -367,7 +372,6 @@ a[element-type][element-name] {
 }
 
 /* NOTE Button*/
-
 [element-type="Button"][element-name="container"] {
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;

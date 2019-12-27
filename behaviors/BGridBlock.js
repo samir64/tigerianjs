@@ -33,6 +33,7 @@ export class BGridBlock extends Behavior {
       that.defineMethod("addBlockRow", (pattern, size = EWindow.MEDIUM) => {
         if (instanceOf(pattern, Symbol)) {
           patterns[size] = pattern;
+          colCount[size] = pattern;
         } else {
           var cnt;
           var re = /(?:\w+|\.)(?::(\d+))?/g;
@@ -59,8 +60,8 @@ export class BGridBlock extends Behavior {
           });
         }
       }, [
-          [String, Symbol], Symbol
-        ]);
+        [String, Symbol], Symbol
+      ]);
 
       that.defineMethod("regenerate", (size = EWindow.MEDIUM) => {
         var blocks = patterns[size];
