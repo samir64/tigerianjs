@@ -1,31 +1,31 @@
 import {
   View
-} from "../model_view/View.js";
+} from "../../model_view/View.js";
 import {
   Header
-} from "../controls/Header.js";
+} from "../../controls/Header.js";
 import {
   Control,
   EControl
-} from "../core/Control.js";
+} from "../../core/Control.js";
 import {
   Container
-} from "../controls/Container.js";
+} from "../../controls/Container.js";
 import {
   Footer
-} from "../controls/Footer.js";
+} from "../../controls/Footer.js";
 import {
   Label
-} from "../controls/Label.js";
+} from "../../controls/Label.js";
 import {
   HyperLink
-} from "../controls/HyperLink.js";
+} from "../../controls/HyperLink.js";
 import {
   EWindow
-} from "../behaviors/BWindow.js";
+} from "../../behaviors/BWindow.js";
 import {
   Loading
-} from "../controls/Loading.js";
+} from "../../controls/Loading.js";
 
 ("use strict");
 

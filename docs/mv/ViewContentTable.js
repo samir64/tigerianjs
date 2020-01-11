@@ -2,27 +2,27 @@
 
 import {
   View
-} from "../model_view/View.js";
+} from "../../model_view/View.js";
 import {
   Control,
   EControl
-} from "../core/Control.js";
+} from "../../core/Control.js";
 import {
   Loading
-} from "../controls/Loading.js";
+} from "../../controls/Loading.js";
 import {
   CollapseList
-} from "../controls/CollapseList.js";
+} from "../../controls/CollapseList.js";
 import {
   ModelTopic
 } from "./ModelTopic.js";
 import {
   instanceOf,
   forEach
-} from "../core/Tigerian.js";
+} from "../../core/Tigerian.js";
 import {
   CollapseItem
-} from "../controls/CollapseItem.js";
+} from "../../controls/CollapseItem.js";
 
 /**
  * @constructor

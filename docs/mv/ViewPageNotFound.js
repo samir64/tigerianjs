@@ -1,16 +1,16 @@
 import {
   View
-} from "../model_view/View.js";
+} from "../../model_view/View.js";
 import {
   Control,
   EControl
-} from "../core/Control.js";
+} from "../../core/Control.js";
 import {
   Label
-} from "../controls/Label.js";
+} from "../../controls/Label.js";
 import {
   Button
-} from "../controls/Button.js";
+} from "../../controls/Button.js";
 
 ("use strict");
 
