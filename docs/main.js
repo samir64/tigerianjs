@@ -26,7 +26,7 @@ import {
 } from "../behaviors/BLabel.js";
 
 var app = new Application("Tigerian.js Developer Guide");
-var route = new Route("/tigerianjs-docs", true);
+var route = new Route("/Tigerian.js/docs", true);
 
 var viewMain = new ViewMain(app);
 var viewContent = new ViewContent(viewMain.getContent(), viewMain.getLoading(), route);
