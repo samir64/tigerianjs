@@ -2,10 +2,10 @@
 
 import {
   Application
-} from "../core/Application.js";
+} from "https://github.com/samir64/samir64.github.io/core/Application.js";
 import {
   Route
-} from "../core/Route.js";
+} from "https://github.com/samir64/samir64.github.io/core/Route.js";
 import {
   ViewMain
 } from "./mv/ViewMain.js";
@@ -20,10 +20,10 @@ import {
 } from "./mv/ViewPageNotFound.js";
 import {
   Label
-} from "../controls/Label.js";
+} from "https://github.com/samir64/samir64.github.io/controls/Label.js";
 import {
   ELabel
-} from "../behaviors/BLabel.js";
+} from "https://github.com/samir64/samir64.github.io/behaviors/BLabel.js";
 
 var app = new Application("Tigerian.js Developer Guide");
 var route = new Route("/tigerianjs-docs", true);
