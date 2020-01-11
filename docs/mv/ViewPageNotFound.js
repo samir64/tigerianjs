@@ -1,16 +1,16 @@
 import {
   View
-} from "../tigerianjs/model_view/View.js";
+} from "../model_view/View.js";
 import {
   Control,
   EControl
-} from "../tigerianjs/core/Control.js";
+} from "../core/Control.js";
 import {
   Label
-} from "../tigerianjs/controls/Label.js";
+} from "../controls/Label.js";
 import {
   Button
-} from "../tigerianjs/controls/Button.js";
+} from "../controls/Button.js";
 
 ("use strict");
 

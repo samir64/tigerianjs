@@ -2,27 +2,27 @@
 
 import {
   View
-} from "../tigerianjs/model_view/View.js";
+} from "../model_view/View.js";
 import {
   Control,
   EControl
-} from "../tigerianjs/core/Control.js";
+} from "../core/Control.js";
 import {
   Loading
-} from "../tigerianjs/controls/Loading.js";
+} from "../controls/Loading.js";
 import {
   CollapseList
-} from "../tigerianjs/controls/CollapseList.js";
+} from "../controls/CollapseList.js";
 import {
   ModelTopic
 } from "./ModelTopic.js";
 import {
   instanceOf,
   forEach
-} from "../tigerianjs/core/Tigerian.js";
+} from "../core/Tigerian.js";
 import {
   CollapseItem
-} from "../tigerianjs/controls/CollapseItem.js";
+} from "../controls/CollapseItem.js";
 
 /**
  * @constructor

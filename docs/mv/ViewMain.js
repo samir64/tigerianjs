@@ -1,31 +1,31 @@
 import {
   View
-} from "../tigerianjs/model_view/View.js";
+} from "../model_view/View.js";
 import {
   Header
-} from "../tigerianjs/controls/Header.js";
+} from "../controls/Header.js";
 import {
   Control,
   EControl
-} from "../tigerianjs/core/Control.js";
+} from "../core/Control.js";
 import {
   Container
-} from "../tigerianjs/controls/Container.js";
+} from "../controls/Container.js";
 import {
   Footer
-} from "../tigerianjs/controls/Footer.js";
+} from "../controls/Footer.js";
 import {
   Label
-} from "../tigerianjs/controls/Label.js";
+} from "../controls/Label.js";
 import {
   HyperLink
-} from "../tigerianjs/controls/HyperLink.js";
+} from "../controls/HyperLink.js";
 import {
   EWindow
-} from "../tigerianjs/behaviors/BWindow.js";
+} from "../behaviors/BWindow.js";
 import {
   Loading
-} from "../tigerianjs/controls/Loading.js";
+} from "../controls/Loading.js";
 
 ("use strict");
 

@@ -1,6 +1,6 @@
 import {
   Model
-} from "../tigerianjs/model_view/Model.js";
+} from "../model_view/Model.js";
 
 ("use strict");
 
