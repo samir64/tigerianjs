@@ -1,5 +1,6 @@
 import {
-  instanceOf
+  instanceOf,
+  defineMethod
 } from "../core/Tigerian.js";
 import {
   Behavior
@@ -42,6 +43,13 @@ export class BText extends Behavior {
           that.text = (instanceOf(e.target.value, String) ? e.target.value : e.target.innerHTML);
         }
       }
+
+      defineMethod(that, "bindable", () => {
+        var start = 0;
+        while (start >= 0) {
+          start = text.search(/<control\s+|<variable\s+/, start);
+        }
+      });
 
       /**
        * @member {string}
