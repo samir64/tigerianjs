@@ -1,0 +1,24 @@
+[element-type][element-name] span {
+    text-align: justify;
+    text-justify: inter-word;
+    text-align-last: left;
+    margin: 7px 0;
+    display: block;
+}
+
+[element-type][element-name] pre {
+    background-color: #e9e9e9;
+}
+
+[element-type="Application"][element-name="container"]>[element-type="Control"][element-name="container"] {
+    padding: 10px;
+}
+
+[element-type="ButtonsContainer"][element-name="container"] {
+    padding: 25px 5px;
+    margin: 25px 0;
+}
+
+[element-type][element-name] .child {
+    margin-left: 25px;
+}

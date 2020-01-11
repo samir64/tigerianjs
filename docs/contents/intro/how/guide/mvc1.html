@@ -1,0 +1,215 @@
+<style>
+  pre {
+    background-color: silver;
+    overflow-x: auto;
+  }
+</style>
+
+<ol>
+  <li>
+    <div style="background-color: silver;"><strong>
+        <pre>index.html</pre></strong></div>
+    <br />
+    <pre>
+&lt!DOCTYPE html&gt
+&lthtml&gt
+  &lthead&gt
+    &lttitle&gtLoading...&lt/title&gt
+    &ltmeta charset="UTF-8"&gt
+    &ltlink rel="stylesheet" href="./tigerianjs/core/tigerian.css"&gt
+    &ltscript src="./main.js" type="module"&gt&lt/script&gt
+  &lt/head&gt
+  &ltbody&gt
+  &lt/body&gt
+&lt/html&gt
+</pre>
+  </li>
+
+  <li>
+    <h2>Write Main and View</h2>
+    <br />
+
+    <div>
+      You can develop your project in seperated files.
+      Make a main file and define an Application in it.
+    </div>
+    <br />
+    <div style="background-color: silver;"><strong>
+        <pre>main.js</pre></strong></div>
+    <br />
+    <pre>let myApp = new Application("Application Title")</pre>
+    <br />
+
+    <div>
+      After that make your view file.
+    </div>
+    <br />
+    <div style="background-color: silver;"><strong>
+        <pre>view.js</pre></strong></div>
+    <br />
+    <pre>
+export class MyAppView {
+  constructor(app) {
+    let myText = new Label(app, "Label 1");
+    let myContainer = new Container(app);
+    let myButton = new Button(myContainer, "Button 1");
+  }
+}
+</pre>
+    <br />
+
+    <div>
+      Now, you have to append your view in main file.
+      So you must add a variable and set it by an instance of your view class.
+    </div>
+    <br />
+
+    <div style="background-color: silver;"><strong>
+        <pre>main.js</pre></strong></div>
+    <br />
+    <pre>let myView = new MyAppView(myApp)</pre>
+    <br />
+  </li>
+
+  <li>
+    <h2>Write Model and Update Main and View</h2>
+    <br />
+
+    <div>You can write model file and set your variables in a seperated file.</div>
+    <br />
+    <div style="background-color: silver;"><strong>
+        <pre>model.js</pre></strong></div>
+    <br />
+    <pre>
+export class MyAppModel {
+  constructor() {
+    super();
+
+    this.labelText = "First Label";
+    this.buttonText = "Button 1";
+  }
+}    
+</pre>
+    <br />
+
+    <div>Now we must change
+      <pre>view.js</pre> file to use variables of
+      <pre>model.js</pre>
+    </div>
+    <br />
+    <div style="background-color: silver;"><strong>
+        <pre>view.js</pre></strong></div>
+    <br />
+    <pre>
+export class MyAppView {
+  constructor(app, model) {
+    let myText = new Label(app, model.label);
+    let myContainer = new Container(app);
+    let myButton = new Button(myContainer, model.button);
+  }
+}    
+</pre>
+    <br />
+
+    <div>And in
+      <pre>main.js</pre> we should declare model variable and pass it in view constructor.</div>
+    <br />
+
+    <div style="background-color: silver;"><strong>
+        <pre>main.js</pre></strong></div>
+    <br />
+    <pre>
+let myApp = new Application("Application Title");
+
+let myModel = new MyAppModel();
+let myView = new MyAppView(myApp, myModel);
+</pre>
+  </li>
+  <br />
+
+  <li>
+    <h2>Write Controller and Update Main, View and Model</h2>
+    <br />
+
+    <div>Now, it's time for writing controller part of our system.</div>
+    <br />
+    <div>Before writing controller, we have to write an event in view for control pushing button.</div>
+    <br />
+    <div>For this action we append these lines to
+      <pre>view.js.</pre>
+    </div>
+    <br />
+    <div style="background-color: silver;"><strong>
+        <pre>view.js</pre></strong></div>
+    <br />
+    <pre>
+this.click = () => {};
+that = this;
+
+myButton.addEvent("click", () => {
+  that.click();
+});
+    </pre>
+
+    <br />
+    <div>Then we can write
+      <pre>controller.js.</pre>
+    </div>
+    <br />
+    <div style="background-color: silver;"><strong>
+        <pre>controller.js</pre></strong></div>
+    <br />
+    <pre>
+export class MyAppController {
+  constructor(view, model) {
+    view.click = () => {
+      model.label = "Hello";
+    }
+  }
+}
+    </pre>
+    <br />
+
+    <div>And update
+      <pre>main.js</pre> for controller.</div>
+    <br />
+    <div style="background-color: silver;"><strong>
+        <pre>main.js</pre></strong></div>
+    <br />
+    <pre>
+let myApp = new Application("Application Title");
+
+let myModel = new MyAppModel();
+let myView = new MyAppView(myApp, myModel);
+let myController = new MyAppController(myView, myModel);
+    </pre>
+    <br />
+
+    <div>View is not auto updatable. You have to write a function to update data of your controls after change.</div>
+    <br />
+    <div style="background-color: silver;"><strong>
+        <pre>view.js</pre></strong></div>
+    <br />
+    <pre>
+defineMethod(this, "refresh", () => {
+  myText.text = model.label;
+  myButton.text = model.button;
+});
+    </pre>
+    <br />
+
+    <div>In
+      <pre>controller.js</pre> we must refresh the view in click event after changing model's data.</div>
+    <br />
+    <div style="background-color: silver;"><strong>
+        <pre>view.js</pre></strong></div>
+    <br />
+    <pre>
+view.click = () => {
+  model.label = "Hello";
+
+  view.refresh();
+}
+    </pre>
+  </li>
+</ol>
