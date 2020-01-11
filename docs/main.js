@@ -2,10 +2,10 @@
 
 import {
   Application
-} from "../core/Application.js";
+} from "./tigerianjs/core/Application.js";
 import {
   Route
-} from "../core/Route.js";
+} from "./tigerianjs/core/Route.js";
 import {
   ViewMain
 } from "./mv/ViewMain.js";
@@ -20,10 +20,10 @@ import {
 } from "./mv/ViewPageNotFound.js";
 import {
   Label
-} from "../controls/Label.js";
+} from "./tigerianjs/controls/Label.js";
 import {
   ELabel
-} from "../behaviors/BLabel.js";
+} from "./tigerianjs/behaviors/BLabel.js";
 
 var app = new Application("Tigerian.js Developer Guide");
 var route = new Route("/tigerianjs-docs", true);
