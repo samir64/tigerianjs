@@ -25,8 +25,11 @@ import {
   ELabel
 } from "../behaviors/BLabel.js";
 
+// var root = "Tigerian.js/docs";
+var root = window.location.pathname;
+
 var app = new Application("Tigerian.js Developer Guide");
-var route = new Route("/Tigerian.js/docs", true);
+var route = new Route(root, true);
 
 var viewMain = new ViewMain(app);
 var viewContent = new ViewContent(viewMain.getContent(), viewMain.getLoading(), route);
