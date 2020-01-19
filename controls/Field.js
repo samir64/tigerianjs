@@ -34,10 +34,10 @@ export class Field extends Control {
     constructor(parent, label = "", text = "", theme = "") {
         super(parent, theme);
 
-        var ctrlText = new TextBox(this, text, theme);
-        var ctrlLabel = new Label(this, label, theme);
+        let ctrlText = new TextBox(this, text, theme);
+        let ctrlLabel = new Label(this, label, theme);
 
-        var superEnabled = Object.getOwnPropertyDescriptor(this, "enabled");
+        let superEnabled = Object.getOwnPropertyDescriptor(this, "enabled");
 
         this.config(BText, ctrlText, text);
 

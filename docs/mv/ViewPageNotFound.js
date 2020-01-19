@@ -24,11 +24,11 @@ export class ViewPageNotFound extends View {
    * @param {Tigerian.UI} parent
    */
   constructor(parent) {
-    var container = new Control(parent, parent.theme);
+    let container = new Control(parent, parent.theme);
     super(container);
 
-    var content = new Label(container, "<h1>Topic Not Found</h1>", parent.theme);
-    var btnBack = new Button(container, "Back", parent.theme);
+    let content = new Label(container, "<h1>Topic Not Found</h1>", parent.theme);
+    let btnBack = new Button(container, "Back", parent.theme);
 
     btnBack.situation = EControl.DANGER;
 

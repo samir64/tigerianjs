@@ -29,7 +29,7 @@ export class FilterList extends ListBox {
     constructor(parent, theme = "") {
         super(parent, theme);
 
-        var ctrlFilter = new TextBox(null, "", this.theme);
+        let ctrlFilter = new TextBox(null, "", this.theme);
         this.config(BFilter, ctrlFilter);
 
         this.addGeneralControl(ctrlFilter);

@@ -28,7 +28,7 @@ export class ListItem extends Control {
    * @param {string} [theme = ""]
    */
   constructor(parent, text, theme = "") {
-    var elmItem = document.createElement("div");
+    let elmItem = document.createElement("div");
 
     super(parent, theme);
     this.config(BSelect);
@@ -50,10 +50,10 @@ export class ListItem extends Control {
     // Object.defineProperty(this, "text", {
     //     enumerable: true,
     //     configurable: true,
-    //     get: function () {
+    //     get() {
     //         return elmItem.innerHTML;
     //     },
-    //     set: function (v) {
+    //     set(v) {
     //         if (instanceOf(v, String)) {
     //             elmItem.innerHTML = v;
     //         }

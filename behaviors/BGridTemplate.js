@@ -29,17 +29,17 @@ export class BGridTemplate extends Behavior {
     super();
 
     this.defineMethod("config", (that, name) => {
-      var elm = document.createElement("style");
+      let elm = document.createElement("style");
       document.head.appendChild(elm);
 
-      // var columnGap = "0px";
-      var templatesText = {};
-      var blocks = [];
+      // let columnGap = "0px";
+      let templatesText = {};
+      let blocks = [];
 
       elm.innerHTML = "";
 
       forEach(responsiveSizes, (size, sizeName) => {
-        var node = document.createTextNode("");
+        let node = document.createTextNode("");
         if (size.min) {
           node.data = `@media only screen and (min-width: ${size.min}px) {\n`;
         } else {
@@ -55,8 +55,8 @@ export class BGridTemplate extends Behavior {
         elm.appendChild(node);
       });
 
-      var getSizeName = (size) => {
-        var result;
+      let getSizeName = (size) => {
+        let result;
 
         forEach(responsiveSizes, (sizeInfo, sname) => {
           if (sizeInfo.name === size) {
@@ -74,7 +74,7 @@ export class BGridTemplate extends Behavior {
 
       that.defineMethod("regenerate", () => {
         forEach(responsiveSizes, (size, sizeName) => {
-          var template = "";
+          let template = "";
           forEach(blocks, (block) => {
             if (template !== "") {
               template += "\n";
@@ -82,8 +82,8 @@ export class BGridTemplate extends Behavior {
             template += block.regenerate(size.name);
           });
 
-          var colCount = blocks[0].getColCount(size.name);
-          // var colWidth = Math.round(10000 / colCount) / 100;
+          let colCount = blocks[0].getColCount(size.name);
+          // let colWidth = Math.round(10000 / colCount) / 100;
           templatesText[sizeName].data = `\t[element-name="container"][template-name="${name}"][visible="true"] {\n\t\tdisplay: grid;\n\t\t/*max-width: ${size.containerWidth};*/\n\t\tmargin-left: auto;\n\t\tmargin-right: auto;\n\t\tgrid-template-columns: repeat(${colCount}, minmax(0px, 1fr));\n\t\tgrid-template-areas:${template};\n\t}\n\n`;
           // templatesText[sizeName].data = `  [element-name="container"][template-name="${name}"][visible="true"] {\n    display: grid;\n    max-width: ${size.containerWidth};\n    margin-left: auto;\n    margin-right: auto;\n    grid-template-areas:\n${template};\ngrid-template-columns: repeat(${colCount}, 1fr);\n}\n\n`;
           // templatesText[sizeName].data = `  [element-name="container"][template-name="${name}"][visible="true"] {\n    display: grid;\n    column-gap: ${columnGap};\n    max-width: ${size.containerWidth};\n    margin-left: auto;\n    margin-right: auto;\n    grid-template-areas:\n${template};\ngrid-template-columns: repeat(${colCount}, calc(${size.containerWidth} / ${colCount} - ${columnGap}));\n}\n\n`;

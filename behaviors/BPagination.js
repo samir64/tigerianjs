@@ -22,19 +22,19 @@ export class BPagination extends Behavior {
     super();
 
     this.defineMethod("config", (that, ctrlNavigation) => {
-      var pageNo = 0;
-      var pageCount = 0;
-      var labelCount = 7;
+      let pageNo = 0;
+      let pageCount = 0;
+      let labelCount = 7;
 
-      var theme = ctrlNavigation.theme;
-      var navButtons = EPagination.ALL;
+      let theme = ctrlNavigation.theme;
+      let navButtons = EPagination.ALL;
 
-      var container = new Control(ctrlNavigation, theme);
-      var ctrlFirst = new Button(container, "❬ ❬", theme);
-      var ctrlPrev = new Button(container, "❰", theme);
-      var ctrlPageList = new Control(container, theme);
-      var ctrlNext = new Button(container, "❱", theme);
-      var ctrlLast = new Button(container, "❭ ❭", theme);
+      let container = new Control(ctrlNavigation, theme);
+      let ctrlFirst = new Button(container, "❬ ❬", theme);
+      let ctrlPrev = new Button(container, "❰", theme);
+      let ctrlPageList = new Control(container, theme);
+      let ctrlNext = new Button(container, "❱", theme);
+      let ctrlLast = new Button(container, "❭ ❭", theme);
 
       container.setAttribute("element-type", "Pagination");
       container.setAttribute("element-name", "container");
@@ -48,8 +48,8 @@ export class BPagination extends Behavior {
       ctrlNext.normalColumn = 1;
       ctrlLast.normalColumn = 1;
 
-      var addLabel = function (index) {
-        var label = new Label(ctrlPageList, index.toString(), ctrlNavigation.theme);
+      let addLabel = function (index) {
+        let label = new Label(ctrlPageList, index.toString(), ctrlNavigation.theme);
         label.normalColumn = 1;
         if (instanceOf(index, "number")) {
           label.setAttribute("active", (pageNo !== index) ? "true" : "false");
@@ -66,9 +66,9 @@ export class BPagination extends Behavior {
         }
       };
 
-      var fillPageList = function () {
-        var first = Math.max(2, pageNo - Math.floor((labelCount - 2) / 2));
-        var last = Math.min(pageCount - 1, pageNo + Math.ceil((labelCount - 2) / 2) - 1);
+      let fillPageList = function () {
+        let first = Math.max(2, pageNo - Math.floor((labelCount - 2) / 2));
+        let last = Math.min(pageCount - 1, pageNo + Math.ceil((labelCount - 2) / 2) - 1);
 
         if (last - first < labelCount) {
           if (first > 2) {
@@ -83,7 +83,7 @@ export class BPagination extends Behavior {
           addLabel("…");
         }
         if (pageCount > 2) {
-          for (var i = first; i <= last; i++) {
+          for (let i = first; i <= last; i++) {
             addLabel(i);
           }
         }
@@ -95,7 +95,7 @@ export class BPagination extends Behavior {
         }
       };
 
-      var refresh = function () {
+      let refresh = function () {
         ctrlFirst.visible = ctrlLast.visible = ((navButtons === BPagination.EAll) || (navButtons === BPagination.EFirstLast));
         ctrlPrev.visible = ctrlNext.visible = ((navButtons === BPagination.EAll) || (navButtons === BPagination.EPreviousNext));
         ctrlNavigation.visible = (pageCount > 0);
@@ -115,7 +115,7 @@ export class BPagination extends Behavior {
           return pageNo;
         },
         set(v) {
-          var lastPageNo = pageNo;
+          let lastPageNo = pageNo;
           pageNo = Math.max((pageCount === 0) ? 0 : 1, Math.min(v, pageCount));
 
           if (lastPageNo !== pageNo) {
@@ -134,11 +134,11 @@ export class BPagination extends Behavior {
           return pageCount;
         },
         set(v) {
-          var lastPageCount = pageCount;
+          let lastPageCount = pageCount;
           pageCount = Math.max(0, v);
 
           if (lastPageCount !== pageCount) {
-            var lastPageNo = pageNo;
+            let lastPageNo = pageNo;
             this.dispatchEvent(Events.onPageCountChange);
             pageNo = Math.max((pageCount === 0) ? 0 : 1, Math.min(pageNo, pageCount));
             refresh();
@@ -155,7 +155,7 @@ export class BPagination extends Behavior {
           return labelCount;
         },
         set(v) {
-          var lastLabelCount = labelCount;
+          let lastLabelCount = labelCount;
           labelCount = Math.max(0, v);
 
           if (lastLabelCount !== labelCount) {
@@ -173,7 +173,7 @@ export class BPagination extends Behavior {
           return navButtons;
         },
         set(v) {
-          var lastNavBtns = navButtons;
+          let lastNavBtns = navButtons;
           switch (v) {
             case EPagination.ALL:
             case EPagination.NONE:
@@ -193,7 +193,7 @@ export class BPagination extends Behavior {
       });
 
       ctrlNext.addEvent("click", function (e) {
-        var lastPageNo = pageNo;
+        let lastPageNo = pageNo;
         that.pageNumber++;
         if (lastPageNo !== pageNo) {
           refresh();
@@ -202,7 +202,7 @@ export class BPagination extends Behavior {
       });
 
       ctrlPrev.addEvent("click", function (e) {
-        var lastPageNo = pageNo;
+        let lastPageNo = pageNo;
         that.pageNumber--;
         if (lastPageNo !== pageNo) {
           refresh();
@@ -211,7 +211,7 @@ export class BPagination extends Behavior {
       });
 
       ctrlFirst.addEvent("click", function (e) {
-        var lastPageNo = pageNo;
+        let lastPageNo = pageNo;
         that.pageNumber = 0;
         if (lastPageNo !== pageNo) {
           refresh();
@@ -219,7 +219,7 @@ export class BPagination extends Behavior {
       });
 
       ctrlLast.addEvent("click", function (e) {
-        var lastPageNo = pageNo;
+        let lastPageNo = pageNo;
         that.pageNumber = pageCount;
         if (lastPageNo !== pageNo) {
           refresh();

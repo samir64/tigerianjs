@@ -28,18 +28,18 @@ export class CheckBox extends Control {
    * @param {UI} parent
    */
   constructor(parent, text = "", theme = "") {
-    var elmCheckBox = document.createElement("div");
-    var elmLabel = document.createElement("div");
+    let elmCheckBox = document.createElement("div");
+    let elmLabel = document.createElement("div");
 
     super(parent, theme);
     this.config(BSelect);
     this.config(BText, elmLabel, text);
 
     //NOTE Alias Super Members
-    var superSelected = Object.getOwnPropertyDescriptor(this, "selected");
+    let superSelected = Object.getOwnPropertyDescriptor(this, "selected");
 
     //NOTE Private Variables
-    var that = this;
+    let that = this;
 
     //NOTE Attributes
     this.setAttribute("element-name", "container");
@@ -62,7 +62,7 @@ export class CheckBox extends Control {
         return that.getAttribute("selected") == "indeterminate";
       },
       set(v) {
-        var lastValue = that.indeterminate;
+        let lastValue = that.indeterminate;
 
         that.setAttribute("selected", v ? "indeterminate" : "false");
 

@@ -38,8 +38,8 @@ export class BGroup extends Behavior {
       /**
        * @type {Control[]}
        */
-      var items = [];
-      var superAddControl = ctrlGroup.addControl;
+      let items = [];
+      let superAddControl = ctrlGroup.addControl;
 
       that.config(BIterator, items);
 
@@ -58,8 +58,8 @@ export class BGroup extends Behavior {
        */
       that.defineProperty("focused", {
         get() {
-          var isActive = superFocused.get();
-          for (var i = 0; i < ctrlGroup.itemCount && !isActive; i++) {
+          let isActive = superFocused.get();
+          for (let i = 0; i < ctrlGroup.itemCount && !isActive; i++) {
             isActive = ctrlGroup.getItem(i).focused;
           }
           return isActive;
@@ -78,7 +78,7 @@ export class BGroup extends Behavior {
        * @param {Control} item
        */
       that.defineMethod("addControl", (item) => {
-        var found = false;
+        let found = false;
 
         forEach(items, (it, index) => {
           if (item === it) {

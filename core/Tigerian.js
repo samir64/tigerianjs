@@ -11,7 +11,7 @@ import {
 
 export class Tigerian {
   constructor() {
-    var behaviors = []
+    let behaviors = []
     if (this.constructor === Tigerian) {
       throw new Error("Tigerian is an abstract class.");
     } else {
@@ -23,7 +23,7 @@ export class Tigerian {
         }
       });
 
-      var that = this;
+      let that = this;
 
       Object.defineProperty(this, "config", {
         enumerable: false,
@@ -102,9 +102,9 @@ export function compare(obj1, obj2) {
       return false;
     }
   } else if (instanceOf(obj1, Object) && instanceOf(obj2, Object)) {
-    var result = true;
+    let result = true;
 
-    var key;
+    let key;
     for (key in obj1) {
       if (result) {
         if (key in obj2) {
@@ -137,8 +137,8 @@ export function instanceOf(obj, type) {
   if (typeof type === "string") {
     return typeof obj === type;
   } else if (typeof type === "function") {
-    var superClass = obj;
-    var result = false;
+    let superClass = obj;
+    let result = false;
 
     while ((superClass !== null) && !result) {
       result = (superClass.constructor === type);
@@ -156,9 +156,9 @@ export function instanceOf(obj, type) {
  * @param {Function} type2 
  */
 export function isA(type1, type2) {
-  var result;
+  let result;
   if (instanceOf(type1, Function) && instanceOf(type2, Function)) {
-    var superClass = type1;
+    let superClass = type1;
 
     result = false;
 
@@ -176,10 +176,10 @@ export function isA(type1, type2) {
  * @param {Object} appendTo
  */
 export function clone(obj, appendTo) {
-  var result = {};
+  let result = {};
 
   forEach(obj, (item, name, that) => {
-    var member = Object.getOwnPropertyDescriptor(that, name);
+    let member = Object.getOwnPropertyDescriptor(that, name);
     if (appendTo !== undefined) {
       if ("value" in member) {
         Object.defineProperty(appendTo, name, {
@@ -223,11 +223,11 @@ export function clone(obj, appendTo) {
 export function forEach(obj, callback) {
   if (callback instanceof Function) {
     if (((obj !== undefined) && (obj[Symbol.toStringTag] !== undefined) && (obj[Symbol.toStringTag].split(" ")[1] === "Iterator")) || instanceOf(obj, BIterator)) {
-      for (var item of obj) {
+      for (let item of obj) {
         callback(item, obj.iterator.index, obj);
       }
     } else {
-      for (var index in obj) {
+      for (let index in obj) {
         callback(obj[index], index, obj);
       }
     }
@@ -244,7 +244,7 @@ export function strFormat(str, ...params) {
       return params[0][name] ? params[0][name] : "";
     });
   } else {
-    for (var i = 0, pat = /\{\}/g; pat.exec(str) != null; i++) {
+    for (let i = 0, pat = /\{\}/g; pat.exec(str) != null; i++) {
       str =
         str.substr(0, pat.lastIndex - 2) +
         "{" +
@@ -275,9 +275,9 @@ export function strPadNumbers(str, before, after) {
         left = pure;
       }
 
-      var result = matched;
-      var fix = "";
-      var i = 0;
+      let result = matched;
+      let fix = "";
+      let i = 0;
 
       if (left) {
         if (!right) {
@@ -328,7 +328,7 @@ export function strPadNumbers(str, before, after) {
  * @param {boolean} toLower true
  */
 export function strToTag(str, addHashSign = true, toLower = true) {
-  var result = str;
+  let result = str;
 
   while (result[0] === "#") {
     addHashSign = true;
@@ -358,8 +358,8 @@ export function strToTag(str, addHashSign = true, toLower = true) {
  * @param {String} str
  */
 export function strSplitCapital(str) {
-  var result = [];
-  for (var i = 0, s = 0; i <= str.length; i++) {
+  let result = [];
+  for (let i = 0, s = 0; i <= str.length; i++) {
     if (i === str.length || str[i].toUpperCase() === str[i]) {
       if (i > 0 && str[i - 1].toUpperCase() !== str[i - 1]) {
         result.push(str.substring(s, i).toLowerCase());
@@ -381,10 +381,10 @@ export function defineMethod(obj, name, descriptor, dataTypes = {}) {
     }
 
     forEach(params, (param, index) => {
-      var pName = "";
-      var pType = "";
-      var validType = true;
-      var pConsName = "";
+      let pName = "";
+      let pType = "";
+      let validType = true;
+      let pConsName = "";
 
       if (instanceOf(dataTypes[index], Array)) {
         validType = dataTypes[index].some((type) => {
@@ -426,7 +426,7 @@ export function defineMethod(obj, name, descriptor, dataTypes = {}) {
  * @param {Any} value 
  * @param {Function} get 
  * @param {Function} set 
- * @param {Function|Function[]} type(
+ * @param {Function|Function[]} type
  * @param {boolean} configurable 
  * @param {boolean} enumurable 
  */
@@ -450,8 +450,8 @@ export function defineProperty(obj, name, {
     Object.defineProperty(obj, name, {
       get,
       set(v) {
-        var pType = "";
-        var validType = true;
+        let pType = "";
+        let validType = true;
 
         if (instanceOf(type, Array)) {
           validType = type.some((t) => {

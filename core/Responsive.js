@@ -43,16 +43,16 @@ export let responsiveSizes = {
 (function () {
   ("use strict");
 
-  var style = document.createElement("style");
+  let style = document.createElement("style");
 
   document.head.appendChild(style);
 
   style.innerHTML = "";
 
   // forEach(responsiveSizes, (sizeInfo, sizeName) => {
-  for (var sizeName in responsiveSizes) {
-    var sizeInfo = responsiveSizes[sizeName];
-    var limit = "";
+  for (let sizeName in responsiveSizes) {
+    let sizeInfo = responsiveSizes[sizeName];
+    let limit = "";
 
     if (sizeInfo.min) {
       limit = `(min-width: ${sizeInfo.min}px)`;
@@ -63,13 +63,13 @@ export let responsiveSizes = {
       }
       limit += `(max-width: ${sizeInfo.max}px)`;
     }
-    var mediaQuery = `@media only screen and ${limit} {\n`;
+    let mediaQuery = `@media only screen and ${limit} {\n`;
 
-    var sizeNames = Object.keys(responsiveSizes);
+    let sizeNames = Object.keys(responsiveSizes);
     sizeNames.splice(sizeNames.indexOf(sizeName), 1);
-    for (var col = 1; col <= 12; col++) {
+    for (let col = 1; col <= 12; col++) {
       mediaQuery += `\t[${sizeName}-column="${col}"],\n`;
-      for (var j = 0; j < sizeNames.length; j++) {
+      for (let j = 0; j < sizeNames.length; j++) {
         if (j > 0) {
           mediaQuery += ",\n";
         }

@@ -16,11 +16,11 @@ export class TableCell extends Control {
    * @param {string} theme = ""
    */
   constructor(parent, text = "", theme = "") {
-    var elmText = document.createElement("div");
+    let elmText = document.createElement("div");
     super(parent, theme);
     this.config(BText, elmText, text);
 
-    var superAddControl = this.addControl;
+    let superAddControl = this.addControl;
 
     this.addControl(elmText);
 

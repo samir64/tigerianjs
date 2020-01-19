@@ -26,7 +26,7 @@ export class Label extends Control {
    * @param {string} theme = ""
    */
   constructor(parent, text, heading = ELabel.NONE, theme = "") {
-    var tag;
+    let tag;
 
     switch (heading) {
       case ELabel.HEADING_ONE:
@@ -57,17 +57,17 @@ export class Label extends Control {
         tag = "div";
     }
 
-    var elmLabel = document.createElement(tag);
-    var elmFormatText;
-    var formatTextRenew = true;
+    let elmLabel = document.createElement(tag);
+    let elmFormatText;
+    let formatTextRenew = true;
 
     super(parent, theme);
     this.config(BText, elmLabel, text);
     this.config(BLabel);
 
-    var initText = Object.getOwnPropertyDescriptor(this, "text");
-    var source;
-    var that = this;
+    let initText = Object.getOwnPropertyDescriptor(this, "text");
+    let source;
+    let that = this;
 
     //NOTE Attributes
     this.setAttribute("element-type", "Label");
@@ -85,7 +85,7 @@ export class Label extends Control {
     //NOTE Append Children
     this.addControl(elmLabel);
 
-    var createFormatText = () => {
+    let createFormatText = () => {
       if (formatTextRenew) {
         elmFormatText = document.createElement("div");
 
@@ -126,9 +126,9 @@ export class Label extends Control {
      */
     this.defineMethod("format", (text, controls) => {
       if (instanceOf(text, String)) {
-        var lastIndex = 0;
-        var pat = /@/g;
-        var i = 0;
+        let lastIndex = 0;
+        let pat = /@/g;
+        let i = 0;
 
         controls = Array.from(arguments).slice(1);
 
@@ -139,10 +139,10 @@ export class Label extends Control {
         while (pat.exec(text) != null && i < controls.length) {
           if (text[pat.lastIndex - 2] !== "\\") {
             if (instanceOf(controls[i], Control)) {
-              var subText = text
+              let subText = text
                 .substr(lastIndex, pat.lastIndex - lastIndex - 1)
                 .replace("\\@", "@");
-              var textNode = document.createTextNode(subText);
+              let textNode = document.createTextNode(subText);
               elmFormatText.appendChild(textNode);
               controls[i].parent = elmFormatText;
               lastIndex = pat.lastIndex;
@@ -151,7 +151,7 @@ export class Label extends Control {
           }
         }
 
-        var textNode = document.createTextNode(
+        let textNode = document.createTextNode(
           text.substr(lastIndex).replace("\\@", "@")
         );
         elmFormatText.appendChild(textNode);

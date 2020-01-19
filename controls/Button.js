@@ -25,12 +25,12 @@ export class Button extends Control {
    */
   constructor(parent, text = "", theme = "") {
     //NOTE Private Variables
-    var elmButton = document.createElement("div");
+    let elmButton = document.createElement("div");
 
     super(parent, theme);
     this.config(BText, elmButton, text);
 
-    var that = this;
+    let that = this;
 
     //NOTE Attributes
     this.setAttribute("element-type", "Button");

@@ -29,8 +29,8 @@ export class RadioButton extends Control {
    * @param {string} [theme = ""]
    */
   constructor(parent, text, theme = "") {
-    var elmRadioButton = document.createElement("div");
-    var elmLabel = document.createElement("div");
+    let elmRadioButton = document.createElement("div");
+    let elmLabel = document.createElement("div");
 
     super(parent, theme);
     this.config(BSelect);
@@ -38,11 +38,11 @@ export class RadioButton extends Control {
 
 
     //NOTE Alias Super Members
-    var superSelected = Object.getOwnPropertyDescriptor(this, "selected");
+    let superSelected = Object.getOwnPropertyDescriptor(this, "selected");
 
 
     //NOTE Private Variables
-    var that = this;
+    let that = this;
 
     //NOTE Attributes
     this.setAttribute("element-name", "container");

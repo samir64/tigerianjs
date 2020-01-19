@@ -29,8 +29,8 @@ export class CollapseList extends Control {
     super(parent, theme, "ul");
     this.config(BGroup, this);
 
-    // var superAddItem = this.addItem.bind(this);
-    var that = this;
+    // let superAddItem = this.addItem.bind(this);
+    let that = this;
 
     this.setAttribute("element-type", "CollapseList");
     this.setAttribute("element-name", "container");
@@ -49,7 +49,7 @@ export class CollapseList extends Control {
           item.collapse();
         }
       });
-      /* for (var i = 0; i < this.itemCount; i++) {
+      /* for (let i = 0; i < this.itemCount; i++) {
         this.getItem(i).collapse();
       } */
     });
@@ -58,7 +58,7 @@ export class CollapseList extends Control {
       forEach(that, (item) => {
         item.expand();
       });
-      /* for (var i = 0; i < this.itemCount; i++) {
+      /* for (let i = 0; i < this.itemCount; i++) {
         this.getItem(i).expand();
       } */
     });

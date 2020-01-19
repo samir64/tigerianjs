@@ -26,14 +26,14 @@ export class Route extends Tigerian {
      *
      * @type {View[]}
      */
-    var routesList = {};
-    var lastRoute = "";
-    var viewPageNotFound;
-    var that = this;
+    let routesList = {};
+    let lastRoute = "";
+    let viewPageNotFound;
+    let that = this;
 
     useHashTag = (useHashTag === false) ? false : true;
 
-    /* var getPath = function (path) {
+    /* let getPath = function (path) {
       if (path.startsWith(applicationRoot)) {
         return path.slice(applicationRoot.length);
       } else {
@@ -41,7 +41,7 @@ export class Route extends Tigerian {
       }
     };
 
-    var getGoodPath = function (path, addSlash = false) {
+    let getGoodPath = function (path, addSlash = false) {
       if (instanceOf(path, String)) {
         path = path.replace(/^\/*#?\/*([^\/].*[^\/])\/*$/, "$1");
         if ((path !== "") && (path !== "/")) {
@@ -58,22 +58,22 @@ export class Route extends Tigerian {
       return path;
     };
 
-    var getBestMatch = function (path) {
+    let getBestMatch = function (path) {
       if (path in routesList) {
         return [path, {}];
       } else {
-        var params = {};
-        for (var route in routesList) {
-          var groups = [];
-          var r = route.replace(/\{(\w+)\}/g, function () {
+        let params = {};
+        for (let route in routesList) {
+          let groups = [];
+          let r = route.replace(/\{(\w+)\}/g, function () {
             this.push(arguments[1]);
             return "(\\w+)";
           }.bind(groups));
-          var reg = new RegExp("^" + r + "$");
-          var match = reg.exec(path);
+          let reg = new RegExp("^" + r + "$");
+          let match = reg.exec(path);
 
           if (match) {
-            for (var i = 1; i < match.length; i++) {
+            for (let i = 1; i < match.length; i++) {
               params[groups[i - 1]] = match[i];
             }
 
@@ -83,11 +83,11 @@ export class Route extends Tigerian {
       }
     }; */
 
-    var getClearPath = (path) => {
+    let getClearPath = (path) => {
       return path.replace(/^[\/#]+/, "").replace(/[\/#?]+$/, "").replace(/\/{2,}/, "/");
     };
 
-    var findRoute = (path) => {
+    let findRoute = (path) => {
       if (path.startsWith(applicationRoot)) {
         path = getClearPath(path.substring(applicationRoot.length));
 
@@ -99,20 +99,20 @@ export class Route extends Tigerian {
             params: {}
           };
         } else {
-          var result;
+          let result;
 
           forEach(routesList, (route, index) => {
-            var params = {};
-            var groups = [];
-            var r = index.replace(/\{([\w-]+)\}/g, function () {
+            let params = {};
+            let groups = [];
+            let r = index.replace(/\{([\w-]+)\}/g, function () {
               this.push(arguments[1]);
               return "([\\w-]+)";
             }.bind(groups));
-            var reg = new RegExp("^" + r + "$");
-            var match = reg.exec(path);
+            let reg = new RegExp("^" + r + "$");
+            let match = reg.exec(path);
 
             if (match) {
-              for (var i = 1; i < match.length; i++) {
+              for (let i = 1; i < match.length; i++) {
                 params[groups[i - 1]] = match[i];
               }
 
@@ -144,7 +144,7 @@ export class Route extends Tigerian {
      * @param {View} view
      */
     this.defineMethod("add", (view, ...routes) => {
-      for (var i = 0; i < routes.length; i++) {
+      for (let i = 0; i < routes.length; i++) {
         routesList[getClearPath(routes[i])] = view;
         // routesList[getGoodPath(routes[i])] = view;
       }
@@ -153,7 +153,7 @@ export class Route extends Tigerian {
               routes = [routes];
           }
 
-          for (var i = 0; i < routes.length; i++) {
+          for (let i = 0; i < routes.length; i++) {
               routes[getGoodPath(routes[i])] = view;
           }
       } */
@@ -166,14 +166,14 @@ export class Route extends Tigerian {
       /* if (!instanceOf(route, Array)) {
         route = Array.from(arguments);
       } */
-      for (var i = 0; i < route.length; i++) {
+      for (let i = 0; i < route.length; i++) {
         delete routes[getClearPath(route[i])];
         // delete routes[getGoodPath(route[i])];
       }
     });
 
     this.defineMethod("removeAll", () => {
-      for (var i = 0; i < routesList.length; i++) {
+      for (let i = 0; i < routesList.length; i++) {
         delete routesList[getClearPath(routesList[i])];
         // delete routesList[getGoodPath(routesList[i])];
       }
@@ -188,7 +188,7 @@ export class Route extends Tigerian {
 
       if (instanceOf(route, String) && (route !== "") && (route !== "/") && (route !== "#")) {
         if (useHashTag) {
-          // var separator = (applicationRoot.startsWith("/") ? "" : "/");
+          // let separator = (applicationRoot.startsWith("/") ? "" : "/");
           // window.location.href = window.location.origin + separator + applicationRoot + route;
           window.location.hash = "/" + route;
         } else {
@@ -206,10 +206,10 @@ export class Route extends Tigerian {
     });
 
     this.defineMethod("render", () => {
-      var routeCheck = findRoute(getClearPath(window.location.pathname + (useHashTag ? window.location.hash : "")));
+      let routeCheck = findRoute(getClearPath(window.location.pathname + (useHashTag ? window.location.hash : "")));
 
-      /* var url = getGoodPath(window.location.pathname + (useHashTag ? window.location.hash : ""));
-      var check = getBestMatch(getGoodPath(getPath(url)));
+      /* let url = getGoodPath(window.location.pathname + (useHashTag ? window.location.hash : ""));
+      let check = getBestMatch(getGoodPath(getPath(url)));
       console.log(applicationRoot, url, getPath(url), getGoodPath(getPath(url)), getBestMatch(getGoodPath(getPath(url))));
 
       if (useHashTag && (check[0] === "/") && (window.location.hash !== "#/")) {
@@ -217,8 +217,8 @@ export class Route extends Tigerian {
       } */
 
       /* if (check) {
-        var route = check[0];
-        var params = check[1];
+        let route = check[0];
+        let params = check[1];
 
         if (instanceOf(viewPageNotFound, View)) {
           viewPageNotFound.hide();
@@ -233,9 +233,9 @@ export class Route extends Tigerian {
         } else {
           routesList[lastRoute].hide();
         }
-        var limit = [route.startsWith("/") ? 1 : 0, route.endsWith("/") ? route.length - 1 : route.length];
-        var pureRoute = "/";
-        var routeParts = [];
+        let limit = [route.startsWith("/") ? 1 : 0, route.endsWith("/") ? route.length - 1 : route.length];
+        let pureRoute = "/";
+        let routeParts = [];
         if (limit[0] < limit[1]) {
           pureRoute = route.substring(limit[0], limit[1]);
           routeParts = pureRoute.split("/");
@@ -246,7 +246,7 @@ export class Route extends Tigerian {
 
         lastRoute = route;
       } else {
-        for (var r in routesList) {
+        for (let r in routesList) {
           routesList[r].hide();
         }
         if (instanceOf(viewPageNotFound, View)) {
@@ -270,7 +270,7 @@ export class Route extends Tigerian {
           lastRoute.hide();
         }
 
-        var routeParts = [];
+        let routeParts = [];
         routeParts = routeCheck.path.split("/");
 
         routeCheck.route.refresh(routeCheck.params, routeCheck.path, routeParts);

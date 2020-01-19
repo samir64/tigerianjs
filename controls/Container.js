@@ -25,8 +25,8 @@ export class Container extends Control {
     super(parent, theme);
 
     //NOTE Private Variables
-    // var elmBody = document.createElement("div");
-    // var thisAddControl = this.addControl;
+    // let elmBody = document.createElement("div");
+    // let thisAddControl = this.addControl;
 
     //NOTE Attributes
     this.setAttribute("element-type", "Container");

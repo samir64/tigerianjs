@@ -17,11 +17,11 @@ export class Ajax extends Tigerian {
   constructor(url) {
     super();
 
-    var httpRequest;
-    var success = function (responseText, responseXml, responseJson) {};
-    var unsuccess = function (readyState, status, statusText) {};
-    var progress = function (percent, loaded, total) {};
-    var async = true;
+    let httpRequest;
+    let success = function (responseText, responseXml, responseJson) {};
+    let unsuccess = function (readyState, status, statusText) {};
+    let progress = function (percent, loaded, total) {};
+    let async = true;
 
     if (window.XMLHttpRequest) {
       // code for modern browsers
@@ -46,7 +46,7 @@ export class Ajax extends Tigerian {
       }
 
       return encodeURI(Object.keys(params).map(function (key) {
-        var json = JSON.stringify(params[key]);
+        let json = JSON.stringify(params[key]);
         return key + "=" + (json !== "\"" + params[key] + "\"" ? json : params[key]);
       }).join("&"));
     }
@@ -54,7 +54,7 @@ export class Ajax extends Tigerian {
     function changeState() {
       if (this.readyState === 4) {
         if (this.status === 200) {
-          var jsonObject;
+          let jsonObject;
           try {
             jsonObject = JSON.parse(this.responseText);
           } catch (e) {}
@@ -66,7 +66,7 @@ export class Ajax extends Tigerian {
     }
 
     function request(method, params) {
-      var connector = (url.indexOf("?") > 0) ? "&" : "?";
+      let connector = (url.indexOf("?") > 0) ? "&" : "?";
       httpRequest.open(method, url + ((method == "GET") ? connector + jsonToQuery(params) : ""), async);
       // httpRequest.open(method, url, true);
       // httpRequest.setRequestHeader("Content-Type", "application/json; charset=utf-8");
@@ -150,10 +150,10 @@ export class Ajax extends Tigerian {
     /* Object.defineProperty(this, "async", {
         enumerable: false,
         configurable: true,
-        get: function () {
+        get() {
             return async;
         },
-        set: function (v) {
+        set(v) {
             if (instanceOf(v, "boolean")) {
                 async = v;
             }
@@ -175,10 +175,10 @@ export class Ajax extends Tigerian {
     /* Object.defineProperty(this, "success", {
         enumerable: false,
         configurable: true,
-        get: function () {
+        get() {
             return success;
         },
-        set: function (v) {
+        set(v) {
             if (v instanceof Function) {
                 success = v;
             }
@@ -200,10 +200,10 @@ export class Ajax extends Tigerian {
     /* Object.defineProperty(this, "unsuccess", {
         enumerable: false,
         configurable: true,
-        get: function () {
+        get() {
             return unsuccess;
         },
-        set: function (v) {
+        set(v) {
             if (v instanceof Function) {
                 unsuccess = v;
             }
@@ -225,10 +225,10 @@ export class Ajax extends Tigerian {
     /* Object.defineProperty(this, "progress", {
         enumerable: false,
         configurable: true,
-        get: function () {
+        get() {
             return progress;
         },
-        set: function (v) {
+        set(v) {
             if (v instanceof Function) {
                 progress = v;
             }

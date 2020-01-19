@@ -30,9 +30,9 @@ export class Loading extends Control {
     this.config(BFixElement, EFixElement.TOP);
     this.config(BModal, parent);
 
-    var elmBar = document.createElement("div");
-    var loaded = 0;
-    var that = this;
+    let elmBar = document.createElement("div");
+    let loaded = 0;
+    let that = this;
 
     this.setAttribute("element-type", "Loading");
     this.setAttribute("element-name", "container");
@@ -74,7 +74,7 @@ export class Loading extends Control {
      */
     this.defineProperty("state", {
       get() {
-        var v = elmBar.getAttribute("state");
+        let v = elmBar.getAttribute("state");
         switch (v) {
           case "determinate":
             return Loading.EDeterminate;
@@ -106,7 +106,7 @@ export class Loading extends Control {
      */
     this.defineProperty("barSituation", {
       get() {
-        var v = elmBar.getAttribute("element-situation");
+        let v = elmBar.getAttribute("element-situation");
 
         switch (v) {
           case "title":

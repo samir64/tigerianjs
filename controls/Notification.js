@@ -24,7 +24,7 @@ export class Notification extends Control {
    * @param {string} theme = ""
    */
   constructor(parent, text, theme = "") {
-    var elmMessage = document.createElement("div");
+    let elmMessage = document.createElement("div");
 
     super(parent, theme);
     this.config(BText, elmMessage, text);

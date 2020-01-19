@@ -38,11 +38,11 @@ export class ListBox extends Control {
     this.config(BSelectGroup);
 
     //NOTE Private Variables
-    var that = this;
+    let that = this;
 
     //NOTE Alias Super Members
-    var superAddControl = this.addControl.bind(this);
-    var bGroupSort = this.sort.bind(this);
+    let superAddControl = this.addControl.bind(this);
+    let bGroupSort = this.sort.bind(this);
 
     //NOTE Attributes
     this.setAttribute("element-type", "ListBox");

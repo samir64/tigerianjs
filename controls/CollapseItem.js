@@ -32,8 +32,8 @@ export class CollapseItem extends Control {
   constructor(parent, text = "", theme = "") {
     super(parent, theme, "li");
 
-    var elmText = document.createElement("div");
-    var ctrlList = new CollapseList(null, this.theme);
+    let elmText = document.createElement("div");
+    let ctrlList = new CollapseList(null, this.theme);
 
     this.addControl(elmText);
     this.addControl(ctrlList);
@@ -41,10 +41,10 @@ export class CollapseItem extends Control {
     this.config(BText, elmText, text);
     this.config(BCascade, ctrlList);
 
-    var that = this;
-    var superAddControl = this.addControl;
-    var canChangeChildState = true;
-    var touchStarted = false;
+    let that = this;
+    let superAddControl = this.addControl;
+    let canChangeChildState = true;
+    let touchStarted = false;
 
     ctrlList.visible = false;
 
@@ -56,7 +56,7 @@ export class CollapseItem extends Control {
 
     this.defineMethod("addControl", (item) => {
       if (instanceOf(item, String)) {
-        var item = new CollapseItem(undefined, item, theme);
+        let item = new CollapseItem(undefined, item, theme);
       }
 
       superAddControl(item);
@@ -81,7 +81,7 @@ export class CollapseItem extends Control {
 
     this.defineMethod("expand", () => {
       that.viewChild(true);
-      for (var i = 0; i < this.itemCount; i++) {
+      for (let i = 0; i < this.itemCount; i++) {
         ctrlList.expandAll();
       }
     });

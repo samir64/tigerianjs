@@ -8,7 +8,7 @@ export class BLabel extends Behavior {
     super();
 
     this.defineMethod("config", (that, ctrlLabel) => {
-      var labelType = ELabel.NONE;
+      let labelType = ELabel.NONE;
 
       that.setAttribute("label-type", "");
 
@@ -18,10 +18,10 @@ export class BLabel extends Behavior {
       Object.defineProperty(that, "labelType", {
         enumerable: true,
         configurable: true,
-        get: function () {
+        get() {
           return labelType;
         },
-        set: function (v) {
+        set(v) {
           switch (v) {
             case BLabel.ETag:
               labelType = v;

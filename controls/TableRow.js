@@ -26,8 +26,8 @@ export class TableRow extends Control {
     super(parent, theme);
     this.config(BGroup);
 
-    var superAddControl = this.addControl.bind(this);
-    var superGetItem = this.getItem.bind(this);
+    let superAddControl = this.addControl.bind(this);
+    let superGetItem = this.getItem.bind(this);
 
     this.setAttribute("element-type", "TableRow");
     this.setAttribute("element-name", "container");
@@ -47,8 +47,8 @@ export class TableRow extends Control {
       }
     });
 
-    for (var i = 0; i < colCount; i++) {
-      var newCell = new TableCell(this, "", this.theme);
+    for (let i = 0; i < colCount; i++) {
+      let newCell = new TableCell(this, "", this.theme);
       newCell.setAttribute("column-number", i.toString());
       newCell.setAttribute("hover", false);
       // newCell.normalColumn = ((colCount <= 12) ? Math.floor(12 / colCount) : 1);

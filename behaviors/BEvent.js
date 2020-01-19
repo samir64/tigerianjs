@@ -13,8 +13,8 @@ export class BEvent extends Behavior {
     super();
 
     this.defineMethod("config", (that, element) => {
-      var enabled = true;
-      var events = [];
+      let enabled = true;
+      let events = [];
 
       this.element = element;
       delete this.element;
@@ -53,7 +53,7 @@ export class BEvent extends Behavior {
        * @param {Event} e
        */
       function eventHandler(e) {
-        var eventType = e.type.toLowerCase();
+        let eventType = e.type.toLowerCase();
 
         if (that.enabled) {
           if (eventType in events) {

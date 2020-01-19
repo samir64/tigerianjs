@@ -44,19 +44,12 @@ export class BText extends Behavior {
         }
       }
 
-      defineMethod(that, "bindable", () => {
-        var start = 0;
-        while (start >= 0) {
-          start = text.search(/<control\s+|<variable\s+/, start);
-        }
-      });
-
       /**
        * @member {string}
        */
       that.defineProperty("text", {
         get() {
-          var result;
+          let result;
 
           if (ctrlText["Behavior:text"]) {
             result = ctrlText.text;
@@ -74,7 +67,7 @@ export class BText extends Behavior {
         },
         set(v) {
           if (instanceOf(v, String)) {
-            var lastText = text;
+            let lastText = text;
             text = v;
             that.setAttribute("text", v);
             if (ctrlText["Behavior:text"]) {

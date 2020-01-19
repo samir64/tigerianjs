@@ -37,21 +37,21 @@ export class ComboBox extends Control {
   constructor(parent, theme = "") {
     super(parent, theme);
 
-    var ctrlLabel = new Label(this, "", theme);
-    var ctrlText = new TextBox(this, "", theme);
-    var ctrlList = new ListBox(this, theme);
+    let ctrlLabel = new Label(this, "", theme);
+    let ctrlText = new TextBox(this, "", theme);
+    let ctrlList = new ListBox(this, theme);
 
     this.config(BGroup, ctrlList);
     this.config(BFilter, ctrlText, ctrlList);
     this.config(BText, ctrlText);
 
     //Note Private Variables
-    var that = this;
-    var editable = false;
-    var instance = this;
-    var superAddControl = this.addControl.bind(this);
-    var selectRequire = false;
-    var canChangeVisible = true;
+    let that = this;
+    let editable = false;
+    let instance = this;
+    let superAddControl = this.addControl.bind(this);
+    let selectRequire = false;
+    let canChangeVisible = true;
 
     ctrlText.hoverable = ctrlLabel.hoverable = true;
 
@@ -63,7 +63,7 @@ export class ComboBox extends Control {
     // ctrlList.setAttribute("element-name", "list");
 
     //NOTE Private Functions
-    var showList = (e) => {
+    let showList = (e) => {
       if (canChangeVisible) {
         instance.filter("");
         ctrlList.visible = true;
@@ -76,7 +76,7 @@ export class ComboBox extends Control {
       }, 20);
     };
 
-    var hideList = (e) => {
+    let hideList = (e) => {
       if (canChangeVisible) {
         ctrlList.visible = false;
         if (selectRequire) {
@@ -104,7 +104,7 @@ export class ComboBox extends Control {
       }, 20);
     };
 
-    var show_hideList = (e) => {
+    let show_hideList = (e) => {
       if (ctrlList.visible) {
         hideList(e);
       } else {
@@ -112,7 +112,7 @@ export class ComboBox extends Control {
       }
     };
 
-    var onSelectedIndexChange = (e) => {
+    let onSelectedIndexChange = (e) => {
       if (ctrlList.selectedIndex >= 0) {
         ctrlLabel.text = ctrlList.getItem(ctrlList.selectedIndex).text;
         instance.text = ctrlList.getItem(ctrlList.selectedIndex).text;

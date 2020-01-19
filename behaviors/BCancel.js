@@ -24,8 +24,8 @@ export class BCancel extends Behavior {
          * @param {Control} btnCancelParent
          */
         this.defineMethod("config", (that, ctrlCancel, btnCancelParent) => {
-            var cancelButton = true;
-            var elmButton = document.createElement("div");
+            let cancelButton = true;
+            let elmButton = document.createElement("div");
 
             elmButton.setAttribute("element-type", "Button");
             elmButton.setAttribute("element-name", "cancel");
@@ -37,10 +37,10 @@ export class BCancel extends Behavior {
             Object.defineProperty(that, "cancelButton", {
                 enumerable: true,
                 configurable: true,
-                get: function () {
+                get() {
                     return (ctrlCancel.getAttribute("cancel-button") === "true");
                 },
-                set: function (v) {
+                set(v) {
                     if (instanceOf(v, "boolean")) {
                         ctrlCancel.setAttribute("cancel-button", (v ? "true" : "false"));
                         elmButton.setAttribute("visible", (v ? "true" : "false"));

@@ -22,9 +22,9 @@ export class BModal extends Behavior {
     super();
 
     this.defineMethod("config", (that, ctrlParent, ctrlModal) => {
-      var status = EModal.CLOSE;
-      var elmCoverage = new Control(ctrlParent, that.theme);
-      var superVisible = Object.getOwnPropertyDescriptor(that, "visible");
+      let status = EModal.CLOSE;
+      let elmCoverage = new Control(ctrlParent, that.theme);
+      let superVisible = Object.getOwnPropertyDescriptor(that, "visible");
 
       elmCoverage.setAttribute("element-type", "Modal");
       elmCoverage.setAttribute("element-name", "coverage");

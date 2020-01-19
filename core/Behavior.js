@@ -26,7 +26,7 @@ export class Behavior {
   }
 
   static[Symbol.hasInstance](instance) {
-    var result = false;
+    let result = false;
 
     forEach(instance.behaviors, (behavior) => {
       if (behavior === this) {

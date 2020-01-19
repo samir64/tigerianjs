@@ -26,8 +26,8 @@ export class BSelectGroup extends Behavior {
 
     this.defineMethod("config", (that, ctrlSelectGroup) => {
       //NOTE Private Variables
-      var itemIndex = -1;
-      var multi = false;
+      let itemIndex = -1;
+      let multi = false;
 
       that.config(BGroup, ctrlSelectGroup);
 
@@ -72,8 +72,8 @@ export class BSelectGroup extends Behavior {
           /**
            * @type {number|number[]}
            */
-          var result = (multi ? [] : -1);
-          for (var i = 0; i < that.itemCount; i++) {
+          let result = (multi ? [] : -1);
+          for (let i = 0; i < that.itemCount; i++) {
             if (that.getItem(i).selected) {
               if (multi) {
                 result.push(i);
@@ -96,7 +96,7 @@ export class BSelectGroup extends Behavior {
 
 
           if ((v === -1) || (v === [])) {
-            for (var i = 0; i < that.itemCount; i++) {
+            for (let i = 0; i < that.itemCount; i++) {
               that.getItem(i).selected = false;
             }
             that.focus();
@@ -104,7 +104,7 @@ export class BSelectGroup extends Behavior {
             if (instanceOf(v, "number")) {
               v = ((v < -1) ? -1 : ((v >= that.itemCount) ? that.itemCount - 1 : v));
 
-              for (var i = 0; i < that.itemCount; i++) {
+              for (let i = 0; i < that.itemCount; i++) {
                 that.getItem(i).selected = (v === i);
                 if (v === i) {
                   that.getItem(i).focus();
@@ -127,8 +127,8 @@ export class BSelectGroup extends Behavior {
                 return a >= b;
               }).filter(getValidItems, that);
 
-              for (var i = 0; i < that.itemCount; i++) {
-                var select = (v.indexOf(i) >= 0);
+              for (let i = 0; i < that.itemCount; i++) {
+                let select = (v.indexOf(i) >= 0);
                 that.getItem(i).selected = select;
 
                 if (select) {
@@ -177,11 +177,11 @@ export class BSelectGroup extends Behavior {
           multi = v;
 
           if (v) {
-            for (var i = 0; i < that.itemCount; i++) {
+            for (let i = 0; i < that.itemCount; i++) {
               that.getItem(i).autoDeselect = true;
             }
           } else {
-            for (var i = 0; i < that.itemCount; i++) {
+            for (let i = 0; i < that.itemCount; i++) {
               if ((that.selectedCount > 1) && (i !== that.itemIndex)) {
                 that.getItem(i).selected = false;
               }
@@ -195,14 +195,14 @@ export class BSelectGroup extends Behavior {
       //NOTE Public Functions
       that.selectAll = function () {
         if (that.multiSelect) {
-          for (var i = 0; i < that.itemCount; i++) {
+          for (let i = 0; i < that.itemCount; i++) {
             that.getItem(i).selected = true;
           }
         }
       };
 
       that.selectNone = function () {
-        for (var i = 0; i < that.itemCount; i++) {
+        for (let i = 0; i < that.itemCount; i++) {
           that.getItem(i).selected = false;
         }
       };
@@ -219,8 +219,8 @@ export class BSelectGroup extends Behavior {
       /**
        * @param {Event} e
        */
-      var onSelectedChange = (e) => {
-        for (var i = 0; i < that.itemCount; i++) {
+      let onSelectedChange = (e) => {
+        for (let i = 0; i < that.itemCount; i++) {
           if (that !== that.getItem(i)) {
             if (!that.multiSelect && that.selected && that.getItem(i).selected) {
               that.getItem(i).selected = false;
@@ -250,7 +250,7 @@ export class BSelectGroup extends Behavior {
        * @param {Event} e
        * @param {Array} params
        */
-      var onAddItem = (e) => {
+      let onAddItem = (e) => {
         e.data.addedItem.setAttribute("focused", "false");
         e.data.addedItem.addEvent("selectedchange", onSelectedChange);
       }
@@ -258,10 +258,10 @@ export class BSelectGroup extends Behavior {
       /**
        * @param {Event} e
        */
-      var onKeyDown = (e) => {
-        var itemIndex = Math.min(Math.max(0, that.itemIndex), that.itemCount);
+      let onKeyDown = (e) => {
+        let itemIndex = Math.min(Math.max(0, that.itemIndex), that.itemCount);
 
-        var setIndex = () => {
+        let setIndex = () => {
           if (that.getItem(itemIndex).enabled) {
             that.itemIndex = itemIndex;
           }
@@ -309,7 +309,7 @@ export class BSelectGroup extends Behavior {
       /**
        * @param {Event} e
        */
-      var onFocus = (e) => {
+      let onFocus = (e) => {
         if ((that.itemIndex < 0) || (that.itemIndex >= that.itemCount)) {
           that.itemIndex = 0;
         }

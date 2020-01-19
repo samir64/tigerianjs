@@ -28,9 +28,9 @@ export class MainMenu extends Control {
     super(parent, theme, "nav");
     this.config(BGroup, this);
 
-    var ctrlItemsList = new Control(this, theme, "ul");
+    let ctrlItemsList = new Control(this, theme, "ul");
 
-    var superAddControl = this.addControl.bind(this);
+    let superAddControl = this.addControl.bind(this);
 
     this.setAttribute("element-type", "MainMenu");
     this.setAttribute("element-name", "container");

@@ -1,16 +1,10 @@
-<style>
-  pre {
-    background-color: silver;
-    overflow-x: auto;
-  }
-</style>
-
 <ol>
   <li>
     <div style="background-color: silver;"><strong>
-        <pre>index.html</pre></strong></div>
+        <h3>index.html</h3>
+      </strong></div>
     <br />
-    <pre>
+    <pre class="code">
 &lt!DOCTYPE html&gt
 &lthtml&gt
   &lthead&gt
@@ -35,9 +29,10 @@
     </div>
     <br />
     <div style="background-color: silver;"><strong>
-        <pre>main.js</pre></strong></div>
+        <h3>main.js</h3>
+      </strong></div>
     <br />
-    <pre>let myApp = new Application("Application Title")</pre>
+    <pre class="code">let myApp = new Application("Application Title")</pre>
     <br />
 
     <div>
@@ -45,9 +40,10 @@
     </div>
     <br />
     <div style="background-color: silver;"><strong>
-        <pre>view.js</pre></strong></div>
+        <h3>view.js</h3>
+      </strong></div>
     <br />
-    <pre>
+    <pre class="code">
 export class MyAppView {
   constructor(app) {
     let myText = new Label(app, "Label 1");
@@ -65,9 +61,10 @@ export class MyAppView {
     <br />
 
     <div style="background-color: silver;"><strong>
-        <pre>main.js</pre></strong></div>
+        <h3>main.js</h3>
+      </strong></div>
     <br />
-    <pre>let myView = new MyAppView(myApp)</pre>
+    <pre class="code">let myView = new MyAppView(myApp)</pre>
     <br />
   </li>
 
@@ -78,9 +75,10 @@ export class MyAppView {
     <div>You can write model file and set your variables in a seperated file.</div>
     <br />
     <div style="background-color: silver;"><strong>
-        <pre>model.js</pre></strong></div>
+        <h3>model.js</h3>
+      </strong></div>
     <br />
-    <pre>
+    <pre class="code">
 export class MyAppModel {
   constructor() {
     super();
@@ -93,14 +91,15 @@ export class MyAppModel {
     <br />
 
     <div>Now we must change
-      <pre>view.js</pre> file to use variables of
-      <pre>model.js</pre>
+      <h3>view.js</h3> file to use variables of
+      <h3>model.js</h3>
     </div>
     <br />
     <div style="background-color: silver;"><strong>
-        <pre>view.js</pre></strong></div>
+        <h3>view.js</h3>
+      </strong></div>
     <br />
-    <pre>
+    <pre class="code">
 export class MyAppView {
   constructor(app, model) {
     let myText = new Label(app, model.label);
@@ -112,13 +111,14 @@ export class MyAppView {
     <br />
 
     <div>And in
-      <pre>main.js</pre> we should declare model variable and pass it in view constructor.</div>
+      <h3>main.js</h3> we should declare model variable and pass it in view constructor.</div>
     <br />
 
     <div style="background-color: silver;"><strong>
-        <pre>main.js</pre></strong></div>
+        <h3>main.js</h3>
+      </strong></div>
     <br />
-    <pre>
+    <pre class="code">
 let myApp = new Application("Application Title");
 
 let myModel = new MyAppModel();
@@ -136,13 +136,14 @@ let myView = new MyAppView(myApp, myModel);
     <div>Before writing controller, we have to write an event in view for control pushing button.</div>
     <br />
     <div>For this action we append these lines to
-      <pre>view.js.</pre>
+      <h3>view.js.</h3>
     </div>
     <br />
     <div style="background-color: silver;"><strong>
-        <pre>view.js</pre></strong></div>
+        <h3>view.js</h3>
+      </strong></div>
     <br />
-    <pre>
+    <pre class="code">
 this.click = () => {};
 that = this;
 
@@ -153,13 +154,14 @@ myButton.addEvent("click", () => {
 
     <br />
     <div>Then we can write
-      <pre>controller.js.</pre>
+      <h3>controller.js.</h3>
     </div>
     <br />
     <div style="background-color: silver;"><strong>
-        <pre>controller.js</pre></strong></div>
+        <h3>controller.js</h3>
+      </strong></div>
     <br />
-    <pre>
+    <pre class="code">
 export class MyAppController {
   constructor(view, model) {
     view.click = () => {
@@ -171,12 +173,13 @@ export class MyAppController {
     <br />
 
     <div>And update
-      <pre>main.js</pre> for controller.</div>
+      <h3>main.js</h3> for controller.</div>
     <br />
     <div style="background-color: silver;"><strong>
-        <pre>main.js</pre></strong></div>
+        <h3>main.js</h3>
+      </strong></div>
     <br />
-    <pre>
+    <pre class="code">
 let myApp = new Application("Application Title");
 
 let myModel = new MyAppModel();
@@ -188,9 +191,10 @@ let myController = new MyAppController(myView, myModel);
     <div>View is not auto updatable. You have to write a function to update data of your controls after change.</div>
     <br />
     <div style="background-color: silver;"><strong>
-        <pre>view.js</pre></strong></div>
+        <h3>view.js</h3>
+      </strong></div>
     <br />
-    <pre>
+    <pre class="code">
 defineMethod(this, "refresh", () => {
   myText.text = model.label;
   myButton.text = model.button;
@@ -199,12 +203,13 @@ defineMethod(this, "refresh", () => {
     <br />
 
     <div>In
-      <pre>controller.js</pre> we must refresh the view in click event after changing model's data.</div>
+      <h3>controller.js</h3> we must refresh the view in click event after changing model's data.</div>
     <br />
     <div style="background-color: silver;"><strong>
-        <pre>controller.js</pre></strong></div>
+        <h3>controller.js</h3>
+      </strong></div>
     <br />
-    <pre>
+    <pre class="code">
 view.click = () => {
   model.label = "Hello";
 

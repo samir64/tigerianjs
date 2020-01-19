@@ -31,20 +31,20 @@ export class MenuItem extends Control {
   constructor(parent, text, theme = "") {
     super(parent, theme, "li");
 
-    var elmText = document.createElement("div");
-    var ctrlMenu = new Menu(null, theme);
-    var superAddControl = this.addControl.bind(this);
+    let elmText = document.createElement("div");
+    let ctrlMenu = new Menu(null, theme);
+    let superAddControl = this.addControl.bind(this);
 
     this.config(BText, elmText, text);
     this.config(BCascade, ctrlMenu);
 
-    var cascadeAddControl = this.addControl.bind(this);
+    let cascadeAddControl = this.addControl.bind(this);
 
-    var canChangeChildState = true;
-    var touchStarted = false;
-    var openByClick = false;
+    let canChangeChildState = true;
+    let touchStarted = false;
+    let openByClick = false;
 
-    var that = this;
+    let that = this;
 
     superAddControl(elmText);
     superAddControl(ctrlMenu);

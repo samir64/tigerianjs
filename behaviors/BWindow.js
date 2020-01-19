@@ -24,23 +24,23 @@ export class BWindow extends Behavior {
     super();
 
     this.defineMethod("config", (that) => {
-      var windowSmallMatch = window.matchMedia("(max-width: 575.98px)");
-      var windowMediumMatch = window.matchMedia(
+      let windowSmallMatch = window.matchMedia("(max-width: 575.98px)");
+      let windowMediumMatch = window.matchMedia(
         "(min-width: 576px) and (max-width: 767.98px)"
       );
-      var windowNormalMatch = window.matchMedia(
+      let windowNormalMatch = window.matchMedia(
         "(min-width: 768px) and (max-width: 991.98px)"
       );
-      var windowLargeMatch = window.matchMedia(
+      let windowLargeMatch = window.matchMedia(
         "(min-width: 992px) and (max-width: 1199.98px)"
       );
-      var windowXlargeMatch = window.matchMedia("(min-width: 1200px)");
+      let windowXlargeMatch = window.matchMedia("(min-width: 1200px)");
 
-      var onSmallWindow = function (e) {};
-      var onMediumWindow = function (e) {};
-      var onNormalWindow = function (e) {};
-      var onLargeWindow = function (e) {};
-      var onXlargeWindow = function (e) {};
+      let onSmallWindow = function (e) {};
+      let onMediumWindow = function (e) {};
+      let onNormalWindow = function (e) {};
+      let onLargeWindow = function (e) {};
+      let onXlargeWindow = function (e) {};
 
       /**
        * @member {Symbol}

@@ -41,20 +41,20 @@ export class ViewMain extends View {
   constructor(parent) {
     super(parent);
 
-    var header = new Header(parent, false, parent.theme);
-    var ctrBody = new Container(parent, parent.theme);
-    var loading = new Loading(ctrBody, parent.theme);
-    var ctrSideBar = new Control(ctrBody, parent.theme, "aside");
-    var ctrContent = new Control(ctrBody, parent.theme, "section");
-    // var content = new Container(ctrContent, parent.theme);
-    // var txtTitle = new Label(content, parent.theme);
-    // var txtSubject = new Label(content, parent.theme);
-    // var ctrButton = new Control(ctrContent, parent.theme);
-    // var btnPrevTopic = new Button(ctrButton, "Previous", parent.theme);
-    // var btnNextTopic = new Button(ctrButton, "Next", parent.theme);
-    var footer = new Footer(parent, false, parent.theme);
-    var lblCopyright = new Label(footer, "Powered by", parent.theme);
-    var lnkCopyright = new HyperLink(footer, "Tigerian.js", "https://github.com/samir64/Tigerian.js", parent.theme);
+    let header = new Header(parent, false, parent.theme);
+    let ctrBody = new Container(parent, parent.theme);
+    let loading = new Loading(ctrBody, parent.theme);
+    let ctrSideBar = new Control(ctrBody, parent.theme, "aside");
+    let ctrContent = new Control(ctrBody, parent.theme, "section");
+    // let content = new Container(ctrContent, parent.theme);
+    // let txtTitle = new Label(content, parent.theme);
+    // let txtSubject = new Label(content, parent.theme);
+    // let ctrButton = new Control(ctrContent, parent.theme);
+    // let btnPrevTopic = new Button(ctrButton, "Previous", parent.theme);
+    // let btnNextTopic = new Button(ctrButton, "Next", parent.theme);
+    let footer = new Footer(parent, false, parent.theme);
+    let lblCopyright = new Label(footer, "Powered by", parent.theme);
+    let lnkCopyright = new HyperLink(footer, "Tigerian.js", "https://github.com/samir64/Tigerian.js", parent.theme);
 
     // ctrButton.setAttribute("element-type", "ButtonsContainer");
 

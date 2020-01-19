@@ -39,7 +39,7 @@ export class UI extends Tigerian {
   constructor(mainElement = document.body, parent = undefined, theme = "") {
     super();
 
-    var that = this;
+    let that = this;
 
     if (instanceOf(mainElement, String)) {
       if (mainElement[0] === "#") {
@@ -53,7 +53,7 @@ export class UI extends Tigerian {
       parent = undefined;
     }
 
-    for (var i = 0; i < mainElement.children.length; i++) {
+    for (let i = 0; i < mainElement.children.length; i++) {
       mainElement.removeChild(mainElement.children[i]);
     }
 
@@ -65,18 +65,18 @@ export class UI extends Tigerian {
     /**
      * @type {string[]}
      */
-    var attributesSetProtected = [];
+    let attributesSetProtected = [];
     /**
      * @type {string[]}
      */
-    var attributesRemoveProtected = attributesSetProtected.concat([
+    let attributesRemoveProtected = attributesSetProtected.concat([
       "visible",
       "element-name",
       "element-type"
     ]);
 
     //NOTE Private Variables
-    var instance = this;
+    let instance = this;
 
     //NOTE Properties
     /**
@@ -137,9 +137,9 @@ export class UI extends Tigerian {
      */
     this.defineProperty("focused", {
       get() {
-        var result = document.activeElement === mainElement;
+        let result = document.activeElement === mainElement;
 
-        for (var i = 0; !result && i < mainElement.children.length; i++) {
+        for (let i = 0; !result && i < mainElement.children.length; i++) {
           result = document.activeElement === mainElement.children[i];
         }
 
@@ -162,7 +162,7 @@ export class UI extends Tigerian {
     this.defineProperty("direction", {
       get() {
         if (this.hasAttribute("dir")) {
-          var dir = this.getAttribute("dir");
+          let dir = this.getAttribute("dir");
           switch (dir) {
             case "ltr":
               return EUI.LEFT_TO_RIGHT;
@@ -227,7 +227,7 @@ export class UI extends Tigerian {
      */
     function setVisible(v) {
       if (instanceOf(v, "boolean")) {
-        var lastVisible = instance.getAttribute("visible") === "true";
+        let lastVisible = instance.getAttribute("visible") === "true";
         instance.setAttribute("visible", v ? "true" : "false");
 
         if (lastVisible !== v) {
@@ -251,7 +251,7 @@ export class UI extends Tigerian {
         addThemeToChildren(elm, themeName);
       });
 
-      /* var elm = new Iterator(Array.from(element.children));
+      /* let elm = new Iterator(Array.from(element.children));
       elm.yield = function () {
         return this.list[this.index];
       };
@@ -284,7 +284,7 @@ export class UI extends Tigerian {
         removeThemeFromChildren(elm, themeName);
       });
 
-      /* var elm = new Iterator(Array.from(element.children));
+      /* let elm = new Iterator(Array.from(element.children));
       elm.yield = function () {
         return this.list[this.index];
       };
@@ -316,7 +316,7 @@ export class UI extends Tigerian {
         removeAllThemesFromChildren(elm);
       });
 
-      /* var elm = new Iterator(Array.from(element.children));
+      /* let elm = new Iterator(Array.from(element.children));
       elm.yield = function () {
         return this.list[this.index];
       };
@@ -510,10 +510,10 @@ export class UI extends Tigerian {
     }, [Boolean]);
 
     this.defineMethod("clear", () => {
-      var children = mainElement.querySelectorAll(
+      let children = mainElement.querySelectorAll(
         '[element-name="container"]'
       );
-      for (var i = 0; i < children.length; i++) {
+      for (let i = 0; i < children.length; i++) {
         if (children[i].parentElement === mainElement) {
           mainElement.removeChild(children[i]);
         }

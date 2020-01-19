@@ -27,7 +27,7 @@ export class Menu extends Control {
     super(parent, theme, "ul");
     this.config(BGroup, this);
 
-    var superAddControl = this.addControl.bind(this);
+    let superAddControl = this.addControl.bind(this);
 
     this.setAttribute("element-type", "Menu");
     this.setAttribute("element-name", "container");

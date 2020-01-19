@@ -34,14 +34,14 @@ export class Control extends UI {
    * @param {string} theme
    */
   constructor(parent, theme = "", htmlTag = "div") {
-    var elmDivContainer = document.createElement(htmlTag);
+    let elmDivContainer = document.createElement(htmlTag);
     super(elmDivContainer, parent, theme);
 
     //NOTE Private Variables
-    var that = this;
-    var elmTxtHead = document.createTextNode("");
-    var elmTxtFoot = document.createTextNode("");
-    var superAddControl = this.addControl;
+    let that = this;
+    let elmTxtHead = document.createTextNode("");
+    let elmTxtFoot = document.createTextNode("");
+    let superAddControl = this.addControl;
 
 
     //NOTE Append Elements
@@ -150,7 +150,7 @@ export class Control extends UI {
 
     this.defineProperty("column", {
       get() {
-        var result = {};
+        let result = {};
 
         forEach(responsiveSizes, (size, sizeName) => {
           Object.defineProperty(result, size.name, {
@@ -183,11 +183,11 @@ export class Control extends UI {
           that.setAttribute("large-column", "medium");
           that.setAttribute("xlarge-column", "medium");
         } else {
-          var vSizeName = "";
+          let vSizeName = "";
           forEach(responsiveSizes, (size, sizeName) => {
             if (size.name === v) {
               vSizeName = sizeName;
-              var value = that.getAttribute(`${sizeName}-column`);
+              let value = that.getAttribute(`${sizeName}-column`);
               if (parseInt(value) != value) {
                 that.setAttribute(`${sizeName}-column`, 12);
               }
@@ -212,7 +212,7 @@ export class Control extends UI {
     //    * @returns {string}
     //    */
     //   get() {
-    //     var v = that.getAttribute("xsmall-column");
+    //     let v = that.getAttribute("xsmall-column");
     //     switch (v) {
     //       case "":
     //         return EWindow.NONE;
@@ -281,7 +281,7 @@ export class Control extends UI {
     //    * @returns {string}
     //    */
     //   get() {
-    //     var v = that.getAttribute("small-column");
+    //     let v = that.getAttribute("small-column");
     //     switch (v) {
     //       case "":
     //         return EWindow.NONE;
@@ -350,7 +350,7 @@ export class Control extends UI {
     //    * @returns {string}
     //    */
     //   get() {
-    //     var v = that.getAttribute("medium-column");
+    //     let v = that.getAttribute("medium-column");
     //     switch (v) {
     //       case "":
     //         return EWindow.NONE;
@@ -419,7 +419,7 @@ export class Control extends UI {
     //    * @returns {string}
     //    */
     //   get() {
-    //     var v = that.getAttribute("large-column");
+    //     let v = that.getAttribute("large-column");
     //     switch (v) {
     //       case "":
     //         return EWindow.NONE;
@@ -488,7 +488,7 @@ export class Control extends UI {
     //    * @returns {string}
     //    */
     //   get() {
-    //     var v = that.getAttribute("xlarge-column");
+    //     let v = that.getAttribute("xlarge-column");
     //     switch (v) {
     //       case "":
     //         return EWindow.NONE;
@@ -791,7 +791,7 @@ export class Control extends UI {
 
     this.defineProperty("situation", {
       get() {
-        var v = that.getAttribute("element-situation");
+        let v = that.getAttribute("element-situation");
 
         switch (v) {
           case "title":

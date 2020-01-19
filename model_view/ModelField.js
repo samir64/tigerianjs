@@ -37,13 +37,13 @@ export class ModelField extends ModelView {
 
       collection = ((collection === true) ? true : false);
 
-      var setValue = function (v) {
-        var val;
+      let setValue = function (v) {
+        let val;
         if (instanceOf(v, type) || (v === undefined) || (instanceOf(v, Object) && isA(type, ModelView))) {
           if (instanceOf(v, "object")) {
             val = new type();
 
-            for (var field in v) {
+            for (let field in v) {
               if (field in val) {
                 val[field] = v[field];
               }
@@ -100,12 +100,12 @@ export class ModelField extends ModelView {
       this.defineProperty("value", {
         enumerable: false,
         configurable: false,
-        get: function () {
+        get() {
           return value;
         },
-        set: function (v) {
+        set(v) {
           if (collection && instanceOf(v, Array)) {
-            for (var i = 0; i < v.length; i++) {
+            for (let i = 0; i < v.length; i++) {
               setValue(v[i]);
             }
           } else if (!collection && !instanceOf(v, Array)) {

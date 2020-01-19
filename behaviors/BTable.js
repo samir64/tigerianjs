@@ -14,27 +14,27 @@ export class BTable extends Behavior {
     super();
 
     this.defineMethod("config", (that, ctrlTableBody, colCount = 1) => {
-      var columnsVisiblity = [];
-      var rowCount = 0;
-      var ctrlHeadRow = new TableRow(ctrlTableBody, colCount, that.theme);
+      let columnsVisiblity = [];
+      let rowCount = 0;
+      let ctrlHeadRow = new TableRow(ctrlTableBody, colCount, that.theme);
 
-      for (var i = 0; i < colCount; i++) {
+      for (let i = 0; i < colCount; i++) {
         columnsVisiblity.push(true);
       }
 
       that.setAttribute("view-mode", "grid");
 
-      var refreshView = function () {
+      let refreshView = function () {
         if (ctrlTableBody.itemCount <= rowCount) {
-          for (var i = ctrlTableBody.itemCount; i <= rowCount; i++) {
+          for (let i = ctrlTableBody.itemCount; i <= rowCount; i++) {
             addRow();
           }
         } else {
           rowCount = ctrlTableBody.itemCount - 1;
         }
 
-        for (var i = 0; i <= rowCount; i++) {
-          for (var c = 0; c < colCount; c++) {
+        for (let i = 0; i <= rowCount; i++) {
+          for (let c = 0; c < colCount; c++) {
             if (i === 0) {
               that.getHeadCell(c).visible = columnsVisiblity[c];
             } else {
@@ -65,12 +65,12 @@ export class BTable extends Behavior {
         }
       };
 
-      var addRow = function () {
-        var newRow = new TableRow(null, colCount, that.theme);
+      let addRow = function () {
+        let newRow = new TableRow(null, colCount, that.theme);
 
         newRow.setAttribute("hover", "false");
 
-        for (var i = 0; i < colCount; i++) {
+        for (let i = 0; i < colCount; i++) {
           newRow.getCell(i).addEvent("mouseover", onMouseOver);
           newRow.getCell(i).addEvent("mouseleave", onMouseLeave);
         }
@@ -78,22 +78,22 @@ export class BTable extends Behavior {
         superAddItem(newRow);
       };
 
-      var onMouseOver = function (e) {
+      let onMouseOver = function (e) {
         that.parent.setAttribute("hover", "true");
-        for (var r = 0; r < rowCount; r++) {
-          for (var c = 0; c < colCount; c++) {
-            var cell = that.getCell(r, c);
+        for (let r = 0; r < rowCount; r++) {
+          for (let c = 0; c < colCount; c++) {
+            let cell = that.getCell(r, c);
             cell.setAttribute("hover", ((parseInt(that.getAttribute("column-number")) === c) ? "true" : "false"));
             // cell.setAttribute("hover", (((that.parent === cell.parent) || (parseInt(that.getAttribute("column-number")) === c)) ? "true" : "false"));
           }
         }
       };
 
-      var onMouseLeave = function (e) {
+      let onMouseLeave = function (e) {
         that.parent.setAttribute("hover", "false");
-        for (var r = 0; r < rowCount; r++) {
-          for (var c = 0; c < colCount; c++) {
-            var cell = that.getCell(r, c);
+        for (let r = 0; r < rowCount; r++) {
+          for (let c = 0; c < colCount; c++) {
+            let cell = that.getCell(r, c);
             cell.setAttribute("hover", "false");
           }
         }
@@ -107,7 +107,7 @@ export class BTable extends Behavior {
           return rowCount;
         },
         set(v) {
-          var lastRowCount = rowCount;
+          let lastRowCount = rowCount;
           rowCount = v;
           if (lastRowCount !== v) {
             refreshView();
@@ -130,7 +130,7 @@ export class BTable extends Behavior {
        */
       that.defineProperty("viewMode", {
         get() {
-          var v = that.getAttribute("view-mode");
+          let v = that.getAttribute("view-mode");
           switch (v) {
             case "grid":
               return ETable.GRID_VIEW;
@@ -143,7 +143,7 @@ export class BTable extends Behavior {
           }
         },
         set(v) {
-          var lastViewMode = that.viewMode;
+          let lastViewMode = that.viewMode;
           switch (v) {
             case ETable.GRID_VIEW:
               that.setAttribute("view-mode", "grid");
@@ -171,7 +171,7 @@ export class BTable extends Behavior {
       that.defineMethod("columnVisible", (col, visible) => {
         columnsVisiblity[col] = visible;
         that.getHeadCell(col).visible = visible;
-        for (var i = 0; i < rowCount; i++) {
+        for (let i = 0; i < rowCount; i++) {
           that.getCell(i, col).visible = visible;
         }
       }, [Number, Boolean]);

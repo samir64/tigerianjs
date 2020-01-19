@@ -31,9 +31,9 @@ export class ModalForm extends Control {
   constructor(parent, theme = "") {
     super(parent, theme);
 
-    var ctrlHeader = new Header(null, true, this.theme);
-    var ctrlBody = new Control(null, this.theme);
-    var ctrlFooter = new Footer(null, false, this.theme);
+    let ctrlHeader = new Header(null, true, this.theme);
+    let ctrlBody = new Control(null, this.theme);
+    let ctrlFooter = new Footer(null, false, this.theme);
 
     this.config(BModal, parent);
     this.config(BCancel, this, ctrlHeader);

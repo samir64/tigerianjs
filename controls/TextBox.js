@@ -27,12 +27,12 @@ export class TextBox extends Control {
    * @param {string} [theme = ""]
    */
   constructor(parent, text = "", theme = "") {
-    var elmText = document.createElement("input");
+    let elmText = document.createElement("input");
     super(parent, theme);
     this.config(BText, elmText, TextEncoder);
 
-    var thisEnabled = Object.getOwnPropertyDescriptor(this, "enabled");
-    var that = this;
+    let thisEnabled = Object.getOwnPropertyDescriptor(this, "enabled");
+    let that = this;
 
     //NOTE Attributes
     this.setAttribute("element-type", "TextBox");

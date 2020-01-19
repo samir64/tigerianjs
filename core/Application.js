@@ -30,7 +30,7 @@ export class Application extends UI {
    * @param {string} [theme = ""]
    */
   constructor(title = "", element = document.body, theme = "") {
-    var fragment = document.createDocumentFragment();
+    let fragment = document.createDocumentFragment();
     super(element, null, theme);
 
     this.config(BWindow);
@@ -38,7 +38,7 @@ export class Application extends UI {
     /**
      * @type {BGridTemplate[]}
      */
-    var templates = [];
+    let templates = [];
     if (instanceOf(title, String)) {
       document.head.getElementsByTagName("title")[0].innerText = title;
     }
@@ -53,7 +53,7 @@ export class Application extends UI {
      * @param {string} templateName
      */
     this.defineMethod("addTemplate", (templateName) => {
-      var template = new BGridTemplate(templateName);
+      let template = new BGridTemplate(templateName);
       templates[templateName] = template;
       document.head.appendChild(template.element);
     }, [String]);

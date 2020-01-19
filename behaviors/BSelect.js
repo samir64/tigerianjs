@@ -24,8 +24,8 @@ export class BSelect extends Behavior {
 
     this.defineMethod("config", (that) => {
       //NOTE Private Variables
-      var autoSelect = true;
-      var autoDeselect = true;
+      let autoSelect = true;
+      let autoDeselect = true;
 
       //NOTE Attributes
       that.setAttribute("selected", "false");
@@ -74,8 +74,8 @@ export class BSelect extends Behavior {
       /**
        * @param {Event} e
        */
-      var onClick = (e) => {
-        var lastValue = that.selected;
+      let onClick = (e) => {
+        let lastValue = that.selected;
         if (!that.selected) {
           if (that.autoSelect) {
             that.selected = true;
@@ -95,8 +95,8 @@ export class BSelect extends Behavior {
       /**
        * @param {Event} e
        */
-      var onKeyDown = (e) => {
-        var lastValue = that.selected;
+      let onKeyDown = (e) => {
+        let lastValue = that.selected;
         if (!that.selected) {
           if (that.autoSelect && ((e.keyCode === 32) || (e.keyCode === 13))) {
             that.selected = true;

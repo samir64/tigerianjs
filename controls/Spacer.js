@@ -29,7 +29,7 @@ export class Spacer extends Control {
     this.setAttribute("vertical", ((vertical === true) ? "true" : "false"));
 
     // if (hrLine === true) {
-    //     var elmHr = document.createElement("hr");
+    //     let elmHr = document.createElement("hr");
     //     this.addControl(elmHr);
 
     //     elmHr.setAttribute("element-type", "Spacer");

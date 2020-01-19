@@ -25,16 +25,16 @@ import {
   ELabel
 } from "../behaviors/BLabel.js";
 
-// var root = "Tigerian.js/docs";
-var root = window.location.pathname;
+// let root = "Tigerian.js/docs";
+let root = window.location.pathname;
 
-var app = new Application("Tigerian.js Developer Guide");
-var route = new Route(root, true);
+let app = new Application("Tigerian.js Developer Guide");
+let route = new Route(root, true);
 
-var viewMain = new ViewMain(app);
-var viewContent = new ViewContent(viewMain.getContent(), viewMain.getLoading(), route);
-var viewContentTable = new ViewContentTable(viewMain.getSideBar(), viewContent, viewMain.getLoading(), route);
-var viewPageNotFound = new ViewPageNotFound(viewMain.getContent());
+let viewMain = new ViewMain(app);
+let viewContent = new ViewContent(viewMain.getContent(), viewMain.getLoading(), route);
+let viewContentTable = new ViewContentTable(viewMain.getSideBar(), viewContent, viewMain.getLoading(), route);
+let viewPageNotFound = new ViewPageNotFound(viewMain.getContent());
 
 // viewContentTable.refresh();
 viewContent.hide();

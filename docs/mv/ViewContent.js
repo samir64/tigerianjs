@@ -43,21 +43,21 @@ export class ViewContent extends View {
    * @param {Route} route
    */
   constructor(parent, loading, route) {
-    var content = new Control(parent, parent.theme, "article");
+    let content = new Control(parent, parent.theme, "article");
     super(content);
 
-    // var loaded = false;
-    var pages = {};
-    var instance = this;
-    var ajax = new Ajax();
-    // var loading = new Loading(content, parent.theme);
-    var ctrContent = new Container(content, parent.theme);
-    var txtCaption = new Label(ctrContent, parent.theme);
-    var context = new Label(ctrContent, parent.theme);
-    var ctrButton = new Control(content, parent.theme);
-    var btnPrevTopic = new Button(ctrButton, "Previous", parent.theme);
-    var btnNextTopic = new Button(ctrButton, "Next", parent.theme);
-    var {
+    // let loaded = false;
+    let pages = {};
+    let instance = this;
+    let ajax = new Ajax();
+    // let loading = new Loading(content, parent.theme);
+    let ctrContent = new Container(content, parent.theme);
+    let txtCaption = new Label(ctrContent, parent.theme);
+    let context = new Label(ctrContent, parent.theme);
+    let ctrButton = new Control(content, parent.theme);
+    let btnPrevTopic = new Button(ctrButton, "Previous", parent.theme);
+    let btnNextTopic = new Button(ctrButton, "Next", parent.theme);
+    let {
       prev,
       next
     } = {

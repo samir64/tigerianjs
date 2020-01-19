@@ -28,9 +28,9 @@ export class Table extends Control {
     this.setAttribute("element-type", "Table");
     this.setAttribute("element-name", "container");
 
-    var ctrlTableHeader = new Header(this, false, this.theme);
-    var ctrlTableBody = new TableBody(this, this.theme);
-    var ctrlCaption = new Label(ctrlTableHeader, "", this.theme);
+    let ctrlTableHeader = new Header(this, false, this.theme);
+    let ctrlTableBody = new TableBody(this, this.theme);
+    let ctrlCaption = new Label(ctrlTableHeader, "", this.theme);
 
     this.config(BGroup, ctrlTableBody);
     this.config(BTable, colCount, ctrlTableBody);

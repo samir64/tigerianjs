@@ -17,10 +17,10 @@ export class BGridBlock extends Behavior {
     super();
 
     this.defineMethod("config", (that) => {
-      var elm = document.createElement("style");
-      var patterns = {};
-      var colCount = {};
-      var addedAreas = [];
+      let elm = document.createElement("style");
+      let patterns = {};
+      let colCount = {};
+      let addedAreas = [];
 
       document.head.appendChild(elm);
       elm.innerHTML = "";
@@ -35,9 +35,9 @@ export class BGridBlock extends Behavior {
           patterns[size] = pattern;
           colCount[size] = pattern;
         } else {
-          var cnt;
-          var re = /(?:\w+|\.)(?::(\d+))?/g;
-          var rowColCount = 0;
+          let cnt;
+          let re = /(?:\w+|\.)(?::(\d+))?/g;
+          let rowColCount = 0;
           while ((cnt = re.exec(pattern)) !== null) {
             rowColCount += ((cnt[1] !== undefined) ? parseInt(cnt[1]) : 1);
           }
@@ -64,9 +64,9 @@ export class BGridBlock extends Behavior {
       ]);
 
       that.defineMethod("regenerate", (size = EWindow.MEDIUM) => {
-        var blocks = patterns[size];
-        var col = colCount[size];
-        var i = 0;
+        let blocks = patterns[size];
+        let col = colCount[size];
+        let i = 0;
 
         while (instanceOf(blocks, Symbol) && (++i < 5)) {
           blocks = patterns[blocks];
@@ -77,7 +77,7 @@ export class BGridBlock extends Behavior {
         };
 
         return "\n\t\t'" + blocks.map((r) => {
-          var result = r.pattern;
+          let result = r.pattern;
 
           if (r.rowColCount < col) {
             result += ` .:${col - r.rowColCount}`;
@@ -90,8 +90,8 @@ export class BGridBlock extends Behavior {
       }, [Symbol]);
 
       that.defineMethod("getColCount", (size = EWindow.MEDIUM) => {
-        var col = colCount[size];
-        var i = 0;
+        let col = colCount[size];
+        let i = 0;
 
         while (instanceOf(col, Symbol) && (++i < 5)) {
           col = colCount[col];

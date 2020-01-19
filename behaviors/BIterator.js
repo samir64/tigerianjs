@@ -18,10 +18,10 @@ export class BIterator extends Behavior {
      * @param {{list: Array, currentIndex: number, value: *, done: boolean}} params
      */
     this.config = function (that, list = [], index = 0) {
-      var generator = function (i) {
+      let generator = function (i) {
         return list[i];
       };
-      var iterator = function* () {
+      let iterator = function* () {
         let result = generator(index++);
         do {
           yield result;

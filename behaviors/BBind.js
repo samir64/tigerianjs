@@ -14,8 +14,8 @@ export class BBind extends Behavior {
     super();
 
     this.defineMethod("config", (that) => {
-      var binds = {};
-      var watchs = {};
+      let binds = {};
+      let watchs = {};
 
       /**
        * @param {string} srcProp
@@ -37,21 +37,21 @@ export class BBind extends Behavior {
         });
 
         if (that.hasOwnProperty(srcProp) && target.hasOwnProperty(trgProp)) {
-          var lastProp = Object.getOwnPropertyDescriptor(that, srcProp);
+          let lastProp = Object.getOwnPropertyDescriptor(that, srcProp);
           if (binds[srcProp].main === undefined) {
             binds[srcProp].main = lastProp;
           }
           Object.defineProperty(that, srcProp, {
             enumerable: lastProp.enumerable,
             configurable: true,
-            get: function () {
+            get() {
               if (lastProp.hasOwnProperty("get")) {
                 return lastProp.get.bind(that)();
               } else if (lastProp.hasOwnProperty("value")) {
                 return lastProp.value;
               }
             },
-            set: function (v) {
+            set(v) {
               if (lastProp.hasOwnProperty("set")) {
                 lastProp.set.bind(that)(v);
               } else if (lastProp.hasOwnProperty("value")) {
@@ -77,8 +77,8 @@ export class BBind extends Behavior {
           binds[srcProp] != undefined &&
           binds[srcProp] != null
         ) {
-          var result = [];
-          var main = binds[srcProp].main;
+          let result = [];
+          let main = binds[srcProp].main;
           forEach(binds[srcProp].targets, (trg) => {
             if (
               (
@@ -117,21 +117,21 @@ export class BBind extends Behavior {
         watchs[prop].callbacks.push(callback);
 
         if (that.hasOwnProperty(prop)) {
-          var lastProp = Object.getOwnPropertyDescriptor(that, prop);
+          let lastProp = Object.getOwnPropertyDescriptor(that, prop);
           if (watchs[prop].main === undefined) {
             watchs[prop].main = lastProp;
           }
           Object.defineProperty(that, prop, {
             enumerable: lastProp.enumerable,
             configurable: true,
-            get: function () {
+            get() {
               if (lastProp.hasOwnProperty("get")) {
                 return lastProp.get.bind(that)();
               } else if (lastProp.hasOwnProperty("value")) {
                 return lastProp.value;
               }
             },
-            set: function (v) {
+            set(v) {
               if (lastProp.hasOwnProperty("set")) {
                 lastProp.set.bind(that)(v);
               } else if (lastProp.hasOwnProperty("value")) {
@@ -151,8 +151,8 @@ export class BBind extends Behavior {
           watchs[prop] != undefined &&
           watchs[prop] != null
         ) {
-          var result = [];
-          var main = watchs[prop].main;
+          let result = [];
+          let main = watchs[prop].main;
           forEach(watchs[prop].callbacks, (cb) => {
             if (
               (callback != undefined) &&

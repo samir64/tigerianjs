@@ -35,8 +35,8 @@ export class HyperLink extends Control {
     super(parent, theme);
 
     //NOTE Private Variables
-    var elmHyperLink = document.createElement("a");
-    var that = this;
+    let elmHyperLink = document.createElement("a");
+    let that = this;
 
     this.config(BText, elmHyperLink, text);
     this.config(BLabel);

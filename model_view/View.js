@@ -30,15 +30,15 @@ export class View extends ModelView {
 
     this.config(BWindow);
 
-    var show = function () {
+    let show = function () {
       container.visible = true;
     };
 
-    var hide = function () {
+    let hide = function () {
       container.visible = false;
     };
 
-    var refresh = function (params) {};
+    let refresh = function (params) {};
 
     /**
      * @member {Function}

@@ -23,7 +23,7 @@ export class BCascade extends Behavior {
 
     this.defineMethod("config", (that, ctrlSubMenu) => {
       if (instanceOf(that, Control) && instanceOf(ctrlSubMenu, Control)) {
-        // var ctrlSubMenu;
+        // let ctrlSubMenu;
 
         that.setAttribute("has-child", "false");
         that.setAttribute("open-child", "false");

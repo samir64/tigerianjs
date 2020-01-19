@@ -37,19 +37,19 @@ export class Model extends ModelView {
     /**
      * @type {ModelField[]}
      */
-    var fields = {
+    let fields = {
       id: new ModelField("id", idType)
     };
-    // var relations = [];
-    var addPath = controllerPath;
-    var editPath = controllerPath;
-    var deletePath = controllerPath;
-    var reloadPath = controllerPath;
-    var searchPath = controllerPath;
-    var countPath = controllerPath;
-    // var constructorArgs = Array.from(arguments);
+    // let relations = [];
+    let addPath = controllerPath;
+    let editPath = controllerPath;
+    let deletePath = controllerPath;
+    let reloadPath = controllerPath;
+    let searchPath = controllerPath;
+    let countPath = controllerPath;
+    // let constructorArgs = Array.from(arguments);
 
-    var instance = this;
+    let instance = this;
 
     if (!instanceOf(fetchField, String) || (fetchField === "")) {
       fetchField = [];
@@ -57,9 +57,9 @@ export class Model extends ModelView {
       fetchField = fetchField.split(".");
     }
 
-    var getPath = function (path) {
-      var result = (applicationPath === "") ? "/" : applicationPath;
-      var flds = {};
+    let getPath = function (path) {
+      let result = (applicationPath === "") ? "/" : applicationPath;
+      let flds = {};
 
       forEach(fields, (field, idx) => {
         flds[idx] = field.value;
@@ -82,8 +82,8 @@ export class Model extends ModelView {
       return result;
     };
 
-    var fillFields = function (out, values) {
-      for (var i = 0;
+    let fillFields = function (out, values) {
+      for (let i = 0;
         (i < fetchField.length) && (Object.keys(values).length > 0); i++) {
         if (fetchField[i] in values) {
           values = values[fetchField[i]];
@@ -97,7 +97,7 @@ export class Model extends ModelView {
         }
       })
 
-      // for (var name in relations) {
+      // for (let name in relations) {
       //     switch (relations[name].multi) {
       //         case Model.EOneToOne:
       //             relations[name].value[relations[name].roleB] = fields[relations[name].roleA].value;
@@ -112,7 +112,7 @@ export class Model extends ModelView {
       // }
     };
 
-    var ajaxSuccess = function (successFunc, unsuccessFunc) {
+    let ajaxSuccess = function (successFunc, unsuccessFunc) {
       return function (text, xml, json) {
         if (json !== undefined) {
           fillFields(instance, json);
@@ -127,12 +127,12 @@ export class Model extends ModelView {
     };
 
 
-    var ajaxSearchSuccess = function (successFunc, unsuccessFunc) {
+    let ajaxSearchSuccess = function (successFunc, unsuccessFunc) {
       return function (text, xml, json) {
         if (json !== undefined) {
-          var rows = [];
+          let rows = [];
           forEach(json, (item, recordNo) => {
-            var row = new instance.constructor();
+            let row = new instance.constructor();
             fillFields(row, item);
             rows.push(row);
           });
@@ -148,7 +148,7 @@ export class Model extends ModelView {
       };
     };
 
-    var ajaxUnsuccess = function (unsuccessFunc) {
+    let ajaxUnsuccess = function (unsuccessFunc) {
       return function (readystate, status, statusText) {
         if (instanceOf(unsuccessFunc, "function")) {
           unsuccessFunc(statusText);
@@ -321,15 +321,15 @@ export class Model extends ModelView {
      * @param {function} unsuccess
      */
     this.defineMethod("update", (success = () => {}, unsuccess = () => {}, progress = () => {}) => {
-      var ajax = new Ajax();
+      let ajax = new Ajax();
       ajax.success = ajaxSuccess(success, unsuccess);
       ajax.unsuccess = ajaxUnsuccess(unsuccess);
       if (instanceOf(progress, "function")) {
         ajax.progress = progress;
       }
 
-      var params = {};
-      for (var field in fields) {
+      let params = {};
+      for (let field in fields) {
         if (fields[field].value !== undefined) {
           params[field] = fields[field].value;
         }
@@ -353,7 +353,7 @@ export class Model extends ModelView {
      * @param {function} unsuccess
      */
     this.defineMethod("delete", (success = () => {}, unsuccess = () => {}, progress = () => {}) => {
-      var ajax = new Ajax();
+      let ajax = new Ajax();
       ajax.success = ajaxSuccess(success, unsuccess);
       ajax.unsuccess = ajaxUnsuccess(unsuccess);
       if (instanceOf(progress, "function")) {
@@ -373,7 +373,7 @@ export class Model extends ModelView {
      * @param {function} unsuccess
      */
     this.defineMethod("reload", (success = () => {}, unsuccess = () => {}, progress = () => {}) => {
-      var ajax = new Ajax();
+      let ajax = new Ajax();
       ajax.success = ajaxSuccess(success, unsuccess);
       ajax.unsuccess = ajaxUnsuccess(unsuccess);
       if (instanceOf(progress, "function")) {
@@ -394,15 +394,15 @@ export class Model extends ModelView {
      * @param {function} unsuccess
      */
     this.defineMethod("search", (options = {}, success = () => {}, unsuccess = () => {}, progress = () => {}) => {
-      var ajax = new Ajax();
+      let ajax = new Ajax();
       ajax.success = ajaxSearchSuccess(success, unsuccess);
       ajax.unsuccess = ajaxUnsuccess(unsuccess);
       ajax.progress = progress;
 
-      var params = {
+      let params = {
         options
       };
-      for (var field in fields) {
+      for (let field in fields) {
         if (fields[field].value !== undefined) {
           if (field !== "id") {
             params[field] = fields[field].value;
@@ -420,7 +420,7 @@ export class Model extends ModelView {
      * @param {function} unsuccess
      */
     this.defineMethod("count", (success = () => {}, unsuccess = () => {}, progress = () => {}) => {
-      var ajax = new Ajax();
+      let ajax = new Ajax();
       ajax.success = function (text, xml, json) {
         if (instanceOf(success, "function")) {
           success(json["count"]);
@@ -432,12 +432,12 @@ export class Model extends ModelView {
       }
 
 
-      var params = {
+      let params = {
         options: {
           count: true
         }
       };
-      for (var field in fields) {
+      for (let field in fields) {
         if (fields[field].value !== undefined) {
           params[field] = fields[field].value;
         }
@@ -448,7 +448,7 @@ export class Model extends ModelView {
     }, [Function, Function, Function]);
 
     this.defineMethod("toJSON", () => {
-      var result = {};
+      let result = {};
       forEach(fields, (field, fieldName) => {
         if (instanceOf(field.value, Model)) {
           result[fieldName] = field.value.toJSON();

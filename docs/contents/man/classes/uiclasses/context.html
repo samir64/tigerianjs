@@ -1,0 +1,94 @@
+<h3>Super:</h3>
+<div>Control</div>
+<br />
+
+<h3>Behaviors:</h3>
+<ul>
+  <li>BText</li>
+  <li>BBind</li>
+</ul>
+<br />
+
+<h3>Properties:</h3>
+<ul>
+  <li>entities</li>
+</ul>
+<br />
+
+<h3>Methods:</h3>
+<br />
+<br />
+
+<h3>Description:</h3>
+<br />
+<div>
+  The `Context` constructor gives four parameters:
+  <ol>
+    <li>
+      <h3>parent:</h3>Type: UI
+    </li>
+    <li>
+      <h3>text:</h3>Type: String
+    </li>
+    <li>
+      <h3>route:</h3>Type: Route
+    </li>
+    <li>
+      <h3>theme:</h3>Type: String
+    </li>
+  </ol>
+
+  First and last parameters (`parent` and `theme`), are like other controls.
+  <br />
+  Third parameter (`route`) is a instance of Tigerian's Route class, and it is optional. If you set that, your
+  application can change address without refresh and in other side if you don't set that, it's a normal link and after
+  clicking on link, page get a refresh.
+  <br />
+  Most important parameter in `Context` is second parameter (`text`).
+  <br />
+  In `text` we can use three exclusive tags:
+  <ul>
+    <li>
+      <h3>Variable:</h3>
+      <br />
+      <pre class="code">
+&ltvariable id="v1">default value&lt/variable>
+      </pre>
+    </li>
+    <li>
+      <h3>Control:</h3>
+      <br />
+      <pre class="code">
+&ltcontrol id="c1">head text|foot text&lt/control>
+      </pre>
+    </li>
+    <li>
+      <h3>Redirect:</h3>
+      <br />
+      <pre class="code">
+&ltredirect url="/test">redirect to test page&lt/redirect>
+      </pre>
+    </li>
+  </ul>
+  <br />
+  You can access to variables and controls in your text, by `entities` property:
+  <br />
+  <h3>Sample:</h3>
+  <br />
+  <pre class="code">
+ctx1.entities.v1 = "hello";
+ctx1.entities.c1.addControl(new Control());
+  </pre>
+</div>
+<br />
+<br />
+
+<h3>Samples:</h3>
+<br />
+<pre class="code">
+let app = new Application("title");
+let route = new Route("/");
+let ctx1 = new Context(app, "sample text for &ltvariable id="varCtrlName">context&lt/variable> control", route);
+
+ctx1.entities.varCtrlName = "Tigerian's Context";
+</pre>
