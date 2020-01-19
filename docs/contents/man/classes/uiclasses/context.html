@@ -9,6 +9,23 @@
 </ul>
 <br />
 
+<h3>Constructor:</h3>
+<ol>
+  <li>
+    <h3>parent:</h3>Type: UI
+  </li>
+  <li>
+    <h3>text:</h3>Type: String
+  </li>
+  <li>
+    <h3>route:</h3>Type: Route
+  </li>
+  <li>
+    <h3>theme:</h3>Type: String
+  </li>
+</ol>
+<br />
+
 <h3>Properties:</h3>
 <ul>
   <li>entities</li>
@@ -23,25 +40,11 @@
 <br />
 <div>
   The `Context` constructor gives four parameters:
-  <ol>
-    <li>
-      <h3>parent:</h3>Type: UI
-    </li>
-    <li>
-      <h3>text:</h3>Type: String
-    </li>
-    <li>
-      <h3>route:</h3>Type: Route
-    </li>
-    <li>
-      <h3>theme:</h3>Type: String
-    </li>
-  </ol>
-
+  <br />
   First and last parameters (`parent` and `theme`), are like other controls.
   <br />
-  Third parameter (`route`) is a instance of Tigerian's Route class, and it is optional. If you set that, your
-  application can change address without refresh and in other side if you don't set that, it's a normal link and after
+  Third parameter (`route`) is an instance of Tigerian's Route class, and it is optional. If you set that, your
+  application can change address without refresh and if you don't set that, it's a normal link which after
   clicking on link, page get a refresh.
   <br />
   Most important parameter in `Context` is second parameter (`text`).
@@ -71,7 +74,7 @@
     </li>
   </ul>
   <br />
-  You can access to variables and controls in your text, by `entities` property:
+  You can access to variables and controls in your `text`, by `entities` property:
   <br />
   <h3>Sample:</h3>
   <br />

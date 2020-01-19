@@ -68,15 +68,17 @@ export class Context extends Control {
         switch (tag) {
           case "variable":
             node = document.createTextNode(match[2]);
-            defineProperty(ents, match[1], {
-              get() {
-                return node.data;
-              },
-              set(v) {
-                node.data = v;
-              },
-              type: String
-            });
+            ((n) => {
+              defineProperty(ents, match[1], {
+                get() {
+                  return n.data;
+                },
+                set(v) {
+                  n.data = v;
+                },
+                type: String
+              })
+            })(node);
             ctrl.addControl(node);
             break;
 
