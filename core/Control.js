@@ -873,7 +873,11 @@ export class Control extends UI {
       elmDivContainer.appendChild(elmTxtFoot);
     }, [
       [Control, Text, Element]
-    ]);
+      ]);
+    
+    this.defineMethod("clearContent", () => {
+      elmDivContainer.innerHTML = "";
+    });
 
     this.defineMethod("click", () => {
       elmDivContainer.click();
