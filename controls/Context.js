@@ -19,6 +19,7 @@ import {
 
 /**
  * @extends {Control}
+ * @implements {BText}
  * @constructor
  */
 export class Context extends Control {
@@ -40,9 +41,9 @@ export class Context extends Control {
     let ents = {};
 
     this.config(BText, ctrlText, text);
-    this.config(BBind);
-
     this.addControl(ctrlText);
+
+    let superText = Object.getOwnPropertyDescriptor(this, "text");
 
     /**
      * @param {String} t
@@ -50,6 +51,7 @@ export class Context extends Control {
      */
     let processText = (t, ctrl) => {
       // ctrl.innerHTML = "";
+      ctrl.clearContent();
 
       let match;
       let node;
@@ -110,10 +112,24 @@ export class Context extends Control {
 
         t = t.substr(match.index + match[0].length);
       }
+
+      node = document.createTextNode(t);
+      ctrl.addControl(node);
     };
 
 
     //TODO Override set text function on BText behavior for get variables and controls in text and replace them to TextNode and Control.
+    defineProperty(this, "text", {
+      get() {
+        return superText.get();
+      },
+      set(v) {
+        superText.set(v);
+        processText(v, ctrlText);
+      },
+      type: String
+    });
+
     processText(text, ctrlText);
 
     defineProperty(this, "entities", {
