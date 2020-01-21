@@ -85,14 +85,22 @@ export class Context extends Control {
             break;
 
           case "control":
-            ents[match[3]] = new Control(ctrl, theme);
+            node = new Control(ctrl, theme);
             if (match[4].indexOf("|")) {
               match[4] = match[4].split("|");
             } else {
               match[4] = [match[4], ""];
             }
-            ents[match[3]].headText = match[4][0];
-            ents[match[3]].footText = match[4][1];
+            node.headText = match[4][0];
+            node.footText = match[4][1];
+
+            ((n) => {
+              defineProperty(ents, match[3], {
+                get() {
+                  return n;
+                }
+              })
+            })(node);
             break;
 
           case "redirect":
@@ -117,8 +125,6 @@ export class Context extends Control {
       ctrl.addControl(node);
     };
 
-
-    //TODO Override set text function on BText behavior for get variables and controls in text and replace them to TextNode and Control.
     defineProperty(this, "text", {
       get() {
         return superText.get();
