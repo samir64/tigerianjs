@@ -866,15 +866,15 @@ export class Control extends UI {
     });
 
     /**
-     * @param {Element|Control} control
+     * @param {Text|Element|Control} control
      */
     this.defineMethod("addControl", (control) => {
       superAddControl(control);
       elmDivContainer.appendChild(elmTxtFoot);
     }, [
       [Control, Text, Element]
-      ]);
-    
+    ]);
+
     this.defineMethod("clearContent", () => {
       elmDivContainer.innerHTML = "";
     });
