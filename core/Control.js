@@ -887,9 +887,9 @@ export class Control extends UI {
     //     elmDivContainer.focus();
     // };
 
-    this.defineMethod("toString", () => {
-      return "[Control]";
-    });
+    // this.defineMethod("toString", () => {
+    //   return "[Control]";
+    // });
   }
 }
 
