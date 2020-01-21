@@ -83,6 +83,7 @@ Tigerian has 5 special properties
   - [X] Button
   - [X] TextBox
   - [X] Label
+  - [X] Context
   - [X] HyperLink
   - [X] Field
   - [X] ListBox
