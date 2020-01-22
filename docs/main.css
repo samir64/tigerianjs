@@ -14,10 +14,21 @@ h3,
 h4,
 h5,
 h6,
-ul {
-  margin: 5px;
+ul,
+ol,
+li {
+  margin: 5px 0;
 }
 
+li {
+  padding-left: 10px !important;
+}
+
+div.part {
+  margin-left: 15px;
+}
+
+div.part,
 br {
   display: block !important;
 }

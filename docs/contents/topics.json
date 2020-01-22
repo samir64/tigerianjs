@@ -129,45 +129,63 @@
             "children": []
           },
           {
-            "id": "bevent",
-            "name": "bevent",
-            "title": "BEvent",
-            "children": []
-          },
-          {
-            "id": "bwindow",
-            "name": "bwindow",
-            "title": "BWindow",
-            "children": []
-          },
-          {
-            "id": "bstyle",
-            "name": "bstyle",
-            "title": "BStyle",
-            "children": []
-          },
-          {
-            "id": "btext",
-            "name": "btext",
-            "title": "BText",
-            "children": []
-          },
-          {
-            "id": "blabel",
-            "name": "blabel",
-            "title": "BLabel",
-            "children": []
-          },
-          {
             "id": "bcancel",
             "name": "bcancel",
             "title": "BCancel",
             "children": []
           },
           {
+            "id": "bcascade",
+            "name": "bcascade",
+            "title": "BCascade",
+            "children": []
+          },
+          {
+            "id": "bevent",
+            "name": "bevent",
+            "title": "BEvent",
+            "children": []
+          },
+          {
+            "id": "bfilter",
+            "name": "bfilter",
+            "title": "BFilter",
+            "children": []
+          },
+          {
             "id": "bfix",
             "name": "bfix",
             "title": "BFixElement",
+            "children": []
+          },
+          {
+            "id": "bgridblock",
+            "name": "bgridblock",
+            "title": "BGridBlock",
+            "children": []
+          },
+          {
+            "id": "bgridtemplate",
+            "name": "bgridtemplate",
+            "title": "BGridTemplate",
+            "children": []
+          },
+          {
+            "id": "bgroup",
+            "name": "bgroup",
+            "title": "BGroup",
+            "children": []
+          },
+          {
+            "id": "biterator",
+            "name": "biterator",
+            "title": "BIterator",
+            "children": []
+          },
+          {
+            "id": "blabel",
+            "name": "blabel",
+            "title": "BLabel",
             "children": []
           },
           {
@@ -183,21 +201,9 @@
             "children": []
           },
           {
-            "id": "btable",
-            "name": "btable",
-            "title": "BTable",
-            "children": []
-          },
-          {
             "id": "bselect",
             "name": "bselect",
             "title": "BSelect",
-            "children": []
-          },
-          {
-            "id": "bgroup",
-            "name": "bgroup",
-            "title": "BGroup",
             "children": []
           },
           {
@@ -207,15 +213,27 @@
             "children": []
           },
           {
-            "id": "bcascade",
-            "name": "bcascade",
-            "title": "BCascade",
+            "id": "bstyle",
+            "name": "bstyle",
+            "title": "BStyle",
             "children": []
           },
           {
-            "id": "bfilter",
-            "name": "bfilter",
-            "title": "BFilter",
+            "id": "btable",
+            "name": "btable",
+            "title": "BTable",
+            "children": []
+          },
+          {
+            "id": "btext",
+            "name": "btext",
+            "title": "BText",
+            "children": []
+          },
+          {
+            "id": "bwindow",
+            "name": "bwindow",
+            "title": "BWindow",
             "children": []
           }
         ]
@@ -229,6 +247,12 @@
             "id": "tigerian",
             "name": "tigerian",
             "title": "Tigerian",
+            "children": []
+          },
+          {
+            "id": "behavior",
+            "name": "behavior",
+            "title": "Behavior",
             "children": []
           },
           {
@@ -267,63 +291,9 @@
                 "children": []
               },
               {
-                "id": "context",
-                "name": "context",
-                "title": "Context",
-                "children": []
-              },
-              {
-                "id": "container",
-                "name": "container",
-                "title": "Container",
-                "children": []
-              },
-              {
-                "id": "header",
-                "name": "header",
-                "title": "Header",
-                "children": []
-              },
-              {
-                "id": "footer",
-                "name": "footer",
-                "title": "Footer",
-                "children": []
-              },
-              {
-                "id": "separator",
-                "name": "separator",
-                "title": "Separator",
-                "children": []
-              },
-              {
-                "id": "label",
-                "name": "label",
-                "title": "Label",
-                "children": []
-              },
-              {
                 "id": "button",
                 "name": "button",
                 "title": "Button",
-                "children": []
-              },
-              {
-                "id": "link",
-                "name": "link",
-                "title": "HyperLink",
-                "children": []
-              },
-              {
-                "id": "textbox",
-                "name": "textbox",
-                "title": "TextBox",
-                "children": []
-              },
-              {
-                "id": "field",
-                "name": "field",
-                "title": "Field",
                 "children": []
               },
               {
@@ -333,15 +303,45 @@
                 "children": []
               },
               {
-                "id": "radiobutton",
-                "name": "radiobutton",
-                "title": "RadioButton",
+                "id": "container",
+                "name": "container",
+                "title": "Container",
                 "children": []
               },
               {
-                "id": "notify",
-                "name": "notify",
-                "title": "Notification",
+                "id": "context",
+                "name": "context",
+                "title": "Context",
+                "children": []
+              },
+              {
+                "id": "field",
+                "name": "field",
+                "title": "Field",
+                "children": []
+              },
+              {
+                "id": "footer",
+                "name": "footer",
+                "title": "Footer",
+                "children": []
+              },
+              {
+                "id": "header",
+                "name": "header",
+                "title": "Header",
+                "children": []
+              },
+              {
+                "id": "link",
+                "name": "link",
+                "title": "HyperLink",
+                "children": []
+              },
+              {
+                "id": "label",
+                "name": "label",
+                "title": "Label",
                 "children": []
               },
               {
@@ -354,6 +354,30 @@
                 "id": "modal",
                 "name": "modal",
                 "title": "ModalForm",
+                "children": []
+              },
+              {
+                "id": "notify",
+                "name": "notify",
+                "title": "Notification",
+                "children": []
+              },
+              {
+                "id": "radiobutton",
+                "name": "radiobutton",
+                "title": "RadioButton",
+                "children": []
+              },
+              {
+                "id": "spacer",
+                "name": "spacer",
+                "title": "Spacer",
+                "children": []
+              },
+              {
+                "id": "textbox",
+                "name": "textbox",
+                "title": "TextBox",
                 "children": []
               },
               {

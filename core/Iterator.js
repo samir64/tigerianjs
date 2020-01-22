@@ -12,9 +12,9 @@ export class Iterator extends Tigerian {
   /**
    * @constructs
    * @param {Array} list
-   * @param {number} currentIndex
+   * @param {number} currentIndex = 0
    */
-  constructor(list, currentIndex) {
+  constructor(list, currentIndex = 0) {
     super();
 
     this.config(BIterator, list, currentIndex);

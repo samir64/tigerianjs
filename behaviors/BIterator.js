@@ -15,7 +15,8 @@ export class BIterator extends Behavior {
 
     /**
      * @constructs
-     * @param {{list: Array, currentIndex: number, value: *, done: boolean}} params
+     * @param {Array} list
+     * @param {Number} index = 0
      */
     this.config = function (that, list = [], index = 0) {
       let generator = function (i) {
@@ -28,12 +29,13 @@ export class BIterator extends Behavior {
           result = generator(index++);
         } while (result !== undefined);
       };
+      let it = iterator();
 
       that.defineProperty("iterator", {
         enumerable: true,
         configurable: true,
         get() {
-          return iterator();
+          return it;
         },
         set(v) {
           generator = v;
@@ -49,15 +51,17 @@ export class BIterator extends Behavior {
         },
         set(v) {
           index = v;
+          it = iterator();
         }
       });
 
       that[Symbol.iterator] = () => {
-        return iterator();
+        return it;
       };
 
       iterator.prototype.first = function () {
         index = 0;
+        it = iterator();
       };
     };
   }

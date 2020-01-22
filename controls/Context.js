@@ -34,14 +34,16 @@ export class Context extends Control {
   constructor(parent, text = "", route = undefined, theme = "") {
     super(parent, theme);
 
-    this.setAttribute("element-type", "Context");
-    this.setAttribute("element-name", "container");
-
     let ctrlText = new Control(this, theme);
     let ents = {};
 
     this.config(BText, ctrlText, text);
     this.addControl(ctrlText);
+
+    this.setAttribute("element-type", "Context");
+    this.setAttribute("element-name", "container");
+    ctrlText.setAttribute("element-type", "Context");
+    ctrlText.setAttribute("element-name", "content");
 
     let superText = Object.getOwnPropertyDescriptor(this, "text");
 

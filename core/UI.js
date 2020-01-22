@@ -38,6 +38,9 @@ export class UI extends Tigerian {
    */
   constructor(mainElement = document.body, parent = undefined, theme = "") {
     super();
+    if (this.constructor === UI) {
+      throw new Error("UI is an abstract class.");
+    }
 
     let that = this;
 

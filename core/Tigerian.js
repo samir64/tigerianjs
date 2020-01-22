@@ -28,6 +28,7 @@ export class Tigerian {
       Object.defineProperty(this, "config", {
         enumerable: false,
         configurable: true,
+        writable: false,
         value(behavior, ...params) {
           if (Object.getPrototypeOf(behavior) === Behavior) {
             behaviors.push(behavior);
@@ -43,6 +44,7 @@ export class Tigerian {
   }
 
   /**
+   * @param {String} name
    * @param {Function} descriptor
    * @param {Object} dataTypes
    */
@@ -63,7 +65,8 @@ export class Tigerian {
     set = undefined,
     type = undefined,
     configurable = true,
-    enumerable = true
+    enumerable = true,
+    writable = true
   }) {
     defineProperty(this, name, {
       value,
@@ -71,14 +74,16 @@ export class Tigerian {
       set,
       type,
       configurable,
-      enumerable
+      enumerable,
+      writable
     });
   }
 }
 
 /**
- * @param {Object} obj1 
- * @param {Object} obj2 
+ * @param {Object} obj1
+ * @param {Object} obj2
+ * @returns {Boolean}
  */
 export function compare(obj1, obj2) {
   if (typeof obj1 !== typeof obj2) {
@@ -174,6 +179,7 @@ export function isA(type1, type2) {
 /**
  * @param {Object} obj
  * @param {Object} appendTo
+ * @returns {Object}
  */
 export function clone(obj, appendTo) {
   let result = {};
@@ -237,6 +243,7 @@ export function forEach(obj, callback) {
 /**
  * @this {String}
  * @param {Number|String} ...params
+ * @returns {String}
  */
 export function strFormat(str, ...params) {
   if (params.length == 1 && typeof params[0] == "object") {
@@ -259,12 +266,13 @@ export function strFormat(str, ...params) {
 }
 
 /**
- * @param {String} str
- * @param {*} before
- * @param {*} after
+ * @param {Number|String} str
+ * @param {Number} before
+ * @param {Number} after
+ * @returns {String}
  */
-export function strPadNumbers(str, before, after) {
-  return str.replace(
+export function padNumbers(str, before, after) {
+  return str.toString().replace(
     /(?:(\d+\.\d+)|(\d+)\.[^\d]?|[^\d]?\.(\d+)|(\d+)[^\.\d]?)/g,
     function (matched, two, left, right, pure) {
       if (two) {
@@ -356,6 +364,7 @@ export function strToTag(str, addHashSign = true, toLower = true) {
 
 /**
  * @param {String} str
+ * @returns {String}
  */
 export function strSplitCapital(str) {
   let result = [];
