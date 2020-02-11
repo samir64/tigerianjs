@@ -40,7 +40,7 @@ export class Loading extends Control {
 
     elmBar.setAttribute("element-type", "Loading");
     elmBar.setAttribute("element-name", "bar");
-    elmBar.setAttribute("element-situation", "danger");
+    elmBar.setAttribute("element-situation", "error");
 
     this.setAttribute("state", "indeterminate");
 
@@ -124,11 +124,8 @@ export class Loading extends Control {
           case "warning":
             return EControl.WARNING;
 
-          case "danger":
-            return EControl.DANGER;
-
-          case "disable":
-            return EControl.DISABLE;
+          case "error":
+            return EControl.error;
 
           case "ok":
             return EControl.OK;
@@ -159,12 +156,8 @@ export class Loading extends Control {
             elmBar.setAttribute("element-situation", "warning");
             break;
 
-          case EControl.DANGER:
-            elmBar.setAttribute("element-situation", "danger");
-            break;
-
-          case EControl.DISABLE:
-            elmBar.setAttribute("element-situation", "disable");
+          case EControl.ERROR:
+            elmBar.setAttribute("element-situation", "error");
             break;
 
           case EControl.OK:

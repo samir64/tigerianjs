@@ -1,7 +1,8 @@
 import {
   forEach,
   defineMethod as dm,
-  defineProperty as dp
+  defineProperty as dp,
+  abstract
 } from "./Tigerian.js";
 
 ("use strict");
@@ -14,12 +15,10 @@ export class Behavior {
    * @param {string} behavior
    */
   constructor() {
-    if (this.constructor === Behavior) {
-      throw new Error("Behavior is an abstract class.");
-    } else {
-      if (Object.getPrototypeOf(this.constructor) !== Behavior) {
-        throw new Error("This class extends from another behavior.");
-      }
+    abstract(this, Behavior);
+
+    if (Object.getPrototypeOf(this.constructor) !== Behavior) {
+      throw new Error("This class extends from another behavior. You have to extend your behaviors from main Behavior class.");
     }
 
     this.config = () => {};

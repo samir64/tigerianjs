@@ -24,9 +24,12 @@ import {
 import {
   ELabel
 } from "../behaviors/BLabel.js";
+import { responsive } from "../core/Responsive.js";
 
 // let root = "Tigerian.js/docs";
 let root = window.location.pathname;
+
+responsive();
 
 let app = new Application("Tigerian.js Developer Guide");
 let route = new Route(root, true);

@@ -1,8 +1,17 @@
+("use strict");
+
 import {
   EWindow
 } from "../behaviors/BWindow.js";
 
 export let responsiveSizes = {
+  // none: {
+  //   name: EWindow.NONE,
+  //   min: undefined,
+  //   max: undefined,
+  //   containerWidth: "",
+  //   containerPadding: 0
+  // },
   xsmall: {
     name: EWindow.XSMALL,
     min: 1,
@@ -40,14 +49,16 @@ export let responsiveSizes = {
   }
 };
 
-(function () {
-  ("use strict");
-
+export function responsive() {
+  let meta = document.createElement("meta");
   let style = document.createElement("style");
 
+  document.head.appendChild(meta);
   document.head.appendChild(style);
 
   style.innerHTML = "";
+  meta.setAttribute("name", "viewport");
+  meta.setAttribute("content", "width=device-width, initial-scale=1.0");
 
   // forEach(responsiveSizes, (sizeInfo, sizeName) => {
   for (let sizeName in responsiveSizes) {
@@ -84,7 +95,7 @@ export let responsiveSizes = {
     mediaQuery += "\t\tdisplay: none;\n\t}\n\n";
 
     mediaQuery += '\t[element-type="Container"][element-name="container"] {\n';
-    mediaQuery += `\t\twidth: ${sizeInfo.containerWidth};\n`;
+    mediaQuery += `\t\tmax-width: ${sizeInfo.containerWidth};\n`;
 
     mediaQuery += "\t\tmargin-left: auto;\n";
     mediaQuery += "\t\tmargin-right: auto;\n";
@@ -100,4 +111,4 @@ export let responsiveSizes = {
     mediaQuery += "}\n\n";
     style.innerHTML += mediaQuery;
   }
-})();
+};

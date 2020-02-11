@@ -3,9 +3,6 @@ import {
   forEach
 } from "./Tigerian.js";
 import {
-  EWindow
-} from "../behaviors/BWindow.js";
-import {
   UI
 } from "./UI.js";
 import {
@@ -57,7 +54,7 @@ export class Control extends UI {
 
     this.setAttribute("xsmall-column", "medium");
     this.setAttribute("small-column", "medium");
-    this.setAttribute("medium-column", "12");
+    this.setAttribute("medium-column", "");
     this.setAttribute("large-column", "medium");
     this.setAttribute("xlarge-column", "medium");
     // this.setAttribute("hide-on-xsmall", "false");
@@ -797,6 +794,9 @@ export class Control extends UI {
           case "title":
             return EControl.TITLE;
 
+          case "info":
+            return EControl.INFO;
+
           case "default":
             return EControl.DEFAULT;
 
@@ -809,11 +809,8 @@ export class Control extends UI {
           case "warning":
             return EControl.WARNING;
 
-          case "danger":
-            return EControl.DANGER;
-
-          case "disable":
-            return EControl.DISABLE;
+          case "error":
+            return EControl.ERROR;
 
           case "ok":
             return EControl.OK;
@@ -826,6 +823,10 @@ export class Control extends UI {
         switch (v) {
           case EControl.TITLE:
             that.setAttribute("element-situation", "title");
+            break;
+
+          case EControl.INFO:
+            that.setAttribute("element-situation", "info");
             break;
 
           case EControl.DEFAULT:
@@ -844,12 +845,8 @@ export class Control extends UI {
             that.setAttribute("element-situation", "warning");
             break;
 
-          case EControl.DANGER:
-            that.setAttribute("element-situation", "danger");
-            break;
-
-          case EControl.DISABLE:
-            that.setAttribute("element-situation", "disable");
+          case EControl.ERROR:
+            that.setAttribute("element-situation", "error");
             break;
 
           case EControl.OK:
@@ -908,13 +905,12 @@ export const EControl = Object.freeze({
   // JUSTIFY: Symbol("justify"),
 
   NONE: Symbol("none"),
-
   DEFAULT: Symbol("default"),
   TITLE: Symbol("title"),
+  INFO: Symbol("info"),
   TRANSPARENT: Symbol("transparent"),
   OPPOSITE: Symbol("opposite"),
   WARNING: Symbol("warning"),
-  DANGER: Symbol("danger"),
-  DISABLE: Symbol("disable"),
+  ERROR: Symbol("error"),
   OK: Symbol("ok")
 });

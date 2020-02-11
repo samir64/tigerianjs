@@ -80,60 +80,26 @@ export class Ajax extends Tigerian {
     this.defineMethod("addHeader", (label, value) => {
       httpRequest.setREquestHeader(label, value);
     }, [String, String]);
-    /**
-     * @param {string} label
-     * @param {string} value
-     */
-    /* this.addHeader = function (label, value) {
-        httpRequest.setRequestHeader(label, value);
-    }; */
 
     this.defineMethod("abort", () => {
       httpRequest.abort();
     });
-    /* this.abort = function () {
-        httpRequest.abort();
-    }; */
 
     this.defineMethod("get", (parameters) => {
       request("GET", parameters);
     }, [Object]);
-    /**
-     * @param {Object} parameters
-     */
-    /* this.get = function (parameters) {
-        request("GET", parameters);
-    }; */
 
     this.defineMethod("post", (parameters) => {
       request("POST", parameters);
     }, [Object]);
-    /**
-     * @param {Object} parameters
-     */
-    /* this.post = function (parameters) {
-        request("POST", parameters);
-    }; */
 
     this.defineMethod("put", (parameters) => {
       request("PUT", parameters);
     }, [Object]);
-    /**
-     * @param {Object} parameters
-     */
-    /* this.put = function (parameters) {
-        request("PUT", parameters);
-    }; */
 
     this.defineMethod("delete", (parameters) => {
       request("DELETE", parameters);
     }, [Object]);
-    /**
-     * @param {Object} parameters
-     */
-    /* this.delete = function (parameters) {
-        request("DELETE", parameters);
-    }; */
 
     this.defineProperty("async", {
       get() {
@@ -144,21 +110,6 @@ export class Ajax extends Tigerian {
       },
       type: Boolean
     });
-    /**
-     * @member {boolean}
-     */
-    /* Object.defineProperty(this, "async", {
-        enumerable: false,
-        configurable: true,
-        get() {
-            return async;
-        },
-        set(v) {
-            if (instanceOf(v, "boolean")) {
-                async = v;
-            }
-        },
-    }); */
 
     this.defineProperty("success", {
       get() {
@@ -169,21 +120,6 @@ export class Ajax extends Tigerian {
       },
       type: Function
     });
-    /**
-     * @member {Function}
-     */
-    /* Object.defineProperty(this, "success", {
-        enumerable: false,
-        configurable: true,
-        get() {
-            return success;
-        },
-        set(v) {
-            if (v instanceof Function) {
-                success = v;
-            }
-        },
-    }); */
 
     this.defineProperty("unsuccess", {
       get() {
@@ -194,21 +130,6 @@ export class Ajax extends Tigerian {
       },
       type: Function
     });
-    /**
-     * @member {Function}
-     */
-    /* Object.defineProperty(this, "unsuccess", {
-        enumerable: false,
-        configurable: true,
-        get() {
-            return unsuccess;
-        },
-        set(v) {
-            if (v instanceof Function) {
-                unsuccess = v;
-            }
-        },
-    }); */
 
     this.defineProperty("progress", {
       get() {
@@ -219,21 +140,6 @@ export class Ajax extends Tigerian {
       },
       type: Function
     });
-    /**
-     * @member {Function}
-     */
-    /* Object.defineProperty(this, "progress", {
-        enumerable: false,
-        configurable: true,
-        get() {
-            return progress;
-        },
-        set(v) {
-            if (v instanceof Function) {
-                progress = v;
-            }
-        },
-    }); */
 
     this.defineProperty("url", {
       get() {

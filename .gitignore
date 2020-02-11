@@ -8,3 +8,4 @@
 #.gitignore
 node_modules
 dist
+*.backup.*

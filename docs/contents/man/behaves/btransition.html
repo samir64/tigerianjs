@@ -1,0 +1,174 @@
+<h3>Super:</h3>
+<h4><a href="#/man/classes/behavior">Behavior</a></h4>
+<br />
+
+<h3>Additional Attributes:</h3>
+<div class="part">
+  <ul>
+    <li>
+      <h4>transition-name</h4>
+    </li>
+    <li>
+      <h4>transition-status</h4>
+    </li>
+  </ul>
+</div>
+<br />
+
+<h3>Elements:</h3>
+<br />
+<br />
+
+<h3>Config Parameters:</h3>
+<div class="part">
+  <ol>
+    <li>
+      <h4>control</h4>: <h5>Element</h5>
+    </li>
+  </ol>
+</div>
+<br />
+
+<h3>Properties:</h3>
+<div class="part">
+  <ul>
+    <li>
+      <h4>transitionName</h4>: <h5>String</h5> {get/set}
+    </li>
+    <li>
+      <h4>transitionStatus</h4>: <h5><a href="#/man/behaves/btransition">ETransition</a></h5> {get}
+    </li>
+  </ul>
+</div>
+<br />
+
+<h3>Methods:</h3>
+<div class="part">
+  <ul>
+    <li>
+      <h4>setTransition</h4>(name: <h5>String</h5>, duration: <h5>Number</h5>)
+    </li>
+    <li>
+      <h4>getTransition</h4>(name: <h5>String</h5>): <h5>Number</h5>
+    </li>
+    <li>
+      <h4>removeTransition</h4>(name: <h5>String</h5>)
+    </li>
+    <li>
+      <h4>startTransition</h4>(name: <h5>String</h5>)
+    </li>
+    <li>
+      <h4>stopTransition</h4>()
+    </li>
+  </ul>
+</div>
+<br />
+
+<h3>Events:</h3>
+<div class="part">
+  <ul>
+    <li>
+      <h4>transition</h4>'s Data:
+      <ul>
+        <li>
+          <h5>status</h5>: <h6>String</h6>
+        </li>
+        <li>
+          <h5>time</h5>: <h6>Number</h6>
+        </li>
+        <li>
+          <h5>deltaTime</h5>: <h6>Number</h6>
+        </li>
+        <li>
+          <h5>percent</h5>: <h6>Number</h6>
+        </li>
+        <li>
+          <h5>roundPercent</h5>: <h6>Number</h6>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<br />
+
+<h3>Static Methods:</h3>
+<br />
+
+<h3>Enumerators:</h3>
+<div class="part">
+  <ul>
+    <li>
+      <h4>ETransition</h4>
+      <ul>
+        <li>
+          <h5>NONE</h5>
+        </li>
+        <li>
+          <h5>START</h5>
+        </li>
+        <li>
+          <h5>INPROGRESS</h5>
+        </li>
+        <li>
+          <h5>FINNISH</h5>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<br />
+<br />
+
+<h3>Description:</h3>
+<br />
+<div class="part">
+</div>
+<br />
+<br />
+
+<h3>Examples:</h3>
+<br />
+<h3>js</h3>
+<div class="part">
+  <pre class="code">
+let myApp = new <a href="#/classes/uiclasses/application">Application</a>
+let myText = new <a href="#/classes/uiclasses/label">Label</a>(myApp, model.label);
+
+myText.setTransition("color", 2000);
+myText.addEvent("transition", (e) => {
+  console.log(e.data);
+
+  switch (e.data.status) {
+    case ETransition.START:
+      myText.style.color = "red";
+      break;
+
+    case ETransition.INPROGRESS:
+      myText.style.color = "white";
+      break;
+
+    case ETransition.FINNISH:
+      myText.style.color = "";
+      break;
+  }
+});
+
+myText.startTransition("color");
+  </pre>
+</div>
+
+<h3>css</h3>
+<div class="part">
+  <pre class="code">
+[element-type][element-name=container][transition-name="color"][transition-status="start"] {
+  transition-property: none;
+  background-color: blue;
+}
+
+[element-type][element-name=container][transition-name="color"][transition-status="inprogress"] {
+  transition-property: background-color, color;
+  transition-duration: 2s;
+  background-color: red;
+}
+    </pre>
+</div>

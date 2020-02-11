@@ -63,6 +63,7 @@ Tigerian has 5 special properties
   - [X] BStyle
   - [X] BTable
   - [X] BPagination
+  - [X] BTransition
   - [ ] BDrag
   - [ ] BDrop
   - [ ] BMove
@@ -105,6 +106,7 @@ Tigerian has 5 special properties
   - [X] TableBody
   - [X] TableRow
   - [X] TableCell
+  - [ ] CircleButton (With an icon)
   - [ ] Breadcrumb
   - [ ] ProcessLine
   - [ ] ProcessState

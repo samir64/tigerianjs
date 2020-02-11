@@ -30,7 +30,7 @@ export class ViewPageNotFound extends View {
     let content = new Label(container, "<h1>Topic Not Found</h1>", parent.theme);
     let btnBack = new Button(container, "Back", parent.theme);
 
-    btnBack.situation = EControl.DANGER;
+    btnBack.situation = EControl.ERROR;
 
     btnBack.addEvent("click", (e) => {
       window.history.back();

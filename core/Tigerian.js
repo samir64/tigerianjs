@@ -12,31 +12,30 @@ import {
 export class Tigerian {
   constructor() {
     let behaviors = []
-    if (this.constructor === Tigerian) {
-      throw new Error("Tigerian is an abstract class.");
-    } else {
-      Object.defineProperty(this, "behaviors", {
-        enumerable: true,
-        configurable: false,
-        get() {
-          return clone(behaviors);
-        }
-      });
 
-      let that = this;
+    abstract(this, Tigerian);
 
-      Object.defineProperty(this, "config", {
-        enumerable: false,
-        configurable: true,
-        writable: false,
-        value(behavior, ...params) {
-          if (Object.getPrototypeOf(behavior) === Behavior) {
-            behaviors.push(behavior);
-            new behavior().config(that, ...params);
-          }
+    Object.defineProperty(this, "behaviors", {
+      enumerable: true,
+      configurable: false,
+      get() {
+        return clone(behaviors);
+      }
+    });
+
+    let that = this;
+
+    Object.defineProperty(this, "config", {
+      enumerable: false,
+      configurable: true,
+      writable: false,
+      value(behavior, ...params) {
+        if (Object.getPrototypeOf(behavior) === Behavior) {
+          behaviors.push(behavior);
+          new behavior().config(that, ...params);
         }
-      });
-    }
+      }
+    });
   }
 
   get[Symbol.toStringTag]() {
@@ -77,6 +76,12 @@ export class Tigerian {
       enumerable,
       writable
     });
+  }
+}
+
+export function abstract(that, type) {
+  if (that.constructor === type) {
+    throw new Error(`${type.name} is an abstract class.`);
   }
 }
 

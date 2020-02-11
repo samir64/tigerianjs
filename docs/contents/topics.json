@@ -231,6 +231,12 @@
             "children": []
           },
           {
+            "id": "btransition",
+            "name": "btransition",
+            "title": "BTransition",
+            "children": []
+          },
+          {
             "id": "bwindow",
             "name": "bwindow",
             "title": "BWindow",

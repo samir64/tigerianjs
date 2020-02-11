@@ -1,7 +1,8 @@
 import {
   instanceOf,
   Tigerian,
-  forEach
+  forEach,
+  abstract
 } from "./Tigerian.js";
 import {
   BBind
@@ -12,6 +13,9 @@ import {
 import {
   BEvent
 } from "../behaviors/BEvent.js";
+import {
+  BTransition
+} from "../behaviors/BTransition.js";
 import {
   Events
 } from "./Events.js";
@@ -38,11 +42,8 @@ export class UI extends Tigerian {
    */
   constructor(mainElement = document.body, parent = undefined, theme = "") {
     super();
-    if (this.constructor === UI) {
-      throw new Error("UI is an abstract class.");
-    }
 
-    let that = this;
+    abstract(this, UI);
 
     if (instanceOf(mainElement, String)) {
       if (mainElement[0] === "#") {
@@ -63,6 +64,7 @@ export class UI extends Tigerian {
     this.config(BBind);
     this.config(BStyle, mainElement);
     this.config(BEvent, mainElement);
+    this.config(BTransition, mainElement);
 
     //NOTE Private Constants
     /**
@@ -79,7 +81,7 @@ export class UI extends Tigerian {
     ]);
 
     //NOTE Private Variables
-    let instance = this;
+    let that = this;
 
     //NOTE Properties
     /**
@@ -127,9 +129,9 @@ export class UI extends Tigerian {
        */
       set(v) {
         if (v === false) {
-          this.setAttribute("disabled", "true");
+          that.setAttribute("disabled", "true");
         } else {
-          this.removeAttribute("disabled");
+          that.removeAttribute("disabled");
         }
       },
       type: Boolean
@@ -230,11 +232,11 @@ export class UI extends Tigerian {
      */
     function setVisible(v) {
       if (instanceOf(v, "boolean")) {
-        let lastVisible = instance.getAttribute("visible") === "true";
-        instance.setAttribute("visible", v ? "true" : "false");
+        let lastVisible = that.getAttribute("visible") === "true";
+        that.setAttribute("visible", v ? "true" : "false");
 
         if (lastVisible !== v) {
-          instance.dispatchEvent(Events.onVisibleChange);
+          that.dispatchEvent(Events.onVisibleChange);
         }
       }
     }

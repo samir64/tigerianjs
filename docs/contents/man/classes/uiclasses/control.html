@@ -92,11 +92,11 @@
       <li>NONE</li>
       <li>DEFAULT</li>
       <li>TITLE</li>
+      <li>INFO</li>
       <li>TRANSPARENT</li>
       <li>OPPOSITE</li>
       <li>WARNING</li>
-      <li>DANGER</li>
-      <li>DISABLE</li>
+      <li>ERROR</li>
       <li>OK</li>
     </ul>
   </ul>
@@ -116,5 +116,20 @@
   <pre class="code">
 let app = new <a href="#/man/classes/uiclasses/application">Application</a>("title");
 let ctrl1 = new <a href="#/man/classes/uiclasses/control">Control</a>(app);
+  </pre>
+</div>
+<div class="part">
+  <pre class="code">
+// Define your own custom class
+
+class MyClass extends Control {
+  constructor (parent, theme = "") {
+    super(parent, theme, "span");
+
+    let elmHeader = document.createElement("h1");
+    this.addControl(elmHeader);
+    this.config(<a href="#/man/behaviors/btext">BText</a>, elmHeader);
+  }
+}
   </pre>
 </div>
