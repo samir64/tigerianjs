@@ -1,6 +1,6 @@
 # Tigerian: Javascript Framework v1.0.0 alpha
 
-Please visit [Tigerian.js Document](https://samir64.github.io/Tigerian.js/docs/).
+Please visit [Tigerian.js Document](https://samir64.github.io/tigerianjs/docs/).
 
 ## Introduction and Story
 
