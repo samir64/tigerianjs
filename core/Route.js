@@ -101,13 +101,10 @@ export class Route extends Tigerian {
           forEach(routesList, (route, index) => {
             let params = {};
             let groups = [];
-            let r = index.replace(
-              /\{([\w-]+)\}/g,
-              (() => {
-                this.push(arguments[1]);
-                return "([\\w-]+)";
-              }).bind(groups)
-            );
+            let r = index.replace(/\{([\w-]+)\}/g, (text, varName) => {
+              groups.push(varName);
+              return "([\\w-]+)";
+            });
             let reg = new RegExp("^" + r + "$");
             let match = reg.exec(path);
 

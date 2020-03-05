@@ -1,31 +1,13 @@
-import {
-  View
-} from "../../model_view/View.js";
-import {
-  Control,
-  EControl
-} from "../../core/Control.js";
-import {
-  Ajax
-} from "../../core/Ajax.js";
-import {
-  Loading
-} from "../../controls/Loading.js";
-import {
-  Container
-} from "../../controls/Container.js";
-import {
-  Label
-} from "../../controls/Label.js";
-import {
-  Button
-} from "../../controls/Button.js";
-import {
-  strFormat
-} from "../../core/Tigerian.js";
-import {
-  EWindow
-} from "../../behaviors/BWindow.js";
+import { View } from "../../model_view/View.js";
+import { Control, EControl } from "../../core/Control.js";
+import { Ajax } from "../../core/Ajax.js";
+import { Loading } from "../../controls/Loading.js";
+import { Container } from "../../controls/Container.js";
+import { Label } from "../../controls/Label.js";
+import { Button } from "../../controls/Button.js";
+import { strFormat } from "../../core/Tigerian.js";
+import { EWindow } from "../../behaviors/BWindow.js";
+import { Events } from "../../core/Events.js";
 
 ("use strict");
 
@@ -57,10 +39,7 @@ export class ViewContent extends View {
     let ctrButton = new Control(content, parent.theme);
     let btnPrevTopic = new Button(ctrButton, "Previous", parent.theme);
     let btnNextTopic = new Button(ctrButton, "Next", parent.theme);
-    let {
-      prev,
-      next
-    } = {
+    let { prev, next } = {
       vPrev: "",
       vNext: ""
     };
@@ -72,20 +51,25 @@ export class ViewContent extends View {
     txtCaption.style.margin.bottom = "50px";
 
     ctrButton.style.margin = "50px 0";
+    ctrButton.column = 12;
 
     btnNextTopic.situation = EControl.DEFAULT;
     btnPrevTopic.situation = EControl.TITLE;
 
-    btnPrevTopic.style.padding = btnNextTopic.style.padding = "15px";
+    btnPrevTopic.style.padding = btnNextTopic.style.padding = "10px";
 
     /* content.largeColumn = 11;
     content.xlargeColumn = 10;
     content.largeColumn = 11;
     content.xlargeColumn = 10; */
 
-    btnPrevTopic.column[EWindow.XSMALL] = btnNextTopic.column[EWindow.XSMALL] = 6;
+    btnPrevTopic.column[EWindow.XSMALL] = btnNextTopic.column[
+      EWindow.XSMALL
+    ] = 6;
     btnPrevTopic.column[EWindow.SMALL] = btnNextTopic.column[EWindow.SMALL] = 5;
-    btnPrevTopic.column[EWindow.MEDIUM] = btnNextTopic.column[EWindow.MEDIUM] = 5;
+    // btnPrevTopic.column[EWindow.MEDIUM] = btnNextTopic.column[
+    //   EWindow.MEDIUM
+    // ] = 5;
 
     btnPrevTopic.style.float = "left";
     btnNextTopic.style.float = "right";
@@ -103,67 +87,74 @@ export class ViewContent extends View {
 
     txtCaption.situation = EControl.TITLE;
 
-    btnPrevTopic.addEvent("click", (e) => {
+    btnPrevTopic.addEvent("click", e => {
       // route.redirect(contentTable.getPrevious());
       route.redirect(prev);
     });
 
-    btnNextTopic.addEvent("click", (e) => {
+    btnNextTopic.addEvent("click", e => {
       // route.redirect(contentTable.getNext());
       route.redirect(next);
     });
 
     /**
-     * @param {object} params 
-     * @param {string} uriString 
+     * @param {object} params
+     * @param {string} uriString
      */
-    this.refresh = function ({
-      previousPage,
-      nextPage,
-      root,
-      page
-    }, uriString) {
-      // contentTable.refresh(params);
+    this.addEvent(
+      Events.onRefresh,
+      ({
+        data: {
+          params: { previousPage, nextPage, root, page, uriString },
+          path,
+          parts
+        }
+      }) => {
+        //
+        // { previousPage, nextPage, root, page }, uriString) {
+        // contentTable.refresh(params);
 
-      // txtCaption.text = strFormat("<h1>{}</h1>: <h2>{}</h2>", contentTable.getTitle("root"), contentTable.getTitle("page"));
-      txtCaption.text = strFormat("<h2>{}</h2>: <h1>{}</h1>", root, page);
+        // txtCaption.text = strFormat("<h1>{}</h1>: <h2>{}</h2>", contentTable.getTitle("root"), contentTable.getTitle("page"));
+        txtCaption.text = strFormat("<h2>{}</h2>: <h1>{}</h1>", root, page);
 
-      prev = previousPage;
-      next = nextPage;
+        prev = previousPage;
+        next = nextPage;
 
-      if (uriString === "") {
-        uriString = "intro/story";
+        if (uriString === "") {
+          uriString = "intro/story";
+        }
+
+        // uriString = strFormat(uriString, params);
+
+        if (uriString in pages) {
+          context.text = pages[uriString];
+        } else {
+          loading.showModal();
+          ajax.url = "./contents/" + uriString + ".html";
+          ajax
+            .sendGet()
+            .then(text => {
+              pages[uriString] = context.text = text;
+            })
+            .reject(() => {
+              instance.hide();
+              route.pageNotFound.show();
+            })
+            .finally(() => {
+              loading.close();
+            });
+        }
+
+        // if (!loaded) {
+        // loading.showModal();
+        // ajax.success = (text) => {
+        //     context.text = text;
+        //     // loaded = true;
+        //     loading.close();
+        // };
+        // ajax.get();
+        // }
       }
-
-      // uriString = strFormat(uriString, params);
-
-      if (uriString in pages) {
-        context.text = pages[uriString];
-      } else {
-        loading.showModal();
-        ajax.url = "./contents/" + uriString + ".html";
-        ajax.success = (text) => {
-          pages[uriString] = context.text = text;
-          loading.close();
-        };
-        ajax.unsuccess = () => {
-          instance.hide();
-          route.pageNotFound.show();
-          // route.redirect("#/wrong-page");
-          loading.close();
-        };
-        ajax.get();
-      }
-
-      // if (!loaded) {
-      // loading.showModal();
-      // ajax.success = (text) => {
-      //     context.text = text;
-      //     // loaded = true;
-      //     loading.close();
-      // };
-      // ajax.get();
-      // }
-    };
+    );
   }
 }

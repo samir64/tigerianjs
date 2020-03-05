@@ -1,28 +1,13 @@
 ("use strict");
 
-import {
-  View
-} from "../../model_view/View.js";
-import {
-  Control,
-  EControl
-} from "../../core/Control.js";
-import {
-  Loading
-} from "../../controls/Loading.js";
-import {
-  CollapseList
-} from "../../controls/CollapseList.js";
-import {
-  ModelTopic
-} from "./ModelTopic.js";
-import {
-  instanceOf,
-  forEach
-} from "../../core/Tigerian.js";
-import {
-  CollapseItem
-} from "../../controls/CollapseItem.js";
+import { View } from "../../model_view/View.js";
+import { Control, EControl } from "../../core/Control.js";
+import { Loading } from "../../controls/Loading.js";
+import { CollapseList } from "../../controls/CollapseList.js";
+import { ModelTopic } from "./ModelTopic.js";
+import { instanceOf, forEach } from "../../core/Tigerian.js";
+import { CollapseItem } from "../../controls/CollapseItem.js";
+import { Events } from "../../core/Events.js";
 
 /**
  * @constructor
@@ -147,7 +132,7 @@ export class ViewContentTable extends View {
 
     let selectItem = (page, select) => {
       if (page !== undefined) {
-        items[page].item.situation = (select ? EControl.TITLE : EControl.NONE);
+        items[page].item.situation = select ? EControl.TITLE : EControl.NONE;
         if (select) {
           let pnt = items[page].item;
           while ((pnt = pnt.parent) !== lstTitles) {
@@ -178,11 +163,10 @@ export class ViewContentTable extends View {
       // }
     };
 
-    let autoExpand = (path) => {
+    let autoExpand = path => {
       lstTitles.collapseAll();
 
       if (items[currentPage.root] && items[currentPage.page]) {
-
         selectItem(lastPage.page, false);
         selectItem(currentPage.page, true);
 
@@ -190,8 +174,9 @@ export class ViewContentTable extends View {
           previousPage: that.getPrevious(),
           nextPage: that.getNext(),
           root: that.getTitle("root"),
-          page: that.getTitle("page")
-        }, path);
+          page: that.getTitle("page"),
+          uriString: path
+        });
 
         content.show();
         lastPage = currentPage;
@@ -215,7 +200,7 @@ export class ViewContentTable extends View {
           prev = addItem(item, itemModel.children[i], prev, uri);
         }
       } else {
-        item.addEvent("click", (e) => {
+        item.addEvent("click", e => {
           route.redirect(uri);
         });
         items[itemModel.name].uri = uri;
@@ -229,8 +214,8 @@ export class ViewContentTable extends View {
       return prev;
     };
 
-    let fetchList = (path) => {
-      return (models) => {
+    let fetchList = path => {
+      return models => {
         let prev = "story";
 
         console.time("elements");
@@ -249,10 +234,10 @@ export class ViewContentTable extends View {
         loading.close();
 
         autoExpand(path);
-      }
+      };
     };
 
-    this.getTitle = (index) => {
+    this.getTitle = index => {
       switch (index) {
         case "root":
           if ("root" in currentPage) {
@@ -265,7 +250,7 @@ export class ViewContentTable extends View {
             return items[currentPage.page].model.title;
           }
 
-          default:
+        default:
       }
     };
 
@@ -277,25 +262,28 @@ export class ViewContentTable extends View {
       return items[items[currentPage.page].next].uri;
     };
 
-    this.refresh = (params, path) => {
-      if (instanceOf(params, "object") && ("page" in params)) {
+    this.addEvent(Events.onRefresh, ({ data: { params, path } }) => {
+      if (instanceOf(params, "object") && "page" in params) {
         currentPage = params;
       } else {
         currentPage = {
           root: "intro",
-          page: "story",
+          page: "story"
         };
       }
 
       if (!fetchedList) {
         loading.showModal();
-        model.search({}, fetchList(path), (response) => {
-          loading.close();
-          console.error(response);
-        });
+        model
+          .search()
+          .then(fetchList(path))
+          .reject(response => {
+            loading.close();
+            console.error(response);
+          });
       } else {
         autoExpand(path);
       }
-    };
+    });
   }
 }

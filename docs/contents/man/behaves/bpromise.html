@@ -37,6 +37,7 @@
   <ul>
     <li>then(callback: Function)</li>
     <li>reject(callback: Function)</li>
+    <li>finally(callback: Function)</li>
     <li>otherStates[0](callback: Function)</li>
     <li>...</li>
     <li>otherStates[n](callback: Function)</li>
@@ -118,7 +119,7 @@ promise1.func1().then(value => {
 });
   </pre>
 
-  <pre>
+  <pre class="code">
 class Promise2 extends Tigerian {
   constructor() {
     super();
@@ -148,7 +149,7 @@ promise2
   .reject();
   </pre>
 
-  <pre>
+  <pre class="code">
 class Promise3 extends Tigerian {
   constructor() {
     super();
@@ -192,7 +193,7 @@ promise3
   .reject();
   </pre>
 
-  <pre>
+  <pre class="code">
     
 class Promise4 extends Tigerian {
   constructor() {
@@ -237,6 +238,8 @@ promise4
   .state1(value => {
     console.log(value);
   })
-  .reject();
+  .reject().finally(()=>{
+    console.log("Finished");
+  });
   </pre>
 </div>

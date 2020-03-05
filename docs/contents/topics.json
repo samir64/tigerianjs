@@ -189,6 +189,12 @@
             "children": []
           },
           {
+            "id": "bpromise",
+            "name": "bpromise",
+            "title": "BPromise",
+            "children": []
+          },
+          {
             "id": "bselect",
             "name": "bselect",
             "title": "BSelect",
