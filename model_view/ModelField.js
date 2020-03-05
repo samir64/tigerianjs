@@ -18,8 +18,8 @@ import {
 export class ModelField extends ModelView {
   /**
    * @constructs
-   * @param {string} name
-   * @param {string|Function} type = String
+   * @param {String} name
+   * @param {String|Function} type = String
    * @param {boolean} collection = false
    * @param {*} value = undefined
    */
@@ -37,7 +37,7 @@ export class ModelField extends ModelView {
 
       collection = ((collection === true) ? true : false);
 
-      let setValue = function (v) {
+      let setValue = (v) => {
         let val;
         if (instanceOf(v, type) || (v === undefined) || (instanceOf(v, Object) && isA(type, ModelView))) {
           if (instanceOf(v, "object")) {

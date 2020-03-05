@@ -37,7 +37,7 @@ export class CollapseList extends Control {
 
     // this.normalColumn = BWindow.ENone;
 
-    /* this.addControl = this.addItem = function (item) {
+    /* this.addControl = this.addItem = (item) => {
       if (instanceOf(item, CollapseItem)) {
         superAddItem(item);
       }

@@ -69,6 +69,10 @@ export class BEvent extends Behavior {
        * @param {function} callback
        */
       that.defineMethod("addEvent", (eventName, callback) => {
+        if (instanceOf(eventName, Event)) {
+          eventName = eventName.type;
+        }
+
         if (eventName !== "") {
           eventName = eventName.toLowerCase();
 
@@ -83,18 +87,24 @@ export class BEvent extends Behavior {
             events[eventName].push(callback);
           }
         }
-      }, [String, Function]);
+      }, [
+        [String, Event], Function
+      ]);
 
       /**
        * @param {string} eventName
        * @param {EventCallback} [callback]
        */
       that.defineMethod("removeEvent", (eventName, callback) => {
+        if (instanceOf(eventName, Event)) {
+          eventName = eventName.type;
+        }
+
         if (eventName !== "") {
           eventName = eventName.toLowerCase();
 
           if (instanceOf(callback, Function)) {
-            events[eventName] = events[eventName].filter(function (item, index) {
+            events[eventName] = events[eventName].filter((item, index) => {
               if (item !== callback) {
                 return item;
               }
@@ -110,7 +120,10 @@ export class BEvent extends Behavior {
             delete events[eventName];
           }
         }
-      }, [String, [Function, undefined]]);
+      }, [
+        [String, Event],
+        [Function, undefined]
+      ]);
 
       /**
        * @param {Event} e
@@ -120,6 +133,6 @@ export class BEvent extends Behavior {
         e.data = data;
         eventHandler(e);
       }, [Event]);
-    }, [Object, [Element, DocumentFragment]]);
+    }, [Object, [Element, DocumentFragment, XMLHttpRequest]]);
   }
 }

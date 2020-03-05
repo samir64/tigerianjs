@@ -61,7 +61,7 @@ export class BFilter extends Behavior {
         type: Boolean
       });
 
-      ctrlText.addEvent("input", function (e) {
+      ctrlText.addEvent("input", (e) => {
         that.filter();
       });
 

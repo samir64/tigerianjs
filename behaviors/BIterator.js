@@ -19,7 +19,7 @@ export class BIterator extends Behavior {
      * @param {Number} index = 0
      */
     this.config = function (that, list = [], index = 0) {
-      let generator = function (i) {
+      let generator = (i) => {
         return list[i];
       };
       let iterator = function* () {
@@ -59,7 +59,7 @@ export class BIterator extends Behavior {
         return it;
       };
 
-      iterator.prototype.first = function () {
+      iterator.prototype.first = () => {
         index = 0;
         it = iterator();
       };

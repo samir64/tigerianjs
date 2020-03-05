@@ -103,12 +103,12 @@ export class ViewContent extends View {
 
     txtCaption.situation = EControl.TITLE;
 
-    btnPrevTopic.addEvent("click", function (e) {
+    btnPrevTopic.addEvent("click", (e) => {
       // route.redirect(contentTable.getPrevious());
       route.redirect(prev);
     });
 
-    btnNextTopic.addEvent("click", function (e) {
+    btnNextTopic.addEvent("click", (e) => {
       // route.redirect(contentTable.getNext());
       route.redirect(next);
     });
@@ -142,11 +142,11 @@ export class ViewContent extends View {
       } else {
         loading.showModal();
         ajax.url = "./contents/" + uriString + ".html";
-        ajax.success = function (text) {
+        ajax.success = (text) => {
           pages[uriString] = context.text = text;
           loading.close();
         };
-        ajax.unsuccess = function () {
+        ajax.unsuccess = () => {
           instance.hide();
           route.pageNotFound.show();
           // route.redirect("#/wrong-page");
@@ -157,7 +157,7 @@ export class ViewContent extends View {
 
       // if (!loaded) {
       // loading.showModal();
-      // ajax.success = function (text) {
+      // ajax.success = (text) => {
       //     context.text = text;
       //     // loaded = true;
       //     loading.close();

@@ -86,31 +86,31 @@ export class CollapseItem extends Control {
       }
     });
 
-    elmText.addEventListener("click", function (e) {
+    elmText.addEventListener("click", (e) => {
       if (canChangeChildState && !touchStarted) {
         that.toggle();
         canChangeChildState = false;
       }
 
-      setTimeout(function () {
+      setTimeout(() => {
         canChangeChildState = true;
       }, 100);
     });
 
-    elmText.addEventListener("touchstart", function (e) {
+    elmText.addEventListener("touchstart", (e) => {
       if (canChangeChildState) {
         touchStarted = true;
       }
     });
 
-    elmText.addEventListener("touchend", function (e) {
+    elmText.addEventListener("touchend", (e) => {
       if (canChangeChildState && touchStarted && (document.elementFromPoint(e.changedTouches[0].pageX, e.changedTouches[0].pageY) === e.changedTouches[0].target)) {
         that.viewChild();
         canChangeChildState = false;
         touchStarted = true;
       }
 
-      setTimeout(function () {
+      setTimeout(() => {
         canChangeChildState = true;
       }, 100);
     });

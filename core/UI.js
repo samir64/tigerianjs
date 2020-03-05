@@ -257,7 +257,7 @@ export class UI extends Tigerian {
       });
 
       /* let elm = new Iterator(Array.from(element.children));
-      elm.yield = function () {
+      elm.yield = () => {
         return this.list[this.index];
       };
 
@@ -290,7 +290,7 @@ export class UI extends Tigerian {
       });
 
       /* let elm = new Iterator(Array.from(element.children));
-      elm.yield = function () {
+      elm.yield = () => {
         return this.list[this.index];
       };
 
@@ -322,7 +322,7 @@ export class UI extends Tigerian {
       });
 
       /* let elm = new Iterator(Array.from(element.children));
-      elm.yield = function () {
+      elm.yield = () => {
         return this.list[this.index];
       };
 

@@ -1,0 +1,242 @@
+<h3>Super:</h3>
+<h4><a href="#/man/classes/behavior">Behavior</a></h4>
+<br />
+
+<h3>Additional Attributes:</h3>
+<div class="part"></div>
+<br />
+
+<h3>Elements:</h3>
+<div class="part"></div>
+<br />
+<br />
+
+<h3>Config Parameters:</h3>
+<div class="part">
+  <ol>
+    <li>
+      <h4>functions</h4>
+      :
+      <h5>Function|Function[]</h5>
+    </li>
+    <li>
+      <h4>otherStates</h4>
+      :
+      <h5>String[]</h5>
+    </li>
+  </ol>
+</div>
+<br />
+
+<h3>Properties:</h3>
+<div class="part"></div>
+<br />
+
+<h3>BPromiseResult:</h3>
+<div class="part">
+  <ul>
+    <li>then(callback: Function)</li>
+    <li>reject(callback: Function)</li>
+    <li>otherStates[0](callback: Function)</li>
+    <li>...</li>
+    <li>otherStates[n](callback: Function)</li>
+  </ul>
+</div>
+<br />
+
+<h3>Methods:</h3>
+<div class="part">
+  <ul>
+    <li>
+      <h4>functions[0]...functions[n]</h4>
+      (resolve:
+      <h5>Function</h5>
+      , reject:
+      <h5>Function</h5>
+      , otherStates[0]:
+      <h5>Function</h5>
+      , ..., otherStates[n]:
+      <h5>Function</h5>
+      , param_1, ..., param_n, ):
+      <h5>
+        BPromiseResult
+      </h5>
+    </li>
+  </ul>
+</div>
+<br />
+
+<h3>Events:</h3>
+<div class="part"></div>
+<br />
+
+<h3>Static Methods:</h3>
+<div class="part"></div>
+<br />
+
+<h3>Enumerators:</h3>
+<div class="part"></div>
+<br />
+<br />
+
+<h3>Description:</h3>
+<br />
+<div class="part">
+  This behavior is a multi state
+  <a href="https://javascript.info/promise-basics">Promise</a>. Every class
+  which use <a href="#/man/behaves/bpromise">BPromise</a> has to define
+  functions as private and use for config parameters.
+  <a href="#/man/behaves/bpromise">BPromise</a> defines a public method instead
+  of each function. Each defined function has some sub methods. `then` and
+  `reject` are two common methods with
+  <a href="https://javascript.info/promise-basics">Promise</a>, and other states
+  which defined in `otherStates` parameter of `config` are added to functions.
+</div>
+<br />
+<br />
+
+<h3>Examples:</h3>
+<div class="part">
+  <pre class="code">
+class Promise1 extends Tigerian {
+  constructor() {
+    super();
+
+    let func1 = (resolve, reject) => {
+      setTimeout(() => {
+        resolve(10);
+      }, 1000);
+    };
+
+    this.config(BPromise, func1);
+  }
+}
+
+let promise1 = new Promise1();
+promise1.func1().then(value => {
+  console.log(value);
+});
+  </pre>
+
+  <pre>
+class Promise2 extends Tigerian {
+  constructor() {
+    super();
+
+    let func1 = (resolve, reject) => {
+      setTimeout(() => {
+        resolve(10);
+      }, 1000);
+    };
+
+    let func2 = (resolve, reject) => {
+      setTimeout(() => {
+        reject(new Error(10));
+      }, 1000);
+    };
+
+    this.config(BPromise, [func1, func2]);
+  }
+}
+
+let promise2 = new Promise2();
+promise2
+  .func2()
+  .then(value => {
+    console.log(value);
+  })
+  .reject();
+  </pre>
+
+  <pre>
+class Promise3 extends Tigerian {
+  constructor() {
+    super();
+
+    let func1 = (resolve, reject, state1, state2) => {
+      setTimeout(() => {
+        resolve("then");
+      }, 1000);
+
+      setTimeout(() => {
+        state1("State1");
+      }, 100);
+
+      setTimeout(() => {
+        state2("State2");
+      }, 350);
+    };
+
+    let func2 = (resolve, reject, state1, state2) => {
+      setTimeout(() => {
+        reject(new Error(10));
+      }, 1000);
+    };
+
+    this.config(BPromise, [func1, func2], "state1", "state2");
+  }
+}
+
+let promise3 = new Promise3();
+promise3
+  .func1()
+  .then(value => {
+    console.log(value);
+  })
+  .state1(value => {
+    console.log(value);
+  })
+  .state2(value => {
+    console.log(value);
+  })
+  .reject();
+  </pre>
+
+  <pre>
+    
+class Promise4 extends Tigerian {
+  constructor() {
+    super();
+
+    let func1 = (resolve, reject, state1, param1, param2) => {
+      setTimeout(() => {
+        resolve(`then: ${param2}`);
+      }, 1000);
+
+      setTimeout(() => {
+        state1(`State1: ${param1}`);
+      }, 100);
+    };
+
+    let func2 = (resolve, reject, state1, param1) => {
+      setTimeout(() => {
+        resolve(`func2: ${param1}`);
+      }, 100);
+    };
+
+    this.config(BPromise, [func1, func2], "state1");
+  }
+}
+
+let promise4 = new Promise4();
+promise4
+  .func1(100, "Goodbye")
+  .then(value => {
+    console.log(value);
+  })
+  .state1(value => {
+    console.log(value);
+  })
+  .reject();
+
+promise4
+  .func2("Hello")
+  .then(value => {
+    console.log(value);
+  })
+  .state1(value => {
+    console.log(value);
+  })
+  .reject();
+  </pre>
+</div>

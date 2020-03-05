@@ -1,12 +1,8 @@
-import {
-  instanceOf
-} from "../core/Tigerian.js";
-import {
-  BWindow
-} from "../behaviors/BWindow.js";
-import {
-  ModelView
-} from "../core/ModelView.js";
+import { instanceOf } from "../core/Tigerian.js";
+import { BWindow } from "../behaviors/BWindow.js";
+import { ModelView } from "../core/ModelView.js";
+import { Events } from "../core/Events.js";
+import { BEvent } from "../behaviors/BEvent.js";
 
 /**
  * Created by samir on 8/27/18.
@@ -14,10 +10,10 @@ import {
 
 ("use strict");
 
-
 /**
  * @extends {ModelView}
  * @implements {BWindow}
+ * @implements {BEvent}
  * @constructor
  */
 export class View extends ModelView {
@@ -29,54 +25,35 @@ export class View extends ModelView {
     super();
 
     this.config(BWindow);
+    this.config(BEvent);
 
-    let show = function () {
+    /**
+     * @member {Function}
+     */
+    this.defineMethod("show", () => {
       container.visible = true;
-    };
+    });
 
-    let hide = function () {
+    /**
+     * @member {Function}
+     */
+    this.defineMethod("hide", () => {
       container.visible = false;
-    };
-
-    let refresh = function (params) {};
-
-    /**
-     * @member {Function}
-     */
-    this.defineProperty("show", {
-      get() {
-        return show;
-      },
-      set(v) {
-        show = v;
-      },
-      type: Function
     });
 
     /**
      * @member {Function}
      */
-    this.defineProperty("hide", {
-      get() {
-        return hide;
-      },
-      set(v) {
-        hide = v;
-      },
-      type: Function
-    });
+    this.defineMethod(
+      "refresh",
+      (params, path, parts) => {
+        params = instanceOf(params, Object) ? params : {};
+        path = instanceOf(path, String) ? path : "";
+        parts = instanceOf(parts, Array) ? parts : [];
 
-    /**
-     * @member {Function}
-     */
-    this.defineProperty("refresh", {
-      get() {
-        return refresh;
+        this.dispatchEvent(Events.onRefresh, { params, path, parts });
       },
-      set(v) {
-        refresh = v;
-      },
-      type: Function
-    });
+      [Object, String, Array]
+    );
   }
 }

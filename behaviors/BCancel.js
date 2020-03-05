@@ -48,7 +48,7 @@ export class BCancel extends Behavior {
                 }
             });
 
-            elmButton.addEventListener("click", function (e) {
+            elmButton.addEventListener("click", (e) => {
                 that.visible = false;
             }, true);
         }, [Object, Control, Control]);

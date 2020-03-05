@@ -48,7 +48,7 @@ export class BPagination extends Behavior {
       ctrlNext.normalColumn = 1;
       ctrlLast.normalColumn = 1;
 
-      let addLabel = function (index) {
+      let addLabel = (index) => {
         let label = new Label(ctrlPageList, index.toString(), ctrlNavigation.theme);
         label.normalColumn = 1;
         if (instanceOf(index, "number")) {
@@ -57,7 +57,7 @@ export class BPagination extends Behavior {
           label.hoverable = true;
 
           if (pageNo !== index) {
-            label.addEvent("click", function (e) {
+            label.addEvent("click", (e) => {
               that.pageNumber = index;
             });
           } else {
@@ -66,7 +66,7 @@ export class BPagination extends Behavior {
         }
       };
 
-      let fillPageList = function () {
+      let fillPageList = () => {
         let first = Math.max(2, pageNo - Math.floor((labelCount - 2) / 2));
         let last = Math.min(pageCount - 1, pageNo + Math.ceil((labelCount - 2) / 2) - 1);
 
@@ -95,7 +95,7 @@ export class BPagination extends Behavior {
         }
       };
 
-      let refresh = function () {
+      let refresh = () => {
         ctrlFirst.visible = ctrlLast.visible = ((navButtons === BPagination.EAll) || (navButtons === BPagination.EFirstLast));
         ctrlPrev.visible = ctrlNext.visible = ((navButtons === BPagination.EAll) || (navButtons === BPagination.EPreviousNext));
         ctrlNavigation.visible = (pageCount > 0);
@@ -192,7 +192,7 @@ export class BPagination extends Behavior {
         type: Symbol
       });
 
-      ctrlNext.addEvent("click", function (e) {
+      ctrlNext.addEvent("click", (e) => {
         let lastPageNo = pageNo;
         that.pageNumber++;
         if (lastPageNo !== pageNo) {
@@ -201,7 +201,7 @@ export class BPagination extends Behavior {
         }
       });
 
-      ctrlPrev.addEvent("click", function (e) {
+      ctrlPrev.addEvent("click", (e) => {
         let lastPageNo = pageNo;
         that.pageNumber--;
         if (lastPageNo !== pageNo) {
@@ -210,7 +210,7 @@ export class BPagination extends Behavior {
         }
       });
 
-      ctrlFirst.addEvent("click", function (e) {
+      ctrlFirst.addEvent("click", (e) => {
         let lastPageNo = pageNo;
         that.pageNumber = 0;
         if (lastPageNo !== pageNo) {
@@ -218,7 +218,7 @@ export class BPagination extends Behavior {
         }
       });
 
-      ctrlLast.addEvent("click", function (e) {
+      ctrlLast.addEvent("click", (e) => {
         let lastPageNo = pageNo;
         that.pageNumber = pageCount;
         if (lastPageNo !== pageNo) {

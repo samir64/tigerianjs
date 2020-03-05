@@ -269,11 +269,11 @@ export class ViewContentTable extends View {
       }
     };
 
-    this.getPrevious = function () {
+    this.getPrevious = () => {
       return items[items[currentPage.page].prev].uri;
     };
 
-    this.getNext = function () {
+    this.getNext = () => {
       return items[items[currentPage.page].next].uri;
     };
 

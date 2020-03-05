@@ -1,17 +1,13 @@
 import "./Responsive.js";
 
-import {
-  Behavior
-} from "./Behavior.js";
-import {
-  BIterator
-} from "../behaviors/BIterator.js";
+import { Behavior } from "./Behavior.js";
+import { BIterator } from "../behaviors/BIterator.js";
 
 ("use strict");
 
 export class Tigerian {
   constructor() {
-    let behaviors = []
+    let behaviors = [];
 
     abstract(this, Tigerian);
 
@@ -38,7 +34,7 @@ export class Tigerian {
     });
   }
 
-  get[Symbol.toStringTag]() {
+  get [Symbol.toStringTag]() {
     return this.constructor.name;
   }
 
@@ -52,21 +48,24 @@ export class Tigerian {
   }
 
   /**
-   * @param {string} name 
-   * @param {Function} get 
-   * @param {Function} set 
-   * @param {boolean} configurable 
-   * @param {boolean} enumurable 
+   * @param {string} name
+   * @param {Function} get
+   * @param {Function} set
+   * @param {boolean} configurable
+   * @param {boolean} enumurable
    */
-  defineProperty(name, {
-    value = undefined,
-    get = undefined,
-    set = undefined,
-    type = undefined,
-    configurable = true,
-    enumerable = true,
-    writable = true
-  }) {
+  defineProperty(
+    name,
+    {
+      value = undefined,
+      get = undefined,
+      set = undefined,
+      type = undefined,
+      configurable = true,
+      enumerable = true,
+      writable = true
+    }
+  ) {
     defineProperty(this, name, {
       value,
       get,
@@ -97,7 +96,7 @@ export function compare(obj1, obj2) {
 
   if (obj1 instanceof Array && obj2 instanceof Array) {
     if (obj1.length === obj2.length) {
-      return obj1.every(function (value, index) {
+      return obj1.every((value, index) => {
         if (value instanceof Array) {
           if (obj2[index] instanceof Array) {
             return compare(value, obj2[index]);
@@ -136,12 +135,12 @@ export function compare(obj1, obj2) {
 }
 
 /**
- * @param {Object} obj 
- * @param {Function} type 
+ * @param {Object} obj
+ * @param {Function} type
  */
 export function instanceOf(obj, type) {
   if (obj === undefined) {
-    return (type === undefined);
+    return type === undefined;
   }
 
   if (typeof type === "string") {
@@ -150,20 +149,20 @@ export function instanceOf(obj, type) {
     let superClass = obj;
     let result = false;
 
-    while ((superClass !== null) && !result) {
-      result = (superClass.constructor === type);
+    while (superClass !== null && !result) {
+      result = superClass.constructor === type;
       superClass = Object.getPrototypeOf(superClass);
     }
 
-    return result || (obj instanceof type);
+    return result || obj instanceof type;
   } else {
     return false;
   }
 }
 
 /**
- * @param {Function} type1 
- * @param {Function} type2 
+ * @param {Function} type1
+ * @param {Function} type2
  */
 export function isA(type1, type2) {
   let result;
@@ -174,8 +173,8 @@ export function isA(type1, type2) {
 
     do {
       superClass = Object.getPrototypeOf(superClass);
-      result = (superClass === type2);
-    } while ((superClass !== null) && !result);
+      result = superClass === type2;
+    } while (superClass !== null && !result);
   }
 
   return result;
@@ -226,14 +225,18 @@ export function clone(obj, appendTo) {
   return result;
 }
 
-
 /**
- * @param {Object} obj 
- * @param {Function} callback 
+ * @param {Object} obj
+ * @param {Function} callback
  */
 export function forEach(obj, callback) {
   if (callback instanceof Function) {
-    if (((obj !== undefined) && (obj[Symbol.toStringTag] !== undefined) && (obj[Symbol.toStringTag].split(" ")[1] === "Iterator")) || instanceOf(obj, BIterator)) {
+    if (
+      (obj !== undefined &&
+        obj[Symbol.toStringTag] !== undefined &&
+        obj[Symbol.toStringTag].split(" ")[1] === "Iterator") ||
+      instanceOf(obj, BIterator)
+    ) {
       for (let item of obj) {
         callback(item, obj.iterator.index, obj);
       }
@@ -252,7 +255,7 @@ export function forEach(obj, callback) {
  */
 export function strFormat(str, ...params) {
   if (params.length == 1 && typeof params[0] == "object") {
-    return str.replace(/\{(\w+)\}/g, function (match, name, offset, mainStr) {
+    return str.replace(/\{(\w+)\}/g, (match, name, offset, mainStr) => {
       return params[0][name] ? params[0][name] : "";
     });
   } else {
@@ -264,7 +267,7 @@ export function strFormat(str, ...params) {
         "}" +
         str.substr(pat.lastIndex);
     }
-    return str.replace(/\{(\d+)\}/g, function (match, number) {
+    return str.replace(/\{(\d+)\}/g, (match, number) => {
       return params[number] !== undefined ? params[number] : match;
     });
   }
@@ -277,62 +280,64 @@ export function strFormat(str, ...params) {
  * @returns {String}
  */
 export function padNumbers(str, before, after) {
-  return str.toString().replace(
-    /(?:(\d+\.\d+)|(\d+)\.[^\d]?|[^\d]?\.(\d+)|(\d+)[^\.\d]?)/g,
-    function (matched, two, left, right, pure) {
-      if (two) {
-        left = two.split(".")[0];
-        right = two.split(".")[1];
-      }
-      if (pure) {
-        left = pure;
-      }
+  return str
+    .toString()
+    .replace(
+      /(?:(\d+\.\d+)|(\d+)\.[^\d]?|[^\d]?\.(\d+)|(\d+)[^\.\d]?)/g,
+      (matched, two, left, right, pure) => {
+        if (two) {
+          left = two.split(".")[0];
+          right = two.split(".")[1];
+        }
+        if (pure) {
+          left = pure;
+        }
 
-      let result = matched;
-      let fix = "";
-      let i = 0;
+        let result = matched;
+        let fix = "";
+        let i = 0;
 
-      if (left) {
-        if (!right) {
-          if (result[left.length] !== ".") {
-            fix = ".";
-          } else {
-            i = 1;
+        if (left) {
+          if (!right) {
+            if (result[left.length] !== ".") {
+              fix = ".";
+            } else {
+              i = 1;
+            }
+
+            fix += "0".repeat(after);
+
+            result =
+              result.substring(0, left.length + i) +
+              fix +
+              result.substring(left.length + i);
           }
 
-          fix += "0".repeat(after);
-
-          result =
-            result.substring(0, left.length + i) +
-            fix +
-            result.substring(left.length + i);
+          if (before > left.length) {
+            result = result.padStart(result.length + before - left.length, "0");
+            // result = "0".repeat(before - left.length) + result;
+          }
         }
 
-        if (before > left.length) {
-          result = result.padStart(result.length + before - left.length, "0");
-          // result = "0".repeat(before - left.length) + result;
+        if (right) {
+          if (!left) {
+            fix = "0".repeat(before);
+
+            result =
+              result.substring(0, result.length - right.length - 1) +
+              fix +
+              result.substring(result.length - right.length - 1);
+          }
+
+          if (after > right.length) {
+            result = result.padEnd(result.length + after - right.length, "0");
+            // result = result + "0".repeat(after - right.length);
+          }
         }
+
+        return result;
       }
-
-      if (right) {
-        if (!left) {
-          fix = "0".repeat(before);
-
-          result =
-            result.substring(0, result.length - right.length - 1) +
-            fix +
-            result.substring(result.length - right.length - 1);
-        }
-
-        if (after > right.length) {
-          result = result.padEnd(result.length + after - right.length, "0");
-          // result = result + "0".repeat(after - right.length);
-        }
-      }
-
-      return result;
-    }
-  );
+    );
 }
 
 /**
@@ -349,7 +354,7 @@ export function strToTag(str, addHashSign = true, toLower = true) {
   }
   result = result.replace(/[^\w]/g, "_");
   return Array.from(result)
-    .map(function (ch, index, str) {
+    .map((ch, index, str) => {
       if (ch >= "A" && ch <= "Z" && index > 0) {
         ch = "_" + ch;
       }
@@ -401,22 +406,24 @@ export function defineMethod(obj, name, descriptor, dataTypes = {}) {
       let pConsName = "";
 
       if (instanceOf(dataTypes[index], Array)) {
-        validType = dataTypes[index].some((type) => {
+        validType = dataTypes[index].some(type => {
           return instanceOf(param, type);
           // return (param.constructor === type);
         });
-        pType = dataTypes[index].map((type) => {
-          return type.name;
-        }).join("' or '");
+        pType = dataTypes[index]
+          .map(type => {
+            return type.name;
+          })
+          .join("' or '");
       } else if (instanceOf(dataTypes[index], Function)) {
         validType = instanceOf(param, dataTypes[index]);
         // validType = (param.constructor === dataTypes[index]);
         pType = dataTypes[index].name;
       }
 
-      if ((dataTypes[index] !== undefined) && !validType) {
+      if (dataTypes[index] !== undefined && !validType) {
         if (instanceOf(dataTypes, Array)) {
-          pName = `Argument #${(Number(index) + 1)}`;
+          pName = `Argument #${Number(index) + 1}`;
         } else {
           pName = index;
         }
@@ -427,32 +434,38 @@ export function defineMethod(obj, name, descriptor, dataTypes = {}) {
           pConsName = param.constructor.name;
         }
 
-        throw new Error(`${pName} type error\nExpected '${pType}', got '${pConsName}'`);
-      };
+        throw new Error(
+          `${pName} type error\nExpected '${pType}', got '${pConsName}'`
+        );
+      }
     });
 
     return descriptor(...params);
-  }
+  };
 }
 
 /**
- * @param {string} name 
- * @param {Any} value 
- * @param {Function} get 
- * @param {Function} set 
+ * @param {string} name
+ * @param {Any} value
+ * @param {Function} get
+ * @param {Function} set
  * @param {Function|Function[]} type
- * @param {boolean} configurable 
- * @param {boolean} enumurable 
+ * @param {boolean} configurable
+ * @param {boolean} enumurable
  */
-export function defineProperty(obj, name, {
-  value = undefined,
-  writable = true,
-  get = undefined,
-  set = undefined,
-  type = undefined,
-  configurable = true,
-  enumerable = true
-}) {
+export function defineProperty(
+  obj,
+  name,
+  {
+    value = undefined,
+    writable = true,
+    get = undefined,
+    set = undefined,
+    type = undefined,
+    configurable = true,
+    enumerable = true
+  }
+) {
   if (value !== undefined) {
     Object.defineProperty(obj, name, {
       value,
@@ -468,23 +481,31 @@ export function defineProperty(obj, name, {
         let validType = true;
 
         if (instanceOf(type, Array)) {
-          validType = type.some((t) => {
-            return (v.constructor === t);
+          validType = type.some(t => {
+            return instanceOf(v, t);
+            // return v.constructor === t;
           });
-          pType = type.map((t) => {
-            return t.name;
-          }).join("' or '");
+          pType = type
+            .map(t => {
+              return t !== undefined ? t.name : "undefined";
+            })
+            .join("' or '");
         } else if (instanceOf(type, Function)) {
-          validType = (v.constructor === type);
+          validType = instanceOf(v, type);
+          // validType = v.constructor === type;
           pType = type.name;
         }
 
-        if ((type === undefined) || validType) {
+        if (type === undefined || validType) {
           if (instanceOf(set, Function)) {
             set(v);
           }
         } else {
-          throw new Error(`Type error\nExpected '${pType}', got '${v.constructor.name}'`);
+          throw new Error(
+            `Type error\nExpected '${pType}', got '${
+              v !== undefined ? v.constructor.name : "undefined"
+            }'`
+          );
         }
       },
       enumerable,
