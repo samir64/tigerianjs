@@ -62,18 +62,6 @@
                 "name": "defctrl",
                 "title": "Define Controls",
                 "children": []
-              },
-              {
-                "id": "mvc1",
-                "name": "mvc1",
-                "title": "MVC - Basic",
-                "children": []
-              },
-              {
-                "id": "mvc2",
-                "name": "mvc2",
-                "title": "MVC - Advanced",
-                "children": []
               }
             ]
           }
@@ -198,6 +186,12 @@
             "id": "bpagination",
             "name": "bpagination",
             "title": "BPagination",
+            "children": []
+          },
+          {
+            "id": "bpromise",
+            "name": "bpromise",
+            "title": "BPromise",
             "children": []
           },
           {
@@ -489,10 +483,16 @@
             ]
           },
           {
-            "id": "modelview",
-            "name": "modelview",
-            "title": "Model View",
+            "id": "model_view",
+            "name": "model_view",
+            "title": "Model & View",
             "children": [
+              {
+                "id": "modelview",
+                "name": "modelview",
+                "title": "ModelView",
+                "children": []
+              },
               {
                 "id": "modelfield",
                 "name": "modelfield",
@@ -552,6 +552,19 @@
     "id": "tutor",
     "name": "tutor",
     "title": "Tutorials",
-    "children": []
+    "children": [
+      {
+        "id": "mvc1",
+        "name": "mvc1",
+        "title": "MVC - Basic",
+        "children": []
+      },
+      {
+        "id": "mvc2",
+        "name": "mvc2",
+        "title": "MVC - Advanced",
+        "children": []
+      }
+    ]
   }
 ]

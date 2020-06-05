@@ -68,24 +68,24 @@ export class MenuItem extends Control {
       }
     }, [MenuItem, Spacer]);
 
-    this.addEvent("mouseover", function (e) {
+    this.addEvent("mouseover", (e) => {
       if (canChangeChildState && !touchStarted) {
         that.viewChild(true);
       }
     });
-    this.addEvent("mouseleave", function (e) {
+    this.addEvent("mouseleave", (e) => {
       if (canChangeChildState && !touchStarted) {
         that.viewChild(false);
       }
     });
 
-    elmText.addEventListener("touchstart", function (e) {
+    elmText.addEventListener("touchstart", (e) => {
       if (canChangeChildState) {
         touchStarted = true;
       }
     });
 
-    elmText.addEventListener("touchend", function (e) {
+    elmText.addEventListener("touchend", (e) => {
       if (
         canChangeChildState &&
         touchStarted &&
@@ -99,7 +99,7 @@ export class MenuItem extends Control {
         touchStarted = false;
       }
 
-      setTimeout(function () {
+      setTimeout(() => {
         canChangeChildState = true;
       }, 100);
     });

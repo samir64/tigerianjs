@@ -1,20 +1,11 @@
-import {
-  instanceOf,
-  forEach
-} from "./Tigerian.js";
-import {
-  UI
-} from "./UI.js";
-import {
-  responsiveSizes
-} from "./Responsive.js";
-
+import { instanceOf, forEach } from "./Tigerian.js";
+import { UI } from "./UI.js";
+import { responsiveSizes } from "./Responsive.js";
 
 /**
  * Created by samir on 8/25/16.
  * Version 1.0.0.100
  */
-
 
 ("use strict");
 
@@ -40,11 +31,9 @@ export class Control extends UI {
     let elmTxtFoot = document.createTextNode("");
     let superAddControl = this.addControl;
 
-
     //NOTE Append Elements
     elmDivContainer.appendChild(elmTxtHead);
     elmDivContainer.appendChild(elmTxtFoot);
-
 
     //NOTE Attributes
     this.setAttribute("element-type", "Control");
@@ -52,8 +41,8 @@ export class Control extends UI {
     this.setAttribute("element-situation", "");
     this.setAttribute("element-hoverable", "false");
 
-    this.setAttribute("xsmall-column", "medium");
-    this.setAttribute("small-column", "medium");
+    this.setAttribute("xsmall-column", "small");
+    this.setAttribute("small-column", "12");
     this.setAttribute("medium-column", "");
     this.setAttribute("large-column", "medium");
     this.setAttribute("xlarge-column", "medium");
@@ -110,7 +99,7 @@ export class Control extends UI {
     /**
      * @member {string}
      */
-    this.defineProperty("title", {
+    this.defineProperty("hint", {
       /**
        * @returns {string}
        */
@@ -131,7 +120,9 @@ export class Control extends UI {
      */
     this.defineProperty("tabIndex", {
       get() {
-        return that.hasAttribute("tabindex") ? that.getAttribute("tabindex") : 0;
+        return that.hasAttribute("tabindex")
+          ? that.getAttribute("tabindex")
+          : 0;
       },
       set(v) {
         if (instanceOf(v, "number")) {
@@ -778,7 +769,7 @@ export class Control extends UI {
 
     this.defineProperty("hoverable", {
       get() {
-        return (that.getAttribute("element-hoverable") === "true");
+        return that.getAttribute("element-hoverable") === "true";
       },
       set(v) {
         that.setAttribute("element-hoverable", v ? "true" : "false");
@@ -865,12 +856,14 @@ export class Control extends UI {
     /**
      * @param {Text|Element|Control} control
      */
-    this.defineMethod("addControl", (control) => {
-      superAddControl(control);
-      elmDivContainer.appendChild(elmTxtFoot);
-    }, [
-      [Control, Text, Element]
-    ]);
+    this.defineMethod(
+      "addControl",
+      control => {
+        superAddControl(control);
+        elmDivContainer.appendChild(elmTxtFoot);
+      },
+      [[Control, Text, Element]]
+    );
 
     this.defineMethod("clearContent", () => {
       elmDivContainer.innerHTML = "";
@@ -880,7 +873,7 @@ export class Control extends UI {
       elmDivContainer.click();
     });
 
-    // this.focus = function () {
+    // this.focus = () => {
     //     elmDivContainer.focus();
     // };
 

@@ -38,7 +38,7 @@ export class Container extends Control {
     //NOTE Append Children
     /* thisAddControl(elmBody);
 
-    this.addControl = function(control) {
+    this.addControl = (control) => {
       if (instanceOf(control, Element)) {
         elmBody.appendChild(control);
       } else if (instanceOf(control, Control)) {

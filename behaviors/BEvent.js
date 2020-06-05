@@ -104,7 +104,7 @@ export class BEvent extends Behavior {
           eventName = eventName.toLowerCase();
 
           if (instanceOf(callback, Function)) {
-            events[eventName] = events[eventName].filter(function (item, index) {
+            events[eventName] = events[eventName].filter((item, index) => {
               if (item !== callback) {
                 return item;
               }

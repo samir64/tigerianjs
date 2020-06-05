@@ -1,0 +1,131 @@
+[element-type="Checkbox"][element-name="container"]:not([disabled]),
+[element-type="RadioButton"][element-name="container"]:not([disabled]) {
+  cursor: pointer;
+}
+
+[element-type="Checkbox"][element-name="container"],
+[element-type="RadioButton"][element-name="container"] {
+  margin: var(--margin-v) var(--margin-h);
+  padding: var(--padding-v) var(--padding-h);
+  border-radius: var(--border-radius);
+}
+
+[element-type="Checkbox"][element-name="container"]>[element-type="Checkbox"][element-name="text"],
+[element-type="RadioButton"][element-name="container"]>[element-type="RadioButton"][element-name="text"] {
+  vertical-align: middle;
+}
+
+[element-type="Checkbox"][element-name="container"][element-situation="disable"]>[element-type="Checkbox"][element-name="text"],
+[element-type="RadioButton"][element-name="container"][element-situation="disable"]>[element-type="RadioButton"][element-name="text"] {
+  /* color: #aaa; */
+}
+
+[element-type="Checkbox"][element-name="container"]>[element-type="Checkbox"][element-name="check"],
+[element-type="RadioButton"][element-name="container"]>[element-type="RadioButton"][element-name="button"] {
+  width: 18px;
+  height: 18px;
+  padding-right: 5px;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: var(--border-radius);
+  position: relative;
+}
+
+[element-type="Checkbox"][element-name="container"]>[element-type="Checkbox"][element-name="text"],
+[element-type="RadioButton"][element-name="container"]>[element-type="RadioButton"][element-name="text"] {
+  padding-left: 5px;
+}
+
+[element-type="Checkbox"][element-name="container"][element-situation="disable"]>[element-type="Checkbox"][element-name="check"],
+[element-type="RadioButton"][element-name="container"][element-situation="disable"]>[element-type="RadioButton"][element-name="button"] {
+  /* background-color: #bbb; */
+}
+
+[element-type="Checkbox"][element-name="container"]>[element-type="Checkbox"][element-name="check"] {
+  display: inline-block;
+}
+
+[element-type="Checkbox"][element-name="container"]>[element-type="Checkbox"][element-name="text"] {
+  display: inline-block;
+}
+
+[element-type="Checkbox"][element-name="container"]:not([element-situation="disable"])[selected="false"]>[element-type="Checkbox"][element-name="check"],
+[element-type="RadioButton"][element-name="container"]:not([element-situation="disable"])[selected="false"]>[element-type="RadioButton"][element-name="button"] {
+  /* background-color: #bbb; */
+}
+
+[element-type="Checkbox"][element-name="container"]:not([element-situation="disable"]):not([selected="false"])>[element-type="Checkbox"][element-name="check"],
+[element-type="RadioButton"][element-name="container"]:not([element-situation="disable"]):not([selected="false"])>[element-type="RadioButton"][element-name="button"] {
+  /* background-color: #007bff; */
+}
+
+[element-type="Checkbox"][element-name="container"]:not([element-situation="disable"]):not([selected="false"]):hover>[element-type="Checkbox"][element-name="check"],
+[element-type="RadioButton"][element-name="container"]:not([element-situation="disable"]):not([selected="false"]):hover>[element-type="RadioButton"][element-name="button"] {
+  /* background-color: #05d; */
+}
+
+[element-type="Checkbox"][element-name="container"]:not([element-situation="disable"])[selected="false"]:hover>[element-type="Checkbox"][element-name="check"],
+[element-type="RadioButton"][element-name="container"]:not([element-situation="disable"])[selected="false"]:hover>[element-type="RadioButton"][element-name="button"] {
+  /* background-color: #999; */
+}
+
+[element-type="RadioButton"][element-name="container"]>[element-type="RadioButton"][element-name="button"] {
+  border-radius: 50%;
+}
+
+[element-type="Checkbox"][element-name="container"]:not([selected="false"])>[element-type="Checkbox"][element-name="check"]::after,
+[element-type="RadioButton"][element-name="container"]:not([selected="false"])>[element-type="RadioButton"][element-name="button"]::after {
+  content: '';
+  position: absolute;
+}
+
+[element-type="Checkbox"][element-name="container"][selected="true"]>[element-type="Checkbox"][element-name="check"]::after {
+  border-width: 3px;
+  left: 1px;
+  top: 2px;
+  width: 15px;
+  height: 8px;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-right-style: none;
+  border-top-style: none;
+  transform: rotate(-45deg);
+}
+
+[element-type="Checkbox"][element-name="container"][selected="indeterminate"]>[element-type="Checkbox"][element-name="check"]::after {
+  border-width: 2px;
+  left: 1px;
+  top: 6px;
+  width: 14px;
+  height: 0;
+  border-style: solid;
+}
+
+[element-type="RadioButton"][element-name="container"][selected="true"]>[element-type="RadioButton"][element-name="button"]::after {
+  left: 1px;
+  top: 1px;
+  /* width: 9px;
+    height: 9px; */
+  border-radius: 50%;
+  border-width: 7px;
+  border-style: solid;
+}
+
+[element-type="Checkbox"][element-name="container"][element-situation="disable"]:not([selected="false"])>[element-type="Checkbox"][element-name="check"]::after {
+  /* border-color: #999; */
+}
+
+[element-type="Checkbox"][element-name="container"]:not([element-situation="disable"]):not([selected="false"])>[element-type="Checkbox"][element-name="check"]::after,
+[element-type="RadioButton"][element-name="container"]:not([element-situation="disable"]):not([selected="false"])>[element-type="RadioButton"][element-name="button"]::after {
+  border-color: #05d;
+  /* border-color: #ddd; */
+}
+
+[element-type="RadioButton"][element-name="container"][element-situation="disable"]:not([selected="false"])>[element-type="RadioButton"][element-name="button"]::after {
+  /* background-color: #999; */
+}
+
+[element-type="RadioButton"][element-name="container"]:not([element-situation="disable"]):not([selected="false"])>[element-type="RadioButton"][element-name="button"]::after {
+  /* background-color: #ddd; */
+}

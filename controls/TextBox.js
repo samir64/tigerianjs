@@ -148,14 +148,14 @@ export class TextBox extends Control {
     }
 
     //NOTE Public Functions
-    this.select = function () {
+    this.select = () => {
       elmText.select();
     };
 
     /**
      * @return boolean
      */
-    this.isValid = function () {
+    this.isValid = () => {
       this.setAttribute("validity", elmText.validity.valid);
       return elmText.validity.valid;
     };
@@ -164,23 +164,23 @@ export class TextBox extends Control {
     this.addEvent("click", onClick);
     elmText.addEventListener(
       "input",
-      function (e) {
+      ((e) => {
         this.isValid();
-      }.bind(this),
+      }).bind(this),
       true
     );
     elmText.addEventListener(
       "focus",
-      function (e) {
+      ((e) => {
         this.dispatchEvent(Events.onFocus);
-      }.bind(this),
+      }).bind(this),
       true
     );
     elmText.addEventListener(
       "blur",
-      function (e) {
+      ((e) => {
         this.dispatchEvent(Events.onBlur);
-      }.bind(this),
+      }).bind(this),
       true
     );
 

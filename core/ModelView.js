@@ -1,20 +1,12 @@
-import {
-  Tigerian
-} from "./Tigerian.js";
-import {
-  BEvent
-} from "../behaviors/BEvent.js";
-import {
-  BBind
-} from "../behaviors/BBind.js";
+import { Tigerian } from "./Tigerian.js";
+import { BEvent } from "../behaviors/BEvent.js";
+import { BBind } from "../behaviors/BBind.js";
 
 /**
  * Created by samir on 8/27/18.
  */
 
-
 ("use strict");
-
 
 /**
  * @extends {Class}
@@ -27,7 +19,7 @@ export class ModelView extends Tigerian {
   constructor() {
     super();
 
-    this.config(BEvent);
-    this.config(BBind);
+    // this.config(BEvent);
+    // this.config(BBind);
   }
 }

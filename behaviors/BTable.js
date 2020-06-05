@@ -24,7 +24,7 @@ export class BTable extends Behavior {
 
       that.setAttribute("view-mode", "grid");
 
-      let refreshView = function () {
+      let refreshView = () => {
         if (ctrlTableBody.itemCount <= rowCount) {
           for (let i = ctrlTableBody.itemCount; i <= rowCount; i++) {
             addRow();
@@ -49,7 +49,7 @@ export class BTable extends Behavior {
                   if (that.getHeadCell(c).text) {
                     that.getCell(i - 1, c).headText = that.getHeadCell(c).text + ": ";
                   }
-                  that.getHeadCell(c).bind("text", that.getCell(i - 1, c), "headText", function (value) {
+                  that.getHeadCell(c).bind("text", that.getCell(i - 1, c), "headText", (value) => {
                     if ((value === "") || (value === undefined)) {
                       return "";
                     } else {
@@ -65,7 +65,7 @@ export class BTable extends Behavior {
         }
       };
 
-      let addRow = function () {
+      let addRow = () => {
         let newRow = new TableRow(null, colCount, that.theme);
 
         newRow.setAttribute("hover", "false");
@@ -78,7 +78,7 @@ export class BTable extends Behavior {
         superAddItem(newRow);
       };
 
-      let onMouseOver = function (e) {
+      let onMouseOver = (e) => {
         that.parent.setAttribute("hover", "true");
         for (let r = 0; r < rowCount; r++) {
           for (let c = 0; c < colCount; c++) {
@@ -89,7 +89,7 @@ export class BTable extends Behavior {
         }
       };
 
-      let onMouseLeave = function (e) {
+      let onMouseLeave = (e) => {
         that.parent.setAttribute("hover", "false");
         for (let r = 0; r < rowCount; r++) {
           for (let c = 0; c < colCount; c++) {
@@ -176,7 +176,7 @@ export class BTable extends Behavior {
         }
       }, [Number, Boolean]);
 
-      that.addRow = function () {
+      that.addRow = () => {
         addRow();
         that.rowCount++;
       };

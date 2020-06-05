@@ -98,12 +98,12 @@ export class Application extends UI {
 /**
  * @param {function} main
  */
-/* Application.run = function (main) {
+/* Application.run = (main) => {
   if (instanceOf(main, "function")) {
     if (document.body) {
       main();
     } else {
-      window.addEventListener("load", function (e) {
+      window.addEventListener("load", (e) => {
         main();
       });
     }

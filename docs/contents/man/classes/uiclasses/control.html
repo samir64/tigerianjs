@@ -4,8 +4,95 @@
 
 <h3>Behaviors:</h3>
 <br />
+<br />
+
+<h3>Additional Attributes:</h3>
+<div class="part">
+  <ul>
+    <li>
+      <h4>element-type</h4>
+      :
+      <h5>String</h5>
+      = "Control"
+    </li>
+    <li>
+      <h4>element-name</h4>
+      :
+      <h5>String</h5>
+      = "container"
+    </li>
+    <li>
+      <h4>element-situation</h4>
+      :
+      <h5>String</h5>
+      = ""
+    </li>
+    <li>
+      <h4>xsmall-collumn</h4>
+      :
+      <h5>String|Number</h5>
+      = "small"
+    </li>
+    <li>
+      <h4>small-collumn</h4>
+      :
+      <h5>String|Number</h5>
+      = 12
+    </li>
+
+    <li>
+      <h4>medium-collumn</h4>
+      :
+      <h5>String|Number</h5>
+      = ""
+    </li>
+    <li>
+      <h4>large-collumn</h4>
+      :
+      <h5>String|Number</h5>
+      = "medium"
+    </li>
+    <li>
+      <h4>xlarge-collumn</h4>
+      :
+      <h5>String|Number</h5>
+      = "medium"
+    </li>
+    <li>
+      <h4>title</h4>
+      :
+      <h5>String</h5>
+      = ""
+    </li>
+    <li>
+      <h4>template-name</h4>
+      :
+      <h5>String</h5>
+      = ""
+    </li>
+    <li>
+      <h4>template-item</h4>
+      :
+      <h5>String</h5>
+      = ""
+    </li>
+  </ul>
+</div>
+<br />
 
 <h3>Elements:</h3>
+<br />
+
+<h3>Styles:</h3>
+<div class="part">
+  <ul>
+    <li>
+      <h4>
+        <pre class="code">[element-type=Control][element-name=container]</pre>
+      </h4>
+    </li>
+  </ul>
+</div>
 <br />
 <br />
 
@@ -13,13 +100,21 @@
 <div class="part">
   <ol>
     <li>
-      <h4>parent</h4>: <h5><a href="#/man/classes/uiclasses/ui">UI</a></h5>
+      <h4>parent</h4>
+      :
+      <h5><a href="#/man/classes/uiclasses/ui">UI</a></h5>
     </li>
     <li>
-      <h4>theme</h4>: <h5>String</h5> = ""
+      <h4>theme</h4>
+      :
+      <h5>String</h5>
+      = ""
     </li>
     <li>
-      <h4>htmlTag</h4>: <h5>String</h5> = "div"
+      <h4>htmlTag</h4>
+      :
+      <h5>String</h5>
+      = "div"
     </li>
   </ol>
 </div>
@@ -29,35 +124,66 @@
 <div class="part">
   <ul>
     <li>
-      <h4>headText</h4>: <h5>String</h5> {get/set}
+      <h4>headText</h4>
+      :
+      <h5>String</h5>
+      {get/set}
     </li>
     <li>
-      <h4>footText</h4>: <h5>String</h5> {get/set}
+      <h4>footText</h4>
+      :
+      <h5>String</h5>
+      {get/set}
     </li>
     <li>
-      <h4>title</h4>: <h5>String</h5> {get/set}
+      <h4>hint</h4>
+      :
+      <h5>String</h5>
+      {get/set}
     </li>
     <li>
-      <h4>tabIndex</h4>: <h5>Number</h5> {get/set}
+      <h4>tabIndex</h4>
+      :
+      <h5>Number</h5>
+      {get/set}
     </li>
     <li>
-      <h4>column</h4>: <h5>Number|<a href="#/man/behaviors/bwindow">EWindow</a></h5> {get/set}
+      <h4>column</h4>
+      :
+      <h5>Number|<a href="#/man/behaviors/bwindow">EWindow</a></h5>
+      {get/set}
     </li>
     <li>
-      <h4>column</h4>[size:<h5><a href="#/man/behaviors/bwindow">EWindow</a></h5>]: <h5>Number|<a
-          href="#/man/behaviors/bwindow">EWindow</a></h5> {get/set}
+      <h4>column</h4>
+      [size:
+      <h5><a href="#/man/behaviors/bwindow">EWindow</a></h5>
+      ]:
+      <h5>Number|<a href="#/man/behaviors/bwindow">EWindow</a></h5>
+      {get/set}
     </li>
     <li>
-      <h4>templateName</h4>: <h5>String</h5> {get/set}
+      <h4>templateName</h4>
+      :
+      <h5>String</h5>
+      {get/set}
     </li>
     <li>
-      <h4>templateItem</h4>: <h5>String</h5> {get/set}
+      <h4>templateItem</h4>
+      :
+      <h5>String</h5>
+      {get/set}
     </li>
     <li>
-      <h4>hoverable</h4>: <h5>Boolean</h5> {get/set}
+      <h4>hoverable</h4>
+      :
+      <h5>Boolean</h5>
+      {get/set}
     </li>
     <li>
-      <h4>situation</h4>: <h5><a href="#/man/classes/uiclasses/control">EControl</a></h5> {get/set}
+      <h4>situation</h4>
+      :
+      <h5><a href="#/man/classes/uiclasses/control">EControl</a></h5>
+      {get/set}
     </li>
   </ul>
 </div>
@@ -67,13 +193,20 @@
 <div class="part">
   <ul>
     <li>
-      <h4>addControl</h4>(control: <h5>TextNode|Element|<a href="#/man/classes/uiclasses/control">Control</a></h5>)
+      <h4>addControl</h4>
+      (control:
+      <h5>
+        TextNode|Element|<a href="#/man/classes/uiclasses/control">Control</a>
+      </h5>
+      )
     </li>
     <li>
-      <h4>clearContent</h4>()
+      <h4>clearContent</h4>
+      ()
     </li>
     <li>
-      <h4>click</h4>()
+      <h4>click</h4>
+      ()
     </li>
   </ul>
 </div>
@@ -106,8 +239,7 @@
 
 <h3>Description:</h3>
 <br />
-<div class="part">
-</div>
+<div class="part"></div>
 <br />
 <br />
 

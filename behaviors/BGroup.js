@@ -94,7 +94,7 @@ export class BGroup extends Behavior {
             addedItem: item
           });
 
-          item.addEvent("Remove", function (e) {
+          item.addEvent("Remove", (e) => {
             items = items.filter((it, index) => {
               return (it !== item);
             });
@@ -131,7 +131,7 @@ export class BGroup extends Behavior {
           itemIndex >= 0 &&
           itemIndex < items.length
         ) {
-          items = items.filter(function (item, index) {
+          items = items.filter((item, index) => {
             if (index !== itemIndex) {
               return item;
             } else {
@@ -146,7 +146,7 @@ export class BGroup extends Behavior {
       }, [Number]);
 
       that.defineMethod("clear", () => {
-        items = items.filter(function (item, itemIndex) {
+        items = items.filter((item, itemIndex) => {
           item.remove();
           return false;
         });

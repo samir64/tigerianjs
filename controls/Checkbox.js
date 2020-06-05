@@ -7,6 +7,9 @@ import {
 import {
   BSelect
 } from "../behaviors/BSelect.js";
+import {
+  Events
+} from "../core/Events.js"
 
 /**
  * Created by samir on 8/26/16.
@@ -20,7 +23,7 @@ import {
  * @implements {BText}
  * @constructor
  */
-export class CheckBox extends Control {
+export class Checkbox extends Control {
   /**
    * @constructs
    * @param {string} [text = ""]
@@ -28,7 +31,7 @@ export class CheckBox extends Control {
    * @param {UI} parent
    */
   constructor(parent, text = "", theme = "") {
-    let elmCheckBox = document.createElement("div");
+    let elmCheckbox = document.createElement("div");
     let elmLabel = document.createElement("div");
 
     super(parent, theme);
@@ -43,18 +46,18 @@ export class CheckBox extends Control {
 
     //NOTE Attributes
     this.setAttribute("element-name", "container");
-    this.setAttribute("element-type", "CheckBox");
+    this.setAttribute("element-type", "Checkbox");
 
-    elmCheckBox.setAttribute("element-name", "check");
-    elmCheckBox.setAttribute("element-type", "CheckBox");
-    elmCheckBox.setAttribute("element-situation", "");
-    elmCheckBox.setAttribute("element-hoverable", "true");
+    elmCheckbox.setAttribute("element-name", "check");
+    elmCheckbox.setAttribute("element-type", "Checkbox");
+    elmCheckbox.setAttribute("element-situation", "");
+    this.setAttribute("element-hoverable", "true");
 
     // elmLabel.setAttribute("element-name", "label");
-    elmLabel.setAttribute("element-type", "CheckBox");
+    elmLabel.setAttribute("element-type", "Checkbox");
 
     //NOTE Append Children
-    this.addControl(elmCheckBox);
+    this.addControl(elmCheckbox);
     this.addControl(elmLabel);
 
     this.defineProperty("indeterminate", {

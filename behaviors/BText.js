@@ -1,23 +1,13 @@
-import {
-  instanceOf,
-  defineMethod
-} from "../core/Tigerian.js";
-import {
-  Behavior
-} from "../core/Behavior.js";
-import {
-  Control
-} from "../core/Control.js";
-import {
-  Events
-} from "../core/Events.js";
+import { instanceOf, defineMethod } from "../core/Tigerian.js";
+import { Behavior } from "../core/Behavior.js";
+import { Control } from "../core/Control.js";
+import { Events } from "../core/Events.js";
 
 /**
  * Created by samir on 9/14/16.
  */
 
 ("use strict");
-
 
 /**
  * @implements {Behavior}
@@ -31,70 +21,77 @@ export class BText extends Behavior {
   constructor() {
     super();
 
-    this.defineMethod("config", (that, ctrlText, text = "") => {
-      if (instanceOf(ctrlText, Element)) {
-        ctrlText.setAttribute("element-name", "text");
-      }
-
-      function changeText(e) {
-        if (instanceOf(ctrlText, BText)) {
-          that.text = ctrlText.text;
-        } else {
-          that.text = (instanceOf(e.target.value, String) ? e.target.value : e.target.innerHTML);
+    this.defineMethod(
+      "config",
+      (that, ctrlText, text = "") => {
+        if (instanceOf(ctrlText, Element)) {
+          ctrlText.setAttribute("element-name", "text");
         }
-      }
 
-      /**
-       * @member {string}
-       */
-      that.defineProperty("text", {
-        get() {
-          let result;
-
-          if (ctrlText["Behavior:text"]) {
-            result = ctrlText.text;
-          } else if (instanceOf(ctrlText.value, String)) {
-            result = ctrlText.value;
-          } else if (instanceOf(ctrlText.innerHTML, String)) {
-            result = ctrlText.innerHTML;
+        function changeText(e) {
+          if (instanceOf(ctrlText, BText)) {
+            that.text = ctrlText.text;
           } else {
-            result = text;
+            that.text = instanceOf(e.target.value, String)
+              ? e.target.value
+              : e.target.innerHTML;
           }
+        }
 
-          that.setAttribute("text", result);
+        /**
+         * @member {string}
+         */
+        that.defineProperty("text", {
+          get() {
+            let result;
 
-          return result;
-        },
-        set(v) {
-          if (instanceOf(v, String)) {
-            let lastText = text;
-            text = v;
-            that.setAttribute("text", v);
             if (ctrlText["Behavior:text"]) {
-              ctrlText.text = v;
+              result = ctrlText.text;
+            } else if (instanceOf(ctrlText.value, String)) {
+              result = ctrlText.value;
+            } else if (instanceOf(ctrlText.innerHTML, String)) {
+              result = ctrlText.innerHTML;
             } else {
-              ctrlText.innerHTML = v;
-              ctrlText.value = v;
+              result = text;
             }
 
-            if (lastText !== v) {
-              that.dispatchEvent(Events.onTextChange, {
-                lastValue: lastText
-              });
+            that.setAttribute("text", result);
+
+            return result;
+          },
+          set(v) {
+            if (instanceOf(v, String)) {
+              let lastText = text;
+              text = v;
+              that.setAttribute("text", v);
+              if (ctrlText["Behavior:text"]) {
+                ctrlText.text = v;
+              } else {
+                ctrlText.innerHTML = v;
+                ctrlText.value = v;
+              }
+
+              if (lastText !== v) {
+                that.dispatchEvent(Events.onTextChange, {
+                  lastValue: lastText
+                });
+              }
             }
-          }
-        },
-      });
+          },
+          type: String
+        });
 
-      if (instanceOf(ctrlText, Control)) {
-        ctrlText.addEvent("change", changeText);
-        ctrlText.addEvent("input", changeText);
-      } else {
-        ctrlText.addEventListener("change", changeText);
-        ctrlText.addEventListener("input", changeText);
-      }
+        if (instanceOf(ctrlText, Control)) {
+          ctrlText.addEvent("change", changeText);
+          ctrlText.addEvent("input", changeText);
+        } else {
+          ctrlText.addEventListener("change", changeText);
+          ctrlText.addEventListener("input", changeText);
+        }
 
-      that.text = text;
-    }, [Object, [Element, Control]]);
+        that.text = text;
+      },
+      [Object, [Element, Control]]
+    );
   }
 }

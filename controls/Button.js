@@ -1,9 +1,5 @@
-import {
-  Control
-} from "../core/Control.js";
-import {
-  BText
-} from "../behaviors/BText.js";
+import { Control } from "../core/Control.js";
+import { BText } from "../behaviors/BText.js";
 
 /**
  * Created by samir on 8/26/16.
@@ -39,7 +35,7 @@ export class Button extends Control {
     elmButton.setAttribute("element-type", "Button");
     // elmButton.setAttribute("element-name", "text");
 
-    this.setAttribute("fit-content", "false");
+    // this.setAttribute("fit-content", "false");
 
     //NOTE Append Children
     this.addControl(elmButton);
@@ -51,9 +47,9 @@ export class Button extends Control {
      */
     this.defineProperty("tabIndex", {
       get() {
-        return elmButton.hasAttribute("tabindex") ?
-          elmButton.getAttribute("tabindex") :
-          0;
+        return elmButton.hasAttribute("tabindex")
+          ? elmButton.getAttribute("tabindex")
+          : 0;
       },
       set(v) {
         if (v > 0) {
@@ -68,15 +64,15 @@ export class Button extends Control {
     /**
      * @member {boolean}
      */
-    this.defineProperty("fitContent", {
-      get() {
-        return this.getAttribute("fit-content");
-      },
-      set(v) {
-        this.setAttribute("fit-content", v ? "true" : "false");
-      },
-      type: Boolean
-    });
+    // this.defineProperty("fitContent", {
+    //   get() {
+    //     return this.getAttribute("fit-content");
+    //   },
+    //   set(v) {
+    //     this.setAttribute("fit-content", v ? "true" : "false");
+    //   },
+    //   type: Boolean
+    // });
 
     this.defineMethod("select", () => {
       elmButton.focus();
@@ -84,7 +80,7 @@ export class Button extends Control {
 
     window.addEventListener(
       "keypress",
-      (e) => {
+      e => {
         if (
           that.default &&
           !e.ctrlKey &&
@@ -101,7 +97,7 @@ export class Button extends Control {
 
     this.addEvent(
       "keypress",
-      (e) => {
+      e => {
         if (
           !e.ctrlKey &&
           !e.altKey &&

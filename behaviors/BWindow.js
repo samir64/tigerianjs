@@ -36,11 +36,11 @@ export class BWindow extends Behavior {
       );
       let windowXlargeMatch = window.matchMedia("(min-width: 1200px)");
 
-      let onSmallWindow = function (e) {};
-      let onMediumWindow = function (e) {};
-      let onNormalWindow = function (e) {};
-      let onLargeWindow = function (e) {};
-      let onXlargeWindow = function (e) {};
+      let onSmallWindow = (e) => {};
+      let onMediumWindow = (e) => {};
+      let onNormalWindow = (e) => {};
+      let onLargeWindow = (e) => {};
+      let onXlargeWindow = (e) => {};
 
       /**
        * @member {Symbol}
@@ -149,31 +149,31 @@ export class BWindow extends Behavior {
         type: Function
       });
 
-      windowSmallMatch.addListener(function (e) {
+      windowSmallMatch.addListener((e) => {
         if (e.matches) {
           onSmallWindow();
         }
       });
 
-      windowMediumMatch.addListener(function (e) {
+      windowMediumMatch.addListener((e) => {
         if (e.matches) {
           onMediumWindow();
         }
       });
 
-      windowNormalMatch.addListener(function (e) {
+      windowNormalMatch.addListener((e) => {
         if (e.matches) {
           onNormalWindow();
         }
       });
 
-      windowLargeMatch.addListener(function (e) {
+      windowLargeMatch.addListener((e) => {
         if (e.matches) {
           onLargeWindow();
         }
       });
 
-      windowXlargeMatch.addListener(function (e) {
+      windowXlargeMatch.addListener((e) => {
         if (e.matches) {
           onXlargeWindow();
         }

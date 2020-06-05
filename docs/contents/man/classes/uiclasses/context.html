@@ -9,28 +9,59 @@
   </ul>
 </div>
 <br />
+<br />
+
+<h3>Additional Attributes:</h3>
+<div class="part">
+  <ul>
+    <li>
+      <h4>element-type</h4>
+      :
+      <h5>String</h5>
+      = "Context"
+    </li>
+    <li>
+      <h4>element-name</h4>
+      :
+      <h5>String</h5>
+      = "container"
+    </li>
+  </ul>
+</div>
+<br />
 
 <h3>Elements:</h3>
 <div class="part">
   <ul>
     <li>
-      <h4>content</h4>: <h5><a href="#/man/classes/uiclasses/context">Context</a></h5>
+      <h4>content</h4>
+      :
+      <h5>
+        <a href="#/man/classes/ui/control">Control</a>
+      </h5>
     </li>
   </ul>
 </div>
-<div class="part">
-  <h4>Style:</h4>
-</div>
-<div class="part">
-  <pre class="code">
-[element-name="container"][element-type="Context"] {
-/* some styes for Context's container */
-}
+<br />
 
-[element-name="container"][element-type="Context"]>[element-name="content"][element-type="Context"] {
-/* styles for content element */
-}
-  </pre>
+<h3>Style:</h3>
+<div class="part">
+  <ul>
+    <li>
+      <h4>
+        <pre class="code">
+.your-theme-name[element-type="Context"][element-name="container"]</pre
+        >
+      </h4>
+    </li>
+    <li>
+      <h4>
+        <pre class="code">
+.your-theme-name[element-type="Context"][element-name="container"] > [element-type="Context"][element-name="content"]
+        </pre>
+      </h4>
+    </li>
+  </ul>
 </div>
 <br />
 <br />
@@ -39,16 +70,27 @@
 <div class="part">
   <ol>
     <li>
-      <h3>parent</h3>: <h5><a href="#/man/classes/uiclasses/ui">UI</a></h5>
+      <h3>parent</h3>
+      :
+      <h5><a href="#/man/classes/uiclasses/ui">UI</a></h5>
     </li>
     <li>
-      <h3>text</h3>: <h5>String</h5> = ""
+      <h3>text</h3>
+      :
+      <h5>String</h5>
+      = ""
     </li>
     <li>
-      <h3>route</h3>: <h5>Route</h5> = undefined
+      <h3>route</h3>
+      :
+      <h5>Route</h5>
+      = undefined
     </li>
     <li>
-      <h3>theme</h3>: <h5>String</h5> = ""
+      <h3>theme</h3>
+      :
+      <h5>String</h5>
+      = ""
     </li>
   </ol>
 </div>
@@ -58,7 +100,10 @@
 <div class="part">
   <ul>
     <li>
-      <h3>entities</h3>: <h5>JSON</h5> {get}
+      <h3>entities</h3>
+      :
+      <h5>JSON</h5>
+      {get}
     </li>
   </ul>
 </div>
@@ -81,9 +126,10 @@
   <br />
   First and last parameters (`parent` and `theme`), are like other controls.
   <br />
-  Third parameter (`route`) is an instance of Tigerian's Route class, and it is optional. If you set that, your
-  application can change address without refresh and if you don't set that, it's a normal link which after
-  clicking on link, page get a refresh.
+  Third parameter (`route`) is an instance of Tigerian's Route class, and it is
+  optional. If you set that, your application can change address without refresh
+  and if you don't set that, it's a normal link which after clicking on link,
+  page get a refresh.
   <br />
   Most important parameter in `Context` is second parameter (`text`).
   <br />
@@ -112,7 +158,8 @@
     </li>
   </ul>
   <br />
-  You can access to variables and controls in your `text`, by `entities` property:
+  You can access to variables and controls in your `text`, by `entities`
+  property:
   <br />
   <h3>Sample:</h3>
   <br />

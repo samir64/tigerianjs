@@ -123,7 +123,7 @@ export class BSelectGroup extends Behavior {
                 return (instanceOf(n, "number") && (n >= 0) && (n < that.itemCount) && (arr.indexOf(n, idx + 1) === -1));
               }
 
-              v = v.sort(function (a, b) {
+              v = v.sort((a, b) => {
                 return a >= b;
               }).filter(getValidItems, that);
 
@@ -193,7 +193,7 @@ export class BSelectGroup extends Behavior {
       });
 
       //NOTE Public Functions
-      that.selectAll = function () {
+      that.selectAll = () => {
         if (that.multiSelect) {
           for (let i = 0; i < that.itemCount; i++) {
             that.getItem(i).selected = true;
@@ -201,7 +201,7 @@ export class BSelectGroup extends Behavior {
         }
       };
 
-      that.selectNone = function () {
+      that.selectNone = () => {
         for (let i = 0; i < that.itemCount; i++) {
           that.getItem(i).selected = false;
         }
@@ -210,7 +210,7 @@ export class BSelectGroup extends Behavior {
       /**
        * @param {Function} func
        */
-      that.sort = function (func) {
+      that.sort = (func) => {
         superSort(func);
         lastSelectedIndex = that.selectedIndex;
       };
@@ -325,11 +325,11 @@ export class BSelectGroup extends Behavior {
       //NOTE Default Events
       that.addEvent("keydown", onKeyDown);
       that.addEvent("focus", onFocus);
-      window.addEventListener("keydown", function (e) {
+      window.addEventListener("keydown", ((e) => {
         if (that.focuesd) {
           e.preventDefault();
         }
-      }.bind(that));
+      }).bind(that));
       that.addEvent("Add", onAddItem);
     });
   }

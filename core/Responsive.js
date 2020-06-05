@@ -1,8 +1,6 @@
 ("use strict");
 
-import {
-  EWindow
-} from "../behaviors/BWindow.js";
+import { EWindow } from "../behaviors/BWindow.js";
 
 export let responsiveSizes = {
   // none: {
@@ -84,9 +82,7 @@ export function responsive() {
         if (j > 0) {
           mediaQuery += ",\n";
         }
-        mediaQuery += `\t[${sizeName}-column="${
-          sizeNames[j]
-          }"][${sizeNames[j]}-column="${col}"]`;
+        mediaQuery += `\t[${sizeName}-column="${sizeNames[j]}"][${sizeNames[j]}-column="${col}"]`;
       }
       mediaQuery += ` {\n\t\twidth: ${(col * 100) / 12}%;\n\t}\n\n`;
     }
@@ -99,16 +95,11 @@ export function responsive() {
 
     mediaQuery += "\t\tmargin-left: auto;\n";
     mediaQuery += "\t\tmargin-right: auto;\n";
-    mediaQuery += `\t\tpadding-left: ${
-      sizeInfo.containerPadding
-      }px;\n`;
-    mediaQuery += `\t\tpadding-right: ${
-      sizeInfo.containerPadding
-      }px;\n`;
+    mediaQuery += `\t\tpadding: var(--padding-v) ${sizeInfo.containerPadding}px;\n`;
     mediaQuery += "\t\tdisplay: block;\n";
     mediaQuery += "\t}\n\n";
 
     mediaQuery += "}\n\n";
     style.innerHTML += mediaQuery;
   }
-};
+}

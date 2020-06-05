@@ -1,11 +1,5 @@
-import {
-  Tigerian,
-  instanceOf,
-  forEach
-} from "./Tigerian.js";
-import {
-  View
-} from "../model_view/View.js";
+import { Tigerian, instanceOf, forEach } from "./Tigerian.js";
+import { View } from "../model_view/View.js";
 
 ("use strict");
 
@@ -31,9 +25,9 @@ export class Route extends Tigerian {
     let viewPageNotFound;
     let that = this;
 
-    useHashTag = (useHashTag === false) ? false : true;
+    useHashTag = useHashTag === false ? false : true;
 
-    /* let getPath = function (path) {
+    /* let getPath = (path) => {
       if (path.startsWith(applicationRoot)) {
         return path.slice(applicationRoot.length);
       } else {
@@ -58,14 +52,14 @@ export class Route extends Tigerian {
       return path;
     };
 
-    let getBestMatch = function (path) {
+    let getBestMatch = (path) => {
       if (path in routesList) {
         return [path, {}];
       } else {
         let params = {};
         for (let route in routesList) {
           let groups = [];
-          let r = route.replace(/\{(\w+)\}/g, function () {
+          let r = route.replace(/\{(\w+)\}/g, () => {
             this.push(arguments[1]);
             return "(\\w+)";
           }.bind(groups));
@@ -83,11 +77,14 @@ export class Route extends Tigerian {
       }
     }; */
 
-    let getClearPath = (path) => {
-      return path.replace(/^[\/#]+/, "").replace(/[\/#?]+$/, "").replace(/\/{2,}/, "/");
+    let getClearPath = path => {
+      return path
+        .replace(/^[\/#]+/, "")
+        .replace(/[\/#?]+$/, "")
+        .replace(/\/{2,}/, "/");
     };
 
-    let findRoute = (path) => {
+    let findRoute = path => {
       if (path.startsWith(applicationRoot)) {
         path = getClearPath(path.substring(applicationRoot.length));
 
@@ -104,10 +101,10 @@ export class Route extends Tigerian {
           forEach(routesList, (route, index) => {
             let params = {};
             let groups = [];
-            let r = index.replace(/\{([\w-]+)\}/g, function () {
-              this.push(arguments[1]);
+            let r = index.replace(/\{([\w-]+)\}/g, (text, varName) => {
+              groups.push(varName);
               return "([\\w-]+)";
-            }.bind(groups));
+            });
             let reg = new RegExp("^" + r + "$");
             let match = reg.exec(path);
 
@@ -128,7 +125,6 @@ export class Route extends Tigerian {
           return result;
         }
 
-
         /* forEach(routesList, (route, index) => {
           console.log({ applicationRoot, path, route, index });
         }); */
@@ -143,12 +139,14 @@ export class Route extends Tigerian {
      * @param {string|string[]} routes
      * @param {View} view
      */
-    this.defineMethod("add", (view, ...routes) => {
-      for (let i = 0; i < routes.length; i++) {
-        routesList[getClearPath(routes[i])] = view;
-        // routesList[getGoodPath(routes[i])] = view;
-      }
-      /* if ((instanceOf(routes, String) || instanceOf(routes, Array)) && instanceOf(view, View)) {
+    this.defineMethod(
+      "add",
+      (view, ...routes) => {
+        for (let i = 0; i < routes.length; i++) {
+          routesList[getClearPath(routes[i])] = view;
+          // routesList[getGoodPath(routes[i])] = view;
+        }
+        /* if ((instanceOf(routes, String) || instanceOf(routes, Array)) && instanceOf(view, View)) {
           if (!instanceOf(routes, Array)) {
               routes = [routes];
           }
@@ -157,7 +155,9 @@ export class Route extends Tigerian {
               routes[getGoodPath(routes[i])] = view;
           }
       } */
-    }, [View]);
+      },
+      [View]
+    );
 
     /**
      * @param {string|string[]} [route]
@@ -182,11 +182,16 @@ export class Route extends Tigerian {
     /**
      * @param {string} route
      */
-    this.defineMethod("redirect", (route) => {
+    this.defineMethod("redirect", route => {
       // route = getGoodPath(route);
       route = getClearPath(route);
 
-      if (instanceOf(route, String) && (route !== "") && (route !== "/") && (route !== "#")) {
+      if (
+        instanceOf(route, String) &&
+        route !== "" &&
+        route !== "/" &&
+        route !== "#"
+      ) {
         if (useHashTag) {
           // let separator = (applicationRoot.startsWith("/") ? "" : "/");
           // window.location.href = window.location.origin + separator + applicationRoot + route;
@@ -206,7 +211,11 @@ export class Route extends Tigerian {
     });
 
     this.defineMethod("render", () => {
-      let routeCheck = findRoute(getClearPath(window.location.pathname + (useHashTag ? window.location.hash : "")));
+      let routeCheck = findRoute(
+        getClearPath(
+          window.location.pathname + (useHashTag ? window.location.hash : "")
+        )
+      );
 
       /* let url = getGoodPath(window.location.pathname + (useHashTag ? window.location.hash : ""));
       let check = getBestMatch(getGoodPath(getPath(url)));
@@ -273,7 +282,11 @@ export class Route extends Tigerian {
         let routeParts = [];
         routeParts = routeCheck.path.split("/");
 
-        routeCheck.route.refresh(routeCheck.params, routeCheck.path, routeParts);
+        routeCheck.route.refresh(
+          routeCheck.params,
+          routeCheck.path,
+          routeParts
+        );
         routeCheck.route.show();
 
         lastRoute = routeCheck.route;
@@ -297,10 +310,9 @@ export class Route extends Tigerian {
         return applicationRoot;
       },
       set(v) {
-        if (instanceOf(v, String)) {
-          setBasePath(v);
-        }
+        setBasePath(v);
       },
+      type: String
     });
 
     /**
@@ -311,10 +323,9 @@ export class Route extends Tigerian {
         return viewPageNotFound;
       },
       set(v) {
-        if (instanceOf(v, View) || (v === undefined)) {
-          viewPageNotFound = v;
-        }
+        viewPageNotFound = v;
       },
+      type: [View, undefined]
     });
 
     this.defineProperty("current", {
@@ -323,16 +334,17 @@ export class Route extends Tigerian {
       },
       set(v) {
         that.redirect(v);
-      }
-    })
+      },
+      type: View
+    });
 
-    window.onhashchange = (e) => {
+    window.onhashchange = e => {
       if (useHashTag) {
         that.render();
       }
     };
 
-    window.onpopstate = (e) => {
+    window.onpopstate = e => {
       if (!useHashTag) {
         that.render();
       }
