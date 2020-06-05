@@ -1,0 +1,24 @@
+[element-type="Button"][element-name="container"] {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  width: auto;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: var(--border-width) solid;
+  padding: var(--padding-v) var(--padding-h);
+  margin: var(--margin-v) var(--margin-h);
+  border-radius: var(--border-radius);
+}
+
+[element-type="Button"][element-name="container"]:not([disabled="true"]):active {
+  outline: 3px solid
+    hsla(
+      var(--situation-default-h),
+      var(--situation-default-s),
+      var(--situation-default-l),
+      25%
+    );
+}

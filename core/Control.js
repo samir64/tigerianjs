@@ -99,7 +99,7 @@ export class Control extends UI {
     /**
      * @member {string}
      */
-    this.defineProperty("title", {
+    this.defineProperty("hint", {
       /**
        * @returns {string}
        */

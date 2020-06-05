@@ -1,0 +1,13 @@
+[element-type="Notification"][element-name="container"] {
+  border: var(--border-width) solid;
+  border-radius: var(--border-radius);
+  padding: calc(var(--padding-v) * 1) calc(var(--padding-h) * 2);
+  margin: var(--margin-v) var(--margin-h);
+  /* font-weight: 600; */
+}
+
+[element-type="Notification"][element-name="container"] > [element-type="Notification"][element-name="description"] {
+  font-size: 90%;
+  font-weight: 200;
+  padding: 0 5px;
+}

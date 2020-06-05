@@ -1,0 +1,43 @@
+[element-type][element-name="container"][closable="true"] {
+  position: relative;
+}
+
+[element-type][element-name="container"][closable="true"]
+  > [element-type="CancelButton"][element-name="cancel-button"] {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  width: 25px;
+  height: 15px;
+  opacity: 0.35;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+[element-type][element-name="container"][closable="true"]
+  > [element-type="CancelButton"][element-name="cancel-button"]:before,
+[element-type][element-name="container"][closable="true"]
+  > [element-type="CancelButton"][element-name="cancel-button"]:after {
+  position: absolute;
+  content: "";
+  background-color: #333;
+  height: 100%;
+  width: 2px;
+  left: 10px;
+  top: -1px;
+}
+
+[element-type][element-name="container"][closable="true"]
+  > [element-type="CancelButton"][element-name="cancel-button"]:after {
+  transform: rotate(45deg);
+}
+
+[element-type][element-name="container"][closable="true"]
+  > [element-type="CancelButton"][element-name="cancel-button"]:before {
+  transform: rotate(-45deg);
+}
+
+[element-type][element-name="container"][closable="true"]
+  > [element-type="CancelButton"][element-name="cancel-button"]:hover {
+  opacity: 1;
+}

@@ -1,9 +1,6 @@
-import {
-    instanceOf
-} from "../core/Tigerian.js";
-import {
-    Behavior
-} from "../core/Behavior.js";
+import { instanceOf } from "../core/Tigerian.js";
+import { Behavior } from "../core/Behavior.js";
+import { Control } from "../core/Control.js";
 
 ("use strict");
 
@@ -12,45 +9,53 @@ import {
  * @extends {Behavior}
  */
 export class BCancel extends Behavior {
+  /**
+   * @constructs
+   */
+  constructor() {
+    super();
+
     /**
-     * @constructs
+     * @param {string} behavior
+     * @param {Control} ctrlCancel
      */
-    constructor() {
-        super();
+    this.defineMethod(
+      "config",
+      (that, ctrlCancel) => {
+        let elmButton = document.createElement("div");
 
+        elmButton.setAttribute("element-type", "CancelButton");
+        elmButton.setAttribute("element-name", "cancel-button");
+        elmButton.setAttribute("visible", "true");
+
+        ctrlCancel.setAttribute("closable", "true");
+
+        ctrlCancel.addControl(elmButton);
         /**
-         * @param {string} behavior
-         * @param {Control} ctrlCancel
-         * @param {Control} btnCancelParent
+         * @member {boolean}
          */
-        this.defineMethod("config", (that, ctrlCancel, btnCancelParent) => {
-            let cancelButton = true;
-            let elmButton = document.createElement("div");
+        that.defineProperty("closable", {
+          get() {
+            return ctrlCancel.getAttribute("closable") === "true";
+          },
+          set(v) {
+            if (instanceOf(v, "boolean")) {
+              ctrlCancel.setAttribute("closable", v ? "true" : "false");
+              elmButton.setAttribute("visible", v ? "true" : "false");
+            }
+          },
+          type: Boolean
+        });
 
-            elmButton.setAttribute("element-type", "Button");
-            elmButton.setAttribute("element-name", "cancel");
-
-            btnCancelParent.addControl(elmButton);
-            /**
-             * @member {boolean}
-             */
-            Object.defineProperty(that, "cancelButton", {
-                enumerable: true,
-                configurable: true,
-                get() {
-                    return (ctrlCancel.getAttribute("cancel-button") === "true");
-                },
-                set(v) {
-                    if (instanceOf(v, "boolean")) {
-                        ctrlCancel.setAttribute("cancel-button", (v ? "true" : "false"));
-                        elmButton.setAttribute("visible", (v ? "true" : "false"));
-                    }
-                }
-            });
-
-            elmButton.addEventListener("click", (e) => {
-                that.visible = false;
-            }, true);
-        }, [Object, Control, Control]);
-    }
+        elmButton.addEventListener(
+          "click",
+          (e) => {
+            that.visible = false;
+          },
+          true
+        );
+      },
+      [Object, Control, Control]
+    );
+  }
 }

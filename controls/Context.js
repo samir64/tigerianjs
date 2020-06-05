@@ -1,21 +1,9 @@
-import {
-  Control
-} from "../core/Control.js";
-import {
-  BText
-} from "../behaviors/BText.js";
-import {
-  BBind
-} from "../behaviors/BBind.js";
-import {
-  defineProperty
-} from "../core/Tigerian.js";
-import {
-  HyperLink
-} from "./HyperLink.js";
-import {
-  Route
-} from "../core/Route.js";
+import { Control } from "../core/Control.js";
+import { BText } from "../behaviors/BText.js";
+import { BBind } from "../behaviors/BBind.js";
+import { defineProperty } from "../core/Tigerian.js";
+import { HyperLink } from "./HyperLink.js";
+import { Route } from "../core/Route.js";
 
 /**
  * @extends {Control}
@@ -28,7 +16,7 @@ export class Context extends Control {
    * @param {String} text = ""
    * @param {Route} route = undefined
    * @param {String} theme = ""
-   * 
+   *
    * @constructs
    */
   constructor(parent, text = "", route = undefined, theme = "") {
@@ -60,11 +48,16 @@ export class Context extends Control {
       let tag;
       let commonText = "\\s+id\\s*=\\s*['\"](\\w+)['\"]\\s*>([^<]*)<\\/";
       let urlText = "\\s+url\\s*=\\s*['\"]([\\w\\/-]+)['\"]\\s*>([^<]*)<\\/";
-      let pattern = `(?:<variable${commonText}variable>)|(?:<control${commonText}control>)|(?:<redirect${urlText}redirect>)`
+      let pattern = `(?:<variable${commonText}variable>)|(?:<control${commonText}control>)|(?:<redirect${urlText}redirect>)`;
       let regex = new RegExp(pattern, "i");
 
-      while (match = t.match(regex)) {
-        tag = ((match[0].toLowerCase().indexOf("</variable>") >= 0) ? "variable" : ((match[0].toLowerCase().indexOf("</control>") >= 0) ? "control" : "redirect"));
+      while ((match = t.match(regex))) {
+        tag =
+          match[0].toLowerCase().indexOf("</variable>") >= 0
+            ? "variable"
+            : match[0].toLowerCase().indexOf("</control>") >= 0
+            ? "control"
+            : "redirect";
 
         node = document.createTextNode(t.substr(0, match.index));
         ctrl.addControl(node);
@@ -72,7 +65,7 @@ export class Context extends Control {
         switch (tag) {
           case "variable":
             node = document.createTextNode(match[2]);
-            ((n) => {
+            (n => {
               defineProperty(ents, match[1], {
                 get() {
                   return n.data;
@@ -81,7 +74,7 @@ export class Context extends Control {
                   n.data = v;
                 },
                 type: String
-              })
+              });
             })(node);
             ctrl.addControl(node);
             break;
@@ -96,24 +89,27 @@ export class Context extends Control {
             node.headText = match[4][0];
             node.footText = match[4][1];
 
-            ((n) => {
+            (n => {
               defineProperty(ents, match[3], {
                 get() {
                   return n;
                 }
-              })
+              });
             })(node);
             break;
 
           case "redirect":
             node = new HyperLink(ctrl, match[6], match[5], theme);
             if (route) {
-              node.addEvent("click", ((url) => {
-                return (e) => {
-                  e.preventDefault();
-                  route.redirect(url);
-                }
-              })(match[5]));
+              node.addEvent(
+                "click",
+                (url => {
+                  return e => {
+                    e.preventDefault();
+                    route.redirect(url);
+                  };
+                })(match[5])
+              );
             }
             break;
 

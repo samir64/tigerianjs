@@ -49,6 +49,9 @@ export class ViewContent extends View {
 
     txtCaption.style.padding = "0 25px";
     txtCaption.style.margin.bottom = "50px";
+    txtCaption.column = 12;
+
+    context.column = 12;
 
     ctrButton.style.margin = "50px 0";
     ctrButton.column = 12;
@@ -75,6 +78,8 @@ export class ViewContent extends View {
     btnNextTopic.style.float = "right";
 
     content.style.text.align = "justify";
+
+    // context.style.overflow.x = "auto";
 
     /* btnPrevTopic.smallColumn = btnNextTopic.smallColumn = 6;
     btnPrevTopic.mediumColumn = btnNextTopic.mediumColumn = 5;
