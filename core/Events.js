@@ -175,4 +175,31 @@ Events.onTransition = new Event("Transition", {
 	},
 	bubbles: true,
 	cancelable: true
-})
+});
+
+Events.onProgress = new Event("Progress", {
+	detail: {
+		message: "On Progress",
+		time: new Date()
+	},
+	bubbles: true,
+	cancelable: true
+});
+
+Events.onSuccess = new Event("Success", {
+	detail: {
+		message: "Success",
+		time: new Date()
+	},
+	bubbles: true,
+	cancelable: true
+});
+
+Events.onUnsuccess = new Event("Unsuccess", {
+	detail: {
+		message: "Unsuccess",
+		time: new Date()
+	},
+	bubbles: true,
+	cancelable: true
+});

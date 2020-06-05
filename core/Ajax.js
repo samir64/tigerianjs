@@ -2,6 +2,12 @@ import {
   Tigerian,
   instanceOf
 } from "./Tigerian.js";
+import {
+  Events
+} from "./Events.js";
+import {
+  BEvent
+} from "../behaviors/BEvent.js";
 
 ("use strict");
 
@@ -18,9 +24,10 @@ export class Ajax extends Tigerian {
     super();
 
     let httpRequest;
-    let success = function (responseText, responseXml, responseJson) {};
-    let unsuccess = function (readyState, status, statusText) {};
-    let progress = function (percent, loaded, total) {};
+    let that = this;
+    // let success = function (responseText, responseXml, responseJson) {};
+    // let unsuccess = function (readyState, status, statusText) {};
+    // let progress = function (percent, loaded, total) {};
     let async = true;
 
     if (window.XMLHttpRequest) {
@@ -31,12 +38,53 @@ export class Ajax extends Tigerian {
       httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
     }
 
-    httpRequest.onreadystatechange = changeState;
+    this.config(BEvent, httpRequest);
+
+    httpRequest.onreadystatechange = function () {
+      that.dispatchEvent(Events.onChange, {
+        state: httpRequest.readyState,
+        status: httpRequest.status,
+        message: httpRequest.statusText
+      });
+
+      if (httpRequest.readyState === 4) {
+        if (httpRequest.status === 200) {
+          let jsonObject;
+          try {
+            jsonObject = JSON.parse(httpRequest.responseText);
+          } catch (e) {
+            jsonObject = undefined;
+          }
+          that.dispatchEvent(Events.onSuccess, {
+            text: httpRequest.responseText,
+            xml: httpRequest.responseXML,
+            json: jsonObject
+          });
+          // success(httpRequest.responseText, httpRequest.responseXML, jsonObject);
+        } else {
+          that.dispatchEvent(Events.onUnsuccess, {
+            state: httpRequest.readyState,
+            status: httpRequest.status,
+            message: httpRequest.statusText
+          });
+          // unsuccess(httpRequest.readyState, httpRequest.status, httpRequest.statusText);
+        }
+      }
+    };
+
     httpRequest.onprogress = function (e) {
       if (e.lengthComputable) {
-        progress(100 * e.loaded / e.total, e.loaded, e.total);
+        that.dispatchEvent(Events.onProgress, {
+          percent: 100 * e.loaded / e.total,
+          loaded: e.loaded,
+          total: e.total
+        });
       } else {
-        progress(-1);
+        that.dispatchEvent(Events.onProgress, {
+          percent: -1,
+          loaded: -1,
+          total: -1
+        });
       }
     };
 
@@ -49,20 +97,6 @@ export class Ajax extends Tigerian {
         let json = JSON.stringify(params[key]);
         return key + "=" + (json !== "\"" + params[key] + "\"" ? json : params[key]);
       }).join("&"));
-    }
-
-    function changeState() {
-      if (this.readyState === 4) {
-        if (this.status === 200) {
-          let jsonObject;
-          try {
-            jsonObject = JSON.parse(this.responseText);
-          } catch (e) {}
-          success(this.responseText, this.responseXML, jsonObject);
-        } else {
-          unsuccess(this.readyState, this.status, this.statusText);
-        }
-      }
     }
 
     function request(method, params) {
@@ -111,7 +145,7 @@ export class Ajax extends Tigerian {
       type: Boolean
     });
 
-    this.defineProperty("success", {
+    /* this.defineProperty("success", {
       get() {
         return success;
       },
@@ -119,9 +153,9 @@ export class Ajax extends Tigerian {
         success = v;
       },
       type: Function
-    });
+    }); */
 
-    this.defineProperty("unsuccess", {
+    /* this.defineProperty("unsuccess", {
       get() {
         return unsuccess;
       },
@@ -129,9 +163,9 @@ export class Ajax extends Tigerian {
         unsuccess = v;
       },
       type: Function
-    });
+    }); */
 
-    this.defineProperty("progress", {
+    /* this.defineProperty("progress", {
       get() {
         return progress;
       },
@@ -139,7 +173,7 @@ export class Ajax extends Tigerian {
         progress = v;
       },
       type: Function
-    });
+    }); */
 
     this.defineProperty("url", {
       get() {

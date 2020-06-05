@@ -26,12 +26,12 @@ import {
 export class Model extends ModelView {
   /**
    * @constructs
-   * @param {string} applicationPath
-   * @param {string} controllerPath
+   * @param {string} appPath
+   * @param {string} apiPath
    * @param {string|Function} idType = Number
    * @param {string} fetchField = ""
    */
-  constructor(applicationPath, controllerPath, idType = Number, fetchField = "") {
+  constructor(appPath, apiPath, idType = Number, fetchField = "") {
     super();
 
     /**
@@ -41,12 +41,12 @@ export class Model extends ModelView {
       id: new ModelField("id", idType)
     };
     // let relations = [];
-    let addPath = controllerPath;
-    let editPath = controllerPath;
-    let deletePath = controllerPath;
-    let reloadPath = controllerPath;
-    let searchPath = controllerPath;
-    let countPath = controllerPath;
+    let addApiPath = apiPath;
+    let editApiPath = apiPath;
+    let deleteApiPath = apiPath;
+    let reloadApiPath = apiPath;
+    let searchApiPath = apiPath;
+    let countApiPath = apiPath;
     // let constructorArgs = Array.from(arguments);
 
     let instance = this;
@@ -58,7 +58,7 @@ export class Model extends ModelView {
     }
 
     let getPath = function (path) {
-      let result = (applicationPath === "") ? "/" : applicationPath;
+      let result = (appPath === "") ? "/" : appPath;
       let flds = {};
 
       forEach(fields, (field, idx) => {
@@ -175,12 +175,12 @@ export class Model extends ModelView {
     /**
      * @member {string}
      */
-    this.defineProperty("addPath", {
+    this.defineProperty("addApiPath", {
       get() {
-        return addPath;
+        return addApiPath;
       },
       set(v) {
-        addPath = v;
+        addApiPath = v;
       },
       type: String
     });
@@ -188,12 +188,12 @@ export class Model extends ModelView {
     /**
      * @member {string}
      */
-    this.defineProperty("editPath", {
+    this.defineProperty("editApiPath", {
       get() {
-        return editPath;
+        return editApiPath;
       },
       set(v) {
-        editPath = v;
+        editApiPath = v;
       },
       type: String
     });
@@ -201,12 +201,12 @@ export class Model extends ModelView {
     /**
      * @member {string}
      */
-    this.defineProperty("deletePath", {
+    this.defineProperty("deleteApiPath", {
       get() {
-        return deletePath;
+        return deleteApiPath;
       },
       set(v) {
-        deletePath = v;
+        deleteApiPath = v;
       },
       type: String
     });
@@ -214,12 +214,12 @@ export class Model extends ModelView {
     /**
      * @member {string}
      */
-    this.defineProperty("reloadPath", {
+    this.defineProperty("reloadApiPath", {
       get() {
-        return reloadPath;
+        return reloadApiPath;
       },
       set(v) {
-        reloadPath = v;
+        reloadApiPath = v;
       },
       type: String
     });
@@ -227,12 +227,12 @@ export class Model extends ModelView {
     /**
      * @member {string}
      */
-    this.defineProperty("searchPath", {
+    this.defineProperty("searchApiPath", {
       get() {
-        return searchPath;
+        return searchApiPath;
       },
       set(v) {
-        searchPath = v;
+        searchApiPath = v;
       },
       type: String
     });
@@ -240,12 +240,12 @@ export class Model extends ModelView {
     /**
      * @member {string}
      */
-    this.defineProperty("countPath", {
+    this.defineProperty("countApiPath", {
       get() {
-        return countPath;
+        return countApiPath;
       },
       set(v) {
-        countPath = v;
+        countApiPath = v;
       },
       type: String
     });
@@ -336,14 +336,14 @@ export class Model extends ModelView {
       }
 
       if (fields["id"].value !== undefined) {
-        ajax.url = getPath(editPath);
+        ajax.url = getPath(editApiPath);
         // params = {
         //     id: fields["id"].value,
         //     value: params
         // };
         ajax.put(params);
       } else {
-        ajax.url = getPath(addPath);
+        ajax.url = getPath(addApiPath);
         ajax.post(params);
       }
     }, [Function, Function, Function]);
@@ -361,7 +361,7 @@ export class Model extends ModelView {
       }
 
       if (fields["id"].value !== undefined) {
-        ajax.url = getPath(deletePath);
+        ajax.url = getPath(deleteApiPath);
         ajax.delete({
           id: fields["id"].value
         }, ajaxSuccess, ajaxUnsuccess);
@@ -381,7 +381,7 @@ export class Model extends ModelView {
       }
 
       if (fields["id"].value !== undefined) {
-        ajax.url = getPath(reloadPath);
+        ajax.url = getPath(reloadApiPath);
         ajax.get({
           id: fields["id"].value
         });
@@ -410,7 +410,7 @@ export class Model extends ModelView {
         }
       }
 
-      ajax.url = getPath(searchPath);
+      ajax.url = getPath(searchApiPath);
       // console.warning(ajax.url);
       ajax.get(params, ajaxSearchSuccess, ajaxUnsuccess);
     }, [Object, Function, Function, Function]);
@@ -443,7 +443,7 @@ export class Model extends ModelView {
         }
       }
 
-      ajax.url = getPath(countPath);
+      ajax.url = getPath(countApiPath);
       ajax.get(params);
     }, [Function, Function, Function]);
 

@@ -4,6 +4,11 @@
 
 <h3>Behaviors:</h3>
 <div class="part">
+  <ul>
+    <li>
+      <h4>BEvent</h4>
+    </li>
+  </ul>
 </div>
 <br />
 
@@ -32,19 +37,10 @@
 <div class="part">
   <ul>
     <li>
-      <h4>async</h4>: <h5>Boolean</h5> = true
+      <h4>async</h4>: <h5>Boolean</h5> = true {get/set}
     </li>
     <li>
-      <h4>url</h4>: <h5>String</h5>
-    </li>
-    <li>
-      <h4>success</h4>: <h5>Function</h5>
-    </li>
-    <li>
-      <h4>unsuccess</h4>: <h5>Function</h5>
-    </li>
-    <li>
-      <h4>progress</h4>: <h5>Function</h5>
+      <h4>url</h4>: <h5>String</h5> {get/set}
     </li>
   </ul>
 </div>
@@ -76,10 +72,58 @@
 <div class="part">
   <ul>
     <li>
-      <h4></h4>'s Data:
+      <h4>progress</h4>'s Data:
       <ul>
         <li>
-          <h5></h5>: <h6></h6>
+          <h5>percent</h5>: <h6>Number</h6>
+        </li>
+        <li>
+          <h5>loaded</h5>: <h6>Number</h6>
+        </li>
+        <li>
+          <h5>data</h5>: <h6>Number</h6>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <h4>change</h4>'s Data:
+      <ul>
+        <li>
+          <h5>state</h5>: <h6>Number</h6>
+        </li>
+        <li>
+          <h5>status</h5>: <h6>Number</h6>
+        </li>
+        <li>
+          <h5>message</h5>: <h6>String</h6>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <h4>success</h4>'s Data:
+      <ul>
+        <li>
+          <h5>xml</h5>: <h6>XMLDocument</h6>
+        </li>
+        <li>
+          <h5>text</h5>: <h6>String</h6>
+        </li>
+        <li>
+          <h5>json</h5>: <h6>JSON</h6>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <h4>unsuccess</h4>'s Data:
+      <ul>
+        <li>
+          <h5>state</h5>: <h6>Number</h6>
+        </li>
+        <li>
+          <h5>status</h5>: <h6>Number</h6>
+        </li>
+        <li>
+          <h5>message</h5>: <h6>String</h6>
         </li>
       </ul>
     </li>
