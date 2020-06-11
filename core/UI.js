@@ -66,18 +66,40 @@ export class UI extends Tigerian {
     this.config(BEvent, mainElement);
     this.config(BTransition, mainElement);
 
+    mainElement.setAttribute("element-type", this.constructor.name);
+    mainElement.setAttribute("element-origin", "Container");
+
     //NOTE Private Constants
     /**
      * @type {string[]}
      */
-    let attributesSetProtected = [];
+    let attributesSetProtected = [
+      "element-type",
+      "element-origin"
+    ];
     /**
      * @type {string[]}
      */
     let attributesRemoveProtected = attributesSetProtected.concat([
       "visible",
       "element-name",
-      "element-type"
+      "id",
+      "transition-name",
+      "transition-status",
+      "focused",
+      "style",
+      "element-situation",
+      "element-hoverable",
+      "xsmall-column",
+      "small-column",
+      "medium-column",
+      "large-column",
+      "xlarge-column",
+      "template-name",
+      "template-item",
+      "title",
+      "text"
+      // "element-type"
     ]);
 
     //NOTE Private Variables
@@ -349,6 +371,8 @@ export class UI extends Tigerian {
      */
     this.defineMethod("addControl", (control) => {
       if (instanceOf(control, Element) || instanceOf(control, Text)) {
+        control.setAttribute("element-type", this.constructor.name);
+        control.setAttribute("element-origin", "Child");
         mainElement.appendChild(control);
       } else if (instanceOf(control, UI)) {
         control.appendTo(that, mainElement);
@@ -527,7 +551,7 @@ export class UI extends Tigerian {
 
     //NOTE Attributes
     this.setAttribute("element-name", "");
-    this.setAttribute("element-type", "");
+    // this.setAttribute("element-type", "");
     this.setAttribute("visible", "true");
     this.setAttribute(
       "focused",

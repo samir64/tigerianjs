@@ -34,11 +34,11 @@ export class Loading extends Control {
     let loaded = 0;
     let that = this;
 
-    this.setAttribute("element-type", "Loading");
+    // this.setAttribute("element-type", "Loading");
     this.setAttribute("element-name", "container");
     this.setAttribute("element-situation", "opposite");
 
-    elmBar.setAttribute("element-type", "Loading");
+    // elmBar.setAttribute("element-type", "Loading");
     elmBar.setAttribute("element-name", "bar");
     elmBar.setAttribute("element-situation", "error");
 

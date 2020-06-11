@@ -7,8 +7,12 @@ import {
 import {
   BGroup
 } from "../behaviors/BGroup.js";
-import { Spacer } from "./Spacer.js";
-import { BText } from "../behaviors/BText.js";
+import {
+  Spacer
+} from "./Spacer.js";
+import {
+  BText
+} from "../behaviors/BText.js";
 
 ("use strict");
 
@@ -29,7 +33,7 @@ export class Menu extends Control {
 
     let superAddControl = this.addControl.bind(this);
 
-    this.setAttribute("element-type", "Menu");
+    // this.setAttribute("element-type", "Menu");
     this.setAttribute("element-name", "container");
 
     /**

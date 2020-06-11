@@ -29,7 +29,7 @@ export class TableRow extends Control {
     let superAddControl = this.addControl.bind(this);
     let superGetItem = this.getItem.bind(this);
 
-    this.setAttribute("element-type", "TableRow");
+    // this.setAttribute("element-type", "TableRow");
     this.setAttribute("element-name", "container");
 
     if (instanceOf(colCount, "number")) {

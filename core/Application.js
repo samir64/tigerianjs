@@ -10,6 +10,9 @@ import {
 import {
   BGridTemplate
 } from "../behaviors/BGridTemplate.js";
+import {
+  responsive
+} from "./Responsive.js";
 
 /**
  * Created by samir on 8/25/16.
@@ -17,6 +20,8 @@ import {
  */
 
 ("use strict");
+
+responsive();
 
 /**
  * @constructor
@@ -44,7 +49,7 @@ export class Application extends UI {
     }
 
     //NOTE Attributes
-    this.setAttribute("element-type", "Application");
+    // this.setAttribute("element-type", "Application");
     this.setAttribute("element-name", "container");
 
     //NOTE Public Functions

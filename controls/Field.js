@@ -45,7 +45,7 @@ export class Field extends Control {
         ctrlLabel.situation = Control.ETransparent;
 
         //NOTE Attributes
-        this.setAttribute("element-type", "Field");
+        // this.setAttribute("element-type", "Field");
         this.setAttribute("element-name", "container");
 
         // this.setAttribute("empty", (ctrlText.text === "") ? "true" : "false");

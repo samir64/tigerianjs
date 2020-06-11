@@ -48,10 +48,10 @@ export class CollapseItem extends Control {
 
     ctrlList.visible = false;
 
-    this.setAttribute("element-type", "CollapseItem");
+    // this.setAttribute("element-type", "CollapseItem");
     this.setAttribute("element-name", "container");
 
-    elmText.setAttribute("element-type", "CollapseItem");
+    // elmText.setAttribute("element-type", "CollapseItem");
     // elmText.setAttribute("element-name", "text");
 
     this.defineMethod("addControl", (item) => {

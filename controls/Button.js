@@ -1,5 +1,9 @@
-import { Control } from "../core/Control.js";
-import { BText } from "../behaviors/BText.js";
+import {
+  Control
+} from "../core/Control.js";
+import {
+  BText
+} from "../behaviors/BText.js";
 
 /**
  * Created by samir on 8/26/16.
@@ -29,10 +33,10 @@ export class Button extends Control {
     let that = this;
 
     //NOTE Attributes
-    this.setAttribute("element-type", "Button");
+    // this.setAttribute("element-type", "Button");
     this.setAttribute("element-name", "container");
 
-    elmButton.setAttribute("element-type", "Button");
+    // elmButton.setAttribute("element-type", "Button");
     // elmButton.setAttribute("element-name", "text");
 
     // this.setAttribute("fit-content", "false");
@@ -47,9 +51,9 @@ export class Button extends Control {
      */
     this.defineProperty("tabIndex", {
       get() {
-        return elmButton.hasAttribute("tabindex")
-          ? elmButton.getAttribute("tabindex")
-          : 0;
+        return elmButton.hasAttribute("tabindex") ?
+          elmButton.getAttribute("tabindex") :
+          0;
       },
       set(v) {
         if (v > 0) {

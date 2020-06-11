@@ -32,7 +32,7 @@ export class CollapseList extends Control {
     // let superAddItem = this.addItem.bind(this);
     let that = this;
 
-    this.setAttribute("element-type", "CollapseList");
+    // this.setAttribute("element-type", "CollapseList");
     this.setAttribute("element-name", "container");
 
     // this.normalColumn = BWindow.ENone;

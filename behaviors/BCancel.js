@@ -1,6 +1,12 @@
-import { instanceOf } from "../core/Tigerian.js";
-import { Behavior } from "../core/Behavior.js";
-import { Control } from "../core/Control.js";
+import {
+  instanceOf
+} from "../core/Tigerian.js";
+import {
+  Behavior
+} from "../core/Behavior.js";
+import {
+  Control
+} from "../core/Control.js";
 
 ("use strict");
 
@@ -24,7 +30,7 @@ export class BCancel extends Behavior {
       (that, ctrlCancel) => {
         let elmButton = document.createElement("div");
 
-        elmButton.setAttribute("element-type", "CancelButton");
+        // elmButton.setAttribute("element-type", "CancelButton");
         elmButton.setAttribute("element-name", "cancel-button");
         elmButton.setAttribute("visible", "true");
 

@@ -29,7 +29,7 @@ export class Container extends Control {
     // let thisAddControl = this.addControl;
 
     //NOTE Attributes
-    this.setAttribute("element-type", "Container");
+    // this.setAttribute("element-type", "Container");
     this.setAttribute("element-name", "container");
 
     // elmBody.setAttribute("element-type", "Container");

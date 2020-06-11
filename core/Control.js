@@ -1,6 +1,13 @@
-import { instanceOf, forEach } from "./Tigerian.js";
-import { UI } from "./UI.js";
-import { responsiveSizes } from "./Responsive.js";
+import {
+  instanceOf,
+  forEach
+} from "./Tigerian.js";
+import {
+  UI
+} from "./UI.js";
+import {
+  responsiveSizes
+} from "./Responsive.js";
 
 /**
  * Created by samir on 8/25/16.
@@ -36,7 +43,7 @@ export class Control extends UI {
     elmDivContainer.appendChild(elmTxtFoot);
 
     //NOTE Attributes
-    this.setAttribute("element-type", "Control");
+    // this.setAttribute("element-type", "Control");
     this.setAttribute("element-name", "container");
     this.setAttribute("element-situation", "");
     this.setAttribute("element-hoverable", "false");
@@ -120,9 +127,9 @@ export class Control extends UI {
      */
     this.defineProperty("tabIndex", {
       get() {
-        return that.hasAttribute("tabindex")
-          ? that.getAttribute("tabindex")
-          : 0;
+        return that.hasAttribute("tabindex") ?
+          that.getAttribute("tabindex") :
+          0;
       },
       set(v) {
         if (instanceOf(v, "number")) {
@@ -862,7 +869,9 @@ export class Control extends UI {
         superAddControl(control);
         elmDivContainer.appendChild(elmTxtFoot);
       },
-      [[Control, Text, Element]]
+      [
+        [Control, Text, Element]
+      ]
     );
 
     this.defineMethod("clearContent", () => {

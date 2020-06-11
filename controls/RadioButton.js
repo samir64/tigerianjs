@@ -46,15 +46,15 @@ export class RadioButton extends Control {
 
     //NOTE Attributes
     this.setAttribute("element-name", "container");
-    this.setAttribute("element-type", "RadioButton");
+    // this.setAttribute("element-type", "RadioButton");
 
     elmRadioButton.setAttribute("element-name", "button");
-    elmRadioButton.setAttribute("element-type", "RadioButton");
+    // elmRadioButton.setAttribute("element-type", "RadioButton");
     elmRadioButton.setAttribute("element-situation", "");
     elmRadioButton.setAttribute("element-hoverable", "true");
 
     // elmLabel.setAttribute("element-name", "label");
-    elmLabel.setAttribute("element-type", "RadioButton");
+    // elmLabel.setAttribute("element-type", "RadioButton");
 
     //NOTE Append Children
     this.addControl(elmRadioButton);

@@ -29,7 +29,7 @@ export class Header extends Control {
 
         this.fixed = fixed;
 
-        this.setAttribute("element-type", "Header");
+        // this.setAttribute("element-type", "Header");
         this.setAttribute("element-name", "container");
     }
 }

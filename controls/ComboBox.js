@@ -13,7 +13,9 @@ import {
 import {
   BText
 } from "../behaviors/BText.js";
-import { BFilter } from "../behaviors/BFilter.js";
+import {
+  BFilter
+} from "../behaviors/BFilter.js";
 
 /**
  * Created by samir on 11/11/16.
@@ -56,7 +58,7 @@ export class ComboBox extends Control {
     ctrlText.hoverable = ctrlLabel.hoverable = true;
 
     //NOTE Attributes
-    this.setAttribute("element-type", "ComboBox");
+    // this.setAttribute("element-type", "ComboBox");
     this.setAttribute("element-name", "container");
     // ctrlLabel.setAttribute("element-name", "label");
     // ctrlText.setAttribute("element-name", "Text");

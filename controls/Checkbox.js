@@ -46,15 +46,15 @@ export class Checkbox extends Control {
 
     //NOTE Attributes
     this.setAttribute("element-name", "container");
-    this.setAttribute("element-type", "Checkbox");
+    // this.setAttribute("element-type", "Checkbox");
 
     elmCheckbox.setAttribute("element-name", "check");
-    elmCheckbox.setAttribute("element-type", "Checkbox");
+    // elmCheckbox.setAttribute("element-type", "Checkbox");
     elmCheckbox.setAttribute("element-situation", "");
     this.setAttribute("element-hoverable", "true");
 
     // elmLabel.setAttribute("element-name", "label");
-    elmLabel.setAttribute("element-type", "Checkbox");
+    // elmLabel.setAttribute("element-type", "Checkbox");
 
     //NOTE Append Children
     this.addControl(elmCheckbox);

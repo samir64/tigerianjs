@@ -4,7 +4,9 @@ import {
 import {
   BGroup
 } from "../behaviors/BGroup.js";
-import { BTable } from "../behaviors/BTable.js";
+import {
+  BTable
+} from "../behaviors/BTable.js";
 
 ("use strict");
 
@@ -25,7 +27,7 @@ export class Table extends Control {
   constructor(parent, colCount = 1, caption = "", theme = "") {
     super(parent, theme);
 
-    this.setAttribute("element-type", "Table");
+    // this.setAttribute("element-type", "Table");
     this.setAttribute("element-name", "container");
 
     let ctrlTableHeader = new Header(this, false, this.theme);

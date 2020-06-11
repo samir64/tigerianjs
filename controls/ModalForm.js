@@ -42,10 +42,10 @@ export class ModalForm extends Control {
     this.addControl(ctrlBody);
     this.addControl(ctrlFooter);
 
-    this.setAttribute("element-type", "ModalForm");
+    // this.setAttribute("element-type", "ModalForm");
     this.setAttribute("element-name", "container");
 
-    ctrlBody.setAttribute("element-type", "ModalForm");
+    // ctrlBody.setAttribute("element-type", "ModalForm");
     ctrlBody.setAttribute("element-name", "body");
 
     this.addControl = ctrlBody.addControl.bind(this);

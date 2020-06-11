@@ -1,7 +1,11 @@
 import "./Responsive.js";
 
-import { Behavior } from "./Behavior.js";
-import { BIterator } from "../behaviors/BIterator.js";
+import {
+  Behavior
+} from "./Behavior.js";
+import {
+  BIterator
+} from "../behaviors/BIterator.js";
 
 ("use strict");
 
@@ -34,7 +38,7 @@ export class Tigerian {
     });
   }
 
-  get [Symbol.toStringTag]() {
+  get[Symbol.toStringTag]() {
     return this.constructor.name;
   }
 
@@ -55,8 +59,7 @@ export class Tigerian {
    * @param {boolean} enumurable
    */
   defineProperty(
-    name,
-    {
+    name, {
       value = undefined,
       get = undefined,
       set = undefined,
@@ -455,8 +458,7 @@ export function defineMethod(obj, name, descriptor, dataTypes = {}) {
  */
 export function defineProperty(
   obj,
-  name,
-  {
+  name, {
     value = undefined,
     writable = true,
     get = undefined,
@@ -496,7 +498,7 @@ export function defineProperty(
           pType = type.name;
         }
 
-        if (type === undefined || validType) {
+        if ((type === undefined) || validType) {
           if (instanceOf(set, Function)) {
             set(v);
           }

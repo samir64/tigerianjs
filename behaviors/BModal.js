@@ -26,7 +26,7 @@ export class BModal extends Behavior {
       let elmCoverage = new Control(ctrlParent, that.theme);
       let superVisible = Object.getOwnPropertyDescriptor(that, "visible");
 
-      elmCoverage.setAttribute("element-type", "Modal");
+      // elmCoverage.setAttribute("element-type", "Modal");
       elmCoverage.setAttribute("element-name", "coverage");
       elmCoverage.setAttribute("element-situation", "opposite");
 

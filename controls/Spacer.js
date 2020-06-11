@@ -1,4 +1,6 @@
-import { Control } from "../core/Control.js";
+import {
+  Control
+} from "../core/Control.js";
 
 /**
  * Created by samir on 11/11/16.
@@ -22,7 +24,7 @@ export class Spacer extends Control {
   constructor(parent, hrLine = false, vertical = false, theme = "") {
     super(parent, theme);
 
-    this.setAttribute("element-type", "Spacer");
+    // this.setAttribute("element-type", "Spacer");
     this.setAttribute("element-name", "container");
 
     this.setAttribute("horizontal-line", ((hrLine === true) ? "true" : "false"));

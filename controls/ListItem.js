@@ -41,10 +41,10 @@ export class ListItem extends Control {
     // }
 
     //NOTE Attributes
-    this.setAttribute("element-type", "ListItem");
+    // this.setAttribute("element-type", "ListItem");
     this.setAttribute("element-name", "container");
 
-    elmItem.setAttribute("element-type", "ListItem");
+    // elmItem.setAttribute("element-type", "ListItem");
     elmItem.setAttribute("element-name", "item");
 
     // Object.defineProperty(this, "text", {

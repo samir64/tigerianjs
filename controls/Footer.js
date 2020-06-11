@@ -29,7 +29,7 @@ export class Footer extends Control {
 
         this.fixed = fixed;
 
-        this.setAttribute("element-type", "Footer");
+        // this.setAttribute("element-type", "Footer");
         this.setAttribute("element-name", "container");
     }
 }

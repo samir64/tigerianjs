@@ -4,7 +4,10 @@ import {
 import {
   BText
 } from "../behaviors/BText.js";
-import { BLabel, ELabel } from "../behaviors/BLabel.js";
+import {
+  BLabel,
+  ELabel
+} from "../behaviors/BLabel.js";
 
 /**
  * Created by samir on 8/26/16.
@@ -70,10 +73,10 @@ export class Label extends Control {
     let that = this;
 
     //NOTE Attributes
-    this.setAttribute("element-type", "Label");
+    // this.setAttribute("element-type", "Label");
     this.setAttribute("element-name", "container");
 
-    elmLabel.setAttribute("element-type", "Label");
+    // elmLabel.setAttribute("element-type", "Label");
     // elmLabel.setAttribute("element-name", "text");
 
     this.setAttribute("inline-mode", "false");
@@ -89,7 +92,7 @@ export class Label extends Control {
       if (formatTextRenew) {
         elmFormatText = document.createElement("div");
 
-        elmFormatText.setAttribute("element-type", "Label");
+        // elmFormatText.setAttribute("element-type", "Label");
         elmFormatText.setAttribute("element-name", "text");
 
         formatTextRenew = false;

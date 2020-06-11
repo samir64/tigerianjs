@@ -1,5 +1,9 @@
-import { Control } from "../core/Control.js";
-import { BGroup } from "../behaviors/BGroup.js";
+import {
+  Control
+} from "../core/Control.js";
+import {
+  BGroup
+} from "../behaviors/BGroup.js";
 
 ("use strict");
 
@@ -19,7 +23,7 @@ export class TableBody extends Control {
     super(parent, theme);
     this.config(BGroup);
 
-    this.setAttribute("element-type", "TableBody");
+    // this.setAttribute("element-type", "TableBody");
     this.setAttribute("element-name", "container");
   }
 }

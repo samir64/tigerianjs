@@ -42,10 +42,10 @@ export class HyperLink extends Control {
     this.config(BLabel);
 
     //NOTE Attributes
-    this.setAttribute("element-type", "Link");
+    // this.setAttribute("element-type", "Link");
     this.setAttribute("element-name", "container");
 
-    elmHyperLink.setAttribute("element-type", "Link");
+    // elmHyperLink.setAttribute("element-type", "Link");
     // elmHyperLink.setAttribute("element-name", "text");
 
     this.setAttribute("label-type", "");

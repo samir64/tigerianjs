@@ -10,8 +10,12 @@ import {
 import {
   BCascade
 } from "../behaviors/BCascade.js";
-import { Menu } from "./Menu.js";
-import { Spacer } from "./Spacer.js";
+import {
+  Menu
+} from "./Menu.js";
+import {
+  Spacer
+} from "./Spacer.js";
 
 ("use strict");
 
@@ -50,10 +54,10 @@ export class MenuItem extends Control {
     superAddControl(ctrlMenu);
     this.hoverable = true;
 
-    this.setAttribute("element-type", "MenuItem");
+    // this.setAttribute("element-type", "MenuItem");
     this.setAttribute("element-name", "container");
 
-    elmText.setAttribute("element-type", "MenuItem");
+    // elmText.setAttribute("element-type", "MenuItem");
     // elmText.setAttribute("element-name", "text");
 
     /**
@@ -61,8 +65,7 @@ export class MenuItem extends Control {
      */
     this.defineMethod("addControl", (item) => {
       if (instanceOf(item, MenuItem) || instanceOf(item, Spacer)) {
-        if (!that.hasSubmenu) {
-        }
+        if (!that.hasSubmenu) {}
         // ctrlMenu.addControl(item);
         cascadeAddControl(item);
       }

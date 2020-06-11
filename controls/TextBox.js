@@ -35,10 +35,10 @@ export class TextBox extends Control {
     let that = this;
 
     //NOTE Attributes
-    this.setAttribute("element-type", "TextBox");
+    // this.setAttribute("element-type", "TextBox");
     this.setAttribute("element-name", "container");
 
-    elmText.setAttribute("element-type", "TextBox");
+    // elmText.setAttribute("element-type", "TextBox");
     // elmText.setAttribute("element-name", "input");
     // elmText.setAttribute("type", "headText");
     // if (!instanceOf(text, String)) {

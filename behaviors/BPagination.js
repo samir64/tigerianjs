@@ -36,10 +36,10 @@ export class BPagination extends Behavior {
       let ctrlNext = new Button(container, "❱", theme);
       let ctrlLast = new Button(container, "❭ ❭", theme);
 
-      container.setAttribute("element-type", "Pagination");
+      // container.setAttribute("element-type", "Pagination");
       container.setAttribute("element-name", "container");
 
-      ctrlPageList.setAttribute("element-type", "Pagination");
+      // ctrlPageList.setAttribute("element-type", "Pagination");
       ctrlPageList.setAttribute("element-name", "labels");
 
       ctrlFirst.normalColumn = 1;

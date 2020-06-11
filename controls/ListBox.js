@@ -45,7 +45,7 @@ export class ListBox extends Control {
     let bGroupSort = this.sort.bind(this);
 
     //NOTE Attributes
-    this.setAttribute("element-type", "ListBox");
+    // this.setAttribute("element-type", "ListBox");
     this.setAttribute("element-name", "container");
 
     //NOTE Public Functions

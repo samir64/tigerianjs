@@ -1,9 +1,21 @@
-import { Control } from "../core/Control.js";
-import { BText } from "../behaviors/BText.js";
-import { BBind } from "../behaviors/BBind.js";
-import { defineProperty } from "../core/Tigerian.js";
-import { HyperLink } from "./HyperLink.js";
-import { Route } from "../core/Route.js";
+import {
+  Control
+} from "../core/Control.js";
+import {
+  BText
+} from "../behaviors/BText.js";
+import {
+  BBind
+} from "../behaviors/BBind.js";
+import {
+  defineProperty
+} from "../core/Tigerian.js";
+import {
+  HyperLink
+} from "./HyperLink.js";
+import {
+  Route
+} from "../core/Route.js";
 
 /**
  * @extends {Control}
@@ -28,9 +40,9 @@ export class Context extends Control {
     this.config(BText, ctrlText, text);
     this.addControl(ctrlText);
 
-    this.setAttribute("element-type", "Context");
+    // this.setAttribute("element-type", "Context");
     this.setAttribute("element-name", "container");
-    ctrlText.setAttribute("element-type", "Context");
+    // ctrlText.setAttribute("element-type", "Context");
     ctrlText.setAttribute("element-name", "content");
 
     let superText = Object.getOwnPropertyDescriptor(this, "text");
@@ -53,11 +65,11 @@ export class Context extends Control {
 
       while ((match = t.match(regex))) {
         tag =
-          match[0].toLowerCase().indexOf("</variable>") >= 0
-            ? "variable"
-            : match[0].toLowerCase().indexOf("</control>") >= 0
-            ? "control"
-            : "redirect";
+          match[0].toLowerCase().indexOf("</variable>") >= 0 ?
+          "variable" :
+          match[0].toLowerCase().indexOf("</control>") >= 0 ?
+          "control" :
+          "redirect";
 
         node = document.createTextNode(t.substr(0, match.index));
         ctrl.addControl(node);

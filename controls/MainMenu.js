@@ -32,10 +32,10 @@ export class MainMenu extends Control {
 
     let superAddControl = this.addControl.bind(this);
 
-    this.setAttribute("element-type", "MainMenu");
+    // this.setAttribute("element-type", "MainMenu");
     this.setAttribute("element-name", "container");
 
-    ctrlItemsList.setAttribute("element-type", "MainMenu");
+    // ctrlItemsList.setAttribute("element-type", "MainMenu");
     ctrlItemsList.setAttribute("element-name", "items");
 
     /**
