@@ -13,17 +13,17 @@ export class BBind extends Behavior {
   constructor() {
     super();
 
-    this.defineMethod("config", (that) => {
+    this.config = (that) => {
       let binds = {};
       let watchs = {};
 
       /**
-       * @param {string} srcProp
+       * @param {String} srcProp
        * @param {Object} target
-       * @param {string} trgProp
+       * @param {String} trgProp
        * @param {Function} changer
        */
-      that.defineMethod("bind", (srcProp, target, trgProp, changer = ((v) => v)) => {
+      that.bind = (srcProp, target, trgProp, changer = ((v) => v)) => {
         if (binds[srcProp] == undefined) {
           binds[srcProp] = {
             main: undefined,
@@ -63,15 +63,15 @@ export class BBind extends Behavior {
             }
           });
         }
-      }, [String, [Object, Function], String]);
+      };
 
       /**
-       * @param {string} srcProp
-       * @param {Object} target
-       * @param {string} trgProp
+       * @param {String} srcProp
+       * @param {Object|Function} target
+       * @param {String} trgProp
        */
       // that.unbind = function (srcProp, target, trgProp) {
-      that.defineMethod("unbind", (srcProp, target, trgProp) => {
+      that.unbind = (srcProp, target, trgProp) => {
         if (
           binds[srcProp] != "" &&
           binds[srcProp] != undefined &&
@@ -105,9 +105,13 @@ export class BBind extends Behavior {
             that.unbind(idx, target, trgProp);
           });
         }
-      }, [String, [Object, Function], String]);
+      };
 
-      that.defineMethod("watch", (prop, callback) => {
+      /**
+       * @param {String} prop
+       * @param {Function} callback
+       */
+      that.watch = (prop, callback) => {
         if (watchs[prop] == undefined) {
           watchs[prop] = {
             main: undefined,
@@ -143,9 +147,14 @@ export class BBind extends Behavior {
             }
           });
         }
-      }, [String, Function]);
+      };
 
-      that.defineMethod("unwatch", (prop, callback) => {
+      /**
+       * 
+       * @param {String} prop 
+       * @param {Function} callback 
+       */
+      that.unwatch = (prop, callback) => {
         if (
           watchs[prop] != "" &&
           watchs[prop] != undefined &&
@@ -173,7 +182,7 @@ export class BBind extends Behavior {
             that.unwatch(idx, callback);
           });
         }
-      }, [String]);
-    });
+      };
+    };
   }
 }

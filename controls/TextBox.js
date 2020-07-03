@@ -53,7 +53,7 @@ export class TextBox extends Control {
     /**
      * @member {string}
      */
-    // this.defineProperty("text", {
+    // Object.defineProperty(this, "text", {
     //     enumerable: true,
     //     configurable: true,
     //     get () {
@@ -70,7 +70,9 @@ export class TextBox extends Control {
     /**
      * @member {boolean}
      */
-    this.defineProperty("enabled", {
+    Object.defineProperty(this, "enabled", {
+      enumerable: true,
+      configurable: true,
       get() {
         return thisEnabled.get.bind(that)();
       },
@@ -82,14 +84,15 @@ export class TextBox extends Control {
         } else {
           elmText.removeAttribute("disabled");
         }
-      },
-      type: Boolean
+      }
     });
 
     /**
      * @member {string}
      */
-    this.defineProperty("pattern", {
+    Object.defineProperty(this, "pattern", {
+      enumerable: true,
+      configurable: true,
       get() {
         return elmText.getAttribute("pattern");
       },
@@ -97,14 +100,15 @@ export class TextBox extends Control {
       set(v) {
         elmText.setAttribute("pattern", v);
         that.checkValidity();
-      },
-      type: String
+      }
     });
 
     /**
      * @member {boolean}
      */
-    this.defineProperty("required", {
+    Object.defineProperty(this, "required", {
+      enumerable: true,
+      configurable: true,
       get() {
         return elmText.hasAttribute("required");
       },
@@ -117,14 +121,13 @@ export class TextBox extends Control {
         }
 
         that.checkValidity();
-      },
-      type: Boolean
+      }
     });
 
     /**
      * @member {number}
      */
-    this.defineProperty("tabIndex", {
+    Object.defineProperty(this, "tabIndex", {
       enumerable: true,
       configerable: true,
       get() {
@@ -138,8 +141,7 @@ export class TextBox extends Control {
         } else {
           elmText.removeAttribute("tabindex");
         }
-      },
-      type: Number
+      }
     });
 
     //NOTE Private Functions

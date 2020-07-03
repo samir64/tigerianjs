@@ -41,7 +41,9 @@ export class TableRow extends Control {
     /**
      * @member {number}
      */
-    this.defineProperty("colCount", {
+    Object.defineProperty(this, "colCount", {
+      enumerable: true,
+      configurable: true,
       get() {
         return colCount;
       }

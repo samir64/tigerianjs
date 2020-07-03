@@ -22,7 +22,11 @@ export class BSelect extends Behavior {
   constructor() {
     super();
 
-    this.defineMethod("config", (that) => {
+    /**
+     * 
+     * @param {Object} that 
+     */
+    this.config = (that) => {
       //NOTE Private Variables
       let autoSelect = true;
       let autoDeselect = true;
@@ -34,40 +38,43 @@ export class BSelect extends Behavior {
       /**
        * @member {boolean}
        */
-      that.defineProperty("autoSelect", {
+      Object.defineProperty(that, "autoSelect", {
+        enumerable: true,
+        configurable: true,
         get() {
           return autoSelect;
         },
         set(v) {
           autoSelect = v;
-        },
-        type: Boolean
+        }
       });
 
       /**
        * @member {boolean}
        */
-      that.defineProperty("autoDeselect", {
+      Object.defineProperty(that, "autoDeselect", {
+        enumerable: true,
+        configurable: true,
         get() {
           return autoDeselect;
         },
         set(v) {
           autoDeselect = v;
-        },
-        type: Boolean
+        }
       });
 
       /**
        * @member {boolean}
        */
-      that.defineProperty("selected", {
+      Object.defineProperty(that, "selected", {
+        enumerable: true,
+        configurable: true,
         get() {
           return (that.getAttribute("selected") === "true");
         },
         set(v) {
           that.setAttribute("selected", v);
-        },
-        type: Boolean
+        }
       });
 
       //NOTE Private Functions
@@ -121,6 +128,6 @@ export class BSelect extends Behavior {
       //NOTE Default Events
       that.addEvent("click", onClick.bind(that));
       that.addEvent("keydown", onKeyDown.bind(that));
-    });
+    };
   }
 }

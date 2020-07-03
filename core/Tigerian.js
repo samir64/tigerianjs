@@ -1,5 +1,3 @@
-import "./Responsive.js";
-
 import {
   Behavior
 } from "./Behavior.js";
@@ -13,7 +11,7 @@ export class Tigerian {
   constructor() {
     let behaviors = [];
 
-    abstract(this, Tigerian);
+    this.abstract(Tigerian);
 
     Object.defineProperty(this, "behaviors", {
       enumerable: true,
@@ -38,52 +36,23 @@ export class Tigerian {
     });
   }
 
+  abstract(Type) {
+    if (this.constructor === Type) {
+      throw new Error(`${Type.name} is an abstract class.`);
+    }
+  }
+
   get[Symbol.toStringTag]() {
     return this.constructor.name;
   }
-
-  /**
-   * @param {String} name
-   * @param {Function} descriptor
-   * @param {Object} dataTypes
-   */
-  defineMethod(name, descriptor, dataTypes = {}) {
-    return defineMethod(this, name, descriptor, dataTypes);
-  }
-
-  /**
-   * @param {string} name
-   * @param {Function} get
-   * @param {Function} set
-   * @param {boolean} configurable
-   * @param {boolean} enumurable
-   */
-  defineProperty(
-    name, {
-      value = undefined,
-      get = undefined,
-      set = undefined,
-      type = undefined,
-      configurable = true,
-      enumerable = true,
-      writable = true
-    }
-  ) {
-    defineProperty(this, name, {
-      value,
-      get,
-      set,
-      type,
-      configurable,
-      enumerable,
-      writable
-    });
-  }
 }
 
-export function abstract(that, type) {
-  if (that.constructor === type) {
-    throw new Error(`${type.name} is an abstract class.`);
+export function abstract(that, Type) {
+  if (Type === undefined) {
+    Type = that.constructor;
+  }
+  if (that.constructor === Type) {
+    throw new Error(`${Type.name} is an abstract class.`);
   }
 }
 
@@ -390,128 +359,4 @@ export function strSplitCapital(str) {
     }
   }
   return result;
-}
-
-/**
- * @param {Function} descriptor
- * @param {Object} dataTypes
- */
-export function defineMethod(obj, name, descriptor, dataTypes = {}) {
-  obj[name] = (...params) => {
-    if (!(compare(dataTypes, {}) || instanceOf(dataTypes, Array))) {
-      params = params[0];
-    }
-
-    forEach(params, (param, index) => {
-      let pName = "";
-      let pType = "";
-      let validType = true;
-      let pConsName = "";
-
-      if (instanceOf(dataTypes[index], Array)) {
-        validType = dataTypes[index].some(type => {
-          return instanceOf(param, type);
-          // return (param.constructor === type);
-        });
-        pType = dataTypes[index]
-          .map(type => {
-            return type.name;
-          })
-          .join("' or '");
-      } else if (instanceOf(dataTypes[index], Function)) {
-        validType = instanceOf(param, dataTypes[index]);
-        // validType = (param.constructor === dataTypes[index]);
-        pType = dataTypes[index].name;
-      }
-
-      if (dataTypes[index] !== undefined && !validType) {
-        if (instanceOf(dataTypes, Array)) {
-          pName = `Argument #${Number(index) + 1}`;
-        } else {
-          pName = index;
-        }
-
-        if (param === undefined) {
-          pConsName = "undefined";
-        } else {
-          pConsName = param.constructor.name;
-        }
-
-        throw new Error(
-          `${pName} type error\nExpected '${pType}', got '${pConsName}'`
-        );
-      }
-    });
-
-    return descriptor(...params);
-  };
-}
-
-/**
- * @param {string} name
- * @param {Any} value
- * @param {Function} get
- * @param {Function} set
- * @param {Function|Function[]} type
- * @param {boolean} configurable
- * @param {boolean} enumurable
- */
-export function defineProperty(
-  obj,
-  name, {
-    value = undefined,
-    writable = true,
-    get = undefined,
-    set = undefined,
-    type = undefined,
-    configurable = true,
-    enumerable = true
-  }
-) {
-  if (value !== undefined) {
-    Object.defineProperty(obj, name, {
-      value,
-      writable,
-      enumerable,
-      configurable
-    });
-  } else {
-    Object.defineProperty(obj, name, {
-      get,
-      set(v) {
-        let pType = "";
-        let validType = true;
-
-        if (instanceOf(type, Array)) {
-          validType = type.some(t => {
-            return instanceOf(v, t);
-            // return v.constructor === t;
-          });
-          pType = type
-            .map(t => {
-              return t !== undefined ? t.name : "undefined";
-            })
-            .join("' or '");
-        } else if (instanceOf(type, Function)) {
-          validType = instanceOf(v, type);
-          // validType = v.constructor === type;
-          pType = type.name;
-        }
-
-        if ((type === undefined) || validType) {
-          if (instanceOf(set, Function)) {
-            set(v);
-          }
-        } else {
-          throw new Error(
-            `Type error\nExpected '${pType}', got '${
-              v !== undefined ? v.constructor.name : "undefined"
-            }'`
-          );
-        }
-      },
-      enumerable,
-      configurable
-    });
-  }
 }

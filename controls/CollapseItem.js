@@ -54,37 +54,31 @@ export class CollapseItem extends Control {
     // elmText.setAttribute("element-type", "CollapseItem");
     // elmText.setAttribute("element-name", "text");
 
-    this.defineMethod("addControl", (item) => {
+    /**
+     * 
+     * @param {String|CollapseItem} item 
+     */
+    this.addControl = (item) => {
       if (instanceOf(item, String)) {
         let item = new CollapseItem(undefined, item, theme);
       }
 
       superAddControl(item);
-    }, [
-      [String, CollapseItem /* , Spacer */ ]
-    ]);
-    /* this.defineMethod("addControl", (item) => {
-      if (instanceOf(item, CollapseItem) || instanceOf(item, Spacer)) {
-        if (!this.hasSubmenu) {
-          superAddChild(ctrlList);
-        }
-        ctrlList.addControl(item);
-      }
-    }); */
+    };
 
-    this.defineMethod("collapse", () => {
+    this.collapse = () => {
       that.viewChild(false);
       if (that.hasChild) {
         ctrlList.collapseAll();
       }
-    });
+    };
 
-    this.defineMethod("expand", () => {
+    this.expand = () => {
       that.viewChild(true);
       for (let i = 0; i < this.itemCount; i++) {
         ctrlList.expandAll();
       }
-    });
+    };
 
     elmText.addEventListener("click", (e) => {
       if (canChangeChildState && !touchStarted) {

@@ -52,7 +52,7 @@ export class ListBox extends Control {
     /**
      * @param {ListItem|string} item
      */
-    this.defineMethod("addControl", (item) => {
+    this.addControl = (item) => {
       if (instanceOf(item, String)) {
         item = new ListItem(null, item, that.theme);
       } else if (!(instanceOf(item, Control) && instanceOf(item, BSelect))) {
@@ -65,12 +65,12 @@ export class ListBox extends Control {
 
       item.autoDeselect = that.multiSelect;
       superAddControl(item);
-    });
+    };
 
     /**
      * @param {boolean} accending = true
      */
-    this.defineMethod("sort", (ascending) => {
+    this.sort = (ascending) => {
       /**
        * @param {ListItem} a
        * @param {ListItem} b
@@ -82,6 +82,6 @@ export class ListBox extends Control {
       }
 
       bGroupSort(sort);
-    });
+    };
   }
 }

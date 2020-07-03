@@ -55,38 +55,40 @@ export class Application extends UI {
     //NOTE Public Functions
 
     /**
-     * @param {string} templateName
+     * @param {String} templateName
      */
-    this.defineMethod("addTemplate", (templateName) => {
+    this.addTemplate = (templateName) => {
       let template = new BGridTemplate(templateName);
       templates[templateName] = template;
       document.head.appendChild(template.element);
-    }, [String]);
+    };
 
     /**
-     * @param {string} templateName
+     * @param {String} templateName
      * @returns {BGridTemplate}
      */
-    this.defineMethod("getTemplate", (templateName) => {
+    this.getTemplate = (templateName) => {
       if (templateName in templates) {
         return templates[templateName];
       }
-    }, [String]);
+    };
 
     /**
-     * @param {string} templateName
+     * @param {String} templateName
      */
-    this.defineMethod("removeTemplate", (templateName) => {
+    this.removeTemplate = (templateName) => {
       if (templateName in templates) {
         document.head.removeChild(temlates[templateName].element);
         delete templates[templateName];
       }
-    }, [String]);
+    };
 
     /**
      * @member {string}
      */
-    this.defineProperty("title", {
+    Object.defineProperty(this, "title", {
+      enumerable: true,
+      configurable: true,
       get() {
         return document.head.getElementsByTagName("title")[0].innerText;
       },
@@ -94,8 +96,7 @@ export class Application extends UI {
         if (instanceOf(v, String)) {
           document.head.getElementsByTagName("title")[0].innerText = v;
         }
-      },
-      type: String
+      }
     });
   }
 }

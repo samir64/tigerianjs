@@ -1,5 +1,10 @@
-import { Behavior } from "../core/Behavior.js";
-import { defineMethod, instanceOf, forEach } from "../core/Tigerian.js";
+import {
+  Behavior
+} from "../core/Behavior.js";
+import {
+  instanceOf,
+  forEach
+} from "../core/Tigerian.js";
 
 ("use strict");
 
@@ -34,7 +39,7 @@ export class BPromise extends Behavior {
 
       otherStates = ["then", "reject", "finally", ...otherStates];
       forEach(funcs, (func, name) => {
-        that.defineMethod(name, (...params) => {
+        that[name] = (...params) => {
           let result = {};
           let states = {};
           let methods = [];
@@ -61,16 +66,12 @@ export class BPromise extends Behavior {
                   };
                 }
 
-                defineMethod(
-                  result,
-                  state,
-                  (st => callback => {
-                    if (instanceOf(callback, Function)) {
-                      states[st].callback = callback;
-                    }
-                    return result;
-                  })(state)
-                );
+                result[state] = (st => callback => {
+                  if (instanceOf(callback, Function)) {
+                    states[st].callback = callback;
+                  }
+                  return result;
+                })(state);
 
                 states[state].method = (st => (...value) => {
                   if (!done) {
@@ -97,7 +98,7 @@ export class BPromise extends Behavior {
           })();
 
           return result;
-        });
+        };
       });
     };
   }

@@ -3,9 +3,9 @@
  */
 
 import {
-    Tigerian,
-    abstract
-} from "./Tigerian";
+  Tigerian,
+  // abstract
+} from "./Tigerian.js";
 
 ("use strict");
 
@@ -13,12 +13,12 @@ import {
  * @extends Tigerian
  */
 export class Theme extends Tigerian {
-    /**
-     * @param {String} name
-     * @param {Object} type
-     */
-    constructor(name) {
-        super();
-        abstract(this, Theme);
-    }
+  /**
+   * @param {String} name
+   * @param {Object} type
+   */
+  constructor(name) {
+    super();
+    this.abstract(Theme);
+  }
 }

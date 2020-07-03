@@ -128,7 +128,9 @@ export class ComboBox extends Control {
     /**
      * @member {boolean}
      */
-    this.defineProperty("editable", {
+    Object.defineProperty(this, "editable", {
+      enumerable: true,
+      configurable: true,
       get() {
         return editable;
       },
@@ -140,41 +142,42 @@ export class ComboBox extends Control {
         ctrlList.visible = false;
 
         that.filtering = v;
-      },
-      type: Boolean
+      }
     });
 
     /**
      * @member {number}
      */
-    this.defineProperty("selectedIndex", {
+    Object.defineProperty(this, "selectedIndex", {
+      enumerable: true,
+      configurable: true,
       get() {
         return ctrlList.selectedIndex;
       },
       set(v) {
         ctrlList.selectedIndex = v;
-      },
-      type: Number
+      }
     });
 
     /**
      * @member {boolean}
      */
-    this.defineProperty("selectRequire", {
+    Object.defineProperty(this, "selectRequire", {
+      enumerable: true,
+      configurable: true,
       get() {
         return selectRequire;
       },
       set(v) {
         selectRequire = v;
-      },
-      type: Boolean
+      }
     });
 
     //NOTE Public Functions
     /**
-     * @param {ListItem|string} item
+     * @param {ListItem|String} item
      */
-    this.defineMethod("addControl", (item) => {
+    this.addControl = (item) => {
       if (instanceOf(item, String)) {
         item = new ListItem(null, item, that.theme);
       } else if (!instanceOf(item, BSelect)) {
@@ -187,9 +190,7 @@ export class ComboBox extends Control {
 
       item.autoDeselect = that.multiSelect;
       superAddControl(item);
-    }, [
-      [String, ListItem]
-    ]);
+    };
 
     //NOTE Constructor Statement
     ctrlText.visible = false;

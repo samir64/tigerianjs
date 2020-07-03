@@ -103,31 +103,33 @@ export class Label extends Control {
     /**
      * @member {Control}
      */
-    this.defineProperty("source", {
+    Object.defineProperty(this, "source", {
+      enumerable: true,
+      configurable: true,
       get() {
         return source;
       },
       set(v) {
         source = v;
-      },
-      type: Control
+      }
     });
 
-    this.defineProperty("text", {
+    Object.defineProperty(this, "text", {
+      enumerable: true,
+      configurable: true,
       get: initText.get.bind(this),
       set(v) {
         elmFormatText.remove();
         createFormatText();
         initText.set.bind(this)(v);
-      },
-      type: String
+      }
     });
 
     /**
      * @param {string} text
      * @param {Control[]} ...controls
      */
-    this.defineMethod("format", (text, controls) => {
+    this.format = (text, controls) => {
       if (instanceOf(text, String)) {
         let lastIndex = 0;
         let pat = /@/g;
@@ -159,7 +161,7 @@ export class Label extends Control {
         );
         elmFormatText.appendChild(textNode);
       }
-    });
+    };
 
     elmLabel.addEventListener(
       "click",

@@ -39,14 +39,15 @@ export class Notification extends Control {
     // elmDesc.setAttribute("element-type", "Notification");
     elmDesc.setAttribute("element-name", "description");
 
-    this.defineProperty("description", {
+    Object.defineProperty(this, "description", {
+      enumerable: true,
+      configurable: true,
       get() {
         return elmDesc.innerHTML;
       },
       set(v) {
         elmDesc.innerHTML = v;
-      },
-      type: String
+      }
     });
 
     this.addControl(elmMessage);

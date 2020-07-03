@@ -4,7 +4,9 @@ import {
 import {
   Behavior
 } from "../core/Behavior.js";
-import { BGroup } from "./BGroup.js";
+import {
+  BGroup
+} from "./BGroup.js";
 
 /**
  * Created by samir on 9/10/18.
@@ -24,7 +26,12 @@ export class BSelectGroup extends Behavior {
   constructor() {
     super();
 
-    this.defineMethod("config", (that, ctrlSelectGroup) => {
+    /**
+     * 
+     * @param {Object} that 
+     * @param {Control} ctrlSelectGroup 
+     */
+    this.config = (that, ctrlSelectGroup) => {
       //NOTE Private Variables
       let itemIndex = -1;
       let multi = false;
@@ -35,7 +42,9 @@ export class BSelectGroup extends Behavior {
       /**
        * @member {number}
        */
-      that.defineProperty("itemIndex", {
+      Object.defineProperty(that, "itemIndex", {
+        enumerable: true,
+        configurable: true,
         get() {
           return itemIndex;
         },
@@ -60,14 +69,15 @@ export class BSelectGroup extends Behavior {
           }
 
           that.focus();
-        },
-        type: Number
+        }
       });
 
       /**
        * @member {number|number[]}
        */
-      that.defineProperty("selectedIndex", {
+      Object.defineProperty(that, "selectedIndex", {
+        enumerable: true,
+        configurable: true,
         get() {
           /**
            * @type {number|number[]}
@@ -156,7 +166,9 @@ export class BSelectGroup extends Behavior {
       /**
        * @member {number}
        */
-      that.defineProperty("selectedCount", {
+      Object.defineProperty(that, "selectedCount", {
+        enumerable: true,
+        configurable: true,
         get() {
           if (multi) {
             return that.selectedIndex.length;
@@ -169,7 +181,9 @@ export class BSelectGroup extends Behavior {
       /**
        * @member {boolean}
        */
-      that.defineProperty("multiSelect", {
+      Object.defineProperty(that, "multiSelect", {
+        enumerable: true,
+        configurable: true,
         get() {
           return multi;
         },
@@ -188,8 +202,7 @@ export class BSelectGroup extends Behavior {
               that.getItem(i).autoDeselect = false;
             }
           }
-        },
-        type: Boolean
+        }
       });
 
       //NOTE Public Functions
@@ -331,6 +344,6 @@ export class BSelectGroup extends Behavior {
         }
       }).bind(that));
       that.addEvent("Add", onAddItem);
-    });
+    };
   }
 }

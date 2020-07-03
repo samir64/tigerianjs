@@ -21,7 +21,12 @@ export class BCascade extends Behavior {
   constructor() {
     super();
 
-    this.defineMethod("config", (that, ctrlSubMenu) => {
+    /**
+     * 
+     * @param {Object} that 
+     * @param {Control} ctrlSubMenu 
+     */
+    this.config = (that, ctrlSubMenu) => {
       if (instanceOf(that, Control) && instanceOf(ctrlSubMenu, Control)) {
         // let ctrlSubMenu;
 
@@ -32,13 +37,19 @@ export class BCascade extends Behavior {
         /**
          * @member {boolean} hasChild
          */
-        that.defineProperty("hasChild", {
+        Object.defineProperty(that, "hasChild", {
+          enumerable: true,
+          configurable: true,
           get() {
             return (that.getAttribute("has-child") === "true");
           }
         });
 
-        that.defineMethod("viewChild", (visible) => {
+        /**
+         * 
+         * @param {Boolean} visible 
+         */
+        that.viewChild = (visible) => {
           if (that.hasChild) {
             ctrlSubMenu.visible = visible;
 
@@ -47,9 +58,9 @@ export class BCascade extends Behavior {
               ctrlSubMenu.visible ? "true" : "false"
             );
           }
-        }, [Boolean]);
+        };
 
-        that.defineMethod("toggle", () => {
+        that.toggle = () => {
           if (that.hasChild) {
             ctrlSubMenu.visible = !ctrlSubMenu.visible;
 
@@ -58,16 +69,20 @@ export class BCascade extends Behavior {
               ctrlSubMenu.visible ? "true" : "false"
             );
           }
-        });
+        };
 
-        that.defineMethod("addControl", (child) => {
+        /**
+         * 
+         * @param {Control} child 
+         */
+        that.addControl = (child) => {
           // ctrlSubMenu = child;
           // child.visible = false;
           that.setAttribute("has-child", "true");
           // that.addControl(child);
           ctrlSubMenu.addControl(child);
-        }, [Control]);
+        };
       }
-    });
+    };
   }
 }

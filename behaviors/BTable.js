@@ -1,4 +1,6 @@
-import { Behavior } from "../core/Behavior.js";
+import {
+  Behavior
+} from "../core/Behavior.js";
 
 ("use strict");
 
@@ -13,7 +15,13 @@ export class BTable extends Behavior {
   constructor() {
     super();
 
-    this.defineMethod("config", (that, ctrlTableBody, colCount = 1) => {
+    /**
+     * 
+     * @param {Object} that 
+     * @param {Control} ctrlTableBody 
+     * @param {Number} colCount 
+     */
+    this.config = (that, ctrlTableBody, colCount = 1) => {
       let columnsVisiblity = [];
       let rowCount = 0;
       let ctrlHeadRow = new TableRow(ctrlTableBody, colCount, that.theme);
@@ -102,7 +110,9 @@ export class BTable extends Behavior {
       /**
        * @member {number}
        */
-      that.defineProperty("rowCount", {
+      Object.defineProperty(that, "rowCount", {
+        enumerable: true,
+        configurable: true,
         get() {
           return rowCount;
         },
@@ -112,14 +122,15 @@ export class BTable extends Behavior {
           if (lastRowCount !== v) {
             refreshView();
           }
-        },
-        type: Number
+        }
       });
 
       /**
        * @member {number}
        */
-      that.defineProperty("colCount", {
+      Object.defineProperty(that, "colCount", {
+        enumerable: true,
+        configurable: true,
         get() {
           return colCount;
         },
@@ -128,7 +139,9 @@ export class BTable extends Behavior {
       /**
        * @member {Symbol}
        */
-      that.defineProperty("viewMode", {
+      Object.defineProperty(that, "viewMode", {
+        enumerable: true,
+        configurable: true,
         get() {
           let v = that.getAttribute("view-mode");
           switch (v) {
@@ -160,21 +173,20 @@ export class BTable extends Behavior {
             refreshView();
             that.dispatchEvent(Events.onViewChange);
           }
-        },
-        type: Symbol
+        }
       });
 
       /**
-       * @param {number} col 
-       * @param {boolean} visible 
+       * @param {Number} col 
+       * @param {Boolean} visible 
        */
-      that.defineMethod("columnVisible", (col, visible) => {
+      that.columnVisible = (col, visible) => {
         columnsVisiblity[col] = visible;
         that.getHeadCell(col).visible = visible;
         for (let i = 0; i < rowCount; i++) {
           that.getCell(i, col).visible = visible;
         }
-      }, [Number, Boolean]);
+      };
 
       that.addRow = () => {
         addRow();
@@ -182,28 +194,28 @@ export class BTable extends Behavior {
       };
 
       /**
-       * @param {number} row
-       * @param {number} col
+       * @param {Number} row
+       * @param {Number} col
        * @returns {TableCell}
        */
-      that.defineMethod("getItem", (row, col) => {
+      that.getItem = (row, col) => {
         return superGetItem(row + 1).getItem(col);
-      }, [Number, Number]);
+      };
 
       /**
-       * @param {number} col
+       * @param {Number} col
        * @returns {TableCell}
        */
-      that.defineMethod("getHeadCell", (col) => {
+      that.getHeadCell = (col) => {
         return ctrlHeadRow.getItem(col);
-      }, [Number]);
+      };
 
-      that.defineMethod("clear", () => {
+      that.clear = () => {
         rowCount = 0;
         ctrlTableBody.clear();
         ctrlTableBody.addControl(ctrlHeadRow);
-      });
-    }, [Object, Control, Number]);
+      };
+    };
   }
 }
 

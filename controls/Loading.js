@@ -52,7 +52,9 @@ export class Loading extends Control {
     /**
      * @member {number}
      */
-    this.defineProperty("loaded", {
+    Object.defineProperty(this, "loaded", {
+      enumerable: true,
+      configurable: true,
       get() {
         return loaded;
       },
@@ -72,7 +74,9 @@ export class Loading extends Control {
     /**
      * @member {symbol}
      */
-    this.defineProperty("state", {
+    Object.defineProperty(this, "state", {
+      enumerable: true,
+      configurable: true,
       get() {
         let v = elmBar.getAttribute("state");
         switch (v) {
@@ -104,7 +108,9 @@ export class Loading extends Control {
     /**
      * @member {symbol}
      */
-    this.defineProperty("barSituation", {
+    Object.defineProperty(this, "barSituation", {
+      enumerable: true,
+      configurable: true,
       get() {
         let v = elmBar.getAttribute("element-situation");
 

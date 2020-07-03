@@ -31,7 +31,7 @@ export class BIterator extends Behavior {
       };
       let it = iterator();
 
-      that.defineProperty("iterator", {
+      Object.defineProperty(that, "iterator", {
         enumerable: true,
         configurable: true,
         get() {
@@ -39,8 +39,7 @@ export class BIterator extends Behavior {
         },
         set(v) {
           generator = v;
-        },
-        type: Function
+        }
       });
 
       Object.defineProperty(iterator.prototype, "index", {

@@ -1,7 +1,17 @@
-import { Tigerian, instanceOf, forEach } from "./Tigerian.js";
-import { Events } from "./Events.js";
-import { BEvent } from "../behaviors/BEvent.js";
-import { BPromise } from "../behaviors/BPromise.js";
+import {
+  Tigerian,
+  instanceOf,
+  forEach
+} from "./Tigerian.js";
+import {
+  Events
+} from "./Events.js";
+import {
+  BEvent
+} from "../behaviors/BEvent.js";
+import {
+  BPromise
+} from "../behaviors/BPromise.js";
 
 ("use strict");
 
@@ -75,15 +85,15 @@ export class Ajax extends Tigerian {
 
       return encodeURI(
         Object.keys(params)
-          .map(key => {
-            let json = JSON.stringify(params[key]);
-            return (
-              key +
-              "=" +
-              (json !== '"' + params[key] + '"' ? json : params[key])
-            );
-          })
-          .join("&")
+        .map(key => {
+          let json = JSON.stringify(params[key]);
+          return (
+            key +
+            "=" +
+            (json !== '"' + params[key] + '"' ? json : params[key])
+          );
+        })
+        .join("&")
       );
     }
 
@@ -182,85 +192,42 @@ export class Ajax extends Tigerian {
       httpRequest.send(JSON.stringify(params));
     }
 
-    this.defineMethod(
-      "addHeader",
-      (label, value) => {
-        headers[label] = value;
-      },
-      [String, String]
-    );
+    /**
+     * 
+     * @param {String} label 
+     * @param {String} value 
+     */
+    this.addHeader = (label, value) => {
+      headers[label] = value;
+    };
 
-    this.defineMethod("abort", () => {
+    this.abort = () => {
       httpRequest.abort();
-    });
+    };
 
-    this.defineProperty("async", {
+    Object.defineProperty(this, "async", {
+      enumerable: true,
+      configurable: true,
       get() {
         return async;
       },
       set(v) {
         async = v;
-      },
-      type: Boolean
+      }
     });
 
-    // this.defineProperty("method", {
-    //   get() {
-    //     return method;
-    //   },
-    //   set(v) {
-    //     switch (v) {
-    //       case EAjax.GET:
-    //       case EAjax.POST:
-    //       case EAjax.PUT:
-    //       case EAjax.DELETE:
-    //         method = v;
-    //         break;
-
-    //       default:
-    //     }
-    //   },
-    //   type: Symbol
-    // });
-
-    /* this.defineProperty("success", {
-      get() {
-        return success;
-      },
-      set(v) {
-        success = v;
-      },
-      type: Function
-    }); */
-
-    /* this.defineProperty("unsuccess", {
-      get() {
-        return unsuccess;
-      },
-      set(v) {
-        unsuccess = v;
-      },
-      type: Function
-    }); */
-
-    /* this.defineProperty("progress", {
-      get() {
-        return progress;
-      },
-      set(v) {
-        progress = v;
-      },
-      type: Function
-    }); */
-
-    this.defineProperty("url", {
+    /**
+     * @member {String}
+     */
+    Object.defineProperty(this, "url", {
+      enumerable: true,
+      configurable: true,
       get() {
         return url;
       },
       set(v) {
         url = v;
-      },
-      type: String
+      }
     });
   }
 }

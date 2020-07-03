@@ -60,7 +60,9 @@ export class Checkbox extends Control {
     this.addControl(elmCheckbox);
     this.addControl(elmLabel);
 
-    this.defineProperty("indeterminate", {
+    Object.defineProperty(this, "indeterminate", {
+      enumerable: true,
+      configurable: true,
       get() {
         return that.getAttribute("selected") == "indeterminate";
       },
@@ -72,17 +74,17 @@ export class Checkbox extends Control {
         if (v != lastValue) {
           that.dispatchEvent(Events.onIndeterminateChange);
         }
-      },
-      type: Boolean
+      }
     });
 
-    this.defineProperty("selected", {
+    Object.defineProperty(this, "selected", {
+      enumerable: true,
+      configurable: true,
       get: superSelected.get.bind(this),
       set(v) {
         that.indeterminate = false;
         superSelected.set.bind(this)(v);
-      },
-      type: Boolean
+      }
     });
   }
 }

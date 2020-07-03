@@ -37,10 +37,10 @@ export class Menu extends Control {
     this.setAttribute("element-name", "container");
 
     /**
-     * @param {Tigeriam.MenuItem} item
+     * @param {Control} item
      */
-    this.defineMethod("addControl", (item) => {
+    this.addControl = (item) => {
       superAddControl(item);
-    }, [Control]);
+    };
   }
 }

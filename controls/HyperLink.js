@@ -64,15 +64,16 @@ export class HyperLink extends Control {
     /**
      * @member {string}
      */
-    this.defineProperty("url", {
+    Object.defineProperty(this, "url", {
+      enumerable: true,
+      configurable: true,
       get() {
         return elmHyperLink.href;
       },
 
       set(v) {
         elmHyperLink.href = v;
-      },
-      type: String
+      }
     });
 
     delete this.addControl;

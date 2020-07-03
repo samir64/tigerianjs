@@ -8,9 +8,6 @@ import {
   BBind
 } from "../behaviors/BBind.js";
 import {
-  defineProperty
-} from "../core/Tigerian.js";
-import {
   HyperLink
 } from "./HyperLink.js";
 import {
@@ -78,14 +75,15 @@ export class Context extends Control {
           case "variable":
             node = document.createTextNode(match[2]);
             (n => {
-              defineProperty(ents, match[1], {
+              Object.defineProperty(ents, match[1], {
+                enumerable: true,
+                configurable: true,
                 get() {
                   return n.data;
                 },
                 set(v) {
                   n.data = v;
-                },
-                type: String
+                }
               });
             })(node);
             ctrl.addControl(node);
@@ -102,7 +100,9 @@ export class Context extends Control {
             node.footText = match[4][1];
 
             (n => {
-              defineProperty(ents, match[3], {
+              Object.defineProperty(ents, match[3], {
+                enumerable: true,
+                configurable: true,
                 get() {
                   return n;
                 }
@@ -135,20 +135,23 @@ export class Context extends Control {
       ctrl.addControl(node);
     };
 
-    defineProperty(this, "text", {
+    Object.defineProperty(this, "text", {
+      enumerable: true,
+      configurable: true,
       get() {
         return superText.get();
       },
       set(v) {
         superText.set(v);
         processText(v, ctrlText);
-      },
-      type: String
+      }
     });
 
     processText(text, ctrlText);
 
-    defineProperty(this, "entities", {
+    Object.defineProperty(this, "entities", {
+      enumerable: true,
+      configurable: true,
       get() {
         return ents;
       }

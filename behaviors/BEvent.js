@@ -12,24 +12,32 @@ export class BEvent extends Behavior {
   constructor() {
     super();
 
-    this.defineMethod("config", (that, element) => {
+    /**
+     * 
+     * @param {Object} that 
+     * @param {Element|DocumentFragment|XMLHttpRequest} element 
+     */
+    this.config = (that, element) => {
       let enabled = true;
       let events = [];
 
       this.element = element;
       delete this.element;
 
-      that.defineProperty("enabled", {
+      Object.defineProperty(that, "enabled", {
+        enumerable: true,
+        configurable: true,
         get() {
           return enabled;
         },
         set(v) {
           enabled = v;
-        },
-        type: Boolean
+        }
       });
 
-      that.defineProperty("element", {
+      Object.defineProperty(that, "element", {
+        enumerable: true,
+        configurable: true,
         set(v) {
           if (v !== element) {
             if (element !== undefined) {
@@ -45,8 +53,7 @@ export class BEvent extends Behavior {
 
             element = v;
           }
-        },
-        type: [Element, undefined]
+        }
       })
 
       /**
@@ -65,10 +72,10 @@ export class BEvent extends Behavior {
       }
 
       /**
-       * @param {string} eventName
-       * @param {function} callback
+       * @param {String|Event} eventName
+       * @param {Function} callback
        */
-      that.defineMethod("addEvent", (eventName, callback) => {
+      that.addEvent = (eventName, callback) => {
         if (instanceOf(eventName, Event)) {
           eventName = eventName.type;
         }
@@ -87,15 +94,13 @@ export class BEvent extends Behavior {
             events[eventName].push(callback);
           }
         }
-      }, [
-        [String, Event], Function
-      ]);
+      };
 
       /**
-       * @param {string} eventName
-       * @param {EventCallback} [callback]
+       * @param {String|Event} eventName
+       * @param {Function} [callback]
        */
-      that.defineMethod("removeEvent", (eventName, callback) => {
+      that.removeEvent = (eventName, callback) => {
         if (instanceOf(eventName, Event)) {
           eventName = eventName.type;
         }
@@ -120,19 +125,16 @@ export class BEvent extends Behavior {
             delete events[eventName];
           }
         }
-      }, [
-        [String, Event],
-        [Function, undefined]
-      ]);
+      };
 
       /**
        * @param {Event} e
        * @param {Array} [data]
        */
-      that.defineMethod("dispatchEvent", (e, data) => {
+      that.dispatchEvent = (e, data) => {
         e.data = data;
         eventHandler(e);
-      }, [Event]);
-    }, [Object, [Element, DocumentFragment, XMLHttpRequest]]);
+      };
+    };
   }
 }

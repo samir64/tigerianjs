@@ -22,7 +22,12 @@ export class BFixElement extends Behavior {
   constructor() {
     super();
 
-    this.defineMethod("config", (that, stick = EFixElement.NONE, ctrlFix = undefined) => {
+    /**
+     * @param {Object} that 
+     * @param {Symbol} stick 
+     * @param {Control} ctrlFix 
+     */
+    this.config = (that, stick = EFixElement.NONE, ctrlFix = undefined) => {
       if (ctrlFix === undefined) {
         ctrlFix = that;
       }
@@ -30,14 +35,15 @@ export class BFixElement extends Behavior {
       /**
        * @member {boolean} fixed
        */
-      that.defineProperty("fixed", {
+      Object.defineProperty(that, "fixed", {
+        enumerable: true,
+        configurable: true,
         get() {
           return (ctrlFix.getAttribute("fixed") === "true");
         },
         set(v) {
           ctrlFix.setAttribute("fixed", (v === true) ? "true" : "false");
-        },
-        type: Boolean
+        }
       });
 
       switch (stick) {
@@ -55,7 +61,7 @@ export class BFixElement extends Behavior {
 
       ctrlFix.setAttribute("fixed", "true");
       that.addControl = ctrlFix.addControl;
-    }, [Object, Symbol, Control]);
+    };
   }
 }
 

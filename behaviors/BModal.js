@@ -21,7 +21,13 @@ export class BModal extends Behavior {
   constructor() {
     super();
 
-    this.defineMethod("config", (that, ctrlParent, ctrlModal) => {
+    /**
+     * 
+     * @param {Object} that 
+     * @param {Control} ctrlParent 
+     * @param {Control} ctrlModal 
+     */
+    this.config = (that, ctrlParent, ctrlModal) => {
       let status = EModal.CLOSE;
       let elmCoverage = new Control(ctrlParent, that.theme);
       let superVisible = Object.getOwnPropertyDescriptor(that, "visible");
@@ -38,7 +44,9 @@ export class BModal extends Behavior {
         elmCoverage.addControl(that);
       }
 
-      that.defineProperty("status", {
+      Object.defineProperty(that, "status", {
+        enumerable: true,
+        configurable: true,
         get() {
           return status;
         },
@@ -89,32 +97,33 @@ export class BModal extends Behavior {
         },
       });
 
-      that.defineProperty("visible", {
+      Object.defineProperty(that, "visible", {
+        enumerable: true,
+        configurable: true,
         get() {
           return (that.status !== EModal.CLOSE)
         },
         set(v) {
           that.status = (v ? EModal.SHOW : EModal.CLOSE);
-        },
-        type: Boolean
+        }
       });
 
-      that.defineMethod("showModal", () => {
+      that.showModal = () => {
         ctrlModal.status = EModal.MODAL;
-      });
+      };
 
-      that.defineMethod("show", () => {
+      that.show = () => {
         ctrlModal.status = EModal.SHOW;
-      });
+      };
 
-      that.defineMethod("close", () => {
+      that.close = () => {
         ctrlModal.status = EModal.CLOSE;
-      });
+      };
 
       if (that !== ctrlModal) {
         that.addControl = ctrlModal.addControl.bind(that);
       }
-    }, [Object, Control]);
+    };
   }
 }
 

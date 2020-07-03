@@ -21,7 +21,12 @@ export class BPagination extends Behavior {
   constructor() {
     super();
 
-    this.defineMethod("config", (that, ctrlNavigation) => {
+    /**
+     * 
+     * @param {Object} that 
+     * @param {Control} ctrlNavigation 
+     */
+    this.config = (that, ctrlNavigation) => {
       let pageNo = 0;
       let pageCount = 0;
       let labelCount = 7;
@@ -110,7 +115,9 @@ export class BPagination extends Behavior {
       /**
        * @member {number}
        */
-      that.defineProperty("pageNumber", {
+      Object.defineProperty(that, "pageNumber", {
+        enumerable: true,
+        configurable: true,
         get() {
           return pageNo;
         },
@@ -122,14 +129,15 @@ export class BPagination extends Behavior {
             refresh();
             this.dispatchEvent(Events.onPageChange);
           }
-        },
-        type: Number
+        }
       });
 
       /**
        * @member {number}
        */
-      that.defineProperty("pageCount", {
+      Object.defineProperty(that, "pageCount", {
+        enumerable: true,
+        configurable: true,
         get() {
           return pageCount;
         },
@@ -143,14 +151,15 @@ export class BPagination extends Behavior {
             pageNo = Math.max((pageCount === 0) ? 0 : 1, Math.min(pageNo, pageCount));
             refresh();
           }
-        },
-        type: Number
+        }
       });
 
       /**
        * @member {number}
        */
-      that.defineProperty("labelCount", {
+      Object.defineProperty(that, "labelCount", {
+        enumerable: true,
+        configurable: true,
         get() {
           return labelCount;
         },
@@ -161,14 +170,15 @@ export class BPagination extends Behavior {
           if (lastLabelCount !== labelCount) {
             refresh();
           }
-        },
-        type: Number
+        }
       });
 
       /**
        * @member {number}
        */
-      that.defineProperty("navigationButtons", {
+      Object.defineProperty(that, "navigationButtons", {
+        enumerable: true,
+        configurable: true,
         get() {
           return navButtons;
         },
@@ -188,8 +198,7 @@ export class BPagination extends Behavior {
           if (lastNavBtns !== navButtons) {
             refresh();
           }
-        },
-        type: Symbol
+        }
       });
 
       ctrlNext.addEvent("click", (e) => {
@@ -227,7 +236,7 @@ export class BPagination extends Behavior {
       });
 
       refresh();
-    }, [Object, Control]);
+    };
   }
 }
 

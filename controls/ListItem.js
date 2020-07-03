@@ -57,7 +57,7 @@ export class ListItem extends Control {
     //         if (instanceOf(v, String)) {
     //             elmItem.innerHTML = v;
     //         }
-    //     },
+    //     }
     // });
   }
 }

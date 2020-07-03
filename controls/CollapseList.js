@@ -43,7 +43,7 @@ export class CollapseList extends Control {
       }
     }; */
 
-    this.defineMethod("collapseAll", () => {
+    this.collapseAll = () => {
       forEach(that, (item) => {
         if (instanceOf(item, CollapseItem)) {
           item.collapse();
@@ -52,15 +52,15 @@ export class CollapseList extends Control {
       /* for (let i = 0; i < this.itemCount; i++) {
         this.getItem(i).collapse();
       } */
-    });
+    };
 
-    this.defineMethod("expandAll", () => {
+    this.expandAll = () => {
       forEach(that, (item) => {
         item.expand();
       });
       /* for (let i = 0; i < this.itemCount; i++) {
         this.getItem(i).expand();
       } */
-    });
+    };
   }
 }

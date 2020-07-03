@@ -22,46 +22,43 @@ export class BCancel extends Behavior {
     super();
 
     /**
-     * @param {string} behavior
+     * @param {Object} that
      * @param {Control} ctrlCancel
      */
-    this.defineMethod(
-      "config",
-      (that, ctrlCancel) => {
-        let elmButton = document.createElement("div");
+    this.config = (that, ctrlCancel) => {
+      let elmButton = document.createElement("div");
 
-        // elmButton.setAttribute("element-type", "CancelButton");
-        elmButton.setAttribute("element-name", "cancel-button");
-        elmButton.setAttribute("visible", "true");
+      // elmButton.setAttribute("element-type", "CancelButton");
+      elmButton.setAttribute("element-name", "cancel-button");
+      elmButton.setAttribute("visible", "true");
 
-        ctrlCancel.setAttribute("closable", "true");
+      ctrlCancel.setAttribute("closable", "true");
 
-        ctrlCancel.addControl(elmButton);
-        /**
-         * @member {boolean}
-         */
-        that.defineProperty("closable", {
-          get() {
-            return ctrlCancel.getAttribute("closable") === "true";
-          },
-          set(v) {
-            if (instanceOf(v, "boolean")) {
-              ctrlCancel.setAttribute("closable", v ? "true" : "false");
-              elmButton.setAttribute("visible", v ? "true" : "false");
-            }
-          },
-          type: Boolean
-        });
+      ctrlCancel.addControl(elmButton);
+      /**
+       * @member {boolean}
+       */
+      Object.defineProperty(that, "closable", {
+        enumerable: true,
+        configurable: true,
+        get() {
+          return ctrlCancel.getAttribute("closable") === "true";
+        },
+        set(v) {
+          if (instanceOf(v, "boolean")) {
+            ctrlCancel.setAttribute("closable", v ? "true" : "false");
+            elmButton.setAttribute("visible", v ? "true" : "false");
+          }
+        }
+      });
 
-        elmButton.addEventListener(
-          "click",
-          (e) => {
-            that.visible = false;
-          },
-          true
-        );
-      },
-      [Object, Control, Control]
-    );
+      elmButton.addEventListener(
+        "click",
+        (e) => {
+          that.visible = false;
+        },
+        true
+      );
+    };
   }
 }

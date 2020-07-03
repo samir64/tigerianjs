@@ -65,14 +65,13 @@ export class RadioButton extends Control {
     /**
      * @member {boolean}
      */
-    this.defineProperty("autoDeselect", {
+    Object.defineProperty(this, "autoDeselect", {
+      enumerable: true,
+      configurable: true,
       get() {
         return false;
       },
-      set(v) {
-
-      },
-      type: Boolean
+      set(v) {}
     });
   }
 }

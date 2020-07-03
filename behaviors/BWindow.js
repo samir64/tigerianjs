@@ -23,7 +23,7 @@ export class BWindow extends Behavior {
   constructor() {
     super();
 
-    this.defineMethod("config", (that) => {
+    this.config = (that) => {
       let windowSmallMatch = window.matchMedia("(max-width: 575.98px)");
       let windowMediumMatch = window.matchMedia(
         "(min-width: 576px) and (max-width: 767.98px)"
@@ -45,7 +45,9 @@ export class BWindow extends Behavior {
       /**
        * @member {Symbol}
        */
-      that.defineProperty("windowSize", {
+      Object.defineProperty(that, "windowSize", {
+        enumerable: true,
+        configurable: true,
         get() {
           if (windowSmallMatch.matches) {
             return EWindow.XSMALL;
@@ -72,7 +74,9 @@ export class BWindow extends Behavior {
       /**
        * @member {function}
        */
-      that.defineProperty("onSmallWindow", {
+      Object.defineProperty(that, "onSmallWindow", {
+        enumerable: true,
+        configurable: true,
         set(v) {
           if (instanceOf(v, "function")) {
             v = v.bind(that);
@@ -81,14 +85,15 @@ export class BWindow extends Behavior {
               v();
             }
           }
-        },
-        type: Function
+        }
       });
 
       /**
        * @member {function}
        */
-      that.defineProperty("onMediumWindow", {
+      Object.defineProperty(that, "onMediumWindow", {
+        enumerable: true,
+        configurable: true,
         set(v) {
           if (instanceOf(v, "function")) {
             v = v.bind(that);
@@ -97,14 +102,15 @@ export class BWindow extends Behavior {
               v();
             }
           }
-        },
-        type: Function
+        }
       });
 
       /**
        * @member {function}
        */
-      that.defineProperty("onNormalWindow", {
+      Object.defineProperty(that, "onNormalWindow", {
+        enumerable: true,
+        configurable: true,
         set(v) {
           if (instanceOf(v, "function")) {
             v = v.bind(that);
@@ -113,14 +119,15 @@ export class BWindow extends Behavior {
               v();
             }
           }
-        },
-        type: Function
+        }
       });
 
       /**
        * @member {function}
        */
-      that.defineProperty("onLargeWindow", {
+      Object.defineProperty(that, "onLargeWindow", {
+        enumerable: true,
+        configurable: true,
         set(v) {
           if (instanceOf(v, "function")) {
             v = v.bind(that);
@@ -129,14 +136,15 @@ export class BWindow extends Behavior {
               v();
             }
           }
-        },
-        type: Function
+        }
       });
 
       /**
        * @member {function}
        */
-      that.defineProperty("onXlargeWindow", {
+      Object.defineProperty(that, "onXlargeWindow", {
+        enumerable: true,
+        configurable: true,
         set(v) {
           if (instanceOf(v, "function")) {
             v = v.bind(that);
@@ -145,8 +153,7 @@ export class BWindow extends Behavior {
               v();
             }
           }
-        },
-        type: Function
+        }
       });
 
       windowSmallMatch.addListener((e) => {
@@ -178,7 +185,7 @@ export class BWindow extends Behavior {
           onXlargeWindow();
         }
       });
-    });
+    };
   }
 }
 

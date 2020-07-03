@@ -63,13 +63,13 @@ export class MenuItem extends Control {
     /**
      * @param {MenuItem|Spacer} item
      */
-    this.defineMethod("addControl", (item) => {
+    this.addControl = (item) => {
       if (instanceOf(item, MenuItem) || instanceOf(item, Spacer)) {
         if (!that.hasSubmenu) {}
         // ctrlMenu.addControl(item);
         cascadeAddControl(item);
       }
-    }, [MenuItem, Spacer]);
+    };
 
     this.addEvent("mouseover", (e) => {
       if (canChangeChildState && !touchStarted) {

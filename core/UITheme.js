@@ -19,8 +19,8 @@ export class UITheme extends Tigerian {
       throw new Error("Type must be a class which extended from UI");
     }
 
-    this.defineMethod("render", () => {
+    this.render = () => {
 
-    });
+    };
   }
 }

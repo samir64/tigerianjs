@@ -16,7 +16,11 @@ export class BGridBlock extends Behavior {
   constructor() {
     super();
 
-    this.defineMethod("config", (that) => {
+    /**
+     * 
+     * @param {Object} that 
+     */
+    this.config = (that) => {
       let elm = document.createElement("style");
       let patterns = {};
       let colCount = {};
@@ -30,7 +34,12 @@ export class BGridBlock extends Behavior {
         colCount[size.name] = ((sizeName === "medium") ? 0 : EWindow.MEDIUM);
       });
 
-      that.defineMethod("addBlockRow", (pattern, size = EWindow.MEDIUM) => {
+      /**
+       * 
+       * @param {String} pattern 
+       * @param {Symbol} size 
+       */
+      that.addBlockRow = (pattern, size = EWindow.MEDIUM) => {
         if (instanceOf(pattern, Symbol)) {
           patterns[size] = pattern;
           colCount[size] = pattern;
@@ -59,11 +68,13 @@ export class BGridBlock extends Behavior {
             }
           });
         }
-      }, [
-        [String, Symbol], Symbol
-      ]);
+      };
 
-      that.defineMethod("regenerate", (size = EWindow.MEDIUM) => {
+      /**
+       * 
+       * @param {Symbol} size 
+       */
+      that.regenerate = (size = EWindow.MEDIUM) => {
         let blocks = patterns[size];
         let col = colCount[size];
         let i = 0;
@@ -87,9 +98,13 @@ export class BGridBlock extends Behavior {
         }).join("'\n\t\t'").replace(/([\w-\.]+):(\d+)(\s*)/g, (...p) => {
           return (p[1] + " ").repeat(p[2] - 1) + p[1] + p[3];
         }).trim() + "'";
-      }, [Symbol]);
+      };
 
-      that.defineMethod("getColCount", (size = EWindow.MEDIUM) => {
+      /**
+       * 
+       * @param {Symbol} size 
+       */
+      that.getColCount = (size = EWindow.MEDIUM) => {
         let col = colCount[size];
         let i = 0;
 
@@ -98,7 +113,7 @@ export class BGridBlock extends Behavior {
         };
 
         return col;
-      }, [Symbol]);
-    });
+      };
+    };
   }
 }

@@ -2,23 +2,12 @@ import {
   Behavior
 } from "../core/Behavior.js";
 import {
-  strSplitCapital,
   forEach,
-  Tigerian,
-  instanceOf,
-  defineProperty,
-  defineMethod,
 } from "../core/Tigerian.js";
 import {
   responsiveSizes,
   mediaQueries
 } from "../core/Responsive.js";
-import {
-  EWindow
-} from "./BWindow.js";
-import {
-  StyleValue
-} from "../core/StyleValue.js";
 
 ("use strict");
 
@@ -46,7 +35,12 @@ export class BStyle extends Behavior {
   constructor() {
     super();
 
-    this.defineMethod("config", (that, mainElement) => {
+    /**
+     * 
+     * @param {Object} that 
+     * @param {Element, DocumentFragment} mainElement 
+     */
+    this.config = (that, mainElement) => {
       let specificClass = `control-${Math.round(Date.now() * Math.random())}`;
       let sizes = {
         ...responsiveSizes,
@@ -54,53 +48,9 @@ export class BStyle extends Behavior {
           name: EStyle.INLINE
         }
       };
-      let styles = {
-        // get(attribute) {
-        //   return getAttribute("inline", attribute);
-        // },
-        // set(attribute, value) {
-        //   setAttribute("inline", attribute, value);
-        // }
-      };
+      let styles = {};
 
       mainElement.id = specificClass;
-
-      // function getAttribute(size, attribute) {
-      //   switch (size) {
-      //     case "inline":
-      //     case EStyle.INLINE:
-      //       return mainElement.style[attribute];
-      //       break;
-
-      //     default:
-      //       break;
-      //   }
-      // }
-
-      // function setAttribute(size, attribute, value) {
-      //   switch (size) {
-      //     case "inline":
-      //     case EStyle.INLINE:
-      //       mainElement.style[attribute] = value;
-      //       break;
-
-      //     default:
-      //       break;
-      //   }
-      // }
-
-      // styles.inline = {
-      //   get(attribute) {
-      //     return mainElement.style[attribute];
-      //     // return getAttribute("inline", attribute);
-      //   },
-      //   set(attribute, value) {
-      //     mainElement.style[attribute] = value;
-      //     // setAttribute("inline", attribute, value);
-      //   }
-      // };
-
-      // styles[EStyle.INLINE] = styles.inline;
 
       forEach(sizes, (size, sizeName) => {
         let styleSheet = mediaQueries[size.name];
@@ -108,68 +58,37 @@ export class BStyle extends Behavior {
 
         switch (sizeName) {
           case "inline":
-            defineProperty(styles, size.name, {
+            Object.defineProperty(styles, size.name, {
+              enumerable: true,
+              configurable: true,
               get() {
                 return mainElement.style;
               }
             })
-            // styles[size.name] = {
-            //   get(attribute) {
-            //     return mainElement.style;
-            //   }
-            // }
             break;
 
           default:
             rule = styleSheet.cssRules[styleSheet.insertRule(`#${specificClass}[element-type][element-origin="Container"]{}`, styleSheet.cssRules.length)];
 
-            defineProperty(styles, size.name, {
+            Object.defineProperty(styles, size.name, {
+              enumerable: true,
+              configurable: true,
               get() {
                 return rule.style;
               }
             });
-            // styles[size.name] = {
-            //   get(attribute) {
-            //     return rule.style;
-            //     return getAttribute(size.name, attribute);
-            //   },
-            // set(attribute, value) {
-            //   setAttribute(size.name, attribute, value);
-            // }
             break;
         }
       });
 
-      // Object.defineProperty(that, "style", {
-      //   enumerable: true,
-      //   configurable: true,
-      //   get() {
-      //     return styles;
-      //   }
-      // });
-
-      defineProperty(that, "style", {
+      Object.defineProperty(that, "style", {
+        enumerable: true,
+        configurable: true,
         get() {
           return styles;
         }
       });
-
-      // defineMethod(that, "style", (attribute) => {
-      //   let result = {};
-
-      //   defineProperty(result, "size", {
-      //     get() {
-      //       return styles;
-      //     },
-      //     sete(v) {
-      //       mainElement.style[attribute] = v;
-      //     },
-      //     type: String
-      //   });
-
-      //   return result;
-      // });
-    }, [Tigerian, [Element, DocumentFragment]]);
+    };
   }
 }
 

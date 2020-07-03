@@ -67,7 +67,7 @@ export class ModelField extends ModelView {
       /**
        * @member {string}
        */
-      this.defineProperty("name", {
+      Object.defineProperty(this, "name", {
         enumerable: false,
         configurable: false,
         writable: false,
@@ -77,7 +77,7 @@ export class ModelField extends ModelView {
       /**
        * @member {string}
        */
-      this.defineProperty("type", {
+      Object.defineProperty(this, "type", {
         enumerable: false,
         configurable: false,
         writable: false,
@@ -87,7 +87,7 @@ export class ModelField extends ModelView {
       /**
        * @member {boolean}
        */
-      this.defineProperty("collection", {
+      Object.defineProperty(this, "collection", {
         enumerable: false,
         configurable: false,
         writable: false,
@@ -97,7 +97,7 @@ export class ModelField extends ModelView {
       /**
        * @member {*}
        */
-      this.defineProperty("value", {
+      Object.defineProperty(this, "value", {
         enumerable: false,
         configurable: false,
         get() {

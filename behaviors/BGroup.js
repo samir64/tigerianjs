@@ -23,6 +23,7 @@ import {
 
 /**
  * @implements {Behavior}
+ * @implements {BIterator}
  * @extends {Control}
  * @interface
  */
@@ -33,7 +34,12 @@ export class BGroup extends Behavior {
   constructor() {
     super();
 
-    this.defineMethod("config", (that, ctrlGroup) => {
+    /**
+     * 
+     * @param {Object} that 
+     * @param {Control} ctrlGroup 
+     */
+    this.config = (that, ctrlGroup) => {
       //NOTE Private Members
       /**
        * @type {Control[]}
@@ -47,7 +53,9 @@ export class BGroup extends Behavior {
       /**
        * @member {number}
        */
-      that.defineProperty("itemCount", {
+      Object.defineProperty(that, "itemCount", {
+        enumerable: true,
+        configurable: true,
         get() {
           return items.length;
         }
@@ -56,7 +64,9 @@ export class BGroup extends Behavior {
       /**
        * @member {boolean}
        */
-      that.defineProperty("focused", {
+      Object.defineProperty(that, "focused", {
+        enumerable: true,
+        configurable: true,
         get() {
           let isActive = superFocused.get();
           for (let i = 0; i < ctrlGroup.itemCount && !isActive; i++) {
@@ -77,7 +87,7 @@ export class BGroup extends Behavior {
       /**
        * @param {Control} item
        */
-      that.defineMethod("addControl", (item) => {
+      that.addControl = (item) => {
         let found = false;
 
         forEach(items, (it, index) => {
@@ -106,13 +116,13 @@ export class BGroup extends Behavior {
             });
           });
         }
-      }, [Control]);
+      };
 
       /**
-       * @param {number} itemIndex
+       * @param {Number} itemIndex
        * @returns {Control}
        */
-      that.defineMethod("getItem", (itemIndex) => {
+      that.getItem = (itemIndex) => {
         if (
           itemIndex >= 0 &&
           itemIndex < items.length
@@ -121,12 +131,12 @@ export class BGroup extends Behavior {
         } else {
           throw new Error("Index out of range");
         }
-      }, [Number]);
+      };
 
       /**
-       * @param {number} itemIndex
+       * @param {Number} itemIndex
        */
-      that.defineMethod("removeItem", (itemIndex) => {
+      that.removeItem = (itemIndex) => {
         if (
           itemIndex >= 0 &&
           itemIndex < items.length
@@ -143,9 +153,9 @@ export class BGroup extends Behavior {
         } else {
           throw new Error("Index out of range");
         }
-      }, [Number]);
+      };
 
-      that.defineMethod("clear", () => {
+      that.clear = () => {
         items = items.filter((item, itemIndex) => {
           item.remove();
           return false;
@@ -153,19 +163,19 @@ export class BGroup extends Behavior {
 
         that.config(BIterator, items);
         ctrlGroup.clear();
-      });
+      };
 
       /**
-       * @param {function} func
+       * @param {Function} func
        */
-      that.defineMethod("sort", (func) => {
+      that.sort = (func) => {
         items = items.sort(func);
 
         ctrlGroup.clear();
         forEach(items, (item, index) => {
           ctrlGroup.addControl(item);
         });
-      }, [Function]);
-    }, [Control]);
+      };
+    };
   }
 }

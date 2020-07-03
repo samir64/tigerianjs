@@ -8,27 +8,7 @@ import {
   Tigerian
 } from "./Tigerian.js";
 
-let instance;
-export class Responsive extends Tigerian {
-  constructor() {
-    if (instance) {
-      return instance;
-    }
-
-    instance = this;
-  }
-}
-
-
-
 export let responsiveSizes = {
-  // none: {
-  //   name: EWindow.NONE,
-  //   min: undefined,
-  //   max: undefined,
-  //   containerWidth: "",
-  //   containerPadding: 0
-  // },
   xsmall: {
     name: EWindow.XSMALL,
     min: 1,
@@ -83,7 +63,6 @@ forEach(responsiveSizes, (size, sizeName) => {
     mediaQueries[size.name] = styleSheet.cssRules[styleSheet.insertRule(`@media only screen and (max-width: ${size.max}px) {}`, styleSheet.cssRules.length)];
   }
 });
-// console.log(styles);
 
 export function responsive() {
   let rule = "";

@@ -49,7 +49,9 @@ export class Button extends Control {
     /**
      * @member {number}
      */
-    this.defineProperty("tabIndex", {
+    Object.defineProperty(this, "tabIndex", {
+      enumerable: true,
+      configurable: true,
       get() {
         return elmButton.hasAttribute("tabindex") ?
           elmButton.getAttribute("tabindex") :
@@ -61,26 +63,12 @@ export class Button extends Control {
         } else {
           elmButton.removeAttribute("tabindex");
         }
-      },
-      type: Number
+      }
     });
 
-    /**
-     * @member {boolean}
-     */
-    // this.defineProperty("fitContent", {
-    //   get() {
-    //     return this.getAttribute("fit-content");
-    //   },
-    //   set(v) {
-    //     this.setAttribute("fit-content", v ? "true" : "false");
-    //   },
-    //   type: Boolean
-    // });
-
-    this.defineMethod("select", () => {
+    this.select = () => {
       elmButton.focus();
-    });
+    };
 
     window.addEventListener(
       "keypress",

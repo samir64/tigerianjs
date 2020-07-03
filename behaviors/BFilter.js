@@ -24,13 +24,19 @@ export class BFilter extends Behavior {
   constructor() {
     super();
 
-    this.defineMethod("config", (that, ctrlText, ctrlList) => {
+    /**
+     * 
+     * @param {Object} that 
+     * @param {BText} ctrlText 
+     * @param {BGroup} ctrlList 
+     */
+    this.config = (that, ctrlText, ctrlList) => {
       that.setAttribute("filtering", ctrlList.filter ? "true" : "false");
 
       /**
-       * @param {string} text
+       * @param {String} text
        */
-      that.defineMethod("filter", (text) => {
+      that.filter = (text) => {
         if (!instanceOf(text, String)) {
           text = ctrlText.text;
         }
@@ -42,13 +48,15 @@ export class BFilter extends Behavior {
               item.text.toLowerCase().includes(text.toLowerCase());
           });
         }
-      });
+      };
 
       /**
        * @member {boolean}
        * @this {Control}
        */
-      that.defineProperty("filtering", {
+      Object.defineProperty(that, "filtering", {
+        enumerable: true,
+        configurable: true,
         get() {
           return (this.getAttribute("filtering") === "true");
         },
@@ -57,8 +65,7 @@ export class BFilter extends Behavior {
           if (this !== ctrlList) {
             ctrlList.filter = v;
           }
-        },
-        type: Boolean
+        }
       });
 
       ctrlText.addEvent("input", (e) => {
@@ -66,6 +73,6 @@ export class BFilter extends Behavior {
       });
 
       // that.filter();
-    }, [Object, BText, BGroup]);
+    };
   }
 }

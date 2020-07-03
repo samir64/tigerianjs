@@ -2,7 +2,7 @@ import {
   instanceOf,
   Tigerian,
   forEach,
-  abstract
+  // abstract
 } from "./Tigerian.js";
 import {
   BBind
@@ -38,12 +38,12 @@ export class UI extends Tigerian {
   /**
    * @param {Element} [mainElement = document.body]
    * @param {UI} [parent = undefined]
-   * @param {string} [theme]
+   * @param {String} [theme]
    */
   constructor(mainElement = document.body, parent = undefined, theme = "") {
     super();
 
-    abstract(this, UI);
+    this.abstract(UI);
 
     if (instanceOf(mainElement, String)) {
       if (mainElement[0] === "#") {
@@ -71,14 +71,14 @@ export class UI extends Tigerian {
 
     //NOTE Private Constants
     /**
-     * @type {string[]}
+     * @type {String[]}
      */
     let attributesSetProtected = [
       "element-type",
       "element-origin"
     ];
     /**
-     * @type {string[]}
+     * @type {String[]}
      */
     let attributesRemoveProtected = attributesSetProtected.concat([
       "visible",
@@ -109,7 +109,9 @@ export class UI extends Tigerian {
     /**
      * @member {Tigerin.UI|Element}
      */
-    this.defineProperty("parent", {
+    Object.defineProperty(this, "parent", {
+      enumerable: true,
+      configurable: true,
       /**
        * @returns {Application}
        */
@@ -132,22 +134,23 @@ export class UI extends Tigerian {
           v.appendChild(mainElement);
           parent = v;
         }
-      },
-      type: [UI, Element, undefined]
+      }
     });
 
     /**
-     * @member {boolean}
+     * @member {Boolean}
      */
-    this.defineProperty("enabled", {
+    Object.defineProperty(this, "enabled", {
+      enumerable: true,
+      configurable: true,
       /**
-       * @returns {boolean}
+       * @returns {Boolean}
        */
       get() {
         return !this.hasAttribute("disabled");
       },
       /**
-       * @param {boolean} value
+       * @param {Boolean} value
        */
       set(v) {
         if (v === false) {
@@ -155,14 +158,15 @@ export class UI extends Tigerian {
         } else {
           that.removeAttribute("disabled");
         }
-      },
-      type: Boolean
+      }
     });
 
     /**
-     * @member {boolean}
+     * @member {Boolean}
      */
-    this.defineProperty("focused", {
+    Object.defineProperty(this, "focused", {
+      enumerable: true,
+      configurable: true,
       get() {
         let result = document.activeElement === mainElement;
 
@@ -179,14 +183,15 @@ export class UI extends Tigerian {
         } else if (this.focused) {
           document.activeElement = undefined;
         }
-      },
-      type: Boolean
+      }
     });
 
     /**
      * @member {Symbol}
      */
-    this.defineProperty("direction", {
+    Object.defineProperty(this, "direction", {
+      enumerable: true,
+      configurable: true,
       get() {
         if (this.hasAttribute("dir")) {
           let dir = this.getAttribute("dir");
@@ -213,35 +218,37 @@ export class UI extends Tigerian {
           default:
             this.removeAttribute("dir");
         }
-      },
-      type: Symbol
+      }
     });
 
     /**
-     * @member {boolean}
+     * @member {Boolean}
      */
-    this.defineProperty("visible", {
+    Object.defineProperty(this, "visible", {
+      enumerable: true,
+      configurable: true,
       /**
-       * @returns {boolean}
+       * @returns {Boolean}
        */
       get() {
         return (this.getAttribute("visible") === "true");
       },
       /**
-       * @param {boolean} v
+       * @param {Boolean} v
        */
       set(v) {
         setVisible(v);
-      },
-      type: Boolean
+      }
     });
 
     /**
-     * @member {string}
+     * @member {String}
      */
-    this.defineProperty("theme", {
+    Object.defineProperty(this, "theme", {
+      enumerable: true,
+      configurable: true,
       /**
-       * @returns {string}
+       * @returns {String}
        */
       get() {
         return mainElement.className;
@@ -250,10 +257,10 @@ export class UI extends Tigerian {
 
     //NOTE Private Functions
     /**
-     * @param {boolean} v
+     * @param {Boolean} v
      */
     function setVisible(v) {
-      if (instanceOf(v, "boolean")) {
+      if (instanceOf(v, "Boolean")) {
         let lastVisible = that.getAttribute("visible") === "true";
         that.setAttribute("visible", v ? "true" : "false");
 
@@ -265,7 +272,7 @@ export class UI extends Tigerian {
 
     /**
      * @param {Elemenet} element
-     * @param {string} themeName
+     * @param {String} themeName
      */
     function addThemeToChildren(element, themeName) {
       forEach(Array.from(element.children), (elm, index) => {
@@ -298,7 +305,7 @@ export class UI extends Tigerian {
 
     /**
      * @param {Elemenet} element
-     * @param {string} themeName
+     * @param {String} themeName
      */
     function removeThemeFromChildren(element, themeName) {
       forEach(Array.from(element.children), (elm, index) => {
@@ -362,14 +369,14 @@ export class UI extends Tigerian {
     }
 
     //NOTE Public Functions
-    this.defineMethod("remove", () => {
+    this.remove = () => {
       this.parent = undefined;
-    });
+    };
 
     /**
-     * @param {Control|Element|Text} control
+     * @param {UI|Element|Text} control
      */
-    this.defineMethod("addControl", (control) => {
+    this.addControl = (control) => {
       if (instanceOf(control, Element) || instanceOf(control, Text)) {
         control.setAttribute("element-type", this.constructor.name);
         control.setAttribute("element-origin", "Child");
@@ -377,74 +384,70 @@ export class UI extends Tigerian {
       } else if (instanceOf(control, UI)) {
         control.appendTo(that, mainElement);
       }
-    }, [
-      [UI, Element, Text]
-    ]);
+    };
 
     /**
-     * @param {string} attrName
-     * @param {string} attrValue
+     * @param {String} attrName
+     * @param {String} attrValue
      */
-    this.defineMethod("setAttribute", (attrName, attrValue) => {
+    this.setAttribute = (attrName, attrValue) => {
       if (
         instanceOf(mainElement, Element) &&
         attributesSetProtected.indexOf(attrName) === -1
       ) {
         mainElement.setAttribute(attrName, attrValue.toString());
       }
-    }, [String]);
+    };
 
     /**
-     * @param {string} attrName
-     * @returns {string}
+     * @param {String} attrName
+     * @returns {String}
      */
-    this.defineMethod("getAttribute", (attrName) => {
+    this.getAttribute = (attrName) => {
       if (
         instanceOf(mainElement, Element)
       ) {
         return mainElement.getAttribute(attrName);
       }
-    }, [String]);
+    };
 
     /**
-     * @param {string} attrName
-     * @returns {boolean}
+     * @param {String} attrName
+     * @returns {Boolean}
      */
-    this.defineMethod("hasAttribute", (attrName) => {
+    this.hasAttribute = (attrName) => {
       if (
         instanceOf(mainElement, Element)
       ) {
         return mainElement.hasAttribute(attrName);
       }
-    }, [String]);
+    };
 
     /**
-     * @param {string} attrName
+     * @param {String} attrName
      */
-    this.defineMethod("removeAttribute", (attrName) => {
+    this.removeAttribute = (attrName) => {
       if (
         instanceOf(mainElement, Element) &&
         attributesRemoveProtected.indexOf(attrName) === -1
       ) {
         mainElement.removeAttribute(attrName);
       }
-    }, [String]);
+    };
 
     /**
      * @param {Element} elmContainer
-     * @returns {boolean}
+     * @returns {Boolean}
      */
-    this.defineMethod("matchContainer", (elmContainer) => {
+    this.matchContainer = (elmContainer) => {
       return elmContainer === mainElement;
-    }, [
-      [Element, DocumentFragment]
-    ]);
+    };
 
     /**
      * @param {UI} parentControl
      * @param {Element} elmParentContainer
      */
-    this.defineMethod("appendTo", (parentControl, elmParentContainer) => {
+    this.appendTo = (parentControl, elmParentContainer) => {
       if (
         instanceOf(parentControl, UI) &&
         parentControl.matchContainer(elmParentContainer)
@@ -452,13 +455,13 @@ export class UI extends Tigerian {
         parent = parentControl;
         elmParentContainer.appendChild(mainElement);
       }
-    }, [UI, [Element, DocumentFragment]]);
+    };
 
     /**
-     * @param {string} themeName
-     * @param {boolean} affectChildren = true
+     * @param {String} themeName
+     * @param {Boolean} affectChildren = true
      */
-    this.defineMethod("addTheme", (themeName, affectChildren = true) => {
+    this.addTheme = (themeName, affectChildren = true) => {
       if (instanceOf(themeName, String) && themeName !== "") {
         themeName = themeName.split(" ")[0];
         mainElement.classList.add(themeName);
@@ -467,13 +470,13 @@ export class UI extends Tigerian {
           addThemeToChildren(mainElement, themeName);
         }
       }
-    }, [String, Boolean]);
+    };
 
     /**
-     * @param {string} themeName
-     * @param {boolean} affectChildren = true
+     * @param {String} themeName
+     * @param {Boolean} affectChildren = true
      */
-    this.defineMethod("removeTheme", (themeName, affectChildren = true) => {
+    this.removeTheme = (themeName, affectChildren = true) => {
       if (instanceOf(themeName, String) && themeName !== "") {
         themeName = themeName.split(" ")[0];
         mainElement.classList.remove(themeName);
@@ -482,53 +485,53 @@ export class UI extends Tigerian {
           removeThemeFromChildren(mainElement, themeName);
         }
       }
-    }, [String, Boolean]);
+    };
 
     /**
-     * @param {boolean} affectChildren = true
+     * @param {Boolean} affectChildren = true
      */
-    this.defineMethod("removeAllThemes", (affectChildren = true) => {
+    this.removeAllThemes = (affectChildren = true) => {
       mainElement.className = "";
 
       if (affectChildren !== false) {
         removeAllThemesFromChildren(mainElement);
       }
-    }, [Boolean]);
+    };
 
     /**
      * @param {number} index
-     * @returns {string}
+     * @returns {String}
      */
-    this.defineMethod("getTheme", (index) => {
+    this.getTheme = (index) => {
       return mainElement.classList.item(index);
-    }, [Number]);
+    };
 
     /**
-     * @param {string themeName}
-     * @returns {boolean}
+     * @param {String themeName}
+     * @returns {Boolean}
      */
-    this.defineMethod("hasTheme", (themeName) => {
+    this.hasTheme = (themeName) => {
       return mainElement.classList.contains(themeName);
-    }, [String]);
+    };
 
     /**
      * @returns {number}
      */
-    this.defineMethod("themeCount", () => {
+    this.themeCount = () => {
       return mainElement.classList.length;
-    });
+    };
 
     /**
-     * @returns {string}
+     * @returns {String}
      */
-    this.defineMethod("toString", () => {
+    this.toString = () => {
       return "[Tigerian Instance]";
-    });
+    };
 
     /**
-     * @param {boolean} scrollTo = false
+     * @param {Boolean} scrollTo = false
      */
-    this.defineMethod("focus", (scrollTo = false) => {
+    this.focus = (scrollTo = false) => {
       mainElement.focus({
         preventScroll: true
       });
@@ -536,9 +539,9 @@ export class UI extends Tigerian {
       if (scrollTo === true) {
         mainElement.scrollIntoView();
       }
-    }, [Boolean]);
+    };
 
-    this.defineMethod("clear", () => {
+    this.clear = () => {
       let children = mainElement.querySelectorAll(
         '[element-name="container"]'
       );
@@ -547,7 +550,7 @@ export class UI extends Tigerian {
           mainElement.removeChild(children[i]);
         }
       }
-    });
+    };
 
     //NOTE Attributes
     this.setAttribute("element-name", "");

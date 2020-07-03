@@ -68,7 +68,9 @@ export class Control extends UI {
     /**
      * @member {string}
      */
-    this.defineProperty("headText", {
+    Object.defineProperty(this, "headText", {
+      enumerable: true,
+      configurable: true,
       /**
        * @returns {string}
        */
@@ -80,14 +82,15 @@ export class Control extends UI {
        */
       set(v) {
         elmTxtHead.data = v;
-      },
-      type: String
+      }
     });
 
     /**
      * @member {string}
      */
-    this.defineProperty("footText", {
+    Object.defineProperty(this, "footText", {
+      enumerable: true,
+      configurable: true,
       /**
        * @returns {string}
        */
@@ -99,14 +102,15 @@ export class Control extends UI {
        */
       set(v) {
         elmTxtFoot.data = v;
-      },
-      type: String
+      }
     });
 
     /**
      * @member {string}
      */
-    this.defineProperty("hint", {
+    Object.defineProperty(this, "hint", {
+      enumerable: true,
+      configurable: true,
       /**
        * @returns {string}
        */
@@ -118,14 +122,15 @@ export class Control extends UI {
        */
       set(v) {
         that.setAttribute("title", v);
-      },
-      type: String
+      }
     });
 
     /**
      * @member {number}
      */
-    this.defineProperty("tabIndex", {
+    Object.defineProperty(this, "tabIndex", {
+      enumerable: true,
+      configurable: true,
       get() {
         return that.hasAttribute("tabindex") ?
           that.getAttribute("tabindex") :
@@ -139,11 +144,12 @@ export class Control extends UI {
             that.removeAttribute("tabindex");
           }
         }
-      },
-      type: Number
+      }
     });
 
-    this.defineProperty("column", {
+    Object.defineProperty(this, "column", {
+      enumerable: true,
+      configurable: true,
       get() {
         let result = {};
 
@@ -195,550 +201,15 @@ export class Control extends UI {
             }
           });
         }
-      },
-      type: [Number, Symbol]
+      }
     });
-
-    // /**
-    //  * @member {number|symbol}
-    //  */
-    // this.defineProperty("xsmallColumn", {
-    //   /**
-    //    * @returns {string}
-    //    */
-    //   get() {
-    //     let v = that.getAttribute("xsmall-column");
-    //     switch (v) {
-    //       case "":
-    //         return EWindow.NONE;
-    //         break;
-
-    //       case "small":
-    //         return EWindow.SMALL;
-    //         break;
-
-    //       case "medium":
-    //         return EWindow.MEDIUM;
-    //         break;
-
-    //       case "large":
-    //         return EWindow.LARGE;
-    //         break;
-
-    //       case "xlarge":
-    //         return EWindow.XLARGE;
-    //         break;
-
-    //       default:
-    //         v = parseInt(v, 12);
-    //         return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
-    //     }
-    //   },
-    //   /**
-    //    * @param {string} v
-    //    */
-    //   set(v) {
-    //     switch (v) {
-    //       case EWindow.NONE:
-    //         that.setAttribute("xsmall-column", "");
-    //         break;
-
-    //       case EWindow.SMALL:
-    //         that.setAttribute("xsmall-column", "small");
-    //         break;
-
-    //       case EWindow.MEDIUM:
-    //         that.setAttribute("xsmall-column", "medium");
-    //         break;
-
-    //       case EWindow.LARGE:
-    //         that.setAttribute("xsmall-column", "large");
-    //         break;
-
-    //       case EWindow.XLARGE:
-    //         that.setAttribute("xsmall-column", "xlarge");
-    //         break;
-
-    //       default:
-    //         if (instanceOf(v, "number")) {
-    //           that.setAttribute("xsmall-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
-    //         }
-    //     }
-    //   },
-    //   type: [Number, Symbol]
-    // });
-
-    // /**
-    //  * @member {number|symbol}
-    //  */
-    // this.defineProperty("smallColumn", {
-    //   /**
-    //    * @returns {string}
-    //    */
-    //   get() {
-    //     let v = that.getAttribute("small-column");
-    //     switch (v) {
-    //       case "":
-    //         return EWindow.NONE;
-    //         break;
-
-    //       case "xsmall":
-    //         return EWindow.XSMALL;
-    //         break;
-
-    //       case "medium":
-    //         return EWindow.MEDIUM;
-    //         break;
-
-    //       case "large":
-    //         return EWindow.LARGE;
-    //         break;
-
-    //       case "xlarge":
-    //         return EWindow.XLARGE;
-    //         break;
-
-    //       default:
-    //         v = parseInt(v, 12);
-    //         return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
-    //     }
-    //   },
-    //   /**
-    //    * @param {string} v
-    //    */
-    //   set(v) {
-    //     switch (v) {
-    //       case EWindow.NONE:
-    //         that.setAttribute("small-column", "");
-    //         break;
-
-    //       case EWindow.XSMALL:
-    //         that.setAttribute("small-column", "xsmall");
-    //         break;
-
-    //       case EWindow.MEDIUM:
-    //         that.setAttribute("small-column", "medium");
-    //         break;
-
-    //       case EWindow.LARGE:
-    //         that.setAttribute("small-column", "large");
-    //         break;
-
-    //       case EWindow.XLARGE:
-    //         that.setAttribute("small-column", "xlarge");
-    //         break;
-
-    //       default:
-    //         if (instanceOf(v, "number")) {
-    //           that.setAttribute("small-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
-    //         }
-    //     }
-    //   },
-    //   type: [Number, Symbol]
-    // });
-
-    // /**
-    //  * @member {number|symbol}
-    //  */
-    // this.defineProperty("mediumColumn", {
-    //   /**
-    //    * @returns {string}
-    //    */
-    //   get() {
-    //     let v = that.getAttribute("medium-column");
-    //     switch (v) {
-    //       case "":
-    //         return EWindow.NONE;
-    //         break;
-
-    //       case "xsmall":
-    //         return EWindow.XSMALL;
-    //         break;
-
-    //       case "small":
-    //         return EWindow.SMALL;
-    //         break;
-
-    //       case "large":
-    //         return EWindow.LARGE;
-    //         break;
-
-    //       case "xlarge":
-    //         return EWindow.XLARGE;
-    //         break;
-
-    //       default:
-    //         v = parseInt(v, 12);
-    //         return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
-    //     }
-    //   },
-    //   /**
-    //    * @param {string} v
-    //    */
-    //   set(v) {
-    //     switch (v) {
-    //       case EWindow.NONE:
-    //         that.setAttribute("medium-column", "");
-    //         break;
-
-    //       case EWindow.XSMALL:
-    //         that.setAttribute("medium-column", "xsmall");
-    //         break;
-
-    //       case EWindow.SMALL:
-    //         that.setAttribute("medium-column", "small");
-    //         break;
-
-    //       case EWindow.LARGE:
-    //         that.setAttribute("medium-column", "large");
-    //         break;
-
-    //       case EWindow.XLARGE:
-    //         that.setAttribute("medium-column", "xlarge");
-    //         break;
-
-    //       default:
-    //         if (instanceOf(v, "number")) {
-    //           that.setAttribute("medium-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
-    //         }
-    //     }
-    //   },
-    //   type: [Number, Symbol]
-    // });
-
-    // /**
-    //  * @member {number|string}
-    //  */
-    // this.defineProperty("largeColumn", {
-    //   /**
-    //    * @returns {string}
-    //    */
-    //   get() {
-    //     let v = that.getAttribute("large-column");
-    //     switch (v) {
-    //       case "":
-    //         return EWindow.NONE;
-    //         break;
-
-    //       case "xsmall":
-    //         return EWindow.XSMALL;
-    //         break;
-
-    //       case "small":
-    //         return EWindow.SMALL;
-    //         break;
-
-    //       case "medium":
-    //         return EWindow.MEDIUM;
-    //         break;
-
-    //       case "xlarge":
-    //         return EWindow.XLarge;
-    //         break;
-
-    //       default:
-    //         v = parseInt(v, 12);
-    //         return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
-    //     }
-    //   },
-    //   /**
-    //    * @param {string} v
-    //    */
-    //   set(v) {
-    //     switch (v) {
-    //       case EWindow.NONE:
-    //         that.setAttribute("large-column", "");
-    //         break;
-
-    //       case EWindow.XSMALL:
-    //         that.setAttribute("large-column", "xsmall");
-    //         break;
-
-    //       case EWindow.SMALL:
-    //         that.setAttribute("large-column", "small");
-    //         break;
-
-    //       case EWindow.MEDIUM:
-    //         that.setAttribute("large-column", "medium");
-    //         break;
-
-    //       case EWindow.XLarge:
-    //         that.setAttribute("large-column", "xlarge");
-    //         break;
-
-    //       default:
-    //         if (instanceOf(v, "number")) {
-    //           that.setAttribute("large-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
-    //         }
-    //     }
-    //   },
-    //   type: [Number, Symbol]
-    // });
-
-    // /**
-    //  * @member {number|string}
-    //  */
-    // this.defineProperty("xlargeColumn", {
-    //   /**
-    //    * @returns {string}
-    //    */
-    //   get() {
-    //     let v = that.getAttribute("xlarge-column");
-    //     switch (v) {
-    //       case "":
-    //         return EWindow.NONE;
-    //         break;
-
-    //       case "xsmall":
-    //         return EWindow.XSMALL;
-    //         break;
-
-    //       case "small":
-    //         return EWindow.SMALL;
-    //         break;
-
-    //       case "medium":
-    //         return EWindow.MEDIUM;
-    //         break;
-
-    //       case "large":
-    //         return EWindow.LARGE;
-    //         break;
-
-    //       default:
-    //         v = parseInt(v, 12);
-    //         return ((v < 1) ? "1" : ((v > 12) ? "12" : v));
-    //     }
-    //   },
-    //   /**
-    //    * @param {string} v
-    //    */
-    //   set(v) {
-    //     switch (v) {
-    //       case EWindow.NONE:
-    //         that.setAttribute("xlarge-column", "");
-    //         break;
-
-    //       case EWindow.XSMALL:
-    //         that.setAttribute("xlarge-column", "xsmall");
-    //         break;
-
-    //       case EWindow.SMALL:
-    //         that.setAttribute("xlarge-column", "small");
-    //         break;
-
-    //       case EWindow.MEDIUM:
-    //         that.setAttribute("xlarge-column", "medium");
-    //         break;
-
-    //       case EWindow.LARGE:
-    //         that.setAttribute("xlarge-column", "large");
-    //         break;
-
-    //       default:
-    //         if (instanceOf(v, "number")) {
-    //           that.setAttribute("xlarge-column", ((v < 1) ? "1" : ((v > 12) ? "12" : v)));
-    //         }
-    //     }
-    //   },
-    //   type: [Number, Symbol]
-    // });
-
-    // /**
-    //  * @member {boolean}
-    //  */
-    // this.defineProperty("hideOnXsmall", {
-    //   /**
-    //    * @returns {boolean}
-    //    */
-    //   get() {
-    //     return that.getAttribute("hide-on-xsmall");
-    //   },
-    //   /**
-    //    * @param {boolean} v
-    //    */
-    //   set(v) {
-    //     that.setAttribute("hide-on-xsmall", v);
-    //   },
-    //   type: Boolean
-    // });
-
-    // /**
-    //  * @member {boolean}
-    //  */
-    // this.defineProperty("hideOnSmall", {
-    //   /**
-    //    * @returns {boolean}
-    //    */
-    //   get() {
-    //     return that.getAttribute("hide-on-small");
-    //   },
-    //   /**
-    //    * @param {boolean} v
-    //    */
-    //   set(v) {
-    //     that.setAttribute("hide-on-small", v);
-    //   },
-    //   type: Boolean
-    // });
-
-    // /**
-    //  * @member {boolean}
-    //  */
-    // this.defineProperty("hideOnMedium", {
-    //   /**
-    //    * @returns {boolean}
-    //    */
-    //   get() {
-    //     return that.getAttribute("hide-on-medium");
-    //   },
-    //   /**
-    //    * @param {boolean} v
-    //    */
-    //   set(v) {
-    //     that.setAttribute("hide-on-medium", v);
-    //   },
-    //   type: Boolean
-    // });
-
-    // /**
-    //  * @member {boolean}
-    //  */
-    // this.defineProperty("hideOnLarge", {
-    //   /**
-    //    * @returns {boolean}
-    //    */
-    //   get() {
-    //     return that.getAttribute("hide-on-large");
-    //   },
-    //   /**
-    //    * @param {boolean} v
-    //    */
-    //   set(v) {
-    //     that.setAttribute("hide-on-large", v);
-    //   },
-    //   type: Boolean
-    // });
-
-    // /**
-    //  * @member {boolean}
-    //  */
-    // this.defineProperty("hideOnXlarge", {
-    //   /**
-    //    * @returns {boolean}
-    //    */
-    //   get() {
-    //     return that.getAttribute("hide-on-xlarge");
-    //   },
-    //   /**
-    //    * @param {boolean} v
-    //    */
-    //   set(v) {
-    //     that.setAttribute("hide-on-xlarge", v);
-    //   },
-    //   type: Boolean
-    // });
-
-    // /**
-    //  * @member {Symbol}
-    //  */
-    // this.defineProperty("float", {
-    //   /**
-    //    * @returns {string}
-    //    */
-    //   get() {
-    //     switch (that.getAttribute("float")) {
-    //       case "left":
-    //         return EControl.LEFT;
-    //         break;
-    //       case "right":
-    //         return EControl.RIGHT;
-    //         break;
-    //       case "center":
-    //         return EControl.CENTER;
-    //         break;
-    //       default:
-    //         return EControl.NONE;
-    //         break;
-    //     }
-    //   },
-    //   /**
-    //    * @param {string} v
-    //    */
-    //   set(v) {
-    //     switch (v) {
-    //       case EControl.LEFT:
-    //         that.setAttribute("float", "left");
-    //         break;
-    //       case EControl.RIGHT:
-    //         that.setAttribute("float", "right");
-    //         break;
-    //       case EControl.CENTER:
-    //         that.setAttribute("float", "center");
-    //         break;
-    //       default:
-    //         that.setAttribute("float", "");
-    //         break;
-    //     }
-    //   },
-    //   type: Symbol
-    // });
-
-    // /**
-    //  * @member {Symbol}
-    //  */
-    // this.defineProperty("align", {
-    //   /**
-    //    * @returns {string}
-    //    */
-    //   get() {
-    //     switch (that.getAttribute("align")) {
-    //       case "left":
-    //         return EControl.LEFT;
-    //         break;
-    //       case "right":
-    //         return EControl.RIGHT;
-    //         break;
-    //       case "center":
-    //         return EControl.CENTER;
-    //         break;
-    //       case "justify":
-    //         return EControl.JUSTIFY;
-    //         break;
-    //       default:
-    //         return EControl.NONE;
-    //         break;
-    //     }
-    //   },
-    //   /**
-    //    * @param {string} v
-    //    */
-    //   set(v) {
-    //     switch (v) {
-    //       case EControl.LEFT:
-    //         that.setAttribute("align", "left");
-    //         break;
-    //       case EControl.RIGHT:
-    //         that.setAttribute("align", "right");
-    //         break;
-    //       case EControl.CENTER:
-    //         that.setAttribute("align", "center");
-    //         break;
-    //       case EControl.JUSTIFY:
-    //         that.setAttribute("align", "justify");
-    //         break;
-    //       default:
-    //         that.setAttribute("align", "");
-    //         break;
-    //     }
-    //   },
-    //   type: Symbol
-    // });
 
     /**
      * @member {string}
      */
-    this.defineProperty("templateName", {
+    Object.defineProperty(this, "templateName", {
+      enumerable: true,
+      configurable: true,
       /**
        * @returns {string}
        */
@@ -750,14 +221,15 @@ export class Control extends UI {
        */
       set(v) {
         that.setAttribute("template-name", v);
-      },
-      type: String
+      }
     });
 
     /**
      * @member {string}
      */
-    this.defineProperty("templateItem", {
+    Object.defineProperty(this, "templateItem", {
+      enumerable: true,
+      configurable: true,
       /**
        * @returns {string}
        */
@@ -770,21 +242,23 @@ export class Control extends UI {
       set(v) {
         that.setAttribute("template-item", v);
         // elmDivContainer.style.gridArea = v;
-      },
-      type: String
+      }
     });
 
-    this.defineProperty("hoverable", {
+    Object.defineProperty(this, "hoverable", {
+      enumerable: true,
+      configurable: true,
       get() {
         return that.getAttribute("element-hoverable") === "true";
       },
       set(v) {
         that.setAttribute("element-hoverable", v ? "true" : "false");
-      },
-      type: Boolean
+      }
     });
 
-    this.defineProperty("situation", {
+    Object.defineProperty(this, "situation", {
+      enumerable: true,
+      configurable: true,
       get() {
         let v = that.getAttribute("element-situation");
 
@@ -856,39 +330,28 @@ export class Control extends UI {
             that.setAttribute("element-situation", "");
             break;
         }
-      },
-      type: Symbol
+      }
     });
 
     /**
      * @param {Text|Element|Control} control
      */
-    this.defineMethod(
-      "addControl",
-      control => {
-        superAddControl(control);
-        elmDivContainer.appendChild(elmTxtFoot);
-      },
-      [
-        [Control, Text, Element]
-      ]
-    );
+    this.addControl = (control) => {
+      superAddControl(control);
+      elmDivContainer.appendChild(elmTxtFoot);
+    };
 
-    this.defineMethod("clearContent", () => {
+    this.clearContent = () => {
       elmDivContainer.innerHTML = "";
-    });
+    };
 
-    this.defineMethod("click", () => {
+    this.click = () => {
       elmDivContainer.click();
-    });
+    };
 
     // this.focus = () => {
     //     elmDivContainer.focus();
     // };
-
-    // this.defineMethod("toString", () => {
-    //   return "[Control]";
-    // });
   }
 }
 

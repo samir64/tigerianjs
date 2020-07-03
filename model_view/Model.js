@@ -1,9 +1,24 @@
-import { strFormat, instanceOf, forEach, abstract } from "../core/Tigerian.js";
-import { ModelView } from "../core/ModelView.js";
-import { ModelField } from "./ModelField.js";
-import { Ajax } from "../core/Ajax.js";
-import { Events } from "../core/Events.js";
-import { BPromise } from "../behaviors/BPromise.js";
+import {
+  strFormat,
+  instanceOf,
+  forEach,
+  // abstract
+} from "../core/Tigerian.js";
+import {
+  ModelView
+} from "../core/ModelView.js";
+import {
+  ModelField
+} from "./ModelField.js";
+import {
+  Ajax
+} from "../core/Ajax.js";
+import {
+  Events
+} from "../core/Events.js";
+import {
+  BPromise
+} from "../behaviors/BPromise.js";
 
 /**
  * Created by samir on 8/27/18.
@@ -18,15 +33,15 @@ import { BPromise } from "../behaviors/BPromise.js";
 export class Model extends ModelView {
   /**
    * @constructs
-   * @param {string} appPath
-   * @param {string} apiPath
-   * @param {string|Function} idType = Number
-   * @param {string} fetchField = ""
+   * @param {String} appPath
+   * @param {String} apiPath
+   * @param {String|Function} idType = Number
+   * @param {String} fetchField = ""
    */
   constructor(appPath, apiPath, idType = Number, fetchField = "") {
     super();
 
-    abstract(this, Model);
+    this.abstract(Model);
 
     let that = this;
 
@@ -280,9 +295,7 @@ export class Model extends ModelView {
 
     let fillFields = (out, values) => {
       for (
-        let i = 0;
-        i < fetchField.length && Object.keys(values).length > 0;
-        i++
+        let i = 0; i < fetchField.length && Object.keys(values).length > 0; i++
       ) {
         if (fetchField[i] in values) {
           values = values[fetchField[i]];
@@ -358,127 +371,131 @@ export class Model extends ModelView {
     // };
 
     /**
-     * @member {string|number}
+     * @member {String|number}
      */
-    this.defineProperty("id", {
+    Object.defineProperty(this, "id", {
+      enumerable: true,
+      configurable: true,
       get() {
         return fields["id"].value;
       },
       set(v) {
         fields["id"].value = v;
-      },
-      type: [idType, undefined]
+      }
     });
 
     /**
-     * @member {string}
+     * @member {String}
      */
-    this.defineProperty("addApiPath", {
+    Object.defineProperty(this, "addApiPath", {
+      enumerable: true,
+      configurable: true,
       get() {
         return addApiPath;
       },
       set(v) {
         addApiPath = v;
-      },
-      type: String
+      }
     });
 
     /**
-     * @member {string}
+     * @member {String}
      */
-    this.defineProperty("editApiPath", {
+    Object.defineProperty(this, "editApiPath", {
+      enumerable: true,
+      configurable: true,
       get() {
         return editApiPath;
       },
       set(v) {
         editApiPath = v;
-      },
-      type: String
+      }
     });
 
     /**
-     * @member {string}
+     * @member {String}
      */
-    this.defineProperty("removeApiPath", {
+    Object.defineProperty(this, "removeApiPath", {
+      enumerable: true,
+      configurable: true,
       get() {
         return removeApiPath;
       },
       set(v) {
         removeApiPath = v;
-      },
-      type: String
+      }
     });
 
     /**
-     * @member {string}
+     * @member {String}
      */
-    this.defineProperty("reloadApiPath", {
+    Object.defineProperty(this, "reloadApiPath", {
+      enumerable: true,
+      configurable: true,
       get() {
         return reloadApiPath;
       },
       set(v) {
         reloadApiPath = v;
-      },
-      type: String
+      }
     });
 
     /**
-     * @member {string}
+     * @member {String}
      */
-    this.defineProperty("searchApiPath", {
+    Object.defineProperty(this, "searchApiPath", {
+      enumerable: true,
+      configurable: true,
       get() {
         return searchApiPath;
       },
       set(v) {
         searchApiPath = v;
-      },
-      type: String
+      }
     });
 
     /**
-     * @member {string}
+     * @member {String}
      */
-    this.defineProperty("countApiPath", {
+    Object.defineProperty(this, "countApiPath", {
+      enumerable: true,
+      configurable: true,
       get() {
         return countApiPath;
       },
       set(v) {
         countApiPath = v;
-      },
-      type: String
+      }
     });
 
     /**
-     * @param {string} name
-     * @param {string|Function} type
+     * @param {String} name
+     * @param {String|Function} type
      * @param {boolean} collection
      */
-    this.defineMethod(
-      "addField",
-      (name, type = String, collection = false) => {
-        if (!(name in fields)) {
-          fields[name] = new ModelField(name, type, collection, undefined);
+    this.addField = (name, type = String, collection = false) => {
+      if (!(name in fields)) {
+        fields[name] = new ModelField(name, type, collection, undefined);
 
-          this.defineProperty(name, {
-            get() {
-              return fields[name].value;
-            },
-            set(v) {
-              fields[name].value = v;
-            },
-            type: collection ? Array : type
-            // type: [type, Object]
-          });
-        }
-      },
-      [String, [String, Function], Boolean]
-    );
+        Object.defineProperty(this, name, {
+          enumerable: true,
+          configurable: true,
+          get() {
+            return fields[name].value;
+          },
+          set(v) {
+            fields[name].value = v;
+          },
+          // type: collection ? Array : type
+        });
+      }
+    };
 
     /**
      *
      * @param {enumerator} multiplicity
-     * @param {string} roleAFieldName
-     * @param {string} roleBFieldName
+     * @param {String} roleAFieldName
+     * @param {String} roleBFieldName
      * @param {function} roleBType
      */
     // this.addRelation = (name, multiplicity, roleAFieldName, roleBFieldName, roleBType) => {
@@ -498,7 +515,7 @@ export class Model extends ModelView {
     //             default:
     //         }
 
-    //         this.defineProperty(name, {
+    //         Object.defineProperty(this, name, {
     //             enumerable: false,
     //             configurable: false,
     //             get () {
@@ -509,20 +526,16 @@ export class Model extends ModelView {
     // };
 
     /**
-     * @param {string} name
+     * @param {String} name
      */
-    this.defineMethod(
-      "removeField",
-      name => {
-        if (name in fields) {
-          delete fields[name];
-          delete this[name];
-        }
-      },
-      [String]
-    );
+    this.removeField = (name) => {
+      if (name in fields) {
+        delete fields[name];
+        delete this[name];
+      }
+    };
 
-    this.defineMethod("toJSON", () => {
+    this.toJSON = () => {
       let result = {};
       forEach(fields, (field, fieldName) => {
         if (instanceOf(field.value, Model)) {
@@ -533,6 +546,6 @@ export class Model extends ModelView {
       });
 
       return result;
-    });
+    };
   }
 }

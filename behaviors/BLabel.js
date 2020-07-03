@@ -1,5 +1,9 @@
-import { Behavior } from "../core/Behavior.js";
-import { Control } from "../core/Control.js";
+import {
+  Behavior
+} from "../core/Behavior.js";
+import {
+  Control
+} from "../core/Control.js";
 
 ("use strict");
 
@@ -7,7 +11,12 @@ export class BLabel extends Behavior {
   constructor() {
     super();
 
-    this.defineMethod("config", (that, ctrlLabel) => {
+    /**
+     * 
+     * @param {Object} that 
+     * @param {Control} ctrlLabel 
+     */
+    this.config = (that, ctrlLabel) => {
       let labelType = ELabel.NONE;
 
       that.setAttribute("label-type", "");
@@ -39,7 +48,7 @@ export class BLabel extends Behavior {
         },
         type: Symbol
       });
-    }, [Object, Control]);
+    };
   }
 }
 

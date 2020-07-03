@@ -9,7 +9,12 @@ export class BTransition extends Behavior {
   constructor() {
     super();
 
-    this.defineMethod("config", (that, control) => {
+    /**
+     * 
+     * @param {Tigerian} that 
+     * @param {Control} control 
+     */
+    this.config = (that, control) => {
       control.setAttribute("transition-name", "");
       control.setAttribute("transition-status", "");
 
@@ -98,21 +103,38 @@ export class BTransition extends Behavior {
       }
 
       // Note Public Methods
-      that.defineMethod("setTransition", (name, duration = 1000) => {
+      /**
+       * 
+       * @param {String} name 
+       * @param {Number} duration 
+       */
+      that.setTransition = (name, duration = 1000) => {
         transitions[name] = duration;
-      }, [String, Number]);
+      };
 
-      that.defineMethod("getTransition", (name) => {
+      /**
+       * 
+       * @param {String} name 
+       */
+      that.getTransition = (name) => {
         return transitions[name];
-      }, [String]);
+      };
 
-      that.defineMethod("removeTransition", (name) => {
+      /**
+       * 
+       * @param {String} name 
+       */
+      that.removeTransition = (name) => {
         if (transitions.hasOwnProperty(name)) {
           delete transitions[name];
         }
-      }, [String]);
+      };
 
-      that.defineMethod("startTransition", (name) => {
+      /**
+       * 
+       * @param {String} name 
+       */
+      that.startTransition = (name) => {
         control.setAttribute("transition-name", name);
         if ((name !== "") && transitions[name]) {
           status = ETransition.START;
@@ -120,30 +142,33 @@ export class BTransition extends Behavior {
         } else {
           control.setAttribute("transition-status", "");
         }
-      }, [String]);
+      };
 
-      that.defineMethod("stopTransition", () => {
+      that.stopTransition = () => {
         that.transitionName = "";
-      });
+      };
 
 
       //Note Properties
-      that.defineProperty("transitionName", {
+      Object.defineProperty(that, "transitionName", {
+        enumerable: true,
+        configurable: true,
         get() {
           return control.getAttribute("transition-name");
         },
         set(v) {
           that.startTransition(v);
-        },
-        type: String
+        }
       });
-      that.defineProperty("transitionStatus", {
+
+      Object.defineProperty(that, "transitionStatus", {
+        enumerable: true,
+        configurable: true,
         get() {
           return status;
-        },
-        type: String
+        }
       });
-    }, [Object, Element]);
+    };
   }
 }
 

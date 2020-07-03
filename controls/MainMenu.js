@@ -41,11 +41,11 @@ export class MainMenu extends Control {
     /**
      * @param {MenuItem} item
      */
-    this.defineMethod("addControl", (item) => {
+    this.addControl = (item) => {
       if (instanceOf(item, MenuItem)) {
         // superAddControl(item);
         ctrlItemsList.addControl(item);
       }
-    });
+    };
   }
 }

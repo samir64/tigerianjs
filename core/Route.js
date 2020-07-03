@@ -1,5 +1,11 @@
-import { Tigerian, instanceOf, forEach } from "./Tigerian.js";
-import { View } from "../model_view/View.js";
+import {
+  Tigerian,
+  instanceOf,
+  forEach
+} from "./Tigerian.js";
+import {
+  View
+} from "../model_view/View.js";
 
 ("use strict");
 
@@ -136,17 +142,15 @@ export class Route extends Tigerian {
     applicationRoot = getClearPath(applicationRoot);
 
     /**
-     * @param {string|string[]} routes
      * @param {View} view
+     * @param {...String} routes
      */
-    this.defineMethod(
-      "add",
-      (view, ...routes) => {
-        for (let i = 0; i < routes.length; i++) {
-          routesList[getClearPath(routes[i])] = view;
-          // routesList[getGoodPath(routes[i])] = view;
-        }
-        /* if ((instanceOf(routes, String) || instanceOf(routes, Array)) && instanceOf(view, View)) {
+    this.add = (view, ...routes) => {
+      for (let i = 0; i < routes.length; i++) {
+        routesList[getClearPath(routes[i])] = view;
+        // routesList[getGoodPath(routes[i])] = view;
+      }
+      /* if ((instanceOf(routes, String) || instanceOf(routes, Array)) && instanceOf(view, View)) {
           if (!instanceOf(routes, Array)) {
               routes = [routes];
           }
@@ -155,14 +159,12 @@ export class Route extends Tigerian {
               routes[getGoodPath(routes[i])] = view;
           }
       } */
-      },
-      [View]
-    );
+    };
 
     /**
      * @param {string|string[]} [route]
      */
-    this.defineMethod("remove", (...routes) => {
+    this.remove = (...routes) => {
       /* if (!instanceOf(route, Array)) {
         route = Array.from(arguments);
       } */
@@ -170,19 +172,19 @@ export class Route extends Tigerian {
         delete routes[getClearPath(route[i])];
         // delete routes[getGoodPath(route[i])];
       }
-    });
+    };
 
-    this.defineMethod("removeAll", () => {
+    this.removeAll = () => {
       for (let i = 0; i < routesList.length; i++) {
         delete routesList[getClearPath(routesList[i])];
         // delete routesList[getGoodPath(routesList[i])];
       }
-    });
+    };
 
     /**
      * @param {string} route
      */
-    this.defineMethod("redirect", route => {
+    this.redirect = route => {
       // route = getGoodPath(route);
       route = getClearPath(route);
 
@@ -208,9 +210,9 @@ export class Route extends Tigerian {
           that.render();
         }
       }
-    });
+    };
 
-    this.defineMethod("render", () => {
+    this.render = () => {
       let routeCheck = findRoute(
         getClearPath(
           window.location.pathname + (useHashTag ? window.location.hash : "")
@@ -300,42 +302,45 @@ export class Route extends Tigerian {
           viewPageNotFound.show();
         }
       }
-    });
+    };
 
     /**
      * @member {string}
      */
-    this.defineProperty("applicationRoot", {
+    Object.defineProperty(this, "applicationRoot", {
+      enumerable: true,
+      configurable: true,
       get() {
         return applicationRoot;
       },
       set(v) {
         setBasePath(v);
-      },
-      type: String
+      }
     });
 
     /**
      * @member {View}
      */
-    this.defineProperty("pageNotFound", {
+    Object.defineProperty(this, "pageNotFound", {
+      enumerable: true,
+      configurable: true,
       get() {
         return viewPageNotFound;
       },
       set(v) {
         viewPageNotFound = v;
-      },
-      type: [View, undefined]
+      }
     });
 
-    this.defineProperty("current", {
+    Object.defineProperty(this, "current", {
+      enumerable: true,
+      configurable: true,
       get() {
         return lastRoute;
       },
       set(v) {
         that.redirect(v);
-      },
-      type: View
+      }
     });
 
     window.onhashchange = e => {

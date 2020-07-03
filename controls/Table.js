@@ -42,27 +42,29 @@ export class Table extends Control {
     /**
      * @member {string}
      */
-    this.defineProperty("caption", {
+    Object.defineProperty(this, "caption", {
+      enumerable: true,
+      configurable: true,
       get() {
         return ctrlCaption.text;
       },
       set(v) {
         ctrlCaption.text = v;
-      },
-      type: String
+      }
     });
 
     /**
      * @member {boolean}
      */
-    this.defineProperty("captionVisible", {
+    Object.defineProperty(this, "captionVisible", {
+      enumerable: true,
+      configurable: true,
       get() {
         return ctrlCaption.visible;
       },
       set(v) {
         ctrlCaption.visible = v;
-      },
-      type: Boolean
+      }
     });
 
     this.addControl = this.addItem = this.addRow;

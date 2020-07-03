@@ -28,7 +28,12 @@ export class BGridTemplate extends Behavior {
   constructor() {
     super();
 
-    this.defineMethod("config", (that, name) => {
+    /**
+     * 
+     * @param {Object} that 
+     * @param {String} name 
+     */
+    this.config = (that, name) => {
       let elm = document.createElement("style");
       document.head.appendChild(elm);
 
@@ -67,12 +72,16 @@ export class BGridTemplate extends Behavior {
         return result;
       };
 
-      that.defineMethod("addBlock", (block) => {
+      /**
+       * 
+       * @param {BGridBlock} block 
+       */
+      that.addBlock = (block) => {
         blocks.push(block);
         that.regenerate
-      }, [BGridBlock]);
+      };
 
-      that.defineMethod("regenerate", () => {
+      that.regenerate = () => {
         forEach(responsiveSizes, (size, sizeName) => {
           let template = "";
           forEach(blocks, (block) => {
@@ -88,44 +97,48 @@ export class BGridTemplate extends Behavior {
           // templatesText[sizeName].data = `  [element-name="container"][template-name="${name}"][visible="true"] {\n    display: grid;\n    max-width: ${size.containerWidth};\n    margin-left: auto;\n    margin-right: auto;\n    grid-template-areas:\n${template};\ngrid-template-columns: repeat(${colCount}, 1fr);\n}\n\n`;
           // templatesText[sizeName].data = `  [element-name="container"][template-name="${name}"][visible="true"] {\n    display: grid;\n    column-gap: ${columnGap};\n    max-width: ${size.containerWidth};\n    margin-left: auto;\n    margin-right: auto;\n    grid-template-areas:\n${template};\ngrid-template-columns: repeat(${colCount}, calc(${size.containerWidth} / ${colCount} - ${columnGap}));\n}\n\n`;
         })
-      });
+      };
 
       /**
        * @member {string}
        */
-      that.defineProperty("name", {
+      Object.defineProperty(that, "name", {
+        enumerable: true,
+        configurable: true,
         get() {
           return name;
         },
         set(v) {
           name = v;
-        },
-        type: String
+        }
       });
 
       /**
        * @member {Element}
        * @readonly
        */
-      that.defineProperty("element", {
+      Object.defineProperty(that, "element", {
+        enumerable: true,
+        configurable: true,
         get() {
           return elm;
-        },
+        }
       });
 
-      /* that.defineProperty("columnGap", {
+      /* Object.defineProperty(that, "columnGap", {
+        enumerable: true,
+        configurable: true,
         get() {
           return columnGap;
         },
         set(v) {
           columnGap = v;
-        },
-        type: String
+        }
       }); */
 
-      that.defineMethod("getTemplate", (size) => {
+      that.getTemplate = (size) => {
         return templates[getSizeName(size)];
-      });
-    }, [Object, String]);
+      };
+    };
   }
 }
