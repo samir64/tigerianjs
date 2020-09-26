@@ -9,7 +9,7 @@ import {
   instanceOf
 } from "../core/Tigerian.js";
 import {
-  responsiveSizes
+  responsive
 } from "../core/Responsive.js";
 
 export class BGridBlock extends Behavior {
@@ -29,7 +29,7 @@ export class BGridBlock extends Behavior {
       document.head.appendChild(elm);
       elm.innerHTML = "";
 
-      forEach(responsiveSizes, (size, sizeName) => {
+      forEach(responsive, (size, sizeName) => {
         patterns[size.name] = ((sizeName === "medium") ? [] : EWindow.MEDIUM);
         colCount[size.name] = ((sizeName === "medium") ? 0 : EWindow.MEDIUM);
       });

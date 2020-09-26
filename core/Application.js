@@ -21,8 +21,6 @@ import {
 
 ("use strict");
 
-responsive();
-
 /**
  * @constructor
  * @extends {UI}

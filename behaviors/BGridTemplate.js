@@ -8,7 +8,7 @@ import {
   BGridBlock
 } from "./BGridBlock.js";
 import {
-  responsiveSizes
+  responsive
 } from "../core/Responsive.js";
 
 /**
@@ -43,7 +43,8 @@ export class BGridTemplate extends Behavior {
 
       elm.innerHTML = "";
 
-      forEach(responsiveSizes, (size, sizeName) => {
+      forEach(responsive.sizes, sizeName => {
+        const size = responsive.size(sizeName);
         let node = document.createTextNode("");
         if (size.min) {
           node.data = `@media only screen and (min-width: ${size.min}px) {\n`;
@@ -61,15 +62,7 @@ export class BGridTemplate extends Behavior {
       });
 
       let getSizeName = (size) => {
-        let result;
-
-        forEach(responsiveSizes, (sizeInfo, sname) => {
-          if (sizeInfo.name === size) {
-            result = sname;
-          }
-        });
-
-        return result;
+        return size.match(/\w+\((\w+)\)/)[1];
       };
 
       /**
@@ -82,16 +75,16 @@ export class BGridTemplate extends Behavior {
       };
 
       that.regenerate = () => {
-        forEach(responsiveSizes, (size, sizeName) => {
+        forEach(responsive.sizes, sizeName => {
           let template = "";
           forEach(blocks, (block) => {
             if (template !== "") {
               template += "\n";
             }
-            template += block.regenerate(size.name);
+            template += block.regenerate(sizeName);
           });
 
-          let colCount = blocks[0].getColCount(size.name);
+          let colCount = blocks[0].getColCount(sizeName);
           // let colWidth = Math.round(10000 / colCount) / 100;
           templatesText[sizeName].data = `\t[element-name="container"][template-name="${name}"][visible="true"] {\n\t\tdisplay: grid;\n\t\t/*max-width: ${size.containerWidth};*/\n\t\tmargin-left: auto;\n\t\tmargin-right: auto;\n\t\tgrid-template-columns: repeat(${colCount}, minmax(0px, 1fr));\n\t\tgrid-template-areas:${template};\n\t}\n\n`;
           // templatesText[sizeName].data = `  [element-name="container"][template-name="${name}"][visible="true"] {\n    display: grid;\n    max-width: ${size.containerWidth};\n    margin-left: auto;\n    margin-right: auto;\n    grid-template-areas:\n${template};\ngrid-template-columns: repeat(${colCount}, 1fr);\n}\n\n`;

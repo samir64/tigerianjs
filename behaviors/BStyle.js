@@ -6,8 +6,6 @@ import {
 } from "../core/Tigerian.js";
 import {
   responsive
-  // responsiveSizes,
-  // mediaQueries
 } from "../core/Responsive.js";
 
 ("use strict");
@@ -43,23 +41,20 @@ export class BStyle extends Behavior {
      */
     this.config = (that, mainElement) => {
       let specificClass = `control-${Math.round(Date.now() * Math.random())}`;
-      let sizes = {
-        ...responsiveSizes,
-        "inline": {
-          name: EStyle.INLINE
-        }
-      };
-      let styles = {};
+      const styles = {};
+      let sizes = [...responsive.sizes, EStyle.INLINE];
 
       mainElement.id = specificClass;
 
-      forEach(sizes, (size, sizeName) => {
-        let styleSheet = mediaQueries[size.name];
+      forEach(sizes, sizeName => {
+        const size = responsive.size(sizeName);
+        const styleSheet = size.query;
+        const strName = sizeName.toString().match(/\w+\((\w+)\)/)[1];
         let rule;
 
         switch (sizeName) {
-          case "inline":
-            Object.defineProperty(styles, size.name, {
+          case EStyle.INLINE:
+            Object.defineProperty(styles, sizeName, {
               enumerable: true,
               configurable: true,
               get() {
@@ -71,7 +66,7 @@ export class BStyle extends Behavior {
           default:
             rule = styleSheet.cssRules[styleSheet.insertRule(`#${specificClass}[element-type][element-origin="Container"]{}`, styleSheet.cssRules.length)];
 
-            Object.defineProperty(styles, size.name, {
+            Object.defineProperty(styles, sizeName, {
               enumerable: true,
               configurable: true,
               get() {

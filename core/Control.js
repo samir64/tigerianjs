@@ -6,7 +6,7 @@ import {
   UI
 } from "./UI.js";
 import {
-  responsiveSizes
+  responsive
 } from "./Responsive.js";
 
 /**
@@ -153,22 +153,19 @@ export class Control extends UI {
       get() {
         let result = {};
 
-        forEach(responsiveSizes, (size, sizeName) => {
-          Object.defineProperty(result, size.name, {
+        forEach(responsive.sizes, sizeName => {
+          const strName = sizeName.toString().match(/\w+\((\w+)\)/)[1];
+          Object.defineProperty(result, sizeName, {
             enumerable: true,
             configurable: false,
             get() {
-              return that.getAttribute(`${sizeName}-column`);
+              return that.getAttribute(`${strName}-column`);
             },
             set(v) {
               if (instanceOf(v, Number)) {
-                that.setAttribute(`${sizeName}-column`, v);
+                that.setAttribute(`${strName}-column`, v);
               } else if (instanceOf(v, Symbol)) {
-                forEach(responsiveSizes, (s, sn) => {
-                  if (v === s.name) {
-                    that.setAttribute(`${sizeName}-column`, sn);
-                  }
-                });
+                that.setAttribute(`${strName}-column`, v.toString().match(/\w+\((\w+)\)/)[1]);
               }
             }
           });
@@ -184,20 +181,18 @@ export class Control extends UI {
           that.setAttribute("large-column", "medium");
           that.setAttribute("xlarge-column", "medium");
         } else {
-          let vSizeName = "";
-          forEach(responsiveSizes, (size, sizeName) => {
-            if (size.name === v) {
-              vSizeName = sizeName;
-              let value = that.getAttribute(`${sizeName}-column`);
-              if (parseInt(value) != value) {
-                that.setAttribute(`${sizeName}-column`, 12);
-              }
+          forEach(responsive.sizes, sizeName => {
+            const strName = sizeName.toString().match(/\w+\((\w+)\)/)[1];
+            let value = that.getAttribute(`${strName}-column`);
+            if (parseInt(value) != value) {
+              that.setAttribute(`${strName}-column`, 12);
             }
           });
 
-          forEach(responsiveSizes, (size, sizeName) => {
-            if (size.name !== v) {
-              that.setAttribute(`${sizeName}-column`, vSizeName);
+          forEach(responsive.sizes, sizeName => {
+            const strName = sizeName.toString().match(/\w+\((\w+)\)/)[1];
+            if (sizeName !== v) {
+              that.setAttribute(`${strName}-column`, v.toString().match(/\w+\((\w+)\)/)[1]);
             }
           });
         }

@@ -212,9 +212,9 @@ export function forEach(obj, callback) {
       for (let item of obj) {
         callback(item, obj.iterator.index, obj);
       }
-    } else {
-      for (let index in obj) {
-        callback(obj[index], index, obj);
+    } else if (obj !== undefined) {
+      for (let [index, value] of Object.entries(obj)) {
+        callback(value, index, obj);
       }
     }
   }
