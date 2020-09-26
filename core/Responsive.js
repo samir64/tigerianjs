@@ -8,139 +8,127 @@ import {
   Tigerian
 } from "./Tigerian.js";
 
-export let responsiveSizes = {
-  xsmall: {
-    name: EWindow.XSMALL,
-    min: 1,
-    max: 575.98,
-    containerWidth: "100%",
-    containerPadding: 0,
-    styleSheetSection: undefined
-  },
-  small: {
-    name: EWindow.SMALL,
-    min: 576,
-    max: 767.98,
-    containerWidth: "575px",
-    containerPadding: 15,
-    styleSheetSection: undefined
-  },
-  medium: {
-    name: EWindow.MEDIUM,
-    min: 768,
-    max: 991.98,
-    containerWidth: "750px",
-    containerPadding: 15,
-    styleSheetSection: undefined
-  },
-  large: {
-    name: EWindow.LARGE,
-    min: 992,
-    max: 1199.98,
-    containerWidth: "970px",
-    containerPadding: 15,
-    styleSheetSection: undefined
-  },
-  xlarge: {
-    name: EWindow.XLARGE,
-    min: 1200,
-    max: undefined,
-    containerWidth: "1170px",
-    containerPadding: 15,
-    styleSheetSection: undefined
-  }
-};
+let instance;
 
-export const mediaQueries = {};
-let styleElement = document.createElement("style");
-document.head.appendChild(styleElement);
-let styleSheet = styleElement.sheet;
-
-forEach(responsiveSizes, (size, sizeName) => {
-  if (size.min) {
-    mediaQueries[size.name] = styleSheet.cssRules[styleSheet.insertRule(`@media only screen and (min-width: ${size.min}px) {}`, styleSheet.cssRules.length)];
-  } else {
-    mediaQueries[size.name] = styleSheet.cssRules[styleSheet.insertRule(`@media only screen and (max-width: ${size.max}px) {}`, styleSheet.cssRules.length)];
-  }
-});
-
-export function responsive() {
-  let rule = "";
-  let meta = document.createElement("meta");
-  // let style = document.createElement("style");
-
-  document.head.appendChild(meta);
-  // document.head.appendChild(style);
-
-  // style.innerHTML = "";
-  meta.setAttribute("name", "viewport");
-  meta.setAttribute("content", "width=device-width, initial-scale=1.0");
-
-  forEach(responsiveSizes, (size, sizeName) => {
-    let sizeNames = Object.keys(responsiveSizes);
-    sizeNames.splice(sizeNames.indexOf(sizeName), 1);
-    for (let col = 1; col <= 12; col++) {
-      rule = `[${sizeName}-column="${col}"]`;
-      for (let j = 0; j < sizeNames.length; j++) {
-        rule += `,[${sizeName}-column="${sizeNames[j]}"][${sizeNames[j]}-column="${col}"]`;
-      }
-      rule += `{width: ${(col * 100) / 12}%;}`;
-      mediaQueries[size.name].insertRule(rule, mediaQueries[size.name].cssRules.length);
-
-      rule = `[element-origin="Container"][hide-on-${sizeName}="true"] {display: none;}`;
-      mediaQueries[size.name].insertRule(rule, mediaQueries[size.name].cssRules.length);
-
-      rule = `[element-type="Container"][element-origin="Container"] {`;
-      rule += `max-width: ${size.containerWidth};`;
-      rule += "margin-left: auto;";
-      rule += "margin-right: auto;";
-      rule += `padding: var(--padding-v) ${size.containerPadding}px;`;
-      rule += "display: block;}";
-      mediaQueries[size.name].insertRule(rule, mediaQueries[size.name].cssRules.length);
+class Responsive extends Tigerian {
+  constructor() {
+    if (instance) {
+      return instance;
     }
-    // console.log(sizeName, size.name, rule);
 
-    // let sizeInfo = responsiveSizes[sizeName];
-    // let limit = "";
+    super();
 
-    // forEach(responsiveSizes, (sizeInfo, sizeName) => {
-    // if (sizeInfo.min) {
-    //   limit = `(min-width: ${sizeInfo.min}px)`;
-    // }
-    // if (sizeInfo.max) {
-    //   if (limit !== "") {
-    //     limit += " and ";
-    //   }
-    //   limit += `(max-width: ${sizeInfo.max}px)`;
-    // }
-    // let mediaQuery = `@media only screen and ${limit} {\n`;
+    instance = this;
 
-    // let sizeNames = Object.keys(responsiveSizes);
-    // sizeNames.splice(sizeNames.indexOf(sizeName), 1);
-    // for (let col = 1; col <= 12; col++) {
-    //   mediaQuery += `\t[${sizeName}-column="${col}"],\n`;
-    //   for (let j = 0; j < sizeNames.length; j++) {
-    //     if (j > 0) {
-    //       mediaQuery += ",\n";
-    //     }
-    //     mediaQuery += `\t[${sizeName}-column="${sizeNames[j]}"][${sizeNames[j]}-column="${col}"]`;
-    //   }
-    //   mediaQuery += ` {\n\t\twidth: ${(col * 100) / 12}%;\n\t}\n\n`;
-    // }
+    const styleElement = document.createElement("style");
+    const styleSheet = styleElement.sheet;
+    console.log(styleElement);
+    const queries = {};
+    const sizeNames = ["xsmall", "small", "medium", "large", "xlarge"];
+    const sizes = {
+      xsmall: {
+        enum: EWindow.XSMALL,
+        min: 1,
+        max: 575.98,
+        containerWidth: "100%",
+        containerPadding: 0,
+        styleSheetSection: undefined
+      },
+      small: {
+        enum: EWindow.SMALL,
+        min: 576,
+        max: 767.98,
+        containerWidth: "575px",
+        containerPadding: 15,
+        styleSheetSection: undefined
+      },
+      medium: {
+        enum: EWindow.MEDIUM,
+        min: 768,
+        max: 991.98,
+        containerWidth: "750px",
+        containerPadding: 15,
+        styleSheetSection: undefined
+      },
+      large: {
+        enum: EWindow.LARGE,
+        min: 992,
+        max: 1199.98,
+        containerWidth: "970px",
+        containerPadding: 15,
+        styleSheetSection: undefined
+      },
+      xlarge: {
+        enum: EWindow.XLARGE,
+        min: 1200,
+        max: undefined,
+        containerWidth: "1170px",
+        containerPadding: 15,
+        styleSheetSection: undefined
+      }
+    };
 
-    // mediaQuery += `\t[element-name="container"][hide-on-${sizeName}="true"] {\n`;
-    // mediaQuery += "\t\tdisplay: none;\n\t}\n\n";
+    const responsive = () => {
+      let rule = "";
+      let meta = document.createElement("meta");
 
-    // mediaQuery += '\t[element-type="Container"][element-name="container"] {\n';
-    // mediaQuery += `\t\tmax-width: ${sizeInfo.containerWidth};\n`;
+      document.head.appendChild(meta);
 
-    // mediaQuery += "\t\tmargin-left: auto;\n";
-    // mediaQuery += "\t\tmargin-right: auto;\n";
-    // mediaQuery += `\t\tpadding: var(--padding-v) ${sizeInfo.containerPadding}px;\n`;
-    // mediaQuery += "\t\tdisplay: block;\n";
-    // mediaQuery += "\t}\n\n";
+      meta.setAttribute("name", "viewport");
+      meta.setAttribute("content", "width=device-width, initial-scale=1.0");
 
-    // mediaQuery += "}\n\n";
-    // style.innerHTML += mediaQuery;
-  });
+      forEach(sizes, (size, index) => {
+        let sizeNames = Object.keys(sizes);
+        sizeNames.splice(index, 1);
+        for (let col = 1; col <= 12; col++) {
+          rule = `[${size.name}-column="${col}"]`;
+          for (let j = 0; j < sizeNames.length; j++) {
+            rule += `,[${size.name}-column="${sizeNames[j]}"][${sizeNames[j]}-column="${col}"]`;
+          }
+          rule += `{width: ${(col * 100) / 12}%;}`;
+          queries[size.enum].insertRule(rule, mediaQueries[size.enum].cssRules.length);
+
+          rule = `[element-origin="Container"][hide-on-${size.name}="true"] {display: none;}`;
+          queries[size.enum].insertRule(rule, mediaQueries[size.enum].cssRules.length);
+
+          rule = `[element-type="Container"][element-origin="Container"] {`;
+          rule += `max-width: ${size.containerWidth};`;
+          rule += "margin-left: auto;";
+          rule += "margin-right: auto;";
+          rule += `padding: var(--padding-v) ${size.containerPadding}px;`;
+          rule += "display: block;}";
+          queries[size.enum].insertRule(rule, mediaQueries[size.enum].cssRules.length);
+        }
+      });
+    };
+
+    const defineQueries = () => {
+      forEach(sizes, (size) => {
+        if (size.min) {
+          queries[size.enum] = styleSheet.cssRules[styleSheet.insertRule(`@media only screen and (min-width: ${size.min}px) {}`, styleSheet.cssRules.length)];
+        } else {
+          queries[size.enum] = styleSheet.cssRules[styleSheet.insertRule(`@media only screen and (max-width: ${size.max}px) {}`, styleSheet.cssRules.length)];
+        }
+      });
+    };
+
+    document.head.appendChild(styleElement);
+    defineQueries();
+    responsive();
+
+    Object.defineProperty(this, "sizes", {
+      get() {
+        return sizeNames;
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    this.getSizeByName = (name) => {
+      return sizes[name];
+    }
+  }
 }
+
+export const responsive = new Responsive();
+export const responsiveSizes = responsive.sizes;

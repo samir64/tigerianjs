@@ -5,8 +5,9 @@ import {
   forEach,
 } from "../core/Tigerian.js";
 import {
-  responsiveSizes,
-  mediaQueries
+  responsive
+  // responsiveSizes,
+  // mediaQueries
 } from "../core/Responsive.js";
 
 ("use strict");
