@@ -5,6 +5,7 @@ import {
 } from "../behaviors/BWindow.js";
 import {
   forEach,
+  instanceOf,
   Tigerian
 } from "./Tigerian.js";
 
@@ -21,8 +22,7 @@ class Responsive extends Tigerian {
     instance = this;
 
     const styleElement = document.createElement("style");
-    document.body.appendChild(styleElement);
-    const styleSheet = styleElement.sheet;
+    document.head.appendChild(styleElement);
     const queries = {};
     // const sizeNames = ["xsmall", "small", "medium", "large", "xlarge"];
     const sizeNames = [EWindow.XSMALL, EWindow.SMALL, EWindow.MEDIUM, EWindow.LARGE, EWindow.XLARGE];
@@ -30,25 +30,25 @@ class Responsive extends Tigerian {
 
     sizes[EWindow.XSMALL] = {
       min: 1,
-      max: 575.98,
+      max: undefined,
       containerWidth: "100%",
       containerPadding: 0,
     };
     sizes[EWindow.SMALL] = {
       min: 576,
-      max: 767.98,
+      max: undefined,
       containerWidth: "575px",
       containerPadding: 15,
     };
     sizes[EWindow.MEDIUM] = {
       min: 768,
-      max: 991.98,
+      max: undefined,
       containerWidth: "750px",
       containerPadding: 15,
     };
     sizes[EWindow.LARGE] = {
       min: 992,
-      max: 1199.98,
+      max: undefined,
       containerWidth: "970px",
       containerPadding: 15,
     };
@@ -72,7 +72,6 @@ class Responsive extends Tigerian {
         const strName = name.toString().match(/\w+\((\w+)\)/)[1];
         const size = sizes[name];
         let names = sizeNames.map(n => n);
-        // let sizeNames = Object.keys(sizes);
 
         names.splice(index, 1);
         for (let col = 1; col <= 12; col++) {
@@ -82,18 +81,18 @@ class Responsive extends Tigerian {
             rule += `,[${strName}-column="${strNameJ}"][${strNameJ}-column="${col}"]`;
           }
           rule += `{width: ${(col * 100) / 12}%;}`;
-          styleSheet.insertRule(rule, styleSheet.cssRules.length);
-
+          queries[name].insertRule(rule, queries[name].cssRules.length);
+          
           rule = `[element-origin="Container"][hide-on-${strName}="true"] {display: none;}`;
-          styleSheet.insertRule(rule, styleSheet.cssRules.length);
-
+          queries[name].insertRule(rule, queries[name].cssRules.length);
+          
           rule = `[element-type="Container"][element-origin="Container"] {`;
           rule += `max-width: ${size.containerWidth};`;
           rule += "margin-left: auto;";
           rule += "margin-right: auto;";
           rule += `padding: var(--padding-v) ${size.containerPadding}px;`;
           rule += "display: block;}";
-          styleSheet.insertRule(rule, styleSheet.cssRules.length);
+          queries[name].insertRule(rule, queries[name].cssRules.length);
         }
       });
     };
@@ -101,11 +100,17 @@ class Responsive extends Tigerian {
     const defineQueries = () => {
       forEach(sizeNames, name => {
         const size = sizes[name];
+        let rule = "@media only screen";
+
         if (size.min) {
-          queries[name] = styleSheet.cssRules[styleSheet.insertRule(`@media only screen and (min-width: ${size.min}px) {}`, styleSheet.cssRules.length)];
-        } else {
-          queries[name] = styleSheet.cssRules[styleSheet.insertRule(`@media only screen and (max-width: ${size.max}px) {}`, styleSheet.cssRules.length)];
+          rule += ` and (min-width: ${size.min}px)`;
         }
+        if (size.max) {
+          rule += ` and (max-width: ${size.max}px)`;
+        }
+        rule += " {}";
+
+        queries[name] = styleElement.sheet.cssRules[styleElement.sheet.insertRule(rule, styleElement.sheet.cssRules.length)];
       });
     };
 
@@ -136,16 +141,40 @@ class Responsive extends Tigerian {
           return sizes[name].containerPadding;
         },
         set min(value) {
-          return sizes[name].min = value;
+          sizes[name].min = value;
+          let rule = "only screen";
+
+          if (value) {
+            rule += ` and (min-width: ${value}px)`;
+          }
+          if (sizes[name].max) {
+            rule += ` and (max-width: ${sizes[name].max}px)`;
+          }
+
+          queries[name].conditionText = rule;
         },
         set max(value) {
-          return sizes[name].max = value;
+          sizes[name].max = value;
+          let rule = "only screen";
+
+          if (sizes[name].min) {
+            rule += ` and (min-width: ${sizes[name].min}px)`;
+          }
+          if (value) {
+            rule += ` and (max-width: ${value}px)`;
+          }
+
+          queries[name].conditionText = rule;
         },
         set containerWidth(value) {
-          return sizes[name].containerWidth = value;
+          sizes[name].containerWidth = value;
+
+          // TODO Change queries containerWidths
         },
         set containerPadding(value) {
-          return sizes[name].containerPadding = value;
+          sizes[name].containerPadding = value;
+
+          // TODO Change queries containerPaddings
         },
         get query() {
           return queries[name];
@@ -153,6 +182,32 @@ class Responsive extends Tigerian {
       };
 
       return result;
+    };
+
+    this.addQuery = (name, { min, max, containerWidth, containerPadding } = { containerWidth: "100%", containerPadding: 15}) => {
+      let rule = "@media only screen";
+
+      if (instanceOf(name, Symbol) && ((min === undefined) || instanceOf(min, Number)) && ((max === undefined) || instanceOf(max, Number)) && instanceOf(containerWidth, String) && instanceOf(containerPadding, Number)) {
+        sizeNames.push(name);
+        sizes[name] = {
+          min,
+          max,
+          containerWidth,
+          containerPadding,
+        };
+
+        if (min) {
+          rule += ` and (min-width: ${min}px)`;
+        }
+        if (max) {
+          rule += ` and (max-width: ${max}px)`;
+        }
+        rule += " {}";
+
+        // TODO Callback an event to BStyle for adding this query to all of styles.
+
+        queries[name] = styleElement.sheet.cssRules[styleElement.sheet.insertRule(rule, styleElement.sheet.cssRules.length)];
+      }
     }
   }
 }

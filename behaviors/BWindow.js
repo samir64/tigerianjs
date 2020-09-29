@@ -156,31 +156,31 @@ export class BWindow extends Behavior {
         }
       });
 
-      windowSmallMatch.addListener((e) => {
+      windowSmallMatch.addListener(e => {
         if (e.matches) {
           onSmallWindow();
         }
       });
 
-      windowMediumMatch.addListener((e) => {
+      windowMediumMatch.addListener(e => {
         if (e.matches) {
           onMediumWindow();
         }
       });
 
-      windowNormalMatch.addListener((e) => {
+      windowNormalMatch.addListener(e => {
         if (e.matches) {
           onNormalWindow();
         }
       });
 
-      windowLargeMatch.addListener((e) => {
+      windowLargeMatch.addListener(e => {
         if (e.matches) {
           onLargeWindow();
         }
       });
 
-      windowXlargeMatch.addListener((e) => {
+      windowXlargeMatch.addListener(e => {
         if (e.matches) {
           onXlargeWindow();
         }

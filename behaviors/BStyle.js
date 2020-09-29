@@ -49,7 +49,6 @@ export class BStyle extends Behavior {
       forEach(sizes, sizeName => {
         const size = responsive.size(sizeName);
         const styleSheet = size.query;
-        const strName = sizeName.toString().match(/\w+\((\w+)\)/)[1];
         let rule;
 
         switch (sizeName) {
@@ -64,15 +63,17 @@ export class BStyle extends Behavior {
             break;
 
           default:
-            rule = styleSheet.cssRules[styleSheet.insertRule(`#${specificClass}[element-type][element-origin="Container"]{}`, styleSheet.cssRules.length)];
+            // (styleSheet => {
+              rule = styleSheet.cssRules[styleSheet.insertRule(`#${specificClass}[element-type][element-origin="Container"]{}`, styleSheet.cssRules.length)];
 
-            Object.defineProperty(styles, sizeName, {
-              enumerable: true,
-              configurable: true,
-              get() {
-                return rule.style;
-              }
-            });
+              Object.defineProperty(styles, sizeName, {
+                enumerable: true,
+                configurable: true,
+                get() {
+                  return rule.style;
+                }
+              });
+            // })(responsive.size(sizeName).query);
             break;
         }
       });
