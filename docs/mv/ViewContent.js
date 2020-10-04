@@ -6,10 +6,10 @@ import { Container } from "../../controls/Container.js";
 import { Label } from "../../controls/Label.js";
 import { Button } from "../../controls/Button.js";
 import { strFormat } from "../../core/Tigerian.js";
-import { EWindow } from "../../behaviors/BWindow.js";
+import { EResponsive } from "../../behaviors/BWindow.js";
 import { Events } from "../../core/Events.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -44,7 +44,7 @@ export class ViewContent extends View {
       vNext: ""
     };
 
-    ctrButton.setAttribute("element-type", "ButtonsContainer");
+    ctrButton.dataset.elementType = "ButtonsContainer";
     // txtCaption.text = "<h1>{}</h1>: <h2>{}</h2>".format(title, subject);
 
     txtCaption.style.padding = "0 25px";
@@ -66,12 +66,12 @@ export class ViewContent extends View {
     content.largeColumn = 11;
     content.xlargeColumn = 10; */
 
-    btnPrevTopic.column[EWindow.XSMALL] = btnNextTopic.column[
-      EWindow.XSMALL
+    btnPrevTopic.column[EResponsive.XSMALL] = btnNextTopic.column[
+      EResponsive.XSMALL
     ] = 6;
-    btnPrevTopic.column[EWindow.SMALL] = btnNextTopic.column[EWindow.SMALL] = 5;
-    // btnPrevTopic.column[EWindow.MEDIUM] = btnNextTopic.column[
-    //   EWindow.MEDIUM
+    btnPrevTopic.column[EResponsive.SMALL] = btnNextTopic.column[EResponsive.SMALL] = 5;
+    // btnPrevTopic.column[EResponsive.MEDIUM] = btnNextTopic.column[
+    //   EResponsive.MEDIUM
     // ] = 5;
 
     btnPrevTopic.style.float = "left";

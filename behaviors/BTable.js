@@ -2,7 +2,7 @@ import {
   Behavior
 } from "../core/Behavior.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -30,7 +30,7 @@ export class BTable extends Behavior {
         columnsVisiblity.push(true);
       }
 
-      that.setAttribute("view-mode", "grid");
+      that.dataset.viewMode = "grid";
 
       let refreshView = () => {
         if (ctrlTableBody.itemCount <= rowCount) {
@@ -76,7 +76,7 @@ export class BTable extends Behavior {
       let addRow = () => {
         let newRow = new TableRow(null, colCount, that.theme);
 
-        newRow.setAttribute("hover", "false");
+        newRow.dataset.hover = "false";
 
         for (let i = 0; i < colCount; i++) {
           newRow.getCell(i).addEvent("mouseover", onMouseOver);
@@ -87,22 +87,22 @@ export class BTable extends Behavior {
       };
 
       let onMouseOver = (e) => {
-        that.parent.setAttribute("hover", "true");
+        that.parent.dataset.hover = "true";
         for (let r = 0; r < rowCount; r++) {
           for (let c = 0; c < colCount; c++) {
             let cell = that.getCell(r, c);
-            cell.setAttribute("hover", ((parseInt(that.getAttribute("column-number")) === c) ? "true" : "false"));
+            cell.dataset.hover = (parseInt(that.dataset.columnNumber) === c);
             // cell.setAttribute("hover", (((that.parent === cell.parent) || (parseInt(that.getAttribute("column-number")) === c)) ? "true" : "false"));
           }
         }
       };
 
       let onMouseLeave = (e) => {
-        that.parent.setAttribute("hover", "false");
+        that.parent.dataset.hover = "false";
         for (let r = 0; r < rowCount; r++) {
           for (let c = 0; c < colCount; c++) {
             let cell = that.getCell(r, c);
-            cell.setAttribute("hover", "false");
+            cell.dataset.hover = "false";
           }
         }
       };
@@ -143,7 +143,7 @@ export class BTable extends Behavior {
         enumerable: true,
         configurable: true,
         get() {
-          let v = that.getAttribute("view-mode");
+          let v = that.dataset.viewMode;
           switch (v) {
             case "grid":
               return ETable.GRID_VIEW;
@@ -159,11 +159,11 @@ export class BTable extends Behavior {
           let lastViewMode = that.viewMode;
           switch (v) {
             case ETable.GRID_VIEW:
-              that.setAttribute("view-mode", "grid");
+              that.dataset.viewMode = "grid";
               break;
 
             case ETable.DETAILS_VIEW:
-              that.setAttribute("view-mode", "details");
+              that.dataset.viewMode = "details";
               break;
 
             default:

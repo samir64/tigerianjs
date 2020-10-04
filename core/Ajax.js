@@ -13,7 +13,7 @@ import {
   BPromise
 } from "../behaviors/BPromise.js";
 
-("use strict");
+"use strict";
 
 /**
  * @class

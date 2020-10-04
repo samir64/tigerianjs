@@ -7,7 +7,7 @@ import {
   Tigerian
 } from "../core/Tigerian.js";
 
-("use strict");
+"use strict";
 
 export class BBind extends Behavior {
   constructor() {

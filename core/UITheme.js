@@ -6,7 +6,7 @@ import {
   UI
 } from "./UI";
 
-("use strict");
+"use strict";
 
 export class UITheme extends Tigerian {
   /**

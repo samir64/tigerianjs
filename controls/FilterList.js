@@ -12,7 +12,7 @@ import {
  * Created by samir on 11/10/16.
  */
 
-("use strict");
+"use strict";
 
 
 /**
@@ -37,6 +37,6 @@ export class FilterList extends ListBox {
         this.filtering = true;
 
         // this.setAttribute("element-type", "FilterList");
-        this.setAttribute("element-name", "container");
+        this.dataset.elementName = "container";
     }
 }

@@ -15,7 +15,7 @@ import {
  * Created by samir on 9/14/16.
  */
 
-("use strict");
+"use strict";
 
 /**
  * @implements {Behavior}
@@ -37,7 +37,7 @@ export class BText extends Behavior {
      */
     this.config = (that, ctrlText, text = "") => {
       if (instanceOf(ctrlText, Element)) {
-        ctrlText.setAttribute("element-name", "text");
+        ctrlText.dataset.elementName = "text";
       }
 
       function changeText(e) {
@@ -69,7 +69,7 @@ export class BText extends Behavior {
             result = text;
           }
 
-          that.setAttribute("text", result);
+          that.dataset.text = result;
 
           return result;
         },
@@ -77,7 +77,7 @@ export class BText extends Behavior {
           if (instanceOf(v, String)) {
             let lastText = text;
             text = v;
-            that.setAttribute("text", v);
+            that.dataset.text = v;
             if (ctrlText["Behavior:text"]) {
               ctrlText.text = v;
             } else {

@@ -9,7 +9,7 @@ import {
  * Created by samir on 09/20/18.
  */
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -39,27 +39,27 @@ export class BFixElement extends Behavior {
         enumerable: true,
         configurable: true,
         get() {
-          return (ctrlFix.getAttribute("fixed") === "true");
+          return (ctrlFix.dataset.fixed === "true");
         },
         set(v) {
-          ctrlFix.setAttribute("fixed", (v === true) ? "true" : "false");
+          ctrlFix.dataset.fixed = v;
         }
       });
 
       switch (stick) {
         case EFixElement.TOP:
-          ctrlFix.setAttribute("stick", "top");
+          ctrlFix.dataset.stick = "top";
           break;
 
         case EFixElement.BOTTOM:
-          ctrlFix.setAttribute("stick", "bottom");
+          ctrlFix.dataset.stick = "bottom";
           break;
 
         default:
-          ctrlFix.setAttribute("stick", "none");
+          ctrlFix.dataset.stick = "none";
       }
 
-      ctrlFix.setAttribute("fixed", "true");
+      ctrlFix.dataset.fixed = "true";
       that.addControl = ctrlFix.addControl;
     };
   }

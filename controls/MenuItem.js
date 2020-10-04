@@ -17,7 +17,7 @@ import {
   Spacer
 } from "./Spacer.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -55,7 +55,7 @@ export class MenuItem extends Control {
     this.hoverable = true;
 
     // this.setAttribute("element-type", "MenuItem");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
 
     // elmText.setAttribute("element-type", "MenuItem");
     // elmText.setAttribute("element-name", "text");

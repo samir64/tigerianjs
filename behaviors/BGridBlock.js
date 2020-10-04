@@ -1,9 +1,9 @@
 import {
   Behavior
 } from "../core/Behavior.js";
-import {
-  EWindow
-} from "./BWindow.js";
+// import {
+//   EWindow
+// } from "./BWindow.js";
 import {
   forEach,
   instanceOf
@@ -30,8 +30,8 @@ export class BGridBlock extends Behavior {
       elm.innerHTML = "";
 
       forEach(responsive, (size, sizeName) => {
-        patterns[size.name] = ((sizeName === "medium") ? [] : EWindow.MEDIUM);
-        colCount[size.name] = ((sizeName === "medium") ? 0 : EWindow.MEDIUM);
+        patterns[size.name] = ((sizeName === "medium") ? [] : EResponsive.MEDIUM);
+        colCount[size.name] = ((sizeName === "medium") ? 0 : EResponsive.MEDIUM);
       });
 
       /**
@@ -39,7 +39,7 @@ export class BGridBlock extends Behavior {
        * @param {String} pattern 
        * @param {Symbol} size 
        */
-      that.addBlockRow = (pattern, size = EWindow.MEDIUM) => {
+      that.addBlockRow = (pattern, size = EResponsive.MEDIUM) => {
         if (instanceOf(pattern, Symbol)) {
           patterns[size] = pattern;
           colCount[size] = pattern;
@@ -74,7 +74,7 @@ export class BGridBlock extends Behavior {
        * 
        * @param {Symbol} size 
        */
-      that.regenerate = (size = EWindow.MEDIUM) => {
+      that.regenerate = (size = EResponsive.MEDIUM) => {
         let blocks = patterns[size];
         let col = colCount[size];
         let i = 0;
@@ -104,7 +104,7 @@ export class BGridBlock extends Behavior {
        * 
        * @param {Symbol} size 
        */
-      that.getColCount = (size = EWindow.MEDIUM) => {
+      that.getColCount = (size = EResponsive.MEDIUM) => {
         let col = colCount[size];
         let i = 0;
 

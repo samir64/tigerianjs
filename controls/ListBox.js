@@ -18,7 +18,7 @@ import {
  * Created by samir on 11/10/16.
  */
 
-("use strict");
+"use strict";
 
 /**
  * @extends {Control}
@@ -46,7 +46,7 @@ export class ListBox extends Control {
 
     //NOTE Attributes
     // this.setAttribute("element-type", "ListBox");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
 
     //NOTE Public Functions
     /**

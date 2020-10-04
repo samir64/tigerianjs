@@ -8,7 +8,7 @@ import {
   Control
 } from "../core/Control.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -30,8 +30,8 @@ export class BCascade extends Behavior {
       if (instanceOf(that, Control) && instanceOf(ctrlSubMenu, Control)) {
         // let ctrlSubMenu;
 
-        that.setAttribute("has-child", "false");
-        that.setAttribute("open-child", "false");
+        that.datasete.hasChild = "false";
+        that.dataset.openChild = "false";
         ctrlSubMenu.visible = false;
 
         /**
@@ -41,7 +41,7 @@ export class BCascade extends Behavior {
           enumerable: true,
           configurable: true,
           get() {
-            return (that.getAttribute("has-child") === "true");
+            return (that.dataset.hasChild === "true");
           }
         });
 
@@ -53,10 +53,7 @@ export class BCascade extends Behavior {
           if (that.hasChild) {
             ctrlSubMenu.visible = visible;
 
-            that.setAttribute(
-              "open-child",
-              ctrlSubMenu.visible ? "true" : "false"
-            );
+            that.dataset.openChild = ctrlSubMenu.visible;
           }
         };
 
@@ -64,10 +61,7 @@ export class BCascade extends Behavior {
           if (that.hasChild) {
             ctrlSubMenu.visible = !ctrlSubMenu.visible;
 
-            that.setAttribute(
-              "open-child",
-              ctrlSubMenu.visible ? "true" : "false"
-            );
+            that.dataset.openChild = ctrlSubMenu.visible;
           }
         };
 
@@ -78,7 +72,7 @@ export class BCascade extends Behavior {
         that.addControl = (child) => {
           // ctrlSubMenu = child;
           // child.visible = false;
-          that.setAttribute("has-child", "true");
+          that.dataset.hasChild = "true";
           // that.addControl(child);
           ctrlSubMenu.addControl(child);
         };

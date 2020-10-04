@@ -3,7 +3,7 @@ import {
   abstract
 } from "./Tigerian.js";
 
-("use strict");
+"use strict";
 
 /**
  */

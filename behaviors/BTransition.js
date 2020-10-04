@@ -15,8 +15,8 @@ export class BTransition extends Behavior {
      * @param {Control} control 
      */
     this.config = (that, control) => {
-      control.setAttribute("transition-name", "");
-      control.setAttribute("transition-status", "");
+      control.dataset.transitionName = "";
+      control.dataset.transitionStatus = "";
 
       let transitions = {};
       let start = -1;
@@ -29,16 +29,16 @@ export class BTransition extends Behavior {
             break;
 
           case ETransition.START:
-            control.setAttribute("transition-status", "start");
+            control.dataset.transitionStatus = "start";
             start = new Date();
             break;
 
           case ETransition.INPROGRESS:
-            control.setAttribute("transition-status", "inprogress");
+            control.dataset.transitionStatus = "inprogress";
             break;
 
           case ETransition.FINNISH:
-            control.setAttribute("transition-status", "finnish");
+            control.dataset.transitionStatus = "finnish";
             break;
 
           default:
@@ -68,16 +68,16 @@ export class BTransition extends Behavior {
         //     break;
 
         //   case ETransition.START:
-        //     control.setAttribute("transition-status", "start");
+        //     control.dataset.transitionStatus = "start";
         //     start = new Date();
         //     break;
 
         //   case ETransition.INPROGRESS:
-        //     control.setAttribute("transition-status", "inprogress");
+        //     control.dataset.transitionStatus = "inprogress";
         //     break;
 
         //   case ETransition.FINNISH:
-        //     control.setAttribute("transition-status", "finnish");
+        //     control.dataset.transitionStatus = "finnish";
         //     break;
 
         //   default:
@@ -135,12 +135,12 @@ export class BTransition extends Behavior {
        * @param {String} name 
        */
       that.startTransition = (name) => {
-        control.setAttribute("transition-name", name);
+        control.dataset.transitionName = name;
         if ((name !== "") && transitions[name]) {
           status = ETransition.START;
           requestAnimationFrame(callback);
         } else {
-          control.setAttribute("transition-status", "");
+          control.dataset.transitionStatus = "";
         }
       };
 
@@ -154,7 +154,7 @@ export class BTransition extends Behavior {
         enumerable: true,
         configurable: true,
         get() {
-          return control.getAttribute("transition-name");
+          return control.dataset.transitionName;
         },
         set(v) {
           that.startTransition(v);

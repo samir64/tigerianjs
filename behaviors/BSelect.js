@@ -9,7 +9,7 @@ import {
  * Created by samir on 9/7/18.
  */
 
-("use strict");
+"use strict";
 
 /**
  * @extends {Behavior}
@@ -32,7 +32,7 @@ export class BSelect extends Behavior {
       let autoDeselect = true;
 
       //NOTE Attributes
-      that.setAttribute("selected", "false");
+      that.dataset.selected = "false";
 
       //NOTE Properties
       /**
@@ -70,10 +70,10 @@ export class BSelect extends Behavior {
         enumerable: true,
         configurable: true,
         get() {
-          return (that.getAttribute("selected") === "true");
+          return (that.dataset.selected === "true");
         },
         set(v) {
-          that.setAttribute("selected", v);
+          that.dataset.selected = v;
         }
       });
 

@@ -9,7 +9,7 @@ import {
  * Created by samir on 8/26/16.
  */
 
-("use strict");
+"use strict";
 
 /**
  * @extends {Control}
@@ -34,10 +34,10 @@ export class Button extends Control {
 
     //NOTE Attributes
     // this.setAttribute("element-type", "Button");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
 
     // elmButton.setAttribute("element-type", "Button");
-    // elmButton.setAttribute("element-name", "text");
+    // elmButton.dataset.elementName = "text";
 
     // this.setAttribute("fit-content", "false");
 
@@ -54,12 +54,12 @@ export class Button extends Control {
       configurable: true,
       get() {
         return elmButton.hasAttribute("tabindex") ?
-          elmButton.getAttribute("tabindex") :
+          elmButton.dataset.tabindex :
           0;
       },
       set(v) {
         if (v > 0) {
-          elmButton.setAttribute("tabindex", v);
+          elmButton.dataset.tabindex = v;
         } else {
           elmButton.removeAttribute("tabindex");
         }
@@ -79,7 +79,7 @@ export class Button extends Control {
           !e.altKey &&
           !e.shiftKey &&
           e.code === "Enter" &&
-          document.activeElement.getAttribute("element-type") !== "Button"
+          document.activeElement.dataset.elementType !== "Button"
         ) {
           elmButton.click(that);
         }

@@ -1,9 +1,9 @@
-[element-type][element-name="container"][closable="true"] {
+[data-element-type][data-element-name="container"][data-closable="true"] {
   position: relative;
 }
 
-[element-type][element-name="container"][closable="true"]
-  > [element-type="CancelButton"][element-name="cancel-button"] {
+[data-element-type][data-element-name="container"][data-closable="true"]
+  > [data-element-type="CancelButton"][data-element-name="cancel-button"] {
   position: absolute;
   right: 5px;
   top: 50%;
@@ -14,10 +14,10 @@
   cursor: pointer;
 }
 
-[element-type][element-name="container"][closable="true"]
-  > [element-type="CancelButton"][element-name="cancel-button"]:before,
-[element-type][element-name="container"][closable="true"]
-  > [element-type="CancelButton"][element-name="cancel-button"]:after {
+[data-element-type][data-element-name="container"][data-closable="true"]
+  > [data-element-type="CancelButton"][data-element-name="cancel-button"]:before,
+[data-element-type][data-element-name="container"][data-closable="true"]
+  > [data-element-type="CancelButton"][data-element-name="cancel-button"]:after {
   position: absolute;
   content: "";
   background-color: #333;
@@ -27,17 +27,17 @@
   top: -1px;
 }
 
-[element-type][element-name="container"][closable="true"]
-  > [element-type="CancelButton"][element-name="cancel-button"]:after {
+[data-element-type][data-element-name="container"][data-closable="true"]
+  > [data-element-type="CancelButton"][data-element-name="cancel-button"]:after {
   transform: rotate(45deg);
 }
 
-[element-type][element-name="container"][closable="true"]
-  > [element-type="CancelButton"][element-name="cancel-button"]:before {
+[data-element-type][data-element-name="container"][data-closable="true"]
+  > [data-element-type="CancelButton"][data-element-name="cancel-button"]:before {
   transform: rotate(-45deg);
 }
 
-[element-type][element-name="container"][closable="true"]
-  > [element-type="CancelButton"][element-name="cancel-button"]:hover {
+[data-element-type][data-element-name="container"][data-closable="true"]
+  > [data-element-type="CancelButton"][data-element-name="cancel-button"]:hover {
   opacity: 1;
 }

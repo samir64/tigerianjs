@@ -15,7 +15,7 @@ import {
  * Created by samir on 8/31/18.
  */
 
-("use strict");
+"use strict";
 
 /**
  * @extends {Class}

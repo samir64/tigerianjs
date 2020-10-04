@@ -10,7 +10,7 @@ import {
  * Created by samir on 09/20/18.
  */
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -30,6 +30,6 @@ export class Footer extends Control {
         this.fixed = fixed;
 
         // this.setAttribute("element-type", "Footer");
-        this.setAttribute("element-name", "container");
+        this.dataset.elementName = "container";
     }
 }

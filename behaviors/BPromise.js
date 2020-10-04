@@ -6,7 +6,7 @@ import {
   forEach
 } from "../core/Tigerian.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor

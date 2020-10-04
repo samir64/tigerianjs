@@ -38,9 +38,9 @@ export class Context extends Control {
     this.addControl(ctrlText);
 
     // this.setAttribute("element-type", "Context");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
     // ctrlText.setAttribute("element-type", "Context");
-    ctrlText.setAttribute("element-name", "content");
+    ctrlText.dataset.elementName = "content";
 
     let superText = Object.getOwnPropertyDescriptor(this, "text");
 

@@ -1,12 +1,13 @@
+"use strict";
+
 import {
   Control
 } from "../core/Control.js";
+import { ContainerRow } from "./ContainerRow.js";
 
 /**
  * Created by samir on 8/26/16.
  */
-
-("use strict");
 
 /**
  * @property {string} text
@@ -30,7 +31,9 @@ export class Container extends Control {
 
     //NOTE Attributes
     // this.setAttribute("element-type", "Container");
-    this.setAttribute("element-name", "container");
+    this.elementName = "container";
+
+    this.addRow = columnCount => new ContainerRow(this, columnCount);
 
     // elmBody.setAttribute("element-type", "Container");
     // elmBody.setAttribute("element-name", "body");

@@ -14,7 +14,7 @@ import {
   CollapseList
 } from "./CollapseList.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -49,7 +49,7 @@ export class CollapseItem extends Control {
     ctrlList.visible = false;
 
     // this.setAttribute("element-type", "CollapseItem");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
 
     // elmText.setAttribute("element-type", "CollapseItem");
     // elmText.setAttribute("element-name", "text");

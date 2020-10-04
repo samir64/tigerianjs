@@ -21,13 +21,13 @@ import {
   HyperLink
 } from "../../controls/HyperLink.js";
 import {
-  EWindow
+  EResponsive
 } from "../../behaviors/BWindow.js";
 import {
   Loading
 } from "../../controls/Loading.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -61,18 +61,18 @@ export class ViewMain extends View {
     // btnNextTopic.situation = Control.EDefault;
     // btnPrevTopic.situation = Control.ETitle;
 
-    ctrContent.column[EWindow.LARGE] = 8;
-    ctrContent.column[EWindow.XSMALL] = 12;
-    ctrContent.column[EWindow.MEDIUM] = 7;
-    ctrContent.column[EWindow.XLARGE] = EWindow.LARGE;
-    ctrContent.column[EWindow.SMALL] = EWindow.XSMALL;
+    ctrContent.column[EResponsive.LARGE] = 8;
+    ctrContent.column[EResponsive.XSMALL] = 12;
+    ctrContent.column[EResponsive.MEDIUM] = 7;
+    ctrContent.column[EResponsive.XLARGE] = EResponsive.LARGE;
+    ctrContent.column[EResponsive.SMALL] = EResponsive.XSMALL;
 
-    ctrSideBar.column[EWindow.LARGE] = 4;
-    ctrSideBar.column[EWindow.MEDIUM] = 5;
-    ctrSideBar.column[EWindow.XLARGE] = EWindow.LARGE;
+    ctrSideBar.column[EResponsive.LARGE] = 4;
+    ctrSideBar.column[EResponsive.MEDIUM] = 5;
+    ctrSideBar.column[EResponsive.XLARGE] = EResponsive.LARGE;
 
-    ctrSideBar.style.display[EWindow.XSMALL] = "none";
-    ctrSideBar.style.display[EWindow.MEDIUM] = "inline-block";
+    ctrSideBar.style.display[EResponsive.XSMALL] = "none";
+    ctrSideBar.style.display[EResponsive.MEDIUM] = "inline-block";
 
     lblCopyright.column = lnkCopyright.column = 6;
 
@@ -90,8 +90,8 @@ export class ViewMain extends View {
     lblCopyright.style.text.align = "right";
 
 
-    ctrContent.style.padding[EWindow.XSMALL] = "0 20px";
-    ctrContent.style.padding[EWindow.SMALL] = "auto";
+    ctrContent.style.padding[EResponsive.XSMALL] = "0 20px";
+    ctrContent.style.padding[EResponsive.SMALL] = "auto";
 
     // content.largeColumn = 11;
     // content.xlargeColumn = 10;
@@ -109,8 +109,8 @@ export class ViewMain extends View {
     // content.float = Control.ECenter;
     // ctrButton.float = Control.ECenter;
 
-    /* ctrBody.style.display[EWindow.XSMALL] = "none";
-    ctrBody.style.display[EWindow.SMALL] = "block"; */
+    /* ctrBody.style.display[EResponsive.XSMALL] = "none";
+    ctrBody.style.display[EResponsive.SMALL] = "block"; */
 
     this.getSideBar = () => {
       return ctrSideBar;

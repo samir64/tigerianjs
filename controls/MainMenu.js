@@ -11,7 +11,7 @@ import {
   MenuItem
 } from "./MenuItem.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -33,10 +33,10 @@ export class MainMenu extends Control {
     let superAddControl = this.addControl.bind(this);
 
     // this.setAttribute("element-type", "MainMenu");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
 
     // ctrlItemsList.setAttribute("element-type", "MainMenu");
-    ctrlItemsList.setAttribute("element-name", "items");
+    ctrlItemsList.dataset.elementName = "items";
 
     /**
      * @param {MenuItem} item

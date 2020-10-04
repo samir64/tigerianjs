@@ -5,7 +5,7 @@ import {
   BGroup
 } from "../behaviors/BGroup.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -24,6 +24,6 @@ export class TableBody extends Control {
     this.config(BGroup);
 
     // this.setAttribute("element-type", "TableBody");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
   }
 }

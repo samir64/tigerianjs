@@ -5,10 +5,11 @@ import {
   forEach,
 } from "../core/Tigerian.js";
 import {
+  EResponsive,
   responsive
 } from "../core/Responsive.js";
 
-("use strict");
+"use strict";
 
 /* let allStylesList = [];
 
@@ -42,7 +43,7 @@ export class BStyle extends Behavior {
     this.config = (that, mainElement) => {
       let specificClass = `control-${Math.round(Date.now() * Math.random())}`;
       const styles = {};
-      let sizes = [...responsive.sizes, EStyle.INLINE];
+      let sizes = [...responsive.sizes, EResponsive.INLINE];
 
       mainElement.id = specificClass;
 
@@ -52,7 +53,7 @@ export class BStyle extends Behavior {
         let rule;
 
         switch (sizeName) {
-          case EStyle.INLINE:
+          case EResponsive.INLINE:
             Object.defineProperty(styles, sizeName, {
               enumerable: true,
               configurable: true,
@@ -63,17 +64,15 @@ export class BStyle extends Behavior {
             break;
 
           default:
-            // (styleSheet => {
-              rule = styleSheet.cssRules[styleSheet.insertRule(`#${specificClass}[element-type][element-origin="Container"]{}`, styleSheet.cssRules.length)];
+            rule = styleSheet.cssRules[styleSheet.insertRule(`#${specificClass}[data-element-type][data-element-origin="Container"]{}`, styleSheet.cssRules.length)];
 
-              Object.defineProperty(styles, sizeName, {
-                enumerable: true,
-                configurable: true,
-                get() {
-                  return rule.style;
-                }
-              });
-            // })(responsive.size(sizeName).query);
+            Object.defineProperty(styles, sizeName, {
+              enumerable: true,
+              configurable: true,
+              get() {
+                return rule.style;
+              }
+            });
             break;
         }
       });
@@ -89,9 +88,6 @@ export class BStyle extends Behavior {
   }
 }
 
-export const EStyle = Object.freeze({
-  INLINE: Symbol("inline"),
-  // INHERIT: Symbol("inherit"),
-  // INITIAL: Symbol("initial"),
-  // UNSET: Symbol("unset")
-});
+// export const EStyle = Object.freeze({
+//   INLINE: Symbol("inline"),
+// });

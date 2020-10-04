@@ -8,7 +8,7 @@ import {
   Control
 } from "../core/Control.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -29,10 +29,10 @@ export class BCancel extends Behavior {
       let elmButton = document.createElement("div");
 
       // elmButton.setAttribute("element-type", "CancelButton");
-      elmButton.setAttribute("element-name", "cancel-button");
-      elmButton.setAttribute("visible", "true");
+      elmButton.dataset.elementName = "cancel-button";
+      elmButton.dataset.visible = "true";
 
-      ctrlCancel.setAttribute("closable", "true");
+      ctrlCancel.dataset.closable = "true";
 
       ctrlCancel.addControl(elmButton);
       /**
@@ -42,12 +42,12 @@ export class BCancel extends Behavior {
         enumerable: true,
         configurable: true,
         get() {
-          return ctrlCancel.getAttribute("closable") === "true";
+          return ctrlCancel.dataset.closable === "true";
         },
         set(v) {
           if (instanceOf(v, "boolean")) {
-            ctrlCancel.setAttribute("closable", v ? "true" : "false");
-            elmButton.setAttribute("visible", v ? "true" : "false");
+            ctrlCancel.dataset.closable = v;
+            elmButton.dataset.visible = v;
           }
         }
       });

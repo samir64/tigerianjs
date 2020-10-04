@@ -8,7 +8,7 @@ import {
   Control
 } from "../core/Control.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -33,8 +33,8 @@ export class BModal extends Behavior {
       let superVisible = Object.getOwnPropertyDescriptor(that, "visible");
 
       // elmCoverage.setAttribute("element-type", "Modal");
-      elmCoverage.setAttribute("element-name", "coverage");
-      elmCoverage.setAttribute("element-situation", "opposite");
+      elmCoverage.dataset.elementName = "coverage";
+      elmCoverage.dataset.situation = "opposite";
 
       if (ctrlModal === undefined) {
         ctrlModal = that;
@@ -59,9 +59,9 @@ export class BModal extends Behavior {
                   ctrlModal.show();
                 } else {
                   superVisible.set.bind(that)(true);
-                  elmCoverage.setAttribute("status", "show");
-                  elmCoverage.setAttribute("visible", "true");
-                  ctrlParent.setAttribute("hide-overflow", "false");
+                  elmCoverage.dataset.status = "show";
+                  elmCoverage.dataset.visible = "true";
+                  ctrlParent.dataset.hideOverflow = "false";
                 }
 
                 break;
@@ -72,9 +72,9 @@ export class BModal extends Behavior {
                   ctrlModal.modal();
                 } else {
                   superVisible.set.bind(that)(true);
-                  elmCoverage.setAttribute("status", "modal");
-                  elmCoverage.setAttribute("visible", "true");
-                  ctrlParent.setAttribute("hide-overflow", "true");
+                  elmCoverage.dataset.status = "modal";
+                  elmCoverage.dataset.visible = "true";
+                  ctrlParent.dataset.hideOverflow = "true";
                 }
 
                 break;
@@ -85,9 +85,9 @@ export class BModal extends Behavior {
                   ctrlModal.close();
                 } else {
                   superVisible.set.bind(that)(false);
-                  elmCoverage.setAttribute("status", "close");
-                  elmCoverage.setAttribute("visible", "false");
-                  ctrlParent.setAttribute("hide-overflow", "false");
+                  elmCoverage.dataset.status = "close";
+                  elmCoverage.dataset.visible = "false";
+                  ctrlParent.dataset.hideOverflow = "false";
                 }
 
                 break;

@@ -12,7 +12,7 @@ import {
  * Created by samir on 8/26/16.
  */
 
-("use strict");
+"use strict";
 
 
 /**
@@ -45,15 +45,15 @@ export class RadioButton extends Control {
     let that = this;
 
     //NOTE Attributes
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
     // this.setAttribute("element-type", "RadioButton");
 
-    elmRadioButton.setAttribute("element-name", "button");
+    elmRadioButton.dataset.elementName = "button";
     // elmRadioButton.setAttribute("element-type", "RadioButton");
-    elmRadioButton.setAttribute("element-situation", "");
-    elmRadioButton.setAttribute("element-hoverable", "true");
+    elmRadioButton.dataset.situation = "";
+    elmRadioButton.dataset.elementHoverable = "true";
 
-    // elmLabel.setAttribute("element-name", "label");
+    // elmLabel.dataset.elementName = "label";
     // elmLabel.setAttribute("element-type", "RadioButton");
 
     //NOTE Append Children

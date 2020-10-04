@@ -6,7 +6,7 @@ import { BBind } from "../behaviors/BBind.js";
  * Created by samir on 8/27/18.
  */
 
-("use strict");
+"use strict";
 
 /**
  * @extends {Class}

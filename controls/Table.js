@@ -8,7 +8,7 @@ import {
   BTable
 } from "../behaviors/BTable.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -28,7 +28,7 @@ export class Table extends Control {
     super(parent, theme);
 
     // this.setAttribute("element-type", "Table");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
 
     let ctrlTableHeader = new Header(this, false, this.theme);
     let ctrlTableBody = new TableBody(this, this.theme);

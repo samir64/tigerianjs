@@ -15,7 +15,7 @@ import {
  * Created by samir on 8/26/16.
  */
 
-("use strict");
+"use strict";
 
 /**
  * @extends {Control}
@@ -45,15 +45,15 @@ export class Checkbox extends Control {
     let that = this;
 
     //NOTE Attributes
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
     // this.setAttribute("element-type", "Checkbox");
 
-    elmCheckbox.setAttribute("element-name", "check");
+    elmCheckbox.dataset.elementName = "check";
     // elmCheckbox.setAttribute("element-type", "Checkbox");
-    elmCheckbox.setAttribute("element-situation", "");
-    this.setAttribute("element-hoverable", "true");
+    elmCheckbox.dataset.situation = "";
+    this.dataset.elementHoverable = "true";
 
-    // elmLabel.setAttribute("element-name", "label");
+    // elmLabel.dataset.elementName = "label";
     // elmLabel.setAttribute("element-type", "Checkbox");
 
     //NOTE Append Children
@@ -69,7 +69,7 @@ export class Checkbox extends Control {
       set(v) {
         let lastValue = that.indeterminate;
 
-        that.setAttribute("selected", v ? "indeterminate" : "false");
+        that.dataset.selected = v ? "indeterminate" : "false";
 
         if (v != lastValue) {
           that.dispatchEvent(Events.onIndeterminateChange);

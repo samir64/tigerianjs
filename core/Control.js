@@ -14,7 +14,7 @@ import {
  * Version 1.0.0.100
  */
 
-("use strict");
+"use strict";
 
 /**
  * @param {string} [style = ""]
@@ -43,26 +43,18 @@ export class Control extends UI {
     elmDivContainer.appendChild(elmTxtFoot);
 
     //NOTE Attributes
-    // this.setAttribute("element-type", "Control");
-    this.setAttribute("element-name", "container");
-    this.setAttribute("element-situation", "");
-    this.setAttribute("element-hoverable", "false");
+    this.attribute("situation", EControl, EControl.NONE);
+    this.attribute("hoverable", Boolean, false);
+    this.attribute("title", String, "");
+    this.attribute("templateName", String, "");
+    this.attribute("templateItem", String, "");
 
-    this.setAttribute("xsmall-column", "small");
-    this.setAttribute("small-column", "12");
-    this.setAttribute("medium-column", "");
-    this.setAttribute("large-column", "medium");
-    this.setAttribute("xlarge-column", "medium");
-    // this.setAttribute("hide-on-xsmall", "false");
-    // this.setAttribute("hide-on-small", "false");
-    // this.setAttribute("hide-on-medium", "false");
-    // this.setAttribute("hide-on-large", "false");
-    // this.setAttribute("hide-on-xlarge", "false");
-    // this.setAttribute("float", "");
-    // this.setAttribute("align", "");
-    this.setAttribute("title", "");
-    this.setAttribute("template-name", "");
-    this.setAttribute("template-item", "");
+    this.elementName = "container";
+    // this.dataset.xsmallColumn = 12;
+    // this.dataset.smallColumn = "";
+    // this.dataset.mediumColumn = "";
+    // this.dataset.largeColumn = "";
+    // this.dataset.xlargeColumn = "";
 
     //NOTE Properties
     /**
@@ -115,13 +107,13 @@ export class Control extends UI {
        * @returns {string}
        */
       get() {
-        return that.getAttribute("title");
+        return that.dataset.title;
       },
       /**
        * @param {string} v
        */
       set(v) {
-        that.setAttribute("title", v);
+        that.dataset.title = v;
       }
     });
 
@@ -133,13 +125,13 @@ export class Control extends UI {
       configurable: true,
       get() {
         return that.hasAttribute("tabindex") ?
-          that.getAttribute("tabindex") :
+          that.dataset.tabindex :
           0;
       },
       set(v) {
         if (instanceOf(v, "number")) {
           if (v > 0) {
-            that.setAttribute("tabindex", v);
+            that.dataset.tabindex = v;
           } else {
             that.removeAttribute("tabindex");
           }
@@ -159,13 +151,13 @@ export class Control extends UI {
             enumerable: true,
             configurable: false,
             get() {
-              return that.getAttribute(`${strName}-column`);
+              return that.dataset(`${strName}-column`);
             },
             set(v) {
               if (instanceOf(v, Number)) {
-                that.setAttribute(`${strName}-column`, v);
-              } else if (instanceOf(v, Symbol)) {
-                that.setAttribute(`${strName}-column`, v.toString().match(/\w+\((\w+)\)/)[1]);
+                that.dataset[`${strName}-column`] = v;
+              // } else if (instanceOf(v, Symbol)) {
+              //   that.setAttribute(`${strName}-column`, v.toString().match(/\w+\((\w+)\)/)[1]);
               }
             }
           });
@@ -175,26 +167,26 @@ export class Control extends UI {
       },
       set(v) {
         if (instanceOf(v, Number)) {
-          that.setAttribute("xsmall-column", "medium");
-          that.setAttribute("small-column", "medium");
-          that.setAttribute("medium-column", `${v}`);
-          that.setAttribute("large-column", "medium");
-          that.setAttribute("xlarge-column", "medium");
-        } else {
-          forEach(responsive.sizes, sizeName => {
-            const strName = sizeName.toString().match(/\w+\((\w+)\)/)[1];
-            let value = that.getAttribute(`${strName}-column`);
-            if (parseInt(value) != value) {
-              that.setAttribute(`${strName}-column`, 12);
-            }
-          });
+          that.dataset.xsmallColumn = v;
+          that.dataset.smallColumn = "";
+          that.dataset.mediumColumn = "";
+          that.dataset.largeColumn = "";
+          that.dataset.xlargeColumn = "";
+          // } else {
+          //   forEach(responsive.sizes, sizeName => {
+          //     const strName = sizeName.toString().match(/\w+\((\w+)\)/)[1];
+          //     let value = that.getAttribute(`${strName}-column`);
+          //     if (parseInt(value) != value) {
+          //       that.setAttribute(`${strName}-column`, 12);
+          //     }
+          //   });
 
-          forEach(responsive.sizes, sizeName => {
-            const strName = sizeName.toString().match(/\w+\((\w+)\)/)[1];
-            if (sizeName !== v) {
-              that.setAttribute(`${strName}-column`, v.toString().match(/\w+\((\w+)\)/)[1]);
-            }
-          });
+          //   forEach(responsive.sizes, sizeName => {
+          //     const strName = sizeName.toString().match(/\w+\((\w+)\)/)[1];
+          //     if (sizeName !== v) {
+          //       that.setAttribute(`${strName}-column`, v.toString().match(/\w+\((\w+)\)/)[1]);
+          //     }
+          //   });
         }
       }
     });
@@ -202,60 +194,60 @@ export class Control extends UI {
     /**
      * @member {string}
      */
-    Object.defineProperty(this, "templateName", {
-      enumerable: true,
-      configurable: true,
-      /**
-       * @returns {string}
-       */
-      get() {
-        return that.getAttribute("template-name");
-      },
-      /**
-       * @param {string} v
-       */
-      set(v) {
-        that.setAttribute("template-name", v);
-      }
-    });
+    // Object.defineProperty(this, "templateName", {
+    //   enumerable: true,
+    //   configurable: true,
+    //   /**
+    //    * @returns {string}
+    //    */
+    //   get() {
+    //     return that.dataset.templateName;
+    //   },
+    //   /**
+    //    * @param {string} v
+    //    */
+    //   set(v) {
+    //     that.dataset.templateName = v;
+    //   }
+    // });
 
     /**
      * @member {string}
      */
-    Object.defineProperty(this, "templateItem", {
-      enumerable: true,
-      configurable: true,
-      /**
-       * @returns {string}
-       */
-      get() {
-        return that.getAttribute("template-item");
-      },
-      /**
-       * @param {string} v
-       */
-      set(v) {
-        that.setAttribute("template-item", v);
-        // elmDivContainer.style.gridArea = v;
-      }
-    });
+    // Object.defineProperty(this, "templateItem", {
+    //   enumerable: true,
+    //   configurable: true,
+    //   /**
+    //    * @returns {string}
+    //    */
+    //   get() {
+    //     return that.dataset.templateItem;
+    //   },
+    //   /**
+    //    * @param {string} v
+    //    */
+    //   set(v) {
+    //     that.dataset.templateItem = v;
+    //     // elmDivContainer.style.gridArea = v;
+    //   }
+    // });
 
-    Object.defineProperty(this, "hoverable", {
-      enumerable: true,
-      configurable: true,
-      get() {
-        return that.getAttribute("element-hoverable") === "true";
-      },
-      set(v) {
-        that.setAttribute("element-hoverable", v ? "true" : "false");
-      }
-    });
+    // Object.defineProperty(this, "hoverable", {
+    //   enumerable: true,
+    //   configurable: true,
+    //   get() {
+    //     return that.dataset.elementHoverable === "true";
+    //   },
+    //   set(v) {
+    //     that.dataset.elementHoverable = v;
+    //   }
+    // });
 
     Object.defineProperty(this, "situation", {
       enumerable: true,
       configurable: true,
       get() {
-        let v = that.getAttribute("element-situation");
+        let v = that.dataset.situation;
 
         switch (v) {
           case "title":
@@ -289,40 +281,40 @@ export class Control extends UI {
       set(v) {
         switch (v) {
           case EControl.TITLE:
-            that.setAttribute("element-situation", "title");
+            that.dataset.situation = "title";
             break;
 
           case EControl.INFO:
-            that.setAttribute("element-situation", "info");
+            that.dataset.situation = "info";
             break;
 
           case EControl.DEFAULT:
-            that.setAttribute("element-situation", "default");
+            that.dataset.situation = "default";
             break;
 
           case EControl.TRANSPARENT:
-            that.setAttribute("element-situation", "transparent");
+            that.dataset.situation = "transparent";
             break;
 
           case EControl.OPPOSITE:
-            that.setAttribute("element-situation", "opposite");
+            that.dataset.situation = "opposite";
             break;
 
           case EControl.WARNING:
-            that.setAttribute("element-situation", "warning");
+            that.dataset.situation = "warning";
             break;
 
           case EControl.ERROR:
-            that.setAttribute("element-situation", "error");
+            that.dataset.situation = "error";
             break;
 
           case EControl.OK:
-            that.setAttribute("element-situation", "ok");
+            that.dataset.situation = "ok";
             break;
 
           case EControl.NONE:
           default:
-            that.setAttribute("element-situation", "");
+            that.dataset.situation = "";
             break;
         }
       }

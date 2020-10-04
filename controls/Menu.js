@@ -14,7 +14,7 @@ import {
   BText
 } from "../behaviors/BText.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -34,7 +34,7 @@ export class Menu extends Control {
     let superAddControl = this.addControl.bind(this);
 
     // this.setAttribute("element-type", "Menu");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
 
     /**
      * @param {Control} item

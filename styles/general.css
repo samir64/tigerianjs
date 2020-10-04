@@ -49,10 +49,10 @@ h6 {
   font-size: 80%;
 }
 
-[element-type][element-name][element-hoverable="true"]:not([disabled="true"]) {
+[data-element-type][data-element-name][data-element-hoverable="true"]:not([data-disabled="true"]) {
   cursor: pointer;
 }
 
-[element-type][element-name][visible="false"] {
+[data-element-type][data-element-name][data-visible="false"] {
   display: none;
 }

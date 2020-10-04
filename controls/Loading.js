@@ -12,7 +12,7 @@ import {
   BModal
 } from "../behaviors/BModal.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -35,14 +35,14 @@ export class Loading extends Control {
     let that = this;
 
     // this.setAttribute("element-type", "Loading");
-    this.setAttribute("element-name", "container");
-    this.setAttribute("element-situation", "opposite");
+    this.dataset.elementName = "container";
+    this.dataset.situation = "opposite";
 
     // elmBar.setAttribute("element-type", "Loading");
-    elmBar.setAttribute("element-name", "bar");
-    elmBar.setAttribute("element-situation", "error");
+    elmBar.dataset.elementName = "bar";
+    elmBar.dataset.situation = "error";
 
-    this.setAttribute("state", "indeterminate");
+    this.dataset.state = "indeterminate";
 
     this.addControl(elmBar);
 
@@ -78,7 +78,7 @@ export class Loading extends Control {
       enumerable: true,
       configurable: true,
       get() {
-        let v = elmBar.getAttribute("state");
+        let v = elmBar.dataset.state;
         switch (v) {
           case "determinate":
             return Loading.EDeterminate;
@@ -91,12 +91,12 @@ export class Loading extends Control {
       set(v) {
         switch (v) {
           case Loading.EDeterminate:
-            that.setAttribute("state", "determinate");
+            that.dataset.state = "determinate";
             elmBar.style.width = `${loaded}%`;
             break;
 
           case Loading.EIndeterminate:
-            that.setAttribute("state", "indeterminate");
+            that.dataset.state = "indeterminate";
             elmBar.style.width = "";
             break;
 
@@ -112,7 +112,7 @@ export class Loading extends Control {
       enumerable: true,
       configurable: true,
       get() {
-        let v = elmBar.getAttribute("element-situation");
+        let v = elmBar.dataset.situation;
 
         switch (v) {
           case "title":
@@ -143,36 +143,36 @@ export class Loading extends Control {
       set(v) {
         switch (v) {
           case EControl.TITLE:
-            elmBar.setAttribute("element-situation", "title");
+            elmBar.dataset.situation = "title";
             break;
 
           case EControl.DEFAULT:
-            elmBar.setAttribute("element-situation", "default");
+            elmBar.dataset.situation = "default";
             break;
 
           case EControl.TRANSPARENT:
-            elmBar.setAttribute("element-situation", "transparent");
+            elmBar.dataset.situation = "transparent";
             break;
 
           case EControl.OPPOSITE:
-            elmBar.setAttribute("element-situation", "opposite");
+            elmBar.dataset.situation = "opposite";
             break;
 
           case EControl.WARNING:
-            elmBar.setAttribute("element-situation", "warning");
+            elmBar.dataset.situation = "warning";
             break;
 
           case EControl.ERROR:
-            elmBar.setAttribute("element-situation", "error");
+            elmBar.dataset.situation = "error";
             break;
 
           case EControl.OK:
-            elmBar.setAttribute("element-situation", "ok");
+            elmBar.dataset.situation = "ok";
             break;
 
           case EControl.NONE:
           default:
-            elmBar.setAttribute("element-situation", "");
+            elmBar.dataset.situation = "";
             break;
         }
       }

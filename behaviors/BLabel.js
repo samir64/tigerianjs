@@ -5,7 +5,7 @@ import {
   Control
 } from "../core/Control.js";
 
-("use strict");
+"use strict";
 
 export class BLabel extends Behavior {
   constructor() {
@@ -19,7 +19,7 @@ export class BLabel extends Behavior {
     this.config = (that, ctrlLabel) => {
       let labelType = ELabel.NONE;
 
-      that.setAttribute("label-type", "");
+      that.dataset.labelType = "";
 
       /**
        * @member {ELabel} labelType
@@ -34,16 +34,16 @@ export class BLabel extends Behavior {
           switch (v) {
             case BLabel.ETag:
               labelType = v;
-              that.setAttribute("label-type", "tag");
+              that.dataset.labelType = "tag";
               break;
             case BLabel.EBadge:
               labelType = v;
-              that.setAttribute("label-type", "badge");
+              that.dataset.labelType = "badge";
               break;
             case BLabel.ENone:
             default:
               labelType = v;
-              that.setAttribute("label-type", "");
+              that.dataset.labelType = "";
           }
         },
         type: Symbol

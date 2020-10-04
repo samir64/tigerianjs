@@ -2,7 +2,7 @@ import {
   Model
 } from "../../model_view/Model.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor

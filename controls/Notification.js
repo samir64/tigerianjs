@@ -8,7 +8,7 @@ import {
   BCancel
 } from "../behaviors/BCancel.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -32,12 +32,12 @@ export class Notification extends Control {
     this.config(BCancel, this);
 
     // this.setAttribute("element-type", "Notification");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
 
     // elmMessage.setAttribute("element-type", "Notification");
 
     // elmDesc.setAttribute("element-type", "Notification");
-    elmDesc.setAttribute("element-name", "description");
+    elmDesc.dataset.elementName = "description";
 
     Object.defineProperty(this, "description", {
       enumerable: true,

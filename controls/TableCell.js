@@ -6,7 +6,7 @@ import {
   BText
 } from "../behaviors/BText.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -30,7 +30,7 @@ export class TableCell extends Control {
     this.addControl(elmText);
 
     // this.setAttribute("element-type", "TableCell");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
 
     // elmText.setAttribute("element-type", "TableCell");
     // elmText.setAttribute("element-name", "text");

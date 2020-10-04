@@ -19,7 +19,7 @@ import {
  * Version 1.0.0.100
  */
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -48,7 +48,7 @@ export class Application extends UI {
 
     //NOTE Attributes
     // this.setAttribute("element-type", "Application");
-    this.setAttribute("element-name", "container");
+    this.elementName = "container";
 
     //NOTE Public Functions
 

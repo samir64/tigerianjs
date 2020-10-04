@@ -12,7 +12,7 @@ import {
  * Created by samir on 8/26/16.
  */
 
-("use strict");
+"use strict";
 
 /**
  * @extends {Control}
@@ -36,11 +36,11 @@ export class TextBox extends Control {
 
     //NOTE Attributes
     // this.setAttribute("element-type", "TextBox");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
 
     // elmText.setAttribute("element-type", "TextBox");
     // elmText.setAttribute("element-name", "input");
-    // elmText.setAttribute("type", "headText");
+    // elmText.dataset.type = "headText";
     // if (!instanceOf(text, String)) {
     //     text = "";
     // }
@@ -80,7 +80,7 @@ export class TextBox extends Control {
       set(v) {
         thisEnabled.set.bind(that)(v);
         if (v === false) {
-          elmText.setAttribute("disabled", "true");
+          elmText.dataset.disabled = "true";
         } else {
           elmText.removeAttribute("disabled");
         }
@@ -94,11 +94,11 @@ export class TextBox extends Control {
       enumerable: true,
       configurable: true,
       get() {
-        return elmText.getAttribute("pattern");
+        return elmText.dataset.pattern;
       },
 
       set(v) {
-        elmText.setAttribute("pattern", v);
+        elmText.dataset.pattern = v;
         that.checkValidity();
       }
     });
@@ -115,7 +115,7 @@ export class TextBox extends Control {
 
       set(v) {
         if (v === true) {
-          elmText.setAttribute("required", "true");
+          elmText.dataset.required = "true";
         } else {
           elmText.removeAttribute("required");
         }
@@ -132,12 +132,12 @@ export class TextBox extends Control {
       configerable: true,
       get() {
         return elmText.hasAttribute("tabindex") ?
-          elmButton.getAttribute("tabindex") :
+          elmButton.dataset.tabindex :
           0;
       },
       set(v) {
         if (v > 0) {
-          elmText.setAttribute("tabindex", v);
+          elmText.dataset.tabindex = v;
         } else {
           elmText.removeAttribute("tabindex");
         }
@@ -158,7 +158,7 @@ export class TextBox extends Control {
      * @return boolean
      */
     this.isValid = () => {
-      this.setAttribute("validity", elmText.validity.valid);
+      this.dataset.validity = elmText.validity.valid;
       return elmText.validity.valid;
     };
 

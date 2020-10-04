@@ -14,7 +14,7 @@ import {
   BCancel
 } from "../behaviors/BCancel.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -43,10 +43,10 @@ export class ModalForm extends Control {
     this.addControl(ctrlFooter);
 
     // this.setAttribute("element-type", "ModalForm");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
 
     // ctrlBody.setAttribute("element-type", "ModalForm");
-    ctrlBody.setAttribute("element-name", "body");
+    ctrlBody.dataset.elementName = "body";
 
     this.addControl = ctrlBody.addControl.bind(this);
     this.footerAddControl = ctrlFooter.addControl.bind(this);

@@ -21,7 +21,7 @@ import {
  * Created by samir on 11/11/16.
  */
 
-("use strict");
+"use strict";
 
 /**
  * @extends {Control}
@@ -59,7 +59,7 @@ export class ComboBox extends Control {
 
     //NOTE Attributes
     // this.setAttribute("element-type", "ComboBox");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
     // ctrlLabel.setAttribute("element-name", "label");
     // ctrlText.setAttribute("element-name", "Text");
     // ctrlList.setAttribute("element-name", "list");

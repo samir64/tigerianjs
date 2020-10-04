@@ -6,7 +6,7 @@ import {
  * Created by samir on 11/11/16.
  */
 
-("use strict");
+"use strict";
 
 
 /**
@@ -25,10 +25,10 @@ export class Spacer extends Control {
     super(parent, theme);
 
     // this.setAttribute("element-type", "Spacer");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
 
-    this.setAttribute("horizontal-line", ((hrLine === true) ? "true" : "false"));
-    this.setAttribute("vertical", ((vertical === true) ? "true" : "false"));
+    this.dataset.horizontalLine = hrLine;
+    this.dataset.vertical = vertical;
 
     // if (hrLine === true) {
     //     let elmHr = document.createElement("hr");

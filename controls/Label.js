@@ -13,7 +13,7 @@ import {
  * Created by samir on 8/26/16.
  */
 
-("use strict");
+"use strict";
 
 /**
  * @extends {Control}
@@ -74,12 +74,12 @@ export class Label extends Control {
 
     //NOTE Attributes
     // this.setAttribute("element-type", "Label");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
 
     // elmLabel.setAttribute("element-type", "Label");
     // elmLabel.setAttribute("element-name", "text");
 
-    this.setAttribute("inline-mode", "false");
+    this.dataset.inlineMode = "false";
 
     // if (instanceOf(text, String)) {
     //     elmLabel.innerHTML = text;
@@ -93,7 +93,7 @@ export class Label extends Control {
         elmFormatText = document.createElement("div");
 
         // elmFormatText.setAttribute("element-type", "Label");
-        elmFormatText.setAttribute("element-name", "text");
+        elmFormatText.dataset.elementName = "text";
 
         formatTextRenew = false;
       }

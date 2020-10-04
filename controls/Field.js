@@ -15,7 +15,7 @@ import {
  * Created by samir on 8/26/16.
  */
 
-("use strict");
+"use strict";
 
 
 /**
@@ -46,7 +46,7 @@ export class Field extends Control {
 
     //NOTE Attributes
     // this.setAttribute("element-type", "Field");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
 
     // this.setAttribute("empty", (ctrlText.text === "") ? "true" : "false");
 
@@ -93,11 +93,11 @@ export class Field extends Control {
     // }
 
     function onFocus(e) {
-      this.setAttribute("focused", "true");
+      this.dataset.focused = "true";
     }
 
     function onBlur(e) {
-      this.setAttribute("focused", "false");
+      this.dataset.focused = "false";
     }
 
     //NOTE Public Functions

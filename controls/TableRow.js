@@ -8,7 +8,7 @@ import {
   BGroup
 } from "../behaviors/BGroup.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -30,7 +30,7 @@ export class TableRow extends Control {
     let superGetItem = this.getItem.bind(this);
 
     // this.setAttribute("element-type", "TableRow");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
 
     if (instanceOf(colCount, "number")) {
       colCount = Math.max(1, colCount);
@@ -51,8 +51,8 @@ export class TableRow extends Control {
 
     for (let i = 0; i < colCount; i++) {
       let newCell = new TableCell(this, "", this.theme);
-      newCell.setAttribute("column-number", i.toString());
-      newCell.setAttribute("hover", false);
+      newCell.dataset.columnNumber = i;
+      newCell.dataset.hover = false;
       // newCell.normalColumn = ((colCount <= 12) ? Math.floor(12 / colCount) : 1);
     }
 

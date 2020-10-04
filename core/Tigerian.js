@@ -5,7 +5,7 @@ import {
   BIterator
 } from "../behaviors/BIterator.js";
 
-("use strict");
+"use strict";
 
 export class Tigerian {
   constructor() {

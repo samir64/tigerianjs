@@ -12,7 +12,7 @@ import {
  * Created by samir on 9/10/18.
  */
 
-("use strict");
+"use strict";
 
 /**
  * @extends {Behavior}
@@ -58,10 +58,10 @@ export class BSelectGroup extends Behavior {
 
           if (v !== itemIndex) {
             if (itemIndex !== -1) {
-              that.getItem(itemIndex).setAttribute("focused", "false");
+              that.getItem(itemIndex).dataset.focused = "false";
             }
             if ((v >= 0) && (v < that.itemCount)) {
-              that.getItem(v).setAttribute("focused", "true");
+              that.getItem(v).dataset.focused = "true";
             }
             itemIndex = v;
 
@@ -264,7 +264,7 @@ export class BSelectGroup extends Behavior {
        * @param {Array} params
        */
       let onAddItem = (e) => {
-        e.data.addedItem.setAttribute("focused", "false");
+        e.data.addedItem.dataset.focused = "false";
         e.data.addedItem.addEvent("selectedchange", onSelectedChange);
       }
 
@@ -331,7 +331,7 @@ export class BSelectGroup extends Behavior {
         }
 
         if (that.itemIndex >= 0) {
-          that.getItem(that.itemIndex).setAttribute("focused", "true");
+          that.getItem(that.itemIndex).dataset.focused = "true";
         }
       }
 

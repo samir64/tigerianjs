@@ -2,7 +2,7 @@ import {
   Behavior
 } from "../core/Behavior.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor

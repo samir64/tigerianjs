@@ -1,4 +1,4 @@
-("use strict");
+"use strict";
 
 import { View } from "../../model_view/View.js";
 import { Control, EControl } from "../../core/Control.js";

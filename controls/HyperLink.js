@@ -15,7 +15,7 @@ import {
  * Created by samir on 8/26/16.
  */
 
-("use strict");
+"use strict";
 
 /**
  * @extends {Control}
@@ -43,12 +43,12 @@ export class HyperLink extends Control {
 
     //NOTE Attributes
     // this.setAttribute("element-type", "Link");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
 
     // elmHyperLink.setAttribute("element-type", "Link");
     // elmHyperLink.setAttribute("element-name", "text");
 
-    this.setAttribute("label-type", "");
+    this.dataset.labelType = "";
 
     // if (instanceOf(text, String)) {
     //     elmHyperLink.innerHTML = text;

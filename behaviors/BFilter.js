@@ -10,7 +10,7 @@ import {
  * Created by samir on 9/14/16.
  */
 
-("use strict");
+"use strict";
 
 /**
  * @implements {Behavior}
@@ -31,7 +31,7 @@ export class BFilter extends Behavior {
      * @param {BGroup} ctrlList 
      */
     this.config = (that, ctrlText, ctrlList) => {
-      that.setAttribute("filtering", ctrlList.filter ? "true" : "false");
+      that.dataset.filtering = ctrlList.filter;
 
       /**
        * @param {String} text
@@ -58,10 +58,10 @@ export class BFilter extends Behavior {
         enumerable: true,
         configurable: true,
         get() {
-          return (this.getAttribute("filtering") === "true");
+          return (this.dataset.filtering === "true");
         },
         set(v) {
-          this.setAttribute("filtering", (v === true) ? "true" : "false");
+          this.dataset.filtering = v;
           if (this !== ctrlList) {
             ctrlList.filter = v;
           }

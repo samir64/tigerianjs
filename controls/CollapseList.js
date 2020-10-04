@@ -12,7 +12,7 @@ import {
   CollapseItem
 } from "./CollapseItem.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -33,7 +33,7 @@ export class CollapseList extends Control {
     let that = this;
 
     // this.setAttribute("element-type", "CollapseList");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
 
     // this.normalColumn = BWindow.ENone;
 

@@ -12,7 +12,7 @@ import {
   Button
 } from "../../controls/Button.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor

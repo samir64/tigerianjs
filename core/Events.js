@@ -2,7 +2,7 @@
  * Created by samir on 10/28/16.
  */
 
-("use strict");
+"use strict";
 
 export let Events = {};
 

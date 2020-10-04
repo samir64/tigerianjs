@@ -12,7 +12,7 @@ import {
  * Created by samir on 11/7/16.
  */
 
-("use strict");
+"use strict";
 
 /**
  * @extends {Label}
@@ -42,10 +42,10 @@ export class ListItem extends Control {
 
     //NOTE Attributes
     // this.setAttribute("element-type", "ListItem");
-    this.setAttribute("element-name", "container");
+    this.dataset.elementName = "container";
 
     // elmItem.setAttribute("element-type", "ListItem");
-    elmItem.setAttribute("element-name", "item");
+    elmItem.dataset.elementName = "item";
 
     // Object.defineProperty(this, "text", {
     //     enumerable: true,

@@ -8,7 +8,7 @@ import {
   Control
 } from "../core/Control.js";
 
-("use strict");
+"use strict";
 
 /**
  * @constructor
@@ -42,10 +42,10 @@ export class BPagination extends Behavior {
       let ctrlLast = new Button(container, "❭ ❭", theme);
 
       // container.setAttribute("element-type", "Pagination");
-      container.setAttribute("element-name", "container");
+      container.dataset.elementName = "container";
 
       // ctrlPageList.setAttribute("element-type", "Pagination");
-      ctrlPageList.setAttribute("element-name", "labels");
+      ctrlPageList.dataset.elementName = "labels";
 
       ctrlFirst.normalColumn = 1;
       ctrlPrev.normalColumn = 1;
@@ -57,7 +57,7 @@ export class BPagination extends Behavior {
         let label = new Label(ctrlPageList, index.toString(), ctrlNavigation.theme);
         label.normalColumn = 1;
         if (instanceOf(index, "number")) {
-          label.setAttribute("active", (pageNo !== index) ? "true" : "false");
+          label.dataset.active = (pageNo !== index) ? "true" : "false";
 
           label.hoverable = true;
 

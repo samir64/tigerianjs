@@ -9,7 +9,7 @@ import {
  * Created by samir on 9/14/18.
  */
 
-("use strict");
+"use strict";
 
 /**
  * @namespace {Tigerian}
@@ -50,23 +50,23 @@ export class BWindow extends Behavior {
         configurable: true,
         get() {
           if (windowSmallMatch.matches) {
-            return EWindow.XSMALL;
+            return EResponsive.XSMALL;
           }
 
           if (windowMediumMatch.matches) {
-            return EWindow.SMALL;
+            return EResponsive.SMALL;
           }
 
           if (windowNormalMatch.matches) {
-            return EWindow.MEDIUM;
+            return EResponsive.MEDIUM;
           }
 
           if (windowLargeMatch.matches) {
-            return EWindow.LARGE;
+            return EResponsive.LARGE;
           }
 
           if (windowXlargeMatch.matches) {
-            return EWindow.XLARGE;
+            return EResponsive.XLARGE;
           }
         }
       });
@@ -190,11 +190,11 @@ export class BWindow extends Behavior {
 }
 
 
-export const EWindow = Object.freeze({
-  NONE: Symbol("none"),
-  XSMALL: Symbol("xsmall"),
-  SMALL: Symbol("small"),
-  MEDIUM: Symbol("medium"),
-  LARGE: Symbol("large"),
-  XLARGE: Symbol("xLarge")
-});
+// export const EWindow = Object.freeze({
+//   NONE: Symbol("none"),
+//   XSMALL: Symbol("xsmall"),
+//   SMALL: Symbol("small"),
+//   MEDIUM: Symbol("medium"),
+//   LARGE: Symbol("large"),
+//   XLARGE: Symbol("xLarge")
+// });

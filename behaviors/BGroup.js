@@ -19,7 +19,7 @@ import {
  * Created by samir on 9/14/16.
  */
 
-("use strict");
+"use strict";
 
 /**
  * @implements {Behavior}
