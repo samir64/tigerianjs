@@ -14,6 +14,10 @@ import {
 } from "../behaviors/BPromise.js";
 
 "use strict";
+import { Tigerian, instanceOf, forEach } from "./Tigerian.js";
+import { Events } from "./Events.js";
+import { BEvent } from "../behaviors/BEvent.js";
+import { BPromise } from "../behaviors/BPromise.js";
 
 /**
  * @class
@@ -30,9 +34,6 @@ export class Ajax extends Tigerian {
     let httpRequest;
     let headers = {};
     let that = this;
-    // let success = (responseText, responseXml, responseJson) => {};
-    // let unsuccess = (readyState, status, statusText) => {};
-    // let progress = (percent, loaded, total) => {};
     let async = true;
     // let method = EAjax.GET;
 
@@ -44,6 +45,56 @@ export class Ajax extends Tigerian {
       httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
     }
 
+    this.config(BEvent, httpRequest);
+
+    httpRequest.onreadystatechange = function () {
+      that.dispatchEvent(Events.onChange, {
+        state: httpRequest.readyState,
+        status: httpRequest.status,
+        message: httpRequest.statusText
+      });
+
+      if (httpRequest.readyState === 4) {
+        if (httpRequest.status === 200) {
+          let jsonObject;
+          try {
+            jsonObject = JSON.parse(httpRequest.responseText);
+          } catch (e) {
+            jsonObject = undefined;
+          }
+          that.dispatchEvent(Events.onSuccess, {
+            text: httpRequest.responseText,
+            xml: httpRequest.responseXML,
+            json: jsonObject
+          });
+          // success(httpRequest.responseText, httpRequest.responseXML, jsonObject);
+        } else {
+          that.dispatchEvent(Events.onUnsuccess, {
+            state: httpRequest.readyState,
+            status: httpRequest.status,
+            message: httpRequest.statusText
+          });
+          // unsuccess(httpRequest.readyState, httpRequest.status, httpRequest.statusText);
+        }
+      }
+    };
+
+    httpRequest.onprogress = function (e) {
+      if (e.lengthComputable) {
+        that.dispatchEvent(Events.onProgress, {
+          percent: 100 * e.loaded / e.total,
+          loaded: e.loaded,
+          total: e.total
+        });
+      } else {
+        that.dispatchEvent(Events.onProgress, {
+          percent: -1,
+          loaded: -1,
+          total: -1
+        });
+      }
+    }
+    
     let sendGet = (resolve, reject, change, progress, parameters) => {
       request("GET", parameters, resolve, reject, change, progress);
     };
@@ -216,12 +267,59 @@ export class Ajax extends Tigerian {
       }
     });
 
+    // this.defineProperty("method", {
+    //   get() {
+    //     return method;
+    //   },
+    //   set(v) {
+    //     switch (v) {
+    //       case EAjax.GET:
+    //       case EAjax.POST:
+    //       case EAjax.PUT:
+    //       case EAjax.DELETE:
+    //         method = v;
+    //         break;
+
+    //       default:
+    //     }
+    //   },
+    //   type: Symbol
+    // });
+
+    /* this.defineProperty("success", {
+      get() {
+        return success;
+      },
+      set(v) {
+        success = v;
+      },
+      type: Function
+    }); */
+
+    /* this.defineProperty("unsuccess", {
+      get() {
+        return unsuccess;
+      },
+      set(v) {
+        unsuccess = v;
+      },
+      type: Function
+    }); */
+
+    /* this.defineProperty("progress", {
+      get() {
+        return progress;
+      },
+      set(v) {
+        progress = v;
+      },
+      type: Function
+    }); */
+
     /**
      * @member {String}
      */
     Object.defineProperty(this, "url", {
-      enumerable: true,
-      configurable: true,
       get() {
         return url;
       },
