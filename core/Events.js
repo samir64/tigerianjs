@@ -169,42 +169,6 @@ Events.onPageCountChange = new Event("PageCountChanged", {
 });
 
 Events.onTransition = new Event("Transition", {
-<<<<<<< HEAD
-	detail: {
-		message: "Transition",
-		time: new Date()
-	},
-	bubbles: true,
-	cancelable: true
-});
-
-Events.onProgress = new Event("Progress", {
-	detail: {
-		message: "On Progress",
-		time: new Date()
-	},
-	bubbles: true,
-	cancelable: true
-});
-
-Events.onSuccess = new Event("Success", {
-	detail: {
-		message: "Success",
-		time: new Date()
-	},
-	bubbles: true,
-	cancelable: true
-});
-
-Events.onUnsuccess = new Event("Unsuccess", {
-	detail: {
-		message: "Unsuccess",
-		time: new Date()
-	},
-	bubbles: true,
-	cancelable: true
-});
-=======
   detail: {
     message: "Transition",
     time: new Date()
@@ -248,4 +212,3 @@ Events.onRefresh = new Event("Refresh", {
   bubbles: true,
   cancelable: true
 });
->>>>>>> ccd11a1838086e31cc5b9512a074aef87f9c3b53
