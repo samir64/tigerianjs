@@ -72,6 +72,10 @@ class Responsive extends Tigerian {
       containerStyle: undefined,
     };
 
+    const writeContainerStyle = name => {
+      ;
+    }
+
     const responsive = () => {
       let rule = "";
       let meta = document.createElement("meta");
@@ -82,7 +86,7 @@ class Responsive extends Tigerian {
       meta.setAttribute("content", "width=device-width, initial-scale=1.0");
 
       forEach(sizes.names, (name, index) => {
-        const strName = name.toString().match(/\w+\((\w+)\)/)[1];
+        // const strName = name.toString().match(/\w+\((\w+)\)/)[1];
         const size = sizes[name];
 
         rule = `[data-element-type="Container"] [data-element-type="ContainerRow"]>[data-element-type="ContainerColumn"][data-element-origin="Container"] {`;
@@ -252,7 +256,7 @@ class Responsive extends Tigerian {
         while ((index < sizes.names.length) && ((sizes[sizes.names[index]].min === undefined) || (sizes[sizes.names[index]].min < min))) {
           index++;
         }
-        
+
         size.query.index = styleElement.sheet.insertRule(rule, sizes[sizes.names[index]].query.index);
         size.query.rule = styleElement.sheet.cssRules[size.query.index];
         sizes.names.splice(index, 0, name);
