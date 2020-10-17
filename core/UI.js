@@ -38,9 +38,8 @@ export class UI extends Tigerian {
   /**
    * @param {Element} [mainElement = document.body]
    * @param {UI} [parent = undefined]
-   * @param {String} [theme]
    */
-  constructor(mainElement = document.body, parent = undefined, theme = "") {
+  constructor(mainElement = document.body, parent = undefined) {
     super();
     this.abstract(UI);
 
@@ -316,35 +315,41 @@ export class UI extends Tigerian {
     //   }
     // });
 
-    Object.defineProperty(this, "dataset", {
-      enumerable: true,
-      configurable: true,
-      get() {
-        return mainElement.dataset;
-      }
-    });
+    // Object.defineProperty(this, "dataset", {
+    //   enumerable: true,
+    //   configurable: true,
+    //   get() {
+    //     return mainElement.dataset;
+    //   }
+    // });
 
     //NOTE Public Functions
     /**
-     * 
+     * @callback ATTRIBUTE_CALLBACK
+     * @param {String} method
+     * @param {any} value
+     */
+    /**
      * @param {String} name 
      * @param {Function} type 
      * @param {any} defaultValue = undefined
-     * @param {Element} element = mainElement
+     * @param {ATTRIBUTE_CALLBACK} callback
      */
     this.attribute = (name, type, defaultValue, callback = (method, value) => value) => {
       let typeReversed;
       let value = defaultValue;
       if (instanceOf(type, "object")) {
         typeReversed = Object.entries(type).reduce((result, entry) => {
-          result[entry[1]] = entry[0];
+          result[entry[1].toString()] = entry[0];
           return result;
         }, {});
-        value = typeReversed[defaultValue];
-        if (value) {
+        // value = typeReversed[defaultValue.toString()];
+        value = defaultValue.toString();
+        if (typeReversed[value]) {
           defaultValue = value;
+        } else {
+          value = undefined;
         }
-
       } else if (instanceOf(type, Function)) {
         if (!instanceOf(defaultValue, type)) {
           value = undefined;
@@ -364,7 +369,7 @@ export class UI extends Tigerian {
           get() {
             let result;
             if (typeReversed) {
-              result = type[mainElement.dataset[name]];
+              result = type[typeReversed[mainElement.dataset[name]]];
             } else {
               result = mainElement.dataset[name];
             }
@@ -379,7 +384,7 @@ export class UI extends Tigerian {
           get() {
             let result;
             if (typeReversed) {
-              result = type[mainElement.dataset[name]];
+              result = type[typeReversed[mainElement.dataset[name]]];
             } else {
               result = mainElement.dataset[name];
             }
@@ -389,7 +394,8 @@ export class UI extends Tigerian {
           set(v) {
             let value = callback("set", v);
             if (typeReversed) {
-              value = typeReversed[v];
+              // value = typeReversed[v];
+              value = v.toString();
             } else {
               if (!instanceOf(value, type)) {
                 value = undefined;

@@ -30,10 +30,10 @@ export class ListBox extends Control {
   /**
    * @constructs
    * @param {UI} parent
-   * @param {string} theme = ""
+
    */
-  constructor(parent, theme = "") {
-    super(parent, theme);
+  constructor(parent) {
+    super(parent);
     this.config(BGroup);
     this.config(BSelectGroup);
 

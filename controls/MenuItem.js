@@ -30,13 +30,13 @@ export class MenuItem extends Control {
    * @constructs
    * @param {UI} parent
    * @param {string} text
-   * @param {string} theme = ""
+
    */
-  constructor(parent, text, theme = "") {
-    super(parent, theme, "li");
+  constructor(parent, text) {
+    super(parent, "li");
 
     let elmText = document.createElement("div");
-    let ctrlMenu = new Menu(null, theme);
+    let ctrlMenu = new Menu(null);
     let superAddControl = this.addControl.bind(this);
 
     this.config(BText, elmText, text);

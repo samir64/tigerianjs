@@ -36,12 +36,12 @@ export class ComboBox extends Control {
    * @param {UI} parent
    * @param {string} [theme = ""]
    */
-  constructor(parent, theme = "") {
-    super(parent, theme);
+  constructor(parent) {
+    super(parent);
 
-    let ctrlLabel = new Label(this, "", theme);
-    let ctrlText = new TextBox(this, "", theme);
-    let ctrlList = new ListBox(this, theme);
+    let ctrlLabel = new Label(this, "");
+    let ctrlText = new TextBox(this, "");
+    let ctrlList = new ListBox(this);
 
     this.config(BGroup, ctrlList);
     this.config(BFilter, ctrlText, ctrlList);

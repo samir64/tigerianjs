@@ -127,6 +127,13 @@ export function instanceOf(obj, type) {
     }
 
     return result || obj instanceof type;
+  } else if (typeof type === "object") {
+    let typeReversed = Object.entries(type).reduce((result, entry) => {
+      result[entry[1]] = entry[0];
+      return result;
+    }, {});
+
+    return !!typeReversed[obj];
   } else {
     return false;
   }
@@ -198,8 +205,14 @@ export function clone(obj, appendTo) {
 }
 
 /**
+ * @callback FOREACH_CALLBACK
+ * @param {*} value
+ * @param {String|Number|Symbol} index
+ * @param {Array|JSON} source
+ */
+/**
  * @param {Object} obj
- * @param {Function} callback
+ * @param {FOREACH_CALLBACK} callback
  */
 export function forEach(obj, callback) {
   if (callback instanceof Function) {

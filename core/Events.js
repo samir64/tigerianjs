@@ -179,7 +179,7 @@ Events.onTransition = new Event("Transition", {
 
 Events.onProgress = new Event("Progress", {
   detail: {
-    message: "On Progress",
+    message: "Onprogress",
     time: new Date()
   },
   bubbles: true,
@@ -207,6 +207,24 @@ Events.onUnsuccess = new Event("Unsuccess", {
 Events.onRefresh = new Event("Refresh", {
   detail: {
     message: "Refresh",
+    time: new Date()
+  },
+  bubbles: true,
+  cancelable: true
+});
+
+Events.onMediaQueryAdd = new Event("MediaQueryAdd", {
+  detail: {
+    message: "Media Query Added",
+    time: new Date()
+  },
+  bubbles: true,
+  cancelable: true
+});
+
+Events.onMediaQueryRemove = new Event("MediaQueryRemove", {
+  detail: {
+    message: "Media Query Removed",
     time: new Date()
   },
   bubbles: true,

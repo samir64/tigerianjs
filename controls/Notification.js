@@ -21,13 +21,13 @@ export class Notification extends Control {
    * @constructs
    * @param {UI} parent
    * @param {string} text = ""
-   * @param {string} theme = ""
+
    */
-  constructor(parent, text, theme = "") {
+  constructor(parent, text) {
     let elmMessage = document.createElement("div");
     let elmDesc = document.createElement("div");
 
-    super(parent, theme);
+    super(parent);
     this.config(BText, elmMessage, text);
     this.config(BCancel, this);
 

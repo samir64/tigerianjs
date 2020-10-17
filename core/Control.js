@@ -8,6 +8,9 @@ import {
 import {
   responsive
 } from "./Responsive.js";
+import {
+  ESituation
+} from "./Theme.js";
 
 /**
  * Created by samir on 8/25/16.
@@ -20,17 +23,17 @@ import {
  * @param {string} [style = ""]
  * @param {Application|Control} [parent = undefined]
  *
- * @extends {Tigerian}
+ * @extends {UI}
  * @constructor
  */
 export class Control extends UI {
   /**
    * @param {UI} parent
-   * @param {string} theme
+
    */
-  constructor(parent, theme = "", htmlTag = "div") {
+  constructor(parent, htmlTag = "div") {
     let elmDivContainer = document.createElement(htmlTag);
-    super(elmDivContainer, parent, theme);
+    super(elmDivContainer, parent);
 
     //NOTE Private Variables
     let that = this;
@@ -43,7 +46,7 @@ export class Control extends UI {
     elmDivContainer.appendChild(elmTxtFoot);
 
     //NOTE Attributes
-    this.attribute("situation", EControl, EControl.NONE);
+    this.attribute("situation", ESituation, ESituation.NONE);
     this.attribute("hoverable", Boolean, false);
     this.attribute("title", String, "");
     this.attribute("templateName", String, "");
@@ -156,8 +159,8 @@ export class Control extends UI {
             set(v) {
               if (instanceOf(v, Number)) {
                 that.dataset[`${strName}-column`] = v;
-              // } else if (instanceOf(v, Symbol)) {
-              //   that.setAttribute(`${strName}-column`, v.toString().match(/\w+\((\w+)\)/)[1]);
+                // } else if (instanceOf(v, Symbol)) {
+                //   that.setAttribute(`${strName}-column`, v.toString().match(/\w+\((\w+)\)/)[1]);
               }
             }
           });
@@ -243,82 +246,82 @@ export class Control extends UI {
     //   }
     // });
 
-    Object.defineProperty(this, "situation", {
-      enumerable: true,
-      configurable: true,
-      get() {
-        let v = that.dataset.situation;
+    // Object.defineProperty(this, "situation", {
+    //   enumerable: true,
+    //   configurable: true,
+    //   get() {
+    //     let v = that.dataset.situation;
 
-        switch (v) {
-          case "title":
-            return EControl.TITLE;
+    //     switch (v) {
+    //       case "title":
+    //         return EControl.TITLE;
 
-          case "info":
-            return EControl.INFO;
+    //       case "info":
+    //         return EControl.INFO;
 
-          case "default":
-            return EControl.DEFAULT;
+    //       case "default":
+    //         return EControl.DEFAULT;
 
-          case "transparent":
-            return EControl.TRANSPARENT;
+    //       case "transparent":
+    //         return EControl.TRANSPARENT;
 
-          case "opposite":
-            return EControl.OPPOSITE;
+    //       case "opposite":
+    //         return EControl.OPPOSITE;
 
-          case "warning":
-            return EControl.WARNING;
+    //       case "warning":
+    //         return EControl.WARNING;
 
-          case "error":
-            return EControl.ERROR;
+    //       case "error":
+    //         return EControl.ERROR;
 
-          case "ok":
-            return EControl.OK;
+    //       case "ok":
+    //         return EControl.OK;
 
-          default:
-            return EControl.NONE;
-        }
-      },
-      set(v) {
-        switch (v) {
-          case EControl.TITLE:
-            that.dataset.situation = "title";
-            break;
+    //       default:
+    //         return EControl.NONE;
+    //     }
+    //   },
+    //   set(v) {
+    //     switch (v) {
+    //       case EControl.TITLE:
+    //         that.dataset.situation = "title";
+    //         break;
 
-          case EControl.INFO:
-            that.dataset.situation = "info";
-            break;
+    //       case EControl.INFO:
+    //         that.dataset.situation = "info";
+    //         break;
 
-          case EControl.DEFAULT:
-            that.dataset.situation = "default";
-            break;
+    //       case EControl.DEFAULT:
+    //         that.dataset.situation = "default";
+    //         break;
 
-          case EControl.TRANSPARENT:
-            that.dataset.situation = "transparent";
-            break;
+    //       case EControl.TRANSPARENT:
+    //         that.dataset.situation = "transparent";
+    //         break;
 
-          case EControl.OPPOSITE:
-            that.dataset.situation = "opposite";
-            break;
+    //       case EControl.OPPOSITE:
+    //         that.dataset.situation = "opposite";
+    //         break;
 
-          case EControl.WARNING:
-            that.dataset.situation = "warning";
-            break;
+    //       case EControl.WARNING:
+    //         that.dataset.situation = "warning";
+    //         break;
 
-          case EControl.ERROR:
-            that.dataset.situation = "error";
-            break;
+    //       case EControl.ERROR:
+    //         that.dataset.situation = "error";
+    //         break;
 
-          case EControl.OK:
-            that.dataset.situation = "ok";
-            break;
+    //       case EControl.OK:
+    //         that.dataset.situation = "ok";
+    //         break;
 
-          case EControl.NONE:
-          default:
-            that.dataset.situation = "";
-            break;
-        }
-      }
-    });
+    //       case EControl.NONE:
+    //       default:
+    //         that.dataset.situation = "";
+    //         break;
+    //     }
+    //   }
+    // });
 
     /**
      * @param {Text|Element|Control} control
@@ -343,19 +346,6 @@ export class Control extends UI {
 }
 
 export const EControl = Object.freeze({
-  // DIVISION: Symbol("div"),
-  // PARAGRAPH: Symbol("p"),
-  // SPAN: Symbol("span"),
-  // SECTION: Symbol("section"),
-  // ARTICLE: Symbol("article"),
-  // HEADER: Symbol("header"),
-  // FOOTER: Symbol("footer"),
-
-  // LEFT: Symbol("left"),
-  // RIGHT: Symbol("right"),
-  // CENTER: Symbol("center"),
-  // JUSTIFY: Symbol("justify"),
-
   NONE: Symbol("none"),
   DEFAULT: Symbol("default"),
   TITLE: Symbol("title"),

@@ -255,8 +255,8 @@ let ctrl1 = new <a href="#/man/classes/uiclasses/control">Control</a>(app);
 // Define your own custom class
 
 class MyClass extends Control {
-  constructor (parent, theme = "") {
-    super(parent, theme, "span");
+  constructor (parent) {
+    super(parent, "span");
 
     let elmHeader = document.createElement("h1");
     this.addControl(elmHeader);

@@ -26,10 +26,10 @@ export class ModalForm extends Control {
   /**
    * @constructs
    * @param {UI} parent
-   * @param {string} theme = ""
+
    */
-  constructor(parent, theme = "") {
-    super(parent, theme);
+  constructor(parent) {
+    super(parent);
 
     let ctrlHeader = new Header(null, true, this.theme);
     let ctrlBody = new Control(null, this.theme);

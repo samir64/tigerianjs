@@ -10,9 +10,12 @@ import {
 import {
   BGridTemplate
 } from "../behaviors/BGridTemplate.js";
-import {
-  responsive
-} from "./Responsive.js";
+// import {
+//   responsive
+// } from "./Responsive.js";
+// import {
+//   ThemeDefault
+// } from "./ThemeDefault.js";
 
 /**
  * Created by samir on 8/25/16.
@@ -30,11 +33,10 @@ export class Application extends UI {
    * @constructs
    * @param {Element} [element = document.body]
    * @param {string} [title = ""]
-   * @param {string} [theme = ""]
    */
-  constructor(title = "", element = document.body, theme = "") {
+  constructor(title = "", element = document.body) {
     // let fragment = document.createDocumentFragment();
-    super(element, null, theme);
+    super(element, null);
 
     this.config(BWindow);
 

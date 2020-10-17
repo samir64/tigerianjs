@@ -26,9 +26,9 @@ export class Label extends Control {
    * @constructs
    * @param {UI} parent
    * @param {string} text = ""
-   * @param {string} theme = ""
+
    */
-  constructor(parent, text, heading = ELabel.NONE, theme = "") {
+  constructor(parent, text, heading = ELabel.NONE) {
     let tag;
 
     switch (heading) {
@@ -64,7 +64,7 @@ export class Label extends Control {
     let elmFormatText;
     let formatTextRenew = true;
 
-    super(parent, theme);
+    super(parent);
     this.config(BText, elmLabel, text);
     this.config(BLabel);
 

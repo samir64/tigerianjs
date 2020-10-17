@@ -1,6 +1,8 @@
-import { Tigerian } from "./Tigerian.js";
-import { BEvent } from "../behaviors/BEvent.js";
-import { BBind } from "../behaviors/BBind.js";
+import {
+  Tigerian
+} from "./Tigerian.js";
+// import { BEvent } from "../behaviors/BEvent.js";
+// import { BBind } from "../behaviors/BBind.js";
 
 /**
  * Created by samir on 8/27/18.

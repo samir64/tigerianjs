@@ -18,11 +18,11 @@ export class TableCell extends Control {
    * @constructs
    * @param {UI} parent
    * @param {string} text = ""
-   * @param {string} theme = ""
+
    */
-  constructor(parent, text = "", theme = "") {
+  constructor(parent, text = "") {
     let elmText = document.createElement("div");
-    super(parent, theme);
+    super(parent);
     this.config(BText, elmText, text);
 
     let superAddControl = this.addControl;

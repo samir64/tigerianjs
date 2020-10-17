@@ -28,11 +28,11 @@ export class RadioButton extends Control {
    * @param {string} [text = ""]
    * @param {string} [theme = ""]
    */
-  constructor(parent, text, theme = "") {
+  constructor(parent, text) {
     let elmRadioButton = document.createElement("div");
     let elmLabel = document.createElement("div");
 
-    super(parent, theme);
+    super(parent);
     this.config(BSelect);
     this.config(BText, elmLabel, text);
 

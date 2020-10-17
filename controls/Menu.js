@@ -25,10 +25,10 @@ export class Menu extends Control {
   /**
    * @constructs
    * @param {UI} parent
-   * @param {string} theme = ""
+
    */
-  constructor(parent, theme = "") {
-    super(parent, theme, "ul");
+  constructor(parent) {
+    super(parent, "ul");
     this.config(BGroup, this);
 
     let superAddControl = this.addControl.bind(this);

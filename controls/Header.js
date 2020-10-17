@@ -21,10 +21,10 @@ export class Header extends Control {
     /**
      * @constructs
      * @param {UI} parent
-     * @param {string} theme = ""
+
      */
-    constructor(parent, fixed = true, theme = "") {
-        super(parent, theme, "header");
+    constructor(parent, fixed = true) {
+        super(parent, "header");
         this.config(BFixElement, EFixElement.TOP, this);
 
         this.fixed = fixed;

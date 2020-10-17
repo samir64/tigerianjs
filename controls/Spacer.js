@@ -21,8 +21,8 @@ export class Spacer extends Control {
    * @param {boolean} [vertical = false]
    * @param {string} [theme = ""]
    */
-  constructor(parent, hrLine = false, vertical = false, theme = "") {
-    super(parent, theme);
+  constructor(parent, hrLine = false, vertical = false) {
+    super(parent);
 
     // this.setAttribute("element-type", "Spacer");
     this.dataset.elementName = "container";

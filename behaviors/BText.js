@@ -31,9 +31,9 @@ export class BText extends Behavior {
 
     /**
      * 
-     * @param {Tigerian} that 
+     * @param {Control} that 
      * @param {Control} ctrlText 
-     * @param {String} text 
+     * @param {String} [text=""]
      */
     this.config = (that, ctrlText, text = "") => {
       if (instanceOf(ctrlText, Element)) {
@@ -50,49 +50,79 @@ export class BText extends Behavior {
         }
       }
 
+      that.attribute("text", String, "", (method, value) => {
+        switch (method) {
+          case "get":
+            break;
+
+          case "set":
+            if (instanceOf(value, String)) {
+              let lastText = text;
+              text = value;
+              if (instanceOf(ctrlText, BText)) {
+                ctrlText.text = value;
+              } else {
+                ctrlText.innerHTML = value;
+                ctrlText.value = value;
+              }
+
+              if (lastText !== value) {
+                that.dispatchEvent(Events.onTextChange, {
+                  lastValue: lastText
+                });
+              }
+            }
+            break;
+
+          default:
+        }
+
+        return value;
+      });
+
       /**
        * @member {string}
        */
-      Object.defineProperty(that, "text", {
-        enumerable: true,
-        configurable: true,
-        get() {
-          let result;
+      // Object.defineProperty(that, "text", {
+      //   enumerable: true,
+      //   configurable: true,
+      //   get() {
+      //     let result;
 
-          if (ctrlText["Behavior:text"]) {
-            result = ctrlText.text;
-          } else if (instanceOf(ctrlText.value, String)) {
-            result = ctrlText.value;
-          } else if (instanceOf(ctrlText.innerHTML, String)) {
-            result = ctrlText.innerHTML;
-          } else {
-            result = text;
-          }
+      //     if (instanceOf(ctrlText, BText)) {
+      //       result = ctrlText.text;
+      //     } else if (instanceOf(ctrlText.value, String)) {
+      //       result = ctrlText.value;
+      //     } else if (instanceOf(ctrlText.innerHTML, String)) {
+      //       result = ctrlText.innerHTML;
+      //     } else {
+      //       result = text;
+      //     }
 
-          that.dataset.text = result;
+      //     that.dataset.text = result;
 
-          return result;
-        },
-        set(v) {
-          if (instanceOf(v, String)) {
-            let lastText = text;
-            text = v;
-            that.dataset.text = v;
-            if (ctrlText["Behavior:text"]) {
-              ctrlText.text = v;
-            } else {
-              ctrlText.innerHTML = v;
-              ctrlText.value = v;
-            }
+      //     return result;
+      //   },
+      //   set(v) {
+      //     if (instanceOf(v, String)) {
+      //       let lastText = text;
+      //       text = v;
+      //       that.dataset.text = v;
+      //       if (instanceOf(ctrlText, BText)) {
+      //         ctrlText.text = v;
+      //       } else {
+      //         ctrlText.innerHTML = v;
+      //         ctrlText.value = v;
+      //       }
 
-            if (lastText !== v) {
-              that.dispatchEvent(Events.onTextChange, {
-                lastValue: lastText
-              });
-            }
-          }
-        }
-      });
+      //       if (lastText !== v) {
+      //         that.dispatchEvent(Events.onTextChange, {
+      //           lastValue: lastText
+      //         });
+      //       }
+      //     }
+      //   }
+      // });
 
       if (instanceOf(ctrlText, Control)) {
         ctrlText.addEvent("change", changeText);

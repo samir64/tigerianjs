@@ -22,13 +22,13 @@ export class MainMenu extends Control {
   /**
    * @constructs
    * @param {UI} parent
-   * @param {string} theme = ""
+
    */
-  constructor(parent, theme = "") {
-    super(parent, theme, "nav");
+  constructor(parent) {
+    super(parent, "nav");
     this.config(BGroup, this);
 
-    let ctrlItemsList = new Control(this, theme, "ul");
+    let ctrlItemsList = new Control(this, "ul");
 
     let superAddControl = this.addControl.bind(this);
 

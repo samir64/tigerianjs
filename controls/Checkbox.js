@@ -30,11 +30,11 @@ export class Checkbox extends Control {
    * @param {string} [theme = ""]
    * @param {UI} parent
    */
-  constructor(parent, text = "", theme = "") {
+  constructor(parent, text = "") {
     let elmCheckbox = document.createElement("div");
     let elmLabel = document.createElement("div");
 
-    super(parent, theme);
+    super(parent);
     this.config(BSelect);
     this.config(BText, elmLabel, text);
 

@@ -24,10 +24,10 @@ export class FilterList extends ListBox {
     /**
      * @constructs
      * @param {UI} parent
-     * @param {string} theme = ""
+
      */
-    constructor(parent, theme = "") {
-        super(parent, theme);
+    constructor(parent) {
+        super(parent);
 
         let ctrlFilter = new TextBox(null, "", this.theme);
         this.config(BFilter, ctrlFilter);

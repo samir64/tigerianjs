@@ -37,7 +37,7 @@ export class BPromise extends Behavior {
         }
       }
 
-      otherStates = ["then", "reject", "finally", ...otherStates];
+      allStates = ["then", "reject", "finally", ...otherStates];
       forEach(funcs, (func, name) => {
         that[name] = (...params) => {
           let result = {};
@@ -46,8 +46,8 @@ export class BPromise extends Behavior {
           let done = false;
 
           (async () => {
-            for (var number = 0; number < otherStates.length; number++) {
-              let state = otherStates[number];
+            for (var number = 0; number < allStates.length; number++) {
+              let state = allStates[number];
 
               if (state) {
                 if (state === "reject") {

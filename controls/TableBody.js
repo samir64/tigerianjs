@@ -17,10 +17,10 @@ export class TableBody extends Control {
   /**
    * @constructs
    * @param {UI} parent
-   * @param {string} theme = ""
+
    */
-  constructor(parent, theme = "") {
-    super(parent, theme);
+  constructor(parent) {
+    super(parent);
     this.config(BGroup);
 
     // this.setAttribute("element-type", "TableBody");

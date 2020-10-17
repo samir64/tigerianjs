@@ -21,10 +21,10 @@ export class Footer extends Control {
     /**
      * @constructs
      * @param {UI} parent
-     * @param {string} theme = ""
+
      */
-    constructor(parent, fixed = true, theme = "") {
-        super(parent, theme, "footer");
+    constructor(parent, fixed = true) {
+        super(parent, "footer");
         this.config(BFixElement, EFixElement.BOTTOM, this);
 
         this.fixed = fixed;

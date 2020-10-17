@@ -31,8 +31,8 @@ export class HyperLink extends Control {
    * @param {string} url
    * @param {string} [theme = ""]
    */
-  constructor(parent, text, url, theme = "") {
-    super(parent, theme);
+  constructor(parent, text, url) {
+    super(parent);
 
     //NOTE Private Variables
     let elmHyperLink = document.createElement("a");

@@ -23,10 +23,10 @@ export class CollapseList extends Control {
   /**
    * @constructs
    * @param {Control} parent
-   * @param {string} theme = ""
+
    */
-  constructor(parent, theme = "") {
-    super(parent, theme, "ul");
+  constructor(parent) {
+    super(parent, "ul");
     this.config(BGroup, this);
 
     // let superAddItem = this.addItem.bind(this);

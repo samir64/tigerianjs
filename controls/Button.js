@@ -20,21 +20,21 @@ export class Button extends Control {
   /**
    * @constructs
    * @param {UI} parent
-   * @param {string} text = ""
-   * @param {string} theme = ""
+   * @param {String} text = ""
    */
-  constructor(parent, text = "", theme = "") {
+  constructor(parent, text = "") {
     //NOTE Private Variables
     let elmButton = document.createElement("div");
 
-    super(parent, theme);
+    super(parent);
     this.config(BText, elmButton, text);
 
     let that = this;
 
     //NOTE Attributes
     // this.setAttribute("element-type", "Button");
-    this.dataset.elementName = "container";
+    this.attribute("elementName", String, "container");
+    elmButton.dataset.elementType = "Button";
 
     // elmButton.setAttribute("element-type", "Button");
     // elmButton.dataset.elementName = "text";

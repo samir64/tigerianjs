@@ -21,8 +21,8 @@ export class BEvent extends Behavior {
       let enabled = true;
       let events = [];
 
-      this.element = element;
-      delete this.element;
+      // this.element = element;
+      // delete this.element;
 
       Object.defineProperty(that, "enabled", {
         enumerable: true,

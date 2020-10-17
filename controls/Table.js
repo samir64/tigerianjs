@@ -22,10 +22,10 @@ export class Table extends Control {
    * @param {UI} parent
    * @param {number} colCount = 1
    * @param {string} caption = ""
-   * @param {string} theme = ""
+
    */
-  constructor(parent, colCount = 1, caption = "", theme = "") {
-    super(parent, theme);
+  constructor(parent, colCount = 1, caption = "") {
+    super(parent);
 
     // this.setAttribute("element-type", "Table");
     this.dataset.elementName = "container";

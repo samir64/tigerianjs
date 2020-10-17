@@ -31,11 +31,11 @@ export class Field extends Control {
    * @param {string} [text = ""]
    * @param {string} [theme = ""]
    */
-  constructor(parent, label = "", text = "", theme = "") {
-    super(parent, theme);
+  constructor(parent, label = "", text = "") {
+    super(parent);
 
-    let ctrlText = new TextBox(this, text, theme);
-    let ctrlLabel = new Label(this, label, theme);
+    let ctrlText = new TextBox(this, text);
+    let ctrlLabel = new Label(this, label);
 
     let superEnabled = Object.getOwnPropertyDescriptor(this, "enabled");
 

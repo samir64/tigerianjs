@@ -27,10 +27,10 @@ export class CollapseItem extends Control {
    * @constructs
    * @param {Control} parent
    * @param {string} text = ""
-   * @param {string} theme = ""
+
    */
-  constructor(parent, text = "", theme = "") {
-    super(parent, theme, "li");
+  constructor(parent, text = "") {
+    super(parent, "li");
 
     let elmText = document.createElement("div");
     let ctrlList = new CollapseList(null, this.theme);
@@ -60,7 +60,7 @@ export class CollapseItem extends Control {
      */
     this.addControl = (item) => {
       if (instanceOf(item, String)) {
-        let item = new CollapseItem(undefined, item, theme);
+        let item = new CollapseItem(undefined, item);
       }
 
       superAddControl(item);

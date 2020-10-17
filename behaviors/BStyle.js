@@ -8,6 +8,9 @@ import {
   EResponsive,
   responsive
 } from "../core/Responsive.js";
+import {
+  Events
+} from "../core/Events.js";
 
 "use strict";
 
@@ -47,11 +50,21 @@ export class BStyle extends Behavior {
 
       mainElement.id = specificClass;
 
-      forEach(sizes, sizeName => {
-        const size = responsive.size(sizeName);
+      const writeElementStyleRule = name => {
+        const size = responsive.size(name);
         const styleSheet = size.query;
-        let rule;
+        let rule = styleSheet.cssRules[styleSheet.insertRule(`#${specificClass}[data-element-type][data-element-origin="Container"]{}`, styleSheet.cssRules.length)];
 
+        Object.defineProperty(styles, name, {
+          enumerable: true,
+          configurable: true,
+          get() {
+            return rule.style;
+          }
+        });
+      };
+
+      forEach(sizes, sizeName => {
         switch (sizeName) {
           case EResponsive.INLINE:
             Object.defineProperty(styles, sizeName, {
@@ -64,25 +77,43 @@ export class BStyle extends Behavior {
             break;
 
           default:
-            rule = styleSheet.cssRules[styleSheet.insertRule(`#${specificClass}[data-element-type][data-element-origin="Container"]{}`, styleSheet.cssRules.length)];
+            writeElementStyleRule(sizeName);
+            // rule = styleSheet.cssRules[styleSheet.insertRule(`#${specificClass}[data-element-type][data-element-origin="Container"]{}`, styleSheet.cssRules.length)];
 
-            Object.defineProperty(styles, sizeName, {
-              enumerable: true,
-              configurable: true,
-              get() {
-                return rule.style;
-              }
-            });
+            // Object.defineProperty(styles, sizeName, {
+            //   enumerable: true,
+            //   configurable: true,
+            //   get() {
+            //     return rule.style;
+            //   }
+            // });
             break;
         }
       });
 
       Object.defineProperty(that, "style", {
         enumerable: true,
-        configurable: true,
+        configurable: false,
         get() {
           return styles;
         }
+      });
+
+      Object.defineProperty(that, "id", {
+        enumerable: true,
+        configurable: false,
+        get() {
+          return specificClass;
+        }
+      })
+
+      responsive.addEvent(Events.onMediaQueryAdd, e => {
+        writeElementStyleRule(e.data);
+      });
+
+      responsive.addEvent(Events.onMediaQueryRemove, e => {
+        delete styles[e.data];
+        // console.log(e.data);
       });
     };
   }

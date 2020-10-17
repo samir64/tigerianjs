@@ -1,5 +1,11 @@
 "use strict";
 
+import {
+  BEvent
+} from "../behaviors/BEvent.js";
+import {
+  Events
+} from "./Events.js";
 // import {
 //   EWindow
 // } from "../behaviors/BWindow.js";
@@ -11,6 +17,11 @@ import {
 
 let instance;
 
+/**
+ * @class
+ * @extends Tigerian
+ * @extends BEvent
+ */
 class Responsive extends Tigerian {
   constructor() {
     if (instance) {
@@ -18,9 +29,11 @@ class Responsive extends Tigerian {
     }
 
     super();
+    this.config(BEvent, window);
 
     instance = this;
 
+    let root;
     const styleElement = document.createElement("style");
     document.head.appendChild(styleElement);
     // const queries = {};
@@ -42,7 +55,7 @@ class Responsive extends Tigerian {
     sizes[EResponsive.SMALL] = {
       min: 576,
       max: undefined,
-      containerWidth: "575px",
+      containerWidth: "540px",
       gutter: 0,
       query: {},
       containerStyle: undefined,
@@ -50,34 +63,66 @@ class Responsive extends Tigerian {
     sizes[EResponsive.MEDIUM] = {
       min: 768,
       max: undefined,
-      containerWidth: "750px",
-      gutter: 15,
+      containerWidth: "720px",
+      gutter: 30,
       query: {},
       containerStyle: undefined,
     };
     sizes[EResponsive.LARGE] = {
       min: 992,
       max: undefined,
-      containerWidth: "970px",
-      gutter: 15,
+      containerWidth: "960px",
+      gutter: 30,
       query: {},
       containerStyle: undefined,
     };
     sizes[EResponsive.XLARGE] = {
       min: 1200,
       max: undefined,
-      containerWidth: "1170px",
-      gutter: 15,
+      containerWidth: "1140px",
+      gutter: 30,
       query: {},
       containerStyle: undefined,
     };
 
     const writeContainerStyle = name => {
-      ;
+      let rule = "";
+      const size = sizes[name];
+
+      rule = `[data-element-type="Container"] [data-element-type="ContainerRow"]>[data-element-type="ContainerColumn"][data-element-origin="Container"] {`;
+      rule += `flex: 0 0 calc(var(--column) * 100% / var(--column-count));`;
+      rule += `padding: 0 calc(var(--gutter) / 2);`;
+      rule += "}";
+      size.query.rule.insertRule(rule, size.query.rule.cssRules.length);
+
+      rule = `[data-element-type="Container"][data-element-origin="Container"] {`;
+      rule += `--gutter: ${size.gutter}px;`;
+      rule += `max-width: ${size.containerWidth};`;
+      rule += "margin-left: auto;";
+      rule += "margin-right: auto;";
+      rule += "display: flex;";
+      rule += "flex-wrap: wrap;";
+      rule += "justify-content: space-between;";
+      rule += "padding: calc(var(--gutter) / 2);";
+      rule += "}";
+      size.containerStyle = size.query.rule.cssRules[size.query.rule.insertRule(rule, size.query.rule.cssRules.length)].style;
+
+      rule = `[data-element-type="Container"][data-element-origin="Container"] [data-element-type="ContainerRow"][data-element-origin="Container"] {`;
+      rule += `width: calc(100% + var(--gutter));`;
+      rule += "display: flex;";
+      rule += "flex-wrap: wrap;";
+      rule += `margin: 0 calc(-1 * var(--gutter) / 2);`;
+      rule += "}";
+      size.query.rule.insertRule(rule, size.query.rule.cssRules.length);
+
+      rule = `[data-element-type="Container"] [data-element-type="ContainerRow"]>[data-element-type="ContainerColumn"][data-element-origin="Container"] {`;
+      rule += "display: flex;";
+      rule += "flex-direction: column;";
+      rule += "}";
+      size.query.rule.insertRule(rule, size.query.rule.cssRules.length);
     }
 
     const responsive = () => {
-      let rule = "";
       let meta = document.createElement("meta");
 
       document.head.appendChild(meta);
@@ -85,53 +130,8 @@ class Responsive extends Tigerian {
       meta.setAttribute("name", "viewport");
       meta.setAttribute("content", "width=device-width, initial-scale=1.0");
 
-      forEach(sizes.names, (name, index) => {
-        // const strName = name.toString().match(/\w+\((\w+)\)/)[1];
-        const size = sizes[name];
-
-        rule = `[data-element-type="Container"] [data-element-type="ContainerRow"]>[data-element-type="ContainerColumn"][data-element-origin="Container"] {`;
-        rule += `flex: 0 0 calc(var(--column) * 100% / var(--column-count));`;
-        rule += `padding: 0 var(--gutter);`;
-        rule += "}";
-        size.query.rule.insertRule(rule, size.query.rule.cssRules.length);
-
-        // for (let col = 1; col <= columnsCount; col++) {
-        //   rule = `[data-element-type="Container"] [data-element-type="ContainerRow"]>[data-element-type="ContainerColumn"][data-element-origin="Container"][data-${strName}-column="${col}"] {`;
-        //   rule += `flex: 0 0 calc(${(col * 100)}% / var(--column-count));`;
-        //   rule += `padding: 0 var(--gutter);`;
-        //   rule += "}";
-        //   size.query.rule.insertRule(rule, size.query.rule.cssRules.length);
-        // }
-
-        // rule = `[data-element-origin="Container"][hide-on-${strName}="true"] {display: none;}`;
-        // size.query.rule.insertRule(rule, size.query.rule.cssRules.length);
-
-        rule = `[data-element-type="Container"][data-element-origin="Container"] {`;
-        rule += `--gutter: ${size.gutter}px;`;
-        rule += `max-width: ${size.containerWidth};`;
-        rule += "margin-left: auto;";
-        rule += "margin-right: auto;";
-        // rule += `padding: var(--padding-v) ${gutter / 1}px;`;
-        rule += "display: flex;";
-        rule += "flex-wrap: wrap;";
-        rule += "justify-content: space-between;";
-        rule += "padding: 15px;";
-        rule += "}";
-        size.containerStyle = size.query.rule.cssRules[size.query.rule.insertRule(rule, size.query.rule.cssRules.length)].style;
-
-        rule = `[data-element-type="Container"][data-element-origin="Container"] [data-element-type="ContainerRow"][data-element-origin="Container"] {`;
-        rule += `width: calc(100% + 2 * var(--gutter));`;
-        rule += "display: flex;";
-        rule += "flex-wrap: wrap;";
-        rule += `margin: 0 calc(-1 * var(--gutter));`;
-        rule += "}";
-        size.query.rule.insertRule(rule, size.query.rule.cssRules.length);
-
-        rule = `[data-element-type="Container"] [data-element-type="ContainerRow"]>[data-element-type="ContainerColumn"][data-element-origin="Container"] {`;
-        rule += "display: flex;";
-        rule += "flex-direction: column;";
-        rule += "}";
-        size.query.rule.insertRule(rule, size.query.rule.cssRules.length);
+      forEach(sizes.names, name => {
+        writeContainerStyle(name);
       });
     };
 
@@ -154,8 +154,18 @@ class Responsive extends Tigerian {
     };
 
     document.head.appendChild(styleElement);
+
+    root = styleElement.sheet.insertRule(":root{}", 0);
     defineQueries();
     responsive();
+
+    Object.defineProperty(this, "root", {
+      enumerable: true,
+      configurable: false,
+      get() {
+        return styleElement.sheet.cssRules[root];
+      },
+    });
 
     Object.defineProperty(this, "sizes", {
       get() {
@@ -179,32 +189,38 @@ class Responsive extends Tigerian {
         get gutter() {
           return sizes[name].gutter;
         },
-        set min(value) {
-          sizes[name].min = value;
-          let rule = "only screen";
-
-          if (value) {
-            rule += ` and (min-width: ${value}px)`;
+        get query() {
+          if (sizes.names.indexOf(name) >= 0) {
+            return sizes[name].query.rule
           }
-          if (sizes[name].max) {
-            rule += ` and (max-width: ${sizes[name].max}px)`;
-          }
-
-          sizes[name].query.rule.conditionText = rule;
         },
-        set max(value) {
-          sizes[name].max = value;
-          let rule = "only screen";
+        // NOTE I removed 'set' for 'min' and 'max' because after editing these values we have to resort queries.
+        // set min(value) {
+        //   sizes[name].min = value;
+        //   let rule = "only screen";
 
-          if (sizes[name].min) {
-            rule += ` and (min-width: ${sizes[name].min}px)`;
-          }
-          if (value) {
-            rule += ` and (max-width: ${value}px)`;
-          }
+        //   if (value) {
+        //     rule += ` and (min-width: ${value}px)`;
+        //   }
+        //   if (sizes[name].max) {
+        //     rule += ` and (max-width: ${sizes[name].max}px)`;
+        //   }
 
-          sizes[name].query.conditionText = rule;
-        },
+        //   sizes[name].query.rule.conditionText = rule;
+        // },
+        // set max(value) {
+        //   sizes[name].max = value;
+        //   let rule = "only screen";
+
+        //   if (sizes[name].min) {
+        //     rule += ` and (min-width: ${sizes[name].min}px)`;
+        //   }
+        //   if (value) {
+        //     rule += ` and (max-width: ${value}px)`;
+        //   }
+
+        //   sizes[name].query.conditionText = rule;
+        // },
         set containerWidth(value) {
           sizes[name].containerWidth = value;
           sizes[name].containerStyle.maxWidth = value;
@@ -212,11 +228,6 @@ class Responsive extends Tigerian {
         set gutter(value) {
           sizes[name].gutter = value;
           sizes[name].containerStyle.setProperty("--gutter", `${value}px`);
-        },
-        get query() {
-          if (sizes.names.indexOf(name) >= 0) {
-            return sizes[name].query.rule
-          }
         },
       };
 
@@ -241,6 +252,7 @@ class Responsive extends Tigerian {
 
         let size = sizes[name];
         let index = 0;
+        let i = 0;
         const strName = name.toString().match(/\w+\((\w+)\)/)[1];
 
         if (min) {
@@ -251,34 +263,37 @@ class Responsive extends Tigerian {
         }
         rule += " {}";
 
-        // TODO Callback an event to BStyle for adding this query to all of styles.
-
-        while ((index < sizes.names.length) && ((sizes[sizes.names[index]].min === undefined) || (sizes[sizes.names[index]].min < min))) {
-          index++;
+        while ((i < sizes.names.length)) {
+          if ((sizes[sizes.names[i]].min === undefined) || (sizes[sizes.names[i]].min < min)) {
+            index = i;
+          } else {
+            sizes[sizes.names[i]].query.index++;
+          }
+          i++;
         }
 
         size.query.index = styleElement.sheet.insertRule(rule, sizes[sizes.names[index]].query.index);
         size.query.rule = styleElement.sheet.cssRules[size.query.index];
         sizes.names.splice(index, 0, name);
 
-        for (let col = 1; col <= columnsCount; col++) {
-          rule = `[data-${strName}-column="${col}"]`;
-          rule += `{width: calc(${(col * 100) / columnsCount}% - 2 * ${gutter}px);`;
-          size.query.rule.insertRule(rule, size.query.rule.cssRules.length);
-        }
+        writeContainerStyle(name);
 
-        rule = `[data-element-origin="Container"][hide-on-${strName}="true"] {display: none;}`;
-        size.query.rule.insertRule(rule, size.query.rule.cssRules.length);
-
-        rule = `[data-element-type="Container"][data-element-origin="Container"] {`;
-        rule += `max-width: ${size.containerWidth};`;
-        rule += "margin-left: auto;";
-        rule += "margin-right: auto;";
-        rule += `padding: var(--padding-v) ${gutter};`;
-        rule += "display: block;}";
-        size.containerStyle = size.query.rule.cssRules[size.query.rule.insertRule(rule, size.query.rule.cssRules.length)].style;
+        this.dispatchEvent(Events.onMediaQueryAdd, name);
       }
     }
+
+    this.removeQuery = name => {
+      if (name !== EResponsive.XSMALL) {
+        let size = sizes[name];
+        styleElement.sheet.removeRule(size.query.index);
+        sizes.names.splice(sizes.names.indexOf(name), 1);
+        delete sizes[name];
+
+        this.dispatchEvent(Events.onMediaQueryRemove, name);
+      } else {
+        throw new Error("XSmall size is not removable");
+      }
+    };
   }
 }
 

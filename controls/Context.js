@@ -24,14 +24,14 @@ export class Context extends Control {
    * @param {Control} parent
    * @param {String} text = ""
    * @param {Route} route = undefined
-   * @param {String} theme = ""
+
    *
    * @constructs
    */
-  constructor(parent, text = "", route = undefined, theme = "") {
-    super(parent, theme);
+  constructor(parent, text = "", route = undefined) {
+    super(parent);
 
-    let ctrlText = new Control(this, theme);
+    let ctrlText = new Control(this);
     let ents = {};
 
     this.config(BText, ctrlText, text);
@@ -90,7 +90,7 @@ export class Context extends Control {
             break;
 
           case "control":
-            node = new Control(ctrl, theme);
+            node = new Control(ctrl);
             if (match[4].indexOf("|")) {
               match[4] = match[4].split("|");
             } else {
@@ -111,7 +111,7 @@ export class Context extends Control {
             break;
 
           case "redirect":
-            node = new HyperLink(ctrl, match[6], match[5], theme);
+            node = new HyperLink(ctrl, match[6], match[5]);
             if (route) {
               node.addEvent(
                 "click",

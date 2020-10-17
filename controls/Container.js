@@ -3,7 +3,9 @@
 import {
   Control
 } from "../core/Control.js";
-import { ContainerRow } from "./ContainerRow.js";
+import {
+  ContainerRow
+} from "./ContainerRow.js";
 
 /**
  * Created by samir on 8/26/16.
@@ -20,10 +22,10 @@ import { ContainerRow } from "./ContainerRow.js";
 export class Container extends Control {
   /**
    * @param {UI} parent
-   * @param {string} theme = ""
+
    */
-  constructor(parent, theme = "") {
-    super(parent, theme);
+  constructor(parent) {
+    super(parent);
 
     //NOTE Private Variables
     // let elmBody = document.createElement("div");

@@ -20,10 +20,10 @@ export class TableRow extends Control {
    * @constructs
    * @param {UI} parent
    * @param {number} colCount = 1
-   * @param {string} theme = ""
+
    */
-  constructor(parent, colCount = 1, theme = "") {
-    super(parent, theme);
+  constructor(parent, colCount = 1) {
+    super(parent);
     this.config(BGroup);
 
     let superAddControl = this.addControl.bind(this);

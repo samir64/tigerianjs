@@ -34,12 +34,12 @@ export class BPagination extends Behavior {
       let theme = ctrlNavigation.theme;
       let navButtons = EPagination.ALL;
 
-      let container = new Control(ctrlNavigation, theme);
-      let ctrlFirst = new Button(container, "❬ ❬", theme);
-      let ctrlPrev = new Button(container, "❰", theme);
-      let ctrlPageList = new Control(container, theme);
-      let ctrlNext = new Button(container, "❱", theme);
-      let ctrlLast = new Button(container, "❭ ❭", theme);
+      let container = new Control(ctrlNavigation);
+      let ctrlFirst = new Button(container, "❬ ❬");
+      let ctrlPrev = new Button(container, "❰");
+      let ctrlPageList = new Control(container);
+      let ctrlNext = new Button(container, "❱");
+      let ctrlLast = new Button(container, "❭ ❭");
 
       // container.setAttribute("element-type", "Pagination");
       container.dataset.elementName = "container";
