@@ -54,6 +54,10 @@ export class BStyle extends Behavior {
         const size = responsive.size(name);
         const styleSheet = size.query;
         let rule = styleSheet.cssRules[styleSheet.insertRule(`#${specificClass}[data-element-type][data-element-origin="Container"]{}`, styleSheet.cssRules.length)];
+        rule.style.focus = styleSheet.cssRules[styleSheet.insertRule(`#${specificClass}[data-element-type][data-element-origin="Container"]:focus{}`, styleSheet.cssRules.length)].style;
+        rule.style.active = styleSheet.cssRules[styleSheet.insertRule(`#${specificClass}[data-element-type][data-element-origin="Container"]:active{}`, styleSheet.cssRules.length)].style;
+        rule.style.visited = styleSheet.cssRules[styleSheet.insertRule(`#${specificClass}[data-element-type][data-element-origin="Container"]:visited{}`, styleSheet.cssRules.length)].style;
+        rule.style.hover = styleSheet.cssRules[styleSheet.insertRule(`#${specificClass}[data-element-type][data-element-origin="Container"]:hover{}`, styleSheet.cssRules.length)].style;
 
         Object.defineProperty(styles, name, {
           enumerable: true,

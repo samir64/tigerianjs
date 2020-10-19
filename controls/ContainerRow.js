@@ -7,6 +7,9 @@ import {
   EResponsive
 } from "../core/Responsive.js";
 import {
+  EMethod
+} from "../core/UI.js";
+import {
   ContainerColumn
 } from "./ContainerColumn.js";
 
@@ -17,14 +20,14 @@ export class ContainerRow extends Control {
     this.elementName = "container";
 
     this.attribute("xsmallColumnCount", Number, columnCount, (method, value) => {
-      if (method === "set") {
+      if (method === EMethod.SET) {
         this.style[EResponsive.XSMALL].setProperty("--column-count", value);
       }
 
       return value;
     });
     this.attribute("smallColumnCount", Number, 0, (method, value) => {
-      if (method === "set") {
+      if (method === EMethod.SET) {
         if (value > 0) {
           this.style[EResponsive.SMALL].setProperty("--column-count", value);
         } else {
@@ -35,7 +38,7 @@ export class ContainerRow extends Control {
       return value;
     });
     this.attribute("mediumColumnCount", Number, 0, (method, value) => {
-      if (method === "set") {
+      if (method === EMethod.SET) {
         if (value > 0) {
           this.style[EResponsive.MEDIUM].setProperty("--column-count", value);
         } else {
@@ -46,7 +49,7 @@ export class ContainerRow extends Control {
       return value;
     });
     this.attribute("largeColumnCount", Number, 0, (method, value) => {
-      if (method === "set") {
+      if (method === EMethod.SET) {
         if (value > 0) {
           this.style[EResponsive.LARGE].setProperty("--column-count", value);
         } else {
@@ -57,7 +60,7 @@ export class ContainerRow extends Control {
       return value;
     });
     this.attribute("xlargeColumnCount", Number, 0, (method, value) => {
-      if (method === "set") {
+      if (method === EMethod.SET) {
         if (value > 0) {
           this.style[EResponsive.XLARGE].setProperty("--column-count", value);
         } else {

@@ -10,6 +10,9 @@ import {
 import {
   Events
 } from "../core/Events.js";
+import {
+  EMethod
+} from "../core/UI.js";
 
 /**
  * Created by samir on 9/14/16.
@@ -52,10 +55,10 @@ export class BText extends Behavior {
 
       that.attribute("text", String, "", (method, value) => {
         switch (method) {
-          case "get":
+          case EMethod.GET:
             break;
 
-          case "set":
+          case EMethod.SET:
             if (instanceOf(value, String)) {
               let lastText = text;
               text = value;

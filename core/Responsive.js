@@ -89,15 +89,9 @@ class Responsive extends Tigerian {
       let rule = "";
       const size = sizes[name];
 
-      rule = `[data-element-type="Container"] [data-element-type="ContainerRow"]>[data-element-type="ContainerColumn"][data-element-origin="Container"] {`;
-      rule += `flex: 0 0 calc(var(--column) * 100% / var(--column-count));`;
-      rule += `padding: 0 calc(var(--gutter) / 2);`;
-      rule += "}";
-      size.query.rule.insertRule(rule, size.query.rule.cssRules.length);
-
       rule = `[data-element-type="Container"][data-element-origin="Container"] {`;
       rule += `--gutter: ${size.gutter}px;`;
-      rule += `max-width: ${size.containerWidth};`;
+      rule += `max-width: calc(${size.containerWidth} - var(--gutter));`;
       rule += "margin-left: auto;";
       rule += "margin-right: auto;";
       rule += "display: flex;";
@@ -116,6 +110,8 @@ class Responsive extends Tigerian {
       size.query.rule.insertRule(rule, size.query.rule.cssRules.length);
 
       rule = `[data-element-type="Container"] [data-element-type="ContainerRow"]>[data-element-type="ContainerColumn"][data-element-origin="Container"] {`;
+      rule += `flex: 0 0 calc(var(--column) * 100% / var(--column-count));`;
+      rule += `padding: 0 calc(var(--gutter) / 2);`;
       rule += "display: flex;";
       rule += "flex-direction: column;";
       rule += "}";
@@ -129,6 +125,11 @@ class Responsive extends Tigerian {
 
       meta.setAttribute("name", "viewport");
       meta.setAttribute("content", "width=device-width, initial-scale=1.0");
+
+      let rule = '[data-element-type="Application"][data-element-origin="Container"][data-element-name="container"], [data-element-type="Application"][data-element-origin="Container"][data-element-name="container"] *{';
+      rule += "box-sizing: border-box;";
+      rule += "}";
+      styleElement.sheet.insertRule(rule, styleElement.sheet.cssRules.length);
 
       forEach(sizes.names, name => {
         writeContainerStyle(name);

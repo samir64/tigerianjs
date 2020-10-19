@@ -1,8 +1,17 @@
 "use strict";
 
-import { Control } from "../core/Control.js";
-import { EResponsive } from "../core/Responsive.js";
-import { ContainerRow } from "./ContainerRow.js";
+import {
+  Control
+} from "../core/Control.js";
+import {
+  EResponsive
+} from "../core/Responsive.js";
+import {
+  EMethod
+} from "../core/UI.js";
+import {
+  ContainerRow
+} from "./ContainerRow.js";
 
 export class ContainerColumn extends Control {
   constructor(parent, column) {
@@ -12,14 +21,14 @@ export class ContainerColumn extends Control {
 
     //NOTE Attributes
     this.attribute("xsmallColumn", Number, column, (method, value) => {
-      if (method === "set") {
+      if (method === EMethod.SET) {
         this.style[EResponsive.XSMALL].setProperty("--column", value);
       }
 
       return value;
     });
     this.attribute("smallColumn", Number, 0, (method, value) => {
-      if (method === "set") {
+      if (method === EMethod.SET) {
         if (value > 0) {
           this.style[EResponsive.SMALL].setProperty("--column", value);
         } else {
@@ -30,7 +39,7 @@ export class ContainerColumn extends Control {
       return value;
     });
     this.attribute("mediumColumn", Number, 0, (method, value) => {
-      if (method === "set") {
+      if (method === EMethod.SET) {
         if (value > 0) {
           this.style[EResponsive.MEDIUM].setProperty("--column", value);
         } else {
@@ -41,7 +50,7 @@ export class ContainerColumn extends Control {
       return value;
     });
     this.attribute("largeColumn", Number, 0, (method, value) => {
-      if (method === "set") {
+      if (method === EMethod.SET) {
         if (value > 0) {
           this.style[EResponsive.LARGE].setProperty("--column", value);
         } else {
@@ -52,7 +61,7 @@ export class ContainerColumn extends Control {
       return value;
     });
     this.attribute("xlargeColumn", Number, 0, (method, value) => {
-      if (method === "set") {
+      if (method === EMethod.SET) {
         if (value > 0) {
           this.style[EResponsive.XLARGE].setProperty("--column", value);
         } else {

@@ -326,8 +326,8 @@ export class UI extends Tigerian {
     //NOTE Public Functions
     /**
      * @callback ATTRIBUTE_CALLBACK
-     * @param {String} method
-     * @param {any} value
+     * @param {EMethod} method
+     * @param {*} value
      */
     /**
      * @param {String} name 
@@ -374,7 +374,7 @@ export class UI extends Tigerian {
               result = mainElement.dataset[name];
             }
 
-            return callback("get", result);
+            return callback(EMethod.GET, result);
           },
         });
       } else {
@@ -392,7 +392,7 @@ export class UI extends Tigerian {
             return callback("get", result);
           },
           set(v) {
-            let value = callback("set", v);
+            let value = callback(EMethod.SET, v);
             if (typeReversed) {
               // value = typeReversed[v];
               value = v.toString();
@@ -608,7 +608,7 @@ export class UI extends Tigerian {
     this.attribute("elementOrigin", String, "Container");
     this.attribute("elementName", String, "");
     this.attribute("visible", Boolean, true, (method, value) => {
-      if (method === "set") {
+      if (method === EMethod.SET) {
         that.dispatchEvent(Events.onVisibleChange, {
           visible: value
         });
@@ -630,4 +630,9 @@ export const EUI = Object.freeze({
   NONE: Symbol("none"),
   RIGHT_TO_LEFT: Symbol("rtl"),
   LEFT_TO_RIGHT: Symbol("ltr")
+});
+
+export const EMethod = Object.freeze({
+  GET: Symbol("get"),
+  SET: Symbol("set"),
 });
