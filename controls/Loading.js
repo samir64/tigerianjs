@@ -12,8 +12,6 @@ import {
   BModal
 } from "../behaviors/BModal.js";
 
-"use strict";
-
 /**
  * @constructor
  * @extends {Control}

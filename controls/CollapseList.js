@@ -12,8 +12,6 @@ import {
   CollapseItem
 } from "./CollapseItem.js";
 
-"use strict";
-
 /**
  * @constructor
  * @extends {Control}

@@ -12,8 +12,6 @@ import {
   Button
 } from "../../controls/Button.js";
 
-"use strict";
-
 /**
  * @constructor
  * @extends {View}

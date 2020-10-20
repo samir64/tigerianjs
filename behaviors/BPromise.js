@@ -6,8 +6,6 @@ import {
   forEach
 } from "../core/Tigerian.js";
 
-"use strict";
-
 /**
  * @constructor
  * @extends {Behavior}

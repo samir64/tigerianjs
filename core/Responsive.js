@@ -1,5 +1,3 @@
-"use strict";
-
 import {
   BEvent
 } from "../behaviors/BEvent.js";
@@ -273,9 +271,9 @@ class Responsive extends Tigerian {
           i++;
         }
 
-        size.query.index = styleElement.sheet.insertRule(rule, sizes[sizes.names[index]].query.index);
+        size.query.index = styleElement.sheet.insertRule(rule, sizes[sizes.names[index]].query.index + 1);
         size.query.rule = styleElement.sheet.cssRules[size.query.index];
-        sizes.names.splice(index, 0, name);
+        sizes.names.splice(index + 1, 0, name);
 
         writeContainerStyle(name);
 

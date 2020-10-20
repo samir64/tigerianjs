@@ -5,8 +5,6 @@ import {
   Control
 } from "../core/Control.js";
 
-"use strict";
-
 export class BLabel extends Behavior {
   constructor() {
     super();

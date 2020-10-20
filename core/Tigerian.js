@@ -5,8 +5,6 @@ import {
   BIterator
 } from "../behaviors/BIterator.js";
 
-"use strict";
-
 export class Tigerian {
   constructor() {
     let behaviors = [];

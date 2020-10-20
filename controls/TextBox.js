@@ -12,8 +12,6 @@ import {
  * Created by samir on 8/26/16.
  */
 
-"use strict";
-
 /**
  * @extends {Control}
  * @implements {BText}

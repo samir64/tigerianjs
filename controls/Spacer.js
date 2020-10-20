@@ -6,9 +6,6 @@ import {
  * Created by samir on 11/11/16.
  */
 
-"use strict";
-
-
 /**
  * @extends {Control}
  * @constructor

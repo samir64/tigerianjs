@@ -17,8 +17,6 @@ import {
  * Version 1.0.0.100
  */
 
-"use strict";
-
 /**
  * @param {string} [style = ""]
  * @param {Application|Control} [parent = undefined]
@@ -345,14 +343,14 @@ export class Control extends UI {
   }
 }
 
-export const EControl = Object.freeze({
-  NONE: Symbol("none"),
-  DEFAULT: Symbol("default"),
-  TITLE: Symbol("title"),
-  INFO: Symbol("info"),
-  TRANSPARENT: Symbol("transparent"),
-  OPPOSITE: Symbol("opposite"),
-  WARNING: Symbol("warning"),
-  ERROR: Symbol("error"),
-  OK: Symbol("ok")
-});
+// export const EControl = Object.freeze({
+//   NONE: Symbol("none"),
+//   DEFAULT: Symbol("default"),
+//   TITLE: Symbol("title"),
+//   INFO: Symbol("info"),
+//   TRANSPARENT: Symbol("transparent"),
+//   OPPOSITE: Symbol("opposite"),
+//   WARNING: Symbol("warning"),
+//   ERROR: Symbol("error"),
+//   OK: Symbol("ok")
+// });

@@ -25,12 +25,12 @@ import {
  * Version 1.0.0.100
  */
 
-"use strict";
-
 /**
- * @implements {BBind}
- * @extends {Class}
- *
+ * @extends Tigerian
+ * @implements BBind
+ * @implements BStyle
+ * @implements BEvent
+ * @implements BTransition
  * @constructor
  * @abstract
  */
@@ -64,11 +64,11 @@ export class UI extends Tigerian {
       "style",
       "element-situation",
       "element-hoverable",
-      "xsmall-column",
-      "small-column",
-      "medium-column",
-      "large-column",
-      "xlarge-column",
+      // "xsmall-column",
+      // "small-column",
+      // "medium-column",
+      // "large-column",
+      // "xlarge-column",
       "template-name",
       "template-item",
       "title",
@@ -258,10 +258,8 @@ export class UI extends Tigerian {
           switch (dir) {
             case "ltr":
               return EUI.LEFT_TO_RIGHT;
-              break;
             case "rtl":
               return EUI.RIGHT_TO_LEFT;
-              break;
             default:
               return EUI.NONE;
           }
@@ -330,8 +328,8 @@ export class UI extends Tigerian {
      * @param {*} value
      */
     /**
-     * @param {String} name 
-     * @param {Function} type 
+     * @param {String} name
+     * @param {Function} type
      * @param {any} defaultValue = undefined
      * @param {ATTRIBUTE_CALLBACK} callback
      */
@@ -413,8 +411,14 @@ export class UI extends Tigerian {
       }
     };
 
+    /**
+     * @param {String} name
+     */
     this.hasAttribute = name => name in mainElement.dataset;
 
+    /**
+     * @param {String} name
+     */
     this.removeAttribute = name => {
       delete mainElement.dataset[name];
       delete this[name];

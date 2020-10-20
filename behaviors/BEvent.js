@@ -6,8 +6,6 @@ import {
   Behavior
 } from "../core/Behavior.js";
 
-"use strict";
-
 export class BEvent extends Behavior {
   constructor() {
     super();

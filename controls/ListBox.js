@@ -18,8 +18,6 @@ import {
  * Created by samir on 11/10/16.
  */
 
-"use strict";
-
 /**
  * @extends {Control}
  * @implements {BGroup}

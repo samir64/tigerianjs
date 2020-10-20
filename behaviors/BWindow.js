@@ -9,8 +9,6 @@ import {
  * Created by samir on 9/14/18.
  */
 
-"use strict";
-
 /**
  * @namespace {Tigerian}
  * @extends {Behavior}

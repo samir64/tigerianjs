@@ -2,8 +2,6 @@
  * Created by samir on 10/28/16.
  */
 
-"use strict";
-
 export let Events = {};
 
 Events.onChange = new Event("Change", {

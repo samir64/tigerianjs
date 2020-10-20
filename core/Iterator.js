@@ -1,8 +1,6 @@
 import { Tigerian } from "./Tigerian.js";
 import { BIterator } from "../behaviors/BIterator.js";
 
-"use strict";
-
 /**
  * @constructor
  * @extends {Tigerian}

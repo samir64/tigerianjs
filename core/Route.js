@@ -7,8 +7,6 @@ import {
   View
 } from "../model_view/View.js";
 
-"use strict";
-
 /**
  * @class
  * @constructor

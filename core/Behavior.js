@@ -3,9 +3,8 @@ import {
   abstract
 } from "./Tigerian.js";
 
-"use strict";
-
 /**
+ * @interface
  */
 export class Behavior {
   /**

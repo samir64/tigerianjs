@@ -9,8 +9,6 @@ import {
  * Created by samir on 09/20/18.
  */
 
-"use strict";
-
 /**
  * @constructor
  * @extends {Behavior}

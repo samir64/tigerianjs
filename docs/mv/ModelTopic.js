@@ -2,8 +2,6 @@ import {
   Model
 } from "../../model_view/Model.js";
 
-"use strict";
-
 /**
  * @constructor
  * @extends {Model}

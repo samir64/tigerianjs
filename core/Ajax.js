@@ -13,7 +13,6 @@ import {
   BPromise
 } from "../behaviors/BPromise.js";
 
-"use strict";
 import { Tigerian, instanceOf, forEach } from "./Tigerian.js";
 import { Events } from "./Events.js";
 import { BEvent } from "../behaviors/BEvent.js";

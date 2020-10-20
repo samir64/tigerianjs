@@ -15,8 +15,6 @@ import {
  * Created by samir on 8/31/18.
  */
 
-"use strict";
-
 /**
  * @extends {Class}
  * @constructor

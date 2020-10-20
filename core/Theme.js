@@ -18,8 +18,6 @@ import {
   UI
 } from "./UI.js";
 
-"use strict";
-
 /**
  * @typedef {Object} SELECTOR
  * @property {String|EValue} childType
@@ -33,17 +31,21 @@ import {
  */
 export class Theme extends Tigerian {
   /**
-   * @param {String} name
    * @param {Object} type
    */
-  constructor(name) {
+  constructor() {
     super();
     this.abstract(Theme);
 
-    if (!!name) {
-      name = `.${name}`;
-    } else {
-      name = "";
+    let situations = {
+      NONE: [210, 15, 100],
+      DEFAULT: [210, 100, 50],
+      TITLE: [210, 10, 50],
+      INFO: [190, 80, 40],
+      OPPOSITE: [210, 10, 30],
+      WARNING: [45, 100, 50],
+      ERROR: [355, 70, 55],
+      OK: [135, 70, 40],
     }
 
     const snakeCase = value => value.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
@@ -327,7 +329,7 @@ export class Theme extends Tigerian {
 
       if (isA(type, UI)) {
         const styleSheet = responsive.size(size).query;
-        let rule = `${name}[data-element-name="container"][data-element-type="${type.name}"][data-element-origin="Container"]`;
+        let rule = `[data-element-name="container"][data-element-type="${type.name}"][data-element-origin="Container"]`;
 
         rule += attributeRules(attributes);
         rule += selectorRules(selectors);
@@ -358,7 +360,7 @@ export class Theme extends Tigerian {
 
       if (instanceOf(control, UI)) {
         const styleSheet = responsive.size(size).query;
-        let rule = `#${control.id}${name}[data-element-name="container"][data-element-origin="Container"]`;
+        let rule = `#${control.id}[data-element-name="container"][data-element-origin="Container"]`;
 
         rule += attributeRules(attributes);
         rule += selectorRules(selectors);
@@ -395,7 +397,6 @@ export class Theme extends Tigerian {
         }
       }
 
-      console.log(responsive.root);
       Object.defineProperty(this, variable, {
         enumerable: true,
         configurable: false,
@@ -446,6 +447,52 @@ export class Theme extends Tigerian {
         default:
       }
     };
+
+    /**
+     * 
+     * @param {ESituation} situation 
+     * @param {Object} color
+     * @param {Number} color.hue
+     * @param {Number} color.sat
+     * @param {Number} color.lum
+     */
+    this.setColor = (situation, {
+      hue,
+      sat,
+      lum
+    } = {}) => {
+      let name;
+      forEach(ESituation, (symbol, sitName) => {
+        if (situation === symbol) {
+          name = sitName
+        }
+      });
+      if (situations[name]) {
+        if (hue) {
+          situations[name][0] = hue;
+        } else {
+          hue = situations[name][0];
+        }
+        if (sat) {
+          situations[name][1] = sat;
+        } else {
+          sat = situations[name][1];
+        }
+        if (lum) {
+          situations[name][2] = lum;
+        } else {
+          lum = situations[name][2];
+        }
+
+        name = name[0] + name.substring(1).toLowerCase();
+        this[`situation${name}`] = `hsl(${hue}, ${sat}%, ${lum}%)`;
+      }
+    };
+
+    forEach(situations, ([hue, sat, lum], name) => {
+      name = name[0] + name.substring(1).toLowerCase();
+      this.addVariable(`situation${name}`, String, `hsl(${hue}, ${sat}%, ${lum}%)`);
+    });
   }
 }
 

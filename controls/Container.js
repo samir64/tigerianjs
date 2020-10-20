@@ -1,5 +1,3 @@
-"use strict";
-
 import {
   Control
 } from "../core/Control.js";

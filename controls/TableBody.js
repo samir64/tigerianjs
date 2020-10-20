@@ -5,8 +5,6 @@ import {
   BGroup
 } from "../behaviors/BGroup.js";
 
-"use strict";
-
 /**
  * @constructor
  * @extends {Control}

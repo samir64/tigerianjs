@@ -18,12 +18,11 @@ import {
  * Created by samir on 9/14/16.
  */
 
-"use strict";
-
 /**
  * @implements {Behavior}
  * @extends {Control}
  * @interface
+ * @property {String} text
  */
 export class BText extends Behavior {
   /**

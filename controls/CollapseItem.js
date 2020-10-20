@@ -14,8 +14,6 @@ import {
   CollapseList
 } from "./CollapseList.js";
 
-"use strict";
-
 /**
  * @constructor
  * @extends {Control}

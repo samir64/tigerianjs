@@ -9,8 +9,6 @@ import { strFormat } from "../../core/Tigerian.js";
 import { EResponsive } from "../../behaviors/BWindow.js";
 import { Events } from "../../core/Events.js";
 
-"use strict";
-
 /**
  * @constructor
  * @extends {View}

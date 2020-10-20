@@ -12,8 +12,6 @@ import {
  * Created by samir on 11/7/16.
  */
 
-"use strict";
-
 /**
  * @extends {Label}
  * @implements {BSelect}

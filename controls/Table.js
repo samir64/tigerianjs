@@ -8,8 +8,6 @@ import {
   BTable
 } from "../behaviors/BTable.js";
 
-"use strict";
-
 /**
  * @constructor
  * @extends {Control}

@@ -22,8 +22,6 @@ import {
  * Version 1.0.0.100
  */
 
-"use strict";
-
 /**
  * @constructor
  * @extends {UI}

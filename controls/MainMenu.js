@@ -11,8 +11,6 @@ import {
   MenuItem
 } from "./MenuItem.js";
 
-"use strict";
-
 /**
  * @constructor
  * @extends {Control}

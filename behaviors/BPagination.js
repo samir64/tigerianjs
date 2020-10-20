@@ -8,8 +8,6 @@ import {
   Control
 } from "../core/Control.js";
 
-"use strict";
-
 /**
  * @constructor
  * @extends {Behavior}

@@ -12,8 +12,6 @@ import {
   Events
 } from "../core/Events.js";
 
-"use strict";
-
 /* let allStylesList = [];
 
 forEach(document.body.style, (prop, propName) => {
@@ -28,16 +26,16 @@ allStylesList = allStylesList.filter((item) => {
 console.log(allStylesList); */
 
 /**
- * @constructor
- * @extends {Behavior}
+ * @interface
+ * @implements Behavior
+ * @property {Object.<String, CSSStyleDeclaration>} style
  */
 export class BStyle extends Behavior {
   /**
-   * @constructs
+   * @constructor
    */
   constructor() {
     super();
-
     /**
      * 
      * @param {Object} that 
@@ -117,7 +115,6 @@ export class BStyle extends Behavior {
 
       responsive.addEvent(Events.onMediaQueryRemove, e => {
         delete styles[e.data];
-        // console.log(e.data);
       });
     };
   }

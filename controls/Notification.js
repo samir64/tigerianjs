@@ -8,8 +8,6 @@ import {
   BCancel
 } from "../behaviors/BCancel.js";
 
-"use strict";
-
 /**
  * @constructor
  * @extends {Control}

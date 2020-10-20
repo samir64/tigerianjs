@@ -17,8 +17,6 @@ import {
   Spacer
 } from "./Spacer.js";
 
-"use strict";
-
 /**
  * @constructor
  * @extends {Control}

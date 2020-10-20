@@ -14,8 +14,6 @@ import {
   BText
 } from "../behaviors/BText.js";
 
-"use strict";
-
 /**
  * @constructor
  * @extends {Control}

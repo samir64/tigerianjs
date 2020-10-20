@@ -27,8 +27,6 @@ import {
   Loading
 } from "../../controls/Loading.js";
 
-"use strict";
-
 /**
  * @constructor
  * @extends {View}

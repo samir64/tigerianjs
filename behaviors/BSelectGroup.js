@@ -12,8 +12,6 @@ import {
  * Created by samir on 9/10/18.
  */
 
-"use strict";
-
 /**
  * @extends {Behavior}
  * @implements {BGroup}
