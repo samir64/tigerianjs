@@ -1,9 +1,5 @@
-import {
-  Control
-} from "../core/Control.js";
-import {
-  ContainerRow
-} from "./ContainerRow.js";
+import { Control } from "../core/Control.js";
+import { ContainerRow } from "./ContainerRow.js";
 
 /**
  * Created by samir on 8/26/16.
@@ -33,7 +29,11 @@ export class Container extends Control {
     // this.setAttribute("element-type", "Container");
     this.elementName = "container";
 
-    this.addRow = columnCount => new ContainerRow(this, columnCount);
+    /**
+     *
+     * @param {Number} columnCount Default: 12
+     */
+    this.addRow = (columnCount = 12) => new ContainerRow(this, columnCount);
 
     // elmBody.setAttribute("element-type", "Container");
     // elmBody.setAttribute("element-name", "body");

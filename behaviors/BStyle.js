@@ -1,16 +1,7 @@
-import {
-  Behavior
-} from "../core/Behavior.js";
-import {
-  forEach,
-} from "../core/Tigerian.js";
-import {
-  EResponsive,
-  responsive
-} from "../core/Responsive.js";
-import {
-  Events
-} from "../core/Events.js";
+import { Behavior } from "../core/Behavior.js";
+import { forEach } from "../core/Tigerian.js";
+import { EResponsive, responsive } from "../core/Responsive.js";
+import { Events } from "../core/Events.js";
 
 /* let allStylesList = [];
 
@@ -37,9 +28,9 @@ export class BStyle extends Behavior {
   constructor() {
     super();
     /**
-     * 
-     * @param {Object} that 
-     * @param {Element, DocumentFragment} mainElement 
+     *
+     * @param {Object} that
+     * @param {Element, DocumentFragment} mainElement
      */
     this.config = (that, mainElement) => {
       let specificClass = `control-${Math.round(Date.now() * Math.random())}`;
@@ -48,25 +39,55 @@ export class BStyle extends Behavior {
 
       mainElement.id = specificClass;
 
-      const writeElementStyleRule = name => {
+      const writeElementStyleRule = (name) => {
         const size = responsive.size(name);
         const styleSheet = size.query;
-        let rule = styleSheet.cssRules[styleSheet.insertRule(`#${specificClass}[data-element-type][data-element-origin="Container"]{}`, styleSheet.cssRules.length)];
-        rule.style.focus = styleSheet.cssRules[styleSheet.insertRule(`#${specificClass}[data-element-type][data-element-origin="Container"]:focus{}`, styleSheet.cssRules.length)].style;
-        rule.style.active = styleSheet.cssRules[styleSheet.insertRule(`#${specificClass}[data-element-type][data-element-origin="Container"]:active{}`, styleSheet.cssRules.length)].style;
-        rule.style.visited = styleSheet.cssRules[styleSheet.insertRule(`#${specificClass}[data-element-type][data-element-origin="Container"]:visited{}`, styleSheet.cssRules.length)].style;
-        rule.style.hover = styleSheet.cssRules[styleSheet.insertRule(`#${specificClass}[data-element-type][data-element-origin="Container"]:hover{}`, styleSheet.cssRules.length)].style;
+        let rule =
+          styleSheet.cssRules[
+            styleSheet.insertRule(
+              `#${specificClass}[data-element-type][data-element-origin="Container"]{}`,
+              styleSheet.cssRules.length
+            )
+          ];
+        rule.style.focus =
+          styleSheet.cssRules[
+            styleSheet.insertRule(
+              `#${specificClass}[data-element-type][data-element-origin="Container"]:focus{}`,
+              styleSheet.cssRules.length
+            )
+          ].style;
+        rule.style.active =
+          styleSheet.cssRules[
+            styleSheet.insertRule(
+              `#${specificClass}[data-element-type][data-element-origin="Container"]:active{}`,
+              styleSheet.cssRules.length
+            )
+          ].style;
+        rule.style.visited =
+          styleSheet.cssRules[
+            styleSheet.insertRule(
+              `#${specificClass}[data-element-type][data-element-origin="Container"]:visited{}`,
+              styleSheet.cssRules.length
+            )
+          ].style;
+        rule.style.hover =
+          styleSheet.cssRules[
+            styleSheet.insertRule(
+              `#${specificClass}[data-element-type][data-element-origin="Container"]:hover{}`,
+              styleSheet.cssRules.length
+            )
+          ].style;
 
         Object.defineProperty(styles, name, {
           enumerable: true,
           configurable: true,
           get() {
             return rule.style;
-          }
+          },
         });
       };
 
-      forEach(sizes, sizeName => {
+      forEach(sizes, (sizeName) => {
         switch (sizeName) {
           case EResponsive.INLINE:
             Object.defineProperty(styles, sizeName, {
@@ -74,8 +95,8 @@ export class BStyle extends Behavior {
               configurable: true,
               get() {
                 return mainElement.style;
-              }
-            })
+              },
+            });
             break;
 
           default:
@@ -98,7 +119,7 @@ export class BStyle extends Behavior {
         configurable: false,
         get() {
           return styles;
-        }
+        },
       });
 
       Object.defineProperty(that, "id", {
@@ -106,14 +127,14 @@ export class BStyle extends Behavior {
         configurable: false,
         get() {
           return specificClass;
-        }
-      })
+        },
+      });
 
-      responsive.addEvent(Events.onMediaQueryAdd, e => {
+      responsive.addEvent(Events.onMediaQueryAdd, (e) => {
         writeElementStyleRule(e.data);
       });
 
-      responsive.addEvent(Events.onMediaQueryRemove, e => {
+      responsive.addEvent(Events.onMediaQueryRemove, (e) => {
         delete styles[e.data];
       });
     };

@@ -2,21 +2,17 @@
  * Created by samir on 06/06/20.
  */
 
+import { responsive, EResponsive } from "./Responsive.js";
 import {
-  responsive,
-  EResponsive
-} from "./Responsive.js";
-import {
+  changeStringCase,
+  EStringCase,
   forEach,
   instanceOf,
   isA,
   Tigerian,
   // abstract
 } from "./Tigerian.js";
-import {
-  EMethod,
-  UI
-} from "./UI.js";
+import { EMethod, UI } from "./UI.js";
 
 /**
  * @typedef {Object} SELECTOR
@@ -37,40 +33,26 @@ export class Theme extends Tigerian {
     super();
     this.abstract(Theme);
 
-    let situations = {
-      NONE: [210, 15, 100],
-      DEFAULT: [210, 100, 50],
-      TITLE: [210, 10, 50],
-      INFO: [190, 80, 40],
-      OPPOSITE: [210, 10, 30],
-      WARNING: [45, 100, 50],
-      ERROR: [355, 70, 55],
-      OK: [135, 70, 40],
-    }
-
-    const snakeCase = value => value.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
-      .map(x => x.toLowerCase())
-      .join('_');
-
-    const kebabCase = value => value.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
-      .map(x => x.toLowerCase())
-      .join('-');
-
-    const selectorRules = selectors => {
+    const selectorRules = (selectors) => {
       let result = "";
 
-      forEach(selectors, selector => {
+      forEach(selectors, (selector) => {
         let {
           childType,
           childName,
           childTag,
           attributes,
-          nextLevel
+          nextLevel,
         } = selector;
-        if (!!childType || !!childName || !!childTag || (selector === EValue.STAR)) {
+        if (
+          !!childType ||
+          !!childName ||
+          !!childTag ||
+          selector === EValue.STAR
+        ) {
           result += !!nextLevel ? ">" : " ";
 
-          if ((childTag === EValue.STAR) || (selector === EValue.STAR)) {
+          if (childTag === EValue.STAR || selector === EValue.STAR) {
             result += "*";
           } else {
             if (childTag) {
@@ -105,13 +87,16 @@ export class Theme extends Tigerian {
       });
 
       return result;
-    }
+    };
 
-    const attributeRules = attributes => {
+    const attributeRules = (attributes) => {
       let result = "";
 
       forEach(attributes, (value, attribute) => {
-        result += `[data-${snakeCase(attribute)}`;
+        result += `[data-${changeStringCase(
+          EStringCase.SNAKE_CASE,
+          attribute
+        )}`;
         if (value !== EValue.STAR) {
           result += `="${value.toString()}"`;
         }
@@ -119,13 +104,16 @@ export class Theme extends Tigerian {
       });
 
       return result;
-    }
+    };
 
-    const styleRules = styles => {
+    const styleRules = (styles) => {
       let result = "";
 
       forEach(styles, (value, style) => {
-        result += `${kebabCase(style)}: ${value};`;
+        result += `${changeStringCase(
+          EStringCase.KEBAB_CASE,
+          style
+        )}: ${value};`;
       });
 
       return result;
@@ -136,12 +124,12 @@ export class Theme extends Tigerian {
        * @param {String} value
        * @returns {EFormat}
        */
-      getFormat: value => {},
+      getFormat: (value) => {},
       /**
        * @param {String} value
        * @returns {{red: Number, green: Number, blue: Number}}
        */
-      hexToRgb: value => {
+      hexToRgb: (value) => {
         let r = 0,
           g = 0,
           b = 0;
@@ -166,7 +154,7 @@ export class Theme extends Tigerian {
        * @param {String} value
        * @returns {{red: Number, green: Number, blue: Number, alpha: Number}}
        */
-      hexAToRgbA: value => {
+      hexAToRgbA: (value) => {
         let r = 0,
           g = 0,
           b = 0,
@@ -177,7 +165,6 @@ export class Theme extends Tigerian {
           g = "0x" + value[2] + value[2];
           b = "0x" + value[3] + value[3];
           a = "0x" + value[4] + value[4];
-
         } else if (value.length == 8) {
           r = "0x" + value[1] + value[2];
           g = "0x" + value[3] + value[4];
@@ -196,23 +183,19 @@ export class Theme extends Tigerian {
        * @param {String} value
        * @returns {{hue: Number, saturation: Number, lightness: Number}}
        */
-      hexToHsl: value => {},
+      hexToHsl: (value) => {},
       /**
        * @param {String} value
        * @returns {{hue: Number, saturation: Number, lightness: Number, alpha: Number}}
        */
-      hexAToHslA: value => {},
+      hexAToHslA: (value) => {},
       /**
        * @param {Number} red
        * @param {Number} green
        * @param {Number} blue
-       * @returns {String} 
+       * @returns {String}
        */
-      rgbToHex: ({
-        red,
-        green,
-        blue
-      }) => {
+      rgbToHex: ({ red, green, blue }) => {
         let r = red.toString(16),
           g = green.toString(16),
           b = blue.toString(16);
@@ -227,21 +210,16 @@ export class Theme extends Tigerian {
           b = "0" + b;
         }
 
-        return `#${r}${g}${b}`
+        return `#${r}${g}${b}`;
       },
       /**
        * @param {Number} red
        * @param {Number} green
        * @param {Number} blue
        * @param {Number} alpha
-       * @returns {String} 
+       * @returns {String}
        */
-      rgbAToHexA: ({
-        red,
-        green,
-        blue,
-        alpha
-      }) => {
+      rgbAToHexA: ({ red, green, blue, alpha }) => {
         let r = red.toString(16),
           g = green.toString(16),
           b = blue.toString(16),
@@ -260,23 +238,18 @@ export class Theme extends Tigerian {
           a = "0" + a;
         }
 
-        return `#${r}${g}${b}${a}`
+        return `#${r}${g}${b}${a}`;
       },
       /**
        * @param {{red: Number, green: Number, blue: Number}} value
        * @returns {{hue: Number, saturation: Number, lightness: Number}}
        */
-      rgbToHsl: value => {},
+      rgbToHsl: (value) => {},
       /**
        * @param {{red: Number, green: Number, blue: Number, alpha: Number}} value
        * @returns {{hue: Number, saturation: Number, lightness: Number, alpha: Number}}
        */
-      rgbAToHslA: ({
-        red,
-        green,
-        blue,
-        aplha
-      }) => {
+      rgbAToHslA: ({ red, green, blue, aplha }) => {
         let h, s, l, a;
 
         return {
@@ -284,28 +257,28 @@ export class Theme extends Tigerian {
           saturation: s,
           lightness: l,
           alpha: a,
-        }
+        };
       },
       /**
        * @param {{hue: Number, saturation: Number, lightness: Number}} value
-       * @returns {String} 
+       * @returns {String}
        */
-      hslToHex: value => {},
+      hslToHex: (value) => {},
       /**
        * @param {{hue: Number, saturation: Number, lightness: Number, alpha: Number}} value
-       * @returns {String} 
+       * @returns {String}
        */
-      hslAToHexA: value => {},
+      hslAToHexA: (value) => {},
       /**
        * @param {{hue: Number, saturation: Number, lightness: Number}} value
        * @returns {{red: Number, green: Number, blue: Number}}
        */
-      hslToRgb: value => {},
+      hslToRgb: (value) => {},
       /**
        * @param {{hue: Number, saturation: Number, lightness: Number, alpha: Number}} value
        * @returns {{red: Number, green: Number, blue: Number, alpha: Number}}
        */
-      hslAToRgbA: value => {},
+      hslAToRgbA: (value) => {},
       // nameToHex: value => {},
       // nameToRgb: value => {},
       // nameToHsl: value => {},
@@ -320,8 +293,10 @@ export class Theme extends Tigerian {
      */
     this.addRule = (
       type,
-      styles, attributes = {},
-      size = EResponsive.XSMALL, ...selectors
+      styles,
+      attributes = {},
+      size = EResponsive.XSMALL,
+      ...selectors
     ) => {
       if (size === EResponsive.INLINE) {
         throw new Error("Style can't apply on INLINE");
@@ -337,7 +312,9 @@ export class Theme extends Tigerian {
         rule += `{`;
         rule += styleRules(styles);
         rule += `}`;
-        return styleSheet.cssRules[styleSheet.insertRule(rule, styleSheet.cssRules.length)];
+        return styleSheet.cssRules[
+          styleSheet.insertRule(rule, styleSheet.cssRules.length)
+        ];
       }
     };
 
@@ -350,7 +327,8 @@ export class Theme extends Tigerian {
      */
     this.addStyle = (
       control,
-      styles, attributes = {},
+      styles,
+      attributes = {},
       size = EResponsive.XSMALL,
       ...selectors
     ) => {
@@ -368,7 +346,9 @@ export class Theme extends Tigerian {
         rule += `{`;
         rule += styleRules(styles);
         rule += `}`;
-        return styleSheet.cssRules[styleSheet.insertRule(rule, styleSheet.cssRules.length)];
+        return styleSheet.cssRules[
+          styleSheet.insertRule(rule, styleSheet.cssRules.length)
+        ];
       }
     };
 
@@ -378,22 +358,32 @@ export class Theme extends Tigerian {
      * @param {*} value
      */
     /**
-     * 
-     * @param {String} variable 
-     * @param {Function} type 
-     * @param {String} postfix 
-     * @param {*} defaultValue 
-     * @param {EResponsive} size 
+     *
+     * @param {String} variable
+     * @param {Function} type
+     * @param {String} postfix
+     * @param {*} defaultValue
+     * @param {EResponsive} size
      * @param {PROPERTY_CALLBACK} callback
      */
-    this.addVariable = (variable, type = String, defaultValue = "", postfix = "", callback = (method, value) => value) => {
-      let varName = `--${kebabCase(variable)}`;
+    this.addVariable = (
+      variable,
+      type = String,
+      defaultValue = "",
+      postfix = "",
+      callback = (method, value) => value
+    ) => {
+      let varName = `--${changeStringCase(EStringCase.KEBAB_CASE, variable)}`;
       // responsive.root.style[varName] = `${defaultValue}${postfix}`;
       responsive.root.style.setProperty(varName, defaultValue + postfix);
 
       if (!instanceOf(defaultValue, type)) {
         if (!instanceOf(defaultValue, type)) {
-          throw new Error(`${variable} expected ${/^function\s+(\w+)/.exec(type)[1]} but got ${typeof defaultValue}`);
+          throw new Error(
+            `${variable} expected ${
+              /^function\s+(\w+)/.exec(type)[1]
+            } but got ${typeof defaultValue}`
+          );
         }
       }
 
@@ -420,11 +410,12 @@ export class Theme extends Tigerian {
       });
     };
 
-    this.variable = variable => `var(--${kebabCase(variable)})`;
+    this.variable = (variable) =>
+      `var(--${changeStringCase(EStringCase.KEBAB_CASE, variable)})`;
 
     /**
-     * 
-     * @param {String} value 
+     *
+     * @param {String} value
      * @param {EFormat} [toFormat = EFormat.RGBA]
      */
     this.convertColor = (value, toFormat = EFormat.RGBA) => {
@@ -447,66 +438,8 @@ export class Theme extends Tigerian {
         default:
       }
     };
-
-    /**
-     * 
-     * @param {ESituation} situation 
-     * @param {Object} color
-     * @param {Number} color.hue
-     * @param {Number} color.sat
-     * @param {Number} color.lum
-     */
-    this.setColor = (situation, {
-      hue,
-      sat,
-      lum
-    } = {}) => {
-      let name;
-      forEach(ESituation, (symbol, sitName) => {
-        if (situation === symbol) {
-          name = sitName
-        }
-      });
-      if (situations[name]) {
-        if (hue) {
-          situations[name][0] = hue;
-        } else {
-          hue = situations[name][0];
-        }
-        if (sat) {
-          situations[name][1] = sat;
-        } else {
-          sat = situations[name][1];
-        }
-        if (lum) {
-          situations[name][2] = lum;
-        } else {
-          lum = situations[name][2];
-        }
-
-        name = name[0] + name.substring(1).toLowerCase();
-        this[`situation${name}`] = `hsl(${hue}, ${sat}%, ${lum}%)`;
-      }
-    };
-
-    forEach(situations, ([hue, sat, lum], name) => {
-      name = name[0] + name.substring(1).toLowerCase();
-      this.addVariable(`situation${name}`, String, `hsl(${hue}, ${sat}%, ${lum}%)`);
-    });
   }
 }
-
-export const ESituation = Object.freeze({
-  NONE: Symbol("none"),
-  DEFAULT: Symbol("default"),
-  TITLE: Symbol("title"),
-  INFO: Symbol("info"),
-  TRANSPARENT: Symbol("transparent"),
-  OPPOSITE: Symbol("opposite"),
-  WARNING: Symbol("warning"),
-  ERROR: Symbol("error"),
-  OK: Symbol("ok"),
-});
 
 export const EValue = Object.freeze({
   STAR: Symbol("star"),

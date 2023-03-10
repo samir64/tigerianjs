@@ -4,21 +4,11 @@ import {
   forEach,
   // abstract
 } from "./Tigerian.js";
-import {
-  BBind
-} from "../behaviors/BBind.js";
-import {
-  BStyle
-} from "../behaviors/BStyle.js";
-import {
-  BEvent
-} from "../behaviors/BEvent.js";
-import {
-  BTransition
-} from "../behaviors/BTransition.js";
-import {
-  Events
-} from "./Events.js";
+import { BBind } from "../behaviors/BBind.js";
+import { BStyle } from "../behaviors/BStyle.js";
+import { BEvent } from "../behaviors/BEvent.js";
+import { BTransition } from "../behaviors/BTransition.js";
+import { Events } from "./Events.js";
 
 /**
  * Created by samir on 8/25/16.
@@ -47,10 +37,7 @@ export class UI extends Tigerian {
     /**
      * @type {String[]}
      */
-    let attributesSetProtected = [
-      "element-type",
-      "element-origin"
-    ];
+    let attributesSetProtected = ["element-type", "element-origin"];
     /**
      * @type {String[]}
      */
@@ -62,8 +49,7 @@ export class UI extends Tigerian {
       "transition-status",
       "focused",
       "style",
-      "element-situation",
-      "element-hoverable",
+      "hoverable",
       // "xsmall-column",
       // "small-column",
       // "medium-column",
@@ -72,7 +58,7 @@ export class UI extends Tigerian {
       "template-name",
       "template-item",
       "title",
-      "text"
+      "text",
       // "element-type"
     ]);
 
@@ -84,7 +70,12 @@ export class UI extends Tigerian {
       if (mainElement[0] === "#") {
         mainElement = document.getElementById(mainElement.substring(1));
       }
-    } else if (!(instanceOf(mainElement, Element) || instanceOf(mainElement, DocumentFragment))) {
+    } else if (
+      !(
+        instanceOf(mainElement, Element) ||
+        instanceOf(mainElement, DocumentFragment)
+      )
+    ) {
       mainElement = document.body;
     }
 
@@ -192,7 +183,7 @@ export class UI extends Tigerian {
           v.appendChild(mainElement);
           parent = v;
         }
-      }
+      },
     });
 
     /**
@@ -216,7 +207,7 @@ export class UI extends Tigerian {
         } else {
           mainElement.removeAttribute("disabled");
         }
-      }
+      },
     });
 
     /**
@@ -243,7 +234,7 @@ export class UI extends Tigerian {
         } else if (this.focused) {
           document.activeElement = undefined;
         }
-      }
+      },
     });
 
     /**
@@ -257,26 +248,26 @@ export class UI extends Tigerian {
           let dir = mainElement.getAttribute("dir");
           switch (dir) {
             case "ltr":
-              return EUI.LEFT_TO_RIGHT;
+              return EDirection.LEFT_TO_RIGHT;
             case "rtl":
-              return EUI.RIGHT_TO_LEFT;
+              return EDirection.RIGHT_TO_LEFT;
             default:
-              return EUI.NONE;
+              return EDirection.NONE;
           }
         }
       },
       set(v) {
         switch (v) {
-          case EUI.LEFT_TO_RIGHT:
+          case EDirection.LEFT_TO_RIGHT:
             this.dataset.dir = "ltr";
             break;
-          case EUI.RIGHT_TO_LEFT:
+          case EDirection.RIGHT_TO_LEFT:
             this.dataset.dir = "rtl";
             break;
           default:
             this.removeAttribute("dir");
         }
-      }
+      },
     });
 
     /**
@@ -333,7 +324,12 @@ export class UI extends Tigerian {
      * @param {any} defaultValue = undefined
      * @param {ATTRIBUTE_CALLBACK} callback
      */
-    this.attribute = (name, type, defaultValue, callback = (method, value) => value) => {
+    this.attribute = (
+      name,
+      type,
+      defaultValue,
+      callback = (method, value) => value
+    ) => {
       let typeReversed;
       let value = defaultValue;
       if (instanceOf(type, "object")) {
@@ -355,7 +351,9 @@ export class UI extends Tigerian {
       }
 
       if (value === undefined) {
-        throw new Error(`defaultValue's type is ${typeof defaultValue}, Expected ${type}`);
+        throw new Error(
+          `defaultValue's type is ${typeof defaultValue}, Expected ${type}`
+        );
       }
 
       mainElement.dataset[name] = value;
@@ -387,7 +385,7 @@ export class UI extends Tigerian {
               result = mainElement.dataset[name];
             }
 
-            return callback("get", result);
+            return callback(EMethod.GET, result);
           },
           set(v) {
             let value = callback(EMethod.SET, v);
@@ -414,12 +412,12 @@ export class UI extends Tigerian {
     /**
      * @param {String} name
      */
-    this.hasAttribute = name => name in mainElement.dataset;
+    this.hasAttribute = (name) => name in mainElement.dataset;
 
     /**
      * @param {String} name
      */
-    this.removeAttribute = name => {
+    this.removeAttribute = (name) => {
       delete mainElement.dataset[name];
       delete this[name];
     };
@@ -491,11 +489,11 @@ export class UI extends Tigerian {
     // };
 
     /**
-     * @param {Element} elmContainer
+     * @param {Element} element
      * @returns {Boolean}
      */
-    this.matchContainer = (elmContainer) => {
-      return elmContainer === mainElement;
+    this.matchMainElement = (element) => {
+      return element === mainElement;
     };
 
     /**
@@ -505,7 +503,7 @@ export class UI extends Tigerian {
     this.appendTo = (parentControl, elmParentContainer) => {
       if (
         instanceOf(parentControl, UI) &&
-        parentControl.matchContainer(elmParentContainer)
+        parentControl.matchMainElement(elmParentContainer)
       ) {
         parent = parentControl;
         elmParentContainer.appendChild(mainElement);
@@ -588,7 +586,7 @@ export class UI extends Tigerian {
      */
     this.focus = (scrollTo = false) => {
       mainElement.focus({
-        preventScroll: true
+        preventScroll: true,
       });
 
       if (scrollTo === true) {
@@ -597,9 +595,7 @@ export class UI extends Tigerian {
     };
 
     this.clear = () => {
-      let children = mainElement.querySelectorAll(
-        '[element-name="container"]'
-      );
+      let children = mainElement.querySelectorAll('[element-name="container"]');
       for (let i = 0; i < children.length; i++) {
         if (children[i].parentElement === mainElement) {
           mainElement.removeChild(children[i]);
@@ -614,11 +610,23 @@ export class UI extends Tigerian {
     this.attribute("visible", Boolean, true, (method, value) => {
       if (method === EMethod.SET) {
         that.dispatchEvent(Events.onVisibleChange, {
-          visible: value
+          visible: value,
         });
       }
       return value;
     });
+
+    if (UI._globalAttributes[this.constructor.name]) {
+      forEach(UI._globalAttributes[this.constructor.name], (attr) => {
+        this.attribute(attr.name, attr.type, attr.defaultValue, attr.callback);
+      });
+    }
+
+    if (UI._globalAttributes["Control"]) {
+      forEach(UI._globalAttributes["Control"], (attr) => {
+        this.attribute(attr.name, attr.type, attr.defaultValue, attr.callback);
+      });
+    }
 
     // if (instanceOf(theme, String) && theme !== "") {
     //   this.addTheme(theme);
@@ -628,12 +636,59 @@ export class UI extends Tigerian {
       parent.addControl(this);
     }
   }
+
+  /**
+   * @callback ATTRIBUTE_CALLBACK
+   * @param {EMethod} method
+   * @param {*} value
+   */
+  /**
+   * @type {{controlType: Function, name: String, type: Function, defaultValue: any, callback: ATTRIBUTE_CALLBACK}}
+   */
+  static _globalAttributes = {};
+  /**
+   * @callback ATTRIBUTE_CALLBACK
+   * @param {EMethod} method
+   * @param {*} value
+   */
+  /**
+   * @param {Function} controlType
+   * @param {String} name
+   * @param {Function} type
+   * @param {any} defaultValue = undefined
+   * @param {ATTRIBUTE_CALLBACK} callback
+   */
+  static attribute(
+    controlType,
+    name,
+    type,
+    defaultValue,
+    callback = (method, value) => value
+  ) {
+    if (UI._globalAttributes[controlType.name]) {
+      UI._globalAttributes[controlType.name].push({
+        name,
+        type,
+        defaultValue,
+        callback,
+      });
+    } else {
+      UI._globalAttributes[controlType.name] = [
+        {
+          name,
+          type,
+          defaultValue,
+          callback,
+        },
+      ];
+    }
+  }
 }
 
-export const EUI = Object.freeze({
+export const EDirection = Object.freeze({
   NONE: Symbol("none"),
   RIGHT_TO_LEFT: Symbol("rtl"),
-  LEFT_TO_RIGHT: Symbol("ltr")
+  LEFT_TO_RIGHT: Symbol("ltr"),
 });
 
 export const EMethod = Object.freeze({

@@ -8,9 +8,9 @@ import {
 import {
   responsive
 } from "./Responsive.js";
-import {
-  ESituation
-} from "./Theme.js";
+// import {
+//   ESituation
+// } from "./Theme.js";
 
 /**
  * Created by samir on 8/25/16.
@@ -44,7 +44,7 @@ export class Control extends UI {
     elmDivContainer.appendChild(elmTxtFoot);
 
     //NOTE Attributes
-    this.attribute("situation", ESituation, ESituation.NONE);
+    // this.attribute("situation", ESituation, ESituation.NONE);
     this.attribute("hoverable", Boolean, false);
     this.attribute("title", String, "");
     this.attribute("templateName", String, "");

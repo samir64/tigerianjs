@@ -1,9 +1,5 @@
-import {
-  Behavior
-} from "./Behavior.js";
-import {
-  BIterator
-} from "../behaviors/BIterator.js";
+import { Behavior } from "./Behavior.js";
+import { BIterator } from "../behaviors/BIterator.js";
 
 export class Tigerian {
   constructor() {
@@ -16,7 +12,7 @@ export class Tigerian {
       configurable: false,
       get() {
         return clone(behaviors);
-      }
+      },
     });
 
     let that = this;
@@ -30,7 +26,7 @@ export class Tigerian {
           behaviors.push(behavior);
           new behavior().config(that, ...params);
         }
-      }
+      },
     });
   }
 
@@ -40,7 +36,7 @@ export class Tigerian {
     }
   }
 
-  get[Symbol.toStringTag]() {
+  get [Symbol.toStringTag]() {
     return this.constructor.name;
   }
 }
@@ -172,14 +168,14 @@ export function clone(obj, appendTo) {
         Object.defineProperty(appendTo, name, {
           enumerable: member.enumerable,
           configurable: member.configurable,
-          value: member.value
+          value: member.value,
         });
       } else {
         Object.defineProperty(appendTo, name, {
           enumerable: member.enumerable,
           configurable: member.configurable,
           get: member.get,
-          set: member.set
+          set: member.set,
         });
       }
     }
@@ -187,14 +183,14 @@ export function clone(obj, appendTo) {
       Object.defineProperty(result, name, {
         enumerable: member.enumerable,
         configurable: member.configurable,
-        value: member.value
+        value: member.value,
       });
     } else {
       Object.defineProperty(result, name, {
         enumerable: member.enumerable,
         configurable: member.configurable,
         get: member.get,
-        set: member.set
+        set: member.set,
       });
     }
   });
@@ -206,7 +202,7 @@ export function clone(obj, appendTo) {
  * @callback FOREACH_CALLBACK
  * @param {*} value
  * @param {String|Number|Symbol} index
- * @param {Array|JSON} source
+ * @param {Array|JSON|BIterator} source
  */
 /**
  * @param {Object} obj
@@ -371,3 +367,92 @@ export function strSplitCapital(str) {
   }
   return result;
 }
+
+/**
+ *
+ * @param {Object} type
+ * @param {Symbol} value
+ * @returns {String}
+ */
+export function enumToString(type, value) {
+  let result = Object.entries(type).find(([key, val]) => val === value);
+
+  return result ? result[0] : undefined;
+}
+
+/**
+ *
+ * @param {String} str
+ * @param {EStringCase} newCase
+ */
+export function changeStringCase(newCase, str) {
+  // const re = /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g;
+  const re = /[A-Z]{2,}[A-Z][0-9]*|[A-Z][a-z]*[0-9]*|[a-z]+[0-9]*/g;
+
+  const snakeCase = (value) =>
+    value
+      .match(re)
+      .map((x) => x.toLowerCase())
+      .join("_");
+
+  const kebabCase = (value) =>
+    value
+      .match(re)
+      .map((x) => x.toLowerCase())
+      .join("-");
+
+  const capitalCase = (value) =>
+    value
+      .match(re)
+      .map((x, index) =>
+        index === 0
+          ? x.toLowerCase()
+          : x.charAt(0).toUpperCase() + x.substr(1).toLowerCase()
+      )
+      .join("");
+
+  const pascalCase = (value) =>
+    value
+      .match(re)
+      .map((x) => x.charAt(0).toUpperCase() + x.substr(1).toLowerCase())
+      .join("");
+
+  switch (newCase) {
+    case EStringCase.SNAKE_CASE:
+      return snakeCase(str);
+
+    case EStringCase.KEBAB_CASE:
+      return kebabCase(str);
+
+    case EStringCase.CAPITAL_CASE:
+      return capitalCase(str);
+
+    case EStringCase.PASCAL_CASE:
+      return pascalCase(str);
+
+    case EStringCase.LOWER_CASE:
+      return str.toLowerCase();
+
+    case EStringCase.UPPER_CASE:
+      return str.toUpperCase();
+
+    case EStringCase.UPPER_SNAKE_CASE:
+      return snakeCase(str).toUpperCase();
+
+    case EStringCase.UPPER_KEBAB_CASE:
+      return kebabCase(str).toUpperCase();
+
+    default:
+  }
+}
+
+export const EStringCase = Object.freeze({
+  SNAKE_CASE: Symbol("snake_case"),
+  KEBAB_CASE: Symbol("kebab_case"),
+  CAPITAL_CASE: Symbol("capital_case"),
+  PASCAL_CASE: Symbol("pascal_case"),
+  LOWER_CASE: Symbol("lower_case"),
+  UPPER_CASE: Symbol("upper_case"),
+  UPPER_SNAKE_CASE: Symbol("upper_snake_case"),
+  UPPER_KEBAB_CASE: Symbol("upper_kebab_case"),
+});

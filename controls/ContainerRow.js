@@ -115,6 +115,10 @@ export class ContainerRow extends Control {
     //   return value;
     // });
 
+    /**
+     * 
+     * @param {Number} column Default: columnCount
+     */
     this.addColumn = (column = columnCount) => new ContainerColumn(this, column);
 
     this.style[EResponsive.XSMALL].setProperty("--column-count", columnCount);
