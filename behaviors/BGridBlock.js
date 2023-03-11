@@ -4,10 +4,10 @@ import {
 // import {
 //   EWindow
 // } from "./BWindow.js";
-import {
-  forEach,
-  instanceOf
-} from "../core/Tigerian.js";
+// import {
+//   forEach,
+//   instanceOf
+// } from "../core/Tigerian.js";
 import {
   responsive
 } from "../core/Responsive.js";

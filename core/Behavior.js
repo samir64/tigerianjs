@@ -1,12 +1,14 @@
 import {
-  forEach,
+  // forEach,
   abstract
 } from "./Tigerian.js";
 
 /**
  * @interface
  */
-export class Behavior {
+export default class Behavior {
+  config() {}
+
   /**
    * @constructs
    * @param {string} behavior
@@ -17,19 +19,9 @@ export class Behavior {
     if (Object.getPrototypeOf(this.constructor) !== Behavior) {
       throw new Error("This class extends from another behavior. You have to extend your behaviors from main Behavior class.");
     }
-
-    this.config = () => {};
   }
 
   static[Symbol.hasInstance](instance) {
-    let result = false;
-
-    forEach(instance.behaviors, (behavior) => {
-      if (behavior === this) {
-        result = true;
-      }
-    });
-
-    return result;
+    return !!instance?.used?.(this);
   }
 }

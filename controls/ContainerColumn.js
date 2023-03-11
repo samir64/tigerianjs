@@ -8,9 +8,9 @@ import {
   EResponsive,
   responsive
 } from "../core/Responsive.js";
-import {
-  instanceOf
-} from "../core/Tigerian.js";
+// import {
+//   instanceOf
+// } from "../core/Tigerian.js";
 import {
   EMethod
 } from "../core/UI.js";

@@ -1,7 +1,7 @@
-import {
-  instanceOf,
-  forEach
-} from "../core/Tigerian.js";
+// import {
+//   instanceOf,
+//   forEach
+// } from "../core/Tigerian.js";
 import {
   Behavior
 } from "../core/Behavior.js";

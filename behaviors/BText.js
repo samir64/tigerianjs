@@ -1,6 +1,6 @@
-import {
-  instanceOf,
-} from "../core/Tigerian.js";
+// import {
+//   instanceOf,
+// } from "../core/Tigerian.js";
 import {
   Behavior
 } from "../core/Behavior.js";

@@ -1,13 +1,13 @@
 import { Button } from "../controls/Button.js";
 import { Control } from "./Control.js";
 import { Theme } from "./Theme.js";
-import {
-  changeStringCase,
-  enumToString,
-  EStringCase,
-  forEach,
-  instanceOf,
-} from "./Tigerian.js";
+// import {
+  // changeStringCase,
+  // enumToString,
+  // EStringCase,
+  // forEach,
+  // instanceOf,
+// } from "./Tigerian.js";
 import { UI } from "./UI.js";
 
 /**

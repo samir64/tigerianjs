@@ -1,6 +1,6 @@
-import {
-  instanceOf
-} from "./Tigerian.js";
+// import {
+//   instanceOf
+// } from "./Tigerian.js";
 import {
   UI
 } from "./UI.js";

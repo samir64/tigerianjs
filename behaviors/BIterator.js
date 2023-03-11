@@ -1,6 +1,4 @@
-import {
-  Behavior
-} from "../core/Behavior.js";
+import Behavior from "../core/Behavior.js";
 
 /**
  * @constructor

@@ -1,6 +1,6 @@
-import {
-  forEach
-} from "../core/Tigerian.js";
+// import {
+//   forEach
+// } from "../core/Tigerian.js";
 import {
   Behavior
 } from "../core/Behavior.js";

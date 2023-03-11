@@ -1,19 +1,14 @@
 import {
-  instanceOf,
-  Tigerian,
-  forEach,
+  // instanceOf,
+  BaseControl,
+  // forEach,
   // abstract
-} from "./Tigerian.js";
-import { BBind } from "../behaviors/BBind.js";
+} from "./Control.js";
+// import { BBind } from "../behaviors/BBind.js";
 import { BStyle } from "../behaviors/BStyle.js";
-import { BEvent } from "../behaviors/BEvent.js";
+// import { BEvent } from "../behaviors/BEvent.js";
 import { BTransition } from "../behaviors/BTransition.js";
-import { Events } from "./Events.js";
-
-/**
- * Created by samir on 8/25/16.
- * Version 1.0.0.100
- */
+// import { Events } from "./Events.js";
 
 /**
  * @extends Tigerian
@@ -24,7 +19,7 @@ import { Events } from "./Events.js";
  * @constructor
  * @abstract
  */
-export class UI extends Tigerian {
+export class UI extends BaseControl {
   /**
    * @param {Element} [mainElement = document.body]
    * @param {UI} [parent = undefined]

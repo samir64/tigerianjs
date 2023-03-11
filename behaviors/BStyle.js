@@ -1,20 +1,7 @@
 import { Behavior } from "../core/Behavior.js";
-import { forEach } from "../core/Tigerian.js";
+// import { forEach } from "../core/Tigerian.js";
 import { EResponsive, responsive } from "../core/Responsive.js";
 import { Events } from "../core/Events.js";
-
-/* let allStylesList = [];
-
-forEach(document.body.style, (prop, propName) => {
-  allStylesList.push(propName);
-});
-
-allStylesList = allStylesList.filter((item) => {
-  return ((parseInt(item) != item)) && (item[0] < "A" || item[0] > "Z") && !allStylesList.some((it) => {
-    return (it !== item) && (it.replace(/-/g, "") === item.toLowerCase());
-  });
-});
-console.log(allStylesList); */
 
 /**
  * @interface
@@ -22,6 +9,22 @@ console.log(allStylesList); */
  * @property {Object.<String, CSSStyleDeclaration>} style
  */
 export class BStyle extends Behavior {
+  static #ids = [];
+
+  config(that, el, style) {
+    let classId;
+
+    while (!classId) {
+      classId = `control-${Math.round(Date.now() * Math.random())}`;
+      if (BStyle.#ids.includes(classId)) {
+        classId = undefined;
+      }
+    }
+
+    that.prop.data["tg-name"] = classId;
+    that.prop.data["tg-type"] = that.constructor.name;
+  }
+
   /**
    * @constructor
    */

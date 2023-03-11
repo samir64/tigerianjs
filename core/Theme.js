@@ -4,11 +4,11 @@
 
 import { responsive, EResponsive } from "./Responsive.js";
 import {
-  changeStringCase,
-  EStringCase,
-  forEach,
-  instanceOf,
-  isA,
+  // changeStringCase,
+  // EStringCase,
+  // forEach,
+  // instanceOf,
+  // isA,
   Tigerian,
   // abstract
 } from "./Tigerian.js";
