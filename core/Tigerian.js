@@ -1,5 +1,7 @@
-import Behavior from "./Behavior.js";
+// import Behavior from "./Behavior.js";
 // import { BIterator } from "../behaviors/BIterator.js";
+import BWatch from "../behaviors/BWatch.js";
+import Behavior from "./Behavior.js";
 
 String.prototype.toKebabCase = function () {
   let result = this[0].toLowerCase() + this.substr(1);
@@ -34,17 +36,81 @@ export function abstract(that, Type) {
   }
 }
 
-const generateTextNodes = (el, nodes) => {
+const generateTextNodes = (el, nodes, defaults = {}) => {
   Array.from(el.children).forEach(e => {
-    if (e.tagName.toLowerCase() === "tg-text-node") {
-      const textNode = e.firstChild;
-      nodes[e.getAttribute("name")] = textNode;
+    let elReplace;
 
-      el.insertBefore(textNode, e);
+    if (e.tagName.toLowerCase() === "style") {
+      // const re = /<tg-text-node\s+name="(\w+)">([\s\S]*)<\/tg-text-node>/gm;
+      const re = /<tg-text-node\s+name="([\w\.]+)"><\/tg-text-node>/gm;
+      elReplace = document.createElement("style");
+      const els = [];
+      let found;
+      let lastFound = {
+        0: "",
+        index: 0,
+        input: e.innerText,
+      };
+
+      while (found = re.exec(e.innerText)) {
+        const lastIndex = lastFound?.index ?? 0;
+        const lastLength = lastFound?.[0]?.length ?? 0;
+        const lastEndIndex = lastIndex + lastLength;
+        const before = found.input.substr(lastEndIndex, found.index - lastEndIndex);
+
+        const elBefore = document.createTextNode(before);
+        elReplace.appendChild(elBefore);
+
+        if (defaults[found[1]] instanceof HTMLElement) {
+          const children = Array.from(defaults[found[1]].childNodes);
+          children.forEach(child => {
+            // elReplace.appendChild(child);
+            const clonedChild = child.cloneNode(true);
+            if (!child.reference) {
+              child.reference = [clonedChild];
+            } else {
+              child.reference.push(clonedChild);
+            }
+
+            elReplace.appendChild(clonedChild);
+          });
+
+          nodes[found[1]] = document.createTextNode("");
+        } else {
+          // const elTextNode = document.createTextNode(found[2]);
+          const elTextNode = document.createTextNode(defaults[found[1]]);
+          if (!(found[1] in nodes)) {
+            nodes[found[1]] = [elTextNode];
+          } else {
+            nodes[found[1]].push(elTextNode);
+          }
+
+          elReplace.appendChild(elTextNode);
+        }
+
+        lastFound = found;
+      }
+
+      const after = lastFound.input.substr(lastFound.index + lastFound[0].length);
+
+      const elAfter = document.createTextNode(after);
+      elReplace.appendChild(elAfter);
+    } else if (e.tagName.toLowerCase() === "tg-text-node") {
+      elReplace = e.firstChild ?? document.createTextNode(defaults[e.getAttribute("name")]);
+      // nodes[e.getAttribute("name")] = elReplace;
+      if (!(e.getAttribute("name") in nodes)) {
+        nodes[e.getAttribute("name")] = [elReplace];
+      } else {
+        nodes[e.getAttribute("name")].push(elReplace);
+      }
+    }
+
+    if (!!elReplace) {
+      el.insertBefore(elReplace, e);
       el.removeChild(e);
     }
 
-    generateTextNodes(e, nodes);
+    generateTextNodes(e, nodes, defaults);
   });
 };
 
@@ -58,7 +124,15 @@ const defineProperty = (that, key, nodes) => {
     set(v) {
       prop?.set?.bind?.(that)?.(v);
 
-      nodes[key].data = prop?.get?.bind?.(that)?.();
+      nodes[key].forEach(node => {
+        node.data = prop?.get?.bind?.(that)?.();
+        if (!!node.reference) {
+          node.reference.forEach(n => {
+            n.data = node.data;
+          })
+        }
+      });
+      // nodes[key].data = prop?.get?.bind?.(that)?.();
     },
   };
 
@@ -67,33 +141,61 @@ const defineProperty = (that, key, nodes) => {
 
 const attributeListener = (that, key, nodes) => {
   const keyName = ((key.type === "data") ? "data-" : "") + key;
-  that.attributeListener = attrs => {
-    if (keyName in attrs) {
-      nodes[key.type + "." + key].data = attrs[keyName];
-    }
-  };
+  that.prop.listener[key.name] = val => {
+    nodes[key.type + "." + key.name].forEach(node => {
+      node.data = val;
+    });
+  }
+  // that.attributeListener = attrs => {
+  //   if (keyName in attrs) {
+  //     nodes[key.type + "." + key].forEach(node => {
+  //       node.data = attrs[keyName];
+  //     });
+  //   }
+  // };
 };
 
-export const template = (strings, ...keys) => {
-  return function (that, values) {
+export const template = function (strings, ...keys) {
+  return function (that) {
     const nodes = {};
 
     const result = [strings[0]];
     const el = document.createElement("div");
+    const definedProperties = [];
+    const defaults = {};
 
     keys.forEach((key, i) => {
       let value = key;
 
       if (key instanceof BindableVariable) {
+        const definedProperty = definedProperties.some(p => (p.name === key.name) && (p.type === key.type));
+
         if (key.type === "prop") {
-          value = `<tg-text-node name="prop.${key}">${that.prop[key]}</tg-text-node>`;
-          attributeListener(that, key, nodes);
+          value = `<tg-text-node name="prop.${key}"></tg-text-node>`;
+          if (!definedProperty) {
+            attributeListener(that, key, nodes);
+            defaults[key] = that.prop[key];
+          }
         } else if (key.type === "data") {
-          value = `<tg-text-node name="data.${key}">${that.prop.data[key]}</tg-text-node>`;
-          attributeListener(that, key, nodes);
+          value = `<tg-text-node name="data.${key}"></tg-text-node>`;
+          if (!definedProperty) {
+            attributeListener(that, key, nodes);
+            defaults[key] = that.prop.data[key];
+          }
         } else if (key.type === "public") {
-          defineProperty(that, key, nodes);
-          value = `<tg-text-node name="${key}">${that[key]}</tg-text-node>`;
+          value = `<tg-text-node name="${key}"></tg-text-node>`;
+          if (!definedProperty) {
+            defaults[key] = that.data[key];
+            that.data.listener[key] = () => {
+              nodes[key].forEach(node => {
+                node.data = that.data[key];
+              });
+            } 
+          }
+        }
+
+        if (!definedProperty) {
+          definedProperties.push(key);
         }
       }
 
@@ -101,7 +203,7 @@ export const template = (strings, ...keys) => {
     });
 
     el.innerHTML = result.join("");
-    generateTextNodes(el, nodes);
+    generateTextNodes(el, nodes, defaults);
 
     // NOTE: This is a Proxy test for future and class binding in Tigerian
     // Object.defineProperty(that, "data", {
@@ -149,27 +251,35 @@ export const loadTemplate = templateUrl => {
 };
 
 export class Tigerian {
-  #behaviors = [];
+  #el;
 
-  constructor() {
+  constructor(el) {
+    this.#el = el;
     this.abstract(Tigerian);
-
-  }
-
-  config(behavior, ...params) {
-    if (Object.getPrototypeOf(behavior) === Behavior) {
-      this.#behaviors.push(behavior);
-      const bhv = new behavior();
-      bhv.config(this, ...params);
-    }
-  }
-
-  used(behavior) {
-    return this.#behaviors.includes(behavior.constructor);
   }
 
   abstract(Type) {
     abstract(this, Type);
+  }
+
+  appendTo(parentElement, index) {
+    if (index < 0) {
+      index = this.#el.children.length + index;
+    }
+    parentElement.insertBefore(this.#el, Number.isInteger(index) ? parentElement.children[index] : null);
+  }
+
+  remove() {
+    this.#el.parentNode.removeChild(this.#el);
+  }
+
+  get event() {
+    return new Proxy(this.#el, {
+      set(target, name, value) {
+        target.addEventListener(name, value);
+        return true
+      }
+    });
   }
 
   get [Symbol.toStringTag]() {
@@ -205,6 +315,193 @@ export class BindableVariable {
 
   [["toString"]]() {
     return this.#name;
+  }
+}
+
+export class BaseControl extends Tigerian {
+  #el;
+  #propData = {};
+  #behaviors = [];
+  #observerReducer = (res, cur) => ({...res, [cur.attributeName]: cur.target.getAttribute(cur.attributeName)});
+  #attributeListeners = {};
+  #elementObserver = p => {
+    const changedAttributes = p.reduce(this.#observerReducer, {});
+    const listenerKeys = Object.keys(this.#attributeListeners).filter(l => Object.keys(changedAttributes).includes(l));
+
+    for (const listenerKey of listenerKeys) {
+      this.#attributeListeners[listenerKey].forEach(attributeListener => attributeListener(changedAttributes[listenerKey]));
+    }
+  };
+
+  constructor(el) {
+    super(el);
+
+    this.#el = el;
+
+    const observer = new MutationObserver(this.#elementObserver);
+    observer.observe(el, { attributes: true, });
+
+    this.config(BWatch);
+  }
+
+  config(behavior, ...params) {
+    if (Object.getPrototypeOf(behavior) === Behavior) {
+      this.#behaviors.push(behavior);
+      const bhv = new behavior();
+      bhv.config(this, ...params);
+    }
+  }
+
+  used(behavior) {
+    return this.#behaviors.includes(behavior.constructor);
+  }
+
+  // set attributeListener(v) {
+  //   if (typeof v === "function") {
+  //     this.#attributeListeners.push(v);
+  //   }
+  // }
+
+  // removeAttributeListener(v) {
+  //   this.#attributeListeners = this.#attributeListeners.filter(attributeListener => attributeListener !== v);
+  // }
+
+  getControl(query) {
+    let result;
+
+    const el = this.#el?.shadowRoot ?? this.#el;
+    const nodes = Array.from(el.childNodes);
+
+    if (Number.isInteger(query)) {
+      result = nodes[query];
+    } else {
+      result = el.querySelector(query);
+    }
+
+    if (result?.nodeName === "#text") {
+      return new Text(result);
+    }
+
+    return !result ? undefined : (result.control ?? new BaseControl(result));
+  }
+
+  getControls(query) {
+    let result;
+    const el = this.#el?.shadowRoot ?? this.#el;
+    const nodes = Array.from(el.childNodes);
+
+    result = Array.from(el.querySelectorAll(query));
+
+    return (result ?? []).map(node => {
+      if (node.nodeName === "#text") {
+        return new Text(node);
+      }
+      return !node ? undefined : (node.control ?? new BaseControl(node));
+    });
+  }
+
+  append(control, index) {
+    if (index < 0) {
+      index = this.#el.children.length + index;
+    }
+
+    if (control instanceof Tigerian) {
+      control.appendTo(this.#el, index);
+    } else {
+      this.#el.shadowRoot.insertBefore(control, Number.isInteger(index) ? this.#el.shadowRoot.children[index] : null);
+    }
+  }
+
+  get prop() {
+    const listener = new Proxy(this.#attributeListeners, {
+      set(target, name, value) {
+        if (typeof value === "function") {
+          if (name in target) {
+            target[name].push(value);
+          } else {
+            target[name] = [value];
+          }
+          return true;
+        }
+      }
+    });
+
+    const data = new Proxy(this.#propData, {
+      get(target, name) {
+        const result = target[name];
+        return result;
+      },
+      set(target, name, value) {
+        target[name] = value;
+        return true;
+      },
+    });
+
+    const result = new Proxy(this.#el, {
+      get(target, name) {
+        switch (name) {
+        case "data":
+          return data;
+          break;
+
+        case "classList":
+          return target.classList;
+          break;
+
+        case "listener":
+          return listener;
+          break;
+
+        default:
+          return target.getAttribute(name);
+        }
+      },
+      set(target, name, value) {
+        switch(name) {
+        default:
+          target.setAttribute(name, value);
+        }
+        return true;
+      },
+    });
+
+    return result;
+  }
+
+  get style() {
+    return new Proxy(this.#el.style, {
+      get(target, name) {
+        if (name[0] === "$") {
+          // TODO: It's a class list name
+        } else {
+          // TODO: It's an element's style
+        }
+
+        return;
+      },
+      set(target, name, value) {
+        return true;
+      }
+    });
+  }
+}
+
+export class Text extends Tigerian {
+  #node;
+  constructor(node) {
+    if (!node) {
+      node = document.createTextNode("");
+    }
+    super(node);
+    this.#node = node;
+  }
+
+  get text() {
+    return this.#node.data;
+  }
+
+  set text(value) {
+    this.#node.data = value;
   }
 }
 

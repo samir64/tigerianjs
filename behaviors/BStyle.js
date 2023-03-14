@@ -11,7 +11,7 @@ import { Events } from "../core/Events.js";
 export class BStyle extends Behavior {
   static #ids = [];
 
-  config(that, el, style) {
+  config(that) {
     let classId;
 
     while (!classId) {
@@ -23,6 +23,10 @@ export class BStyle extends Behavior {
 
     that.prop.data["tg-name"] = classId;
     that.prop.data["tg-type"] = that.constructor.name;
+  }
+
+  get style() {
+    return new Proxy()
   }
 
   /**

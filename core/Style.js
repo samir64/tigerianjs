@@ -1,5 +1,6 @@
 // import { Text } from "./Tigerian.js";
-import { Text, BaseControl } from "./Control.js";
+// import { Text } from "./Control.js";
+import { Text, BaseControl } from "./Tigerian.js";
 
 export default class Style extends BaseControl {
   #breakpoints = {};
@@ -104,10 +105,10 @@ export default class Style extends BaseControl {
       const breakpoint = this.#breakpoints[name];
       query.text = "@media only screen";
 
-      if (breakpoint.min) {
+      if (!!breakpoint.min) {
         condMin.text = `and (min-width: ${breakpoint.min}px)`;
       }
-      if (breakpoint.max) {
+      if (!!breakpoint.max) {
         condMax.text = `and (max-width: ${breakpoint.max}px)`;
       }
       open.text = "{";
@@ -129,6 +130,11 @@ export default class Style extends BaseControl {
       this.append(gutter);
       this.append(columnPadding);
       this.append(close);
+
+
+      setTimeout(() => {
+        containerWidth.text = "width: 500px;";
+      }, 15000);
     }
   }
 

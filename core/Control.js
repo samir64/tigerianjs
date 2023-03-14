@@ -1,115 +1,22 @@
-import { Tigerian, loadTemplate, template } from "./Tigerian.js";
-import BWatch from "../behaviors/BWatch.js";
+import { BaseControl, loadTemplate, template } from "./Tigerian.js";
+import Style from "./Style.js";
 
-export class BaseControl extends Tigerian {
-  #el;
-  #observerReducer = (res, cur) => ({...res, [cur.attributeName]: cur.target.getAttribute(cur.attributeName)});
-  #attributeListeners = [];
-  #elementObserver = p => this.#attributeListeners.forEach(attributeListener => attributeListener(p.reduce(this.#observerReducer, {})));
-
-  constructor(el) {
-    super();
-
-    this.#el = el;
-
-    const observer = new MutationObserver(this.#elementObserver);
-    observer.observe(el, { attributes: true, });
-
-    this.config(BWatch);
+const mergeTemplates = templates => {
+  if (!Array.isArray(templates)) {
+    templates = [templates];
   }
 
-  set attributeListener(v) {
-    if (typeof v === "function") {
-      this.#attributeListeners.push(v);
-    }
-  }
-
-  removeAttributeListener(v) {
-    this.#attributeListeners = this.#attributeListeners.filter(attributeListener => attributeListener !== v);
-  }
-
-  getControl(query) {
-    let result;
-
-    const el = this.#el?.shadowRoot ?? this.#el;
-    const nodes = Array.from(el.childNodes);
-
-    if (Number.isInteger(query)) {
-      result = nodes[query];
-    } else {
-      result = el.querySelector(query);
-    }
-
-    if (result?.nodeName === "#text") {
-      return new Text(result);
-    }
-
-    return !result ? undefined : (result.control ?? new BaseControl(result));
-  }
-
-  getControls(query) {
-    let result;
-    const el = this.#el?.shadowRoot ?? this.#el;
-    const nodes = Array.from(el.childNodes);
-
-    result = Array.from(el.querySelectorAll(query));
-
-    return (result ?? []).map(node => {
-      if (node.nodeName === "#text") {
-        return new Text(node);
-      }
-      return !node ? undefined : (node.control ?? new BaseControl(node));
+  return that => {
+    const result = document.createElement("div");
+    templates.forEach(t => {
+      const tf = t(that);
+      Array.from(tf.children).forEach(child => {
+        result.appendChild(child);
+      })
     });
-  }
-
-  appendTo(parentElement, index) {
-    if (index < 0) {
-      index = this.#el.children.length + index;
-    }
-    parentElement.insertBefore(this.#el, Number.isInteger(index) ? parentElement.children[index] : null);
-  }
-
-  append(control, index) {
-    if (index < 0) {
-      index = this.#el.children.length + index;
-    }
-
-    if (control instanceof BaseControl) {
-      control.appendTo(this.#el, index);
-    } else {
-      this.#el.insertBefore(control.#el, Number.isInteger(index) ? this.#el.children[index] : null);
-    }
-  }
-
-  get prop() {
-    const data = new Proxy(this.#el.dataset, {
-      get(target, name) {
-        const result = target[name];
-        return result;
-      },
-      set(target, name, value) {
-        target[name] = value;
-        return true;
-      },
-    });
-
-    const result = new Proxy(this.#el, {
-      get(target, name) {
-        if (name !== "data") {
-          return target.getAttribute(name);
-        } else {
-          return data;
-        }
-      },
-      set(target, name, value) {
-        target.setAttribute(name, value);
-        return true;
-      },
-    });
-
     return result;
-  }
-}
+  };
+};
 
 const ElementControl = Ctrl => class extends HTMLElement {
   #control;
@@ -118,9 +25,11 @@ const ElementControl = Ctrl => class extends HTMLElement {
     return this.#control;
   }
 
+  connectedCallback() {
+  }
+
   constructor() {
     super();
-
     const instance = new Ctrl(this);
     this.#control = instance;
   }
@@ -166,8 +75,37 @@ export class Control extends BaseControl {
       const attrs = Array.from(el.attributes);
   
       attrs.forEach(({name, value}) => {
-        if (name[0] === "@") {
-          el.addEventListener(name.substr(1), eval("this." + value + ".bind(this)"));
+        switch (name[0]) {
+        case "@":
+          el.addEventListener(name.substr(1), this[value].bind(this));
+          break;
+
+        case ":":
+          switch (name.substr(1)) {
+          case "class":
+            console.log(name, value, this.data[value]);
+            break;
+
+          case "style":
+            console.log(name, value, this.data[value]);
+            break;
+
+          default:
+            if (!el.control) {
+              el.control = new BaseControl(el);
+            }
+            el.control.prop.data[name.substr(1)] = this.data[value];
+            el.removeAttribute(name);
+
+            this.data.listener[value] = (v, n) => {
+              el.control.prop.data[name.substr(1)] = v;
+              // el.setAttribute(name.substr(1), v);
+              console.log(el, el.control.prop.data[name.substr(1)], v);
+            }
+          }
+          break;
+
+        default:
         }
       });
 
@@ -175,20 +113,68 @@ export class Control extends BaseControl {
     });
   }
 
-  async #init() {
-    const templateFormatter = await this.template;
-    const elementHtml = templateFormatter(this, this.#el.attributes);
-    // const elementHtml = templateFormatter(this, this.#getAttributes());
+  #defineData() {
+    const defs = this.data;
+    const events = {};
 
-    //this.#el.attachShadow({ mode: "open" }).innerHTML = elementHtml;
-    const shadow = this.#el.attachShadow({ mode: "open" });
-    Array.from(elementHtml.childNodes).forEach(node => {
-      shadow.appendChild(node);
+    const listener = new Proxy(events, {
+      set(target, name, value) {
+        const result = (typeof value === "function");
+        const eventExists = name in events;
+
+        if (!!eventExists) {
+          events[name].push(value);
+        } else {
+          events[name] = [value];
+        }
+
+        return result;
+      }
     });
 
-    this.#checkAttributes(Array.from(this.#el.shadowRoot.children));
+    const proxy = new Proxy(defs, {
+      get(target, name) {
+        switch(name) {
+        case "listener":
+          return listener;
+          break;
+
+        default:
+          return target[name];
+        }
+      },
+      set(target, name, value) {
+        const cbs = events[name] ?? [];
+        target[name] = value;
+        cbs.forEach(cb => cb(value, name));
+        return true;
+      }
+    });
+
+    Object.defineProperty(this, "data", {
+      get() {
+        return proxy;
+      },
+      configurable: false,
+      enumerable: false,
+    });
+  }
+
+  async #init() {
+    this.#defineData();
+    let templateFormatter = mergeTemplates(this.template);
+    // templateFormatter = await this.template;
+
+    const shadow = this.#el.attachShadow({ mode: "open" });
 
     customElements.whenDefined("tg-" + this.constructor.name.toKebabCase()).then(() => {
+      const elementHtml = templateFormatter(this);
+      Array.from(elementHtml.childNodes ?? []).forEach(node => {
+        shadow.appendChild(node);
+      });
+
+      this.#checkAttributes(Array.from(this.#el.shadowRoot.children));
+
       this.mounted();
       this?.onload?.();
     });
@@ -201,28 +187,18 @@ export class Control extends BaseControl {
     super(el);
 
     this.#el = el;
-    
+
+    el.setAttribute("tg-" + this.constructor.name.toKebabCase(), "");
+
     this.#init();
+  }
+
+  get defTemplate() {
+    return template.bind(this);
   }
 
   static create() {
     customElements.define("tg-" + this.name.toKebabCase(), ElementControl(this));
-  }
-}
-
-export class Text extends BaseControl {
-  #node;
-  constructor(node) {
-    super(node);
-    this.#node = node ?? document.createTextNode("");
-  }
-
-  get text() {
-    return this.#node.data;
-  }
-
-  set text(value) {
-    this.#node.data = value;
   }
 }
 
