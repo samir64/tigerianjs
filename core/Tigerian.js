@@ -1,7 +1,7 @@
 // import Behavior from "./Behavior.js";
 // import { BIterator } from "../behaviors/BIterator.js";
-import BWatch from "../behaviors/BWatch.js";
 import Behavior from "./Behavior.js";
+import BProxy from "../behaviors/BProxy.js";
 
 String.prototype.toKebabCase = function () {
   let result = this[0].toLowerCase() + this.substr(1);
@@ -114,6 +114,76 @@ const generateTextNodes = (el, nodes, defaults = {}) => {
   });
 };
 
+export function defineProxy(that, propertyName, data) {
+  const events = {};
+
+  const listener = (path = []) => new Proxy(events, {
+    set(target, name, value) {
+      const result = (typeof value === "function");
+      if (!result) {
+        return false;
+      }
+
+      const eventExists = name in events;
+      const fullPath = [...path, name].join(".")
+
+      if (!!eventExists) {
+        events[fullPath].push(value);
+      } else {
+        events[fullPath] = [value];
+      }
+
+      return true;
+    }
+  });
+
+  const proxy = (trg, path = []) => new Proxy(trg, {
+    get(target, name) {
+      if (typeof target[name] === "object") {
+        return proxy(target[name], [...path, name]);
+      } else {
+        return target[name];
+      }
+    },
+    set(target, name, value) {
+      if (name[0] === "@") {
+        name = name.substr(1);
+        if (typeof value !== "function") {
+          return false;
+        }
+
+        const fullPath = [...path, name].join(".")
+        const eventExists = fullPath in events;
+
+        if (!!eventExists) {
+          events[fullPath].push(value);
+        } else {
+          events[fullPath] = [value];
+        }
+      } else {
+        if (typeof target[name] === "object") {
+          return false;
+        }
+        const fullPath = [...path, name].join(".")
+        const cbs = events[fullPath] ?? [];
+        const oldValue = target[name];
+        target[name] = value;
+        cbs.forEach(cb => cb({value, oldValue, fullPath}));
+      }
+
+      return true;
+    }
+  });
+
+  Object.defineProperty(that, propertyName, {
+    get() {
+      return proxy(data);
+    },
+    configurable: false,
+    enumerable: false,
+  });
+}
+
 const defineProperty = (that, key, nodes) => {
   const prop = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(that), key);
 
@@ -132,27 +202,10 @@ const defineProperty = (that, key, nodes) => {
           })
         }
       });
-      // nodes[key].data = prop?.get?.bind?.(that)?.();
     },
   };
 
   Object.defineProperty(that, key, propNew);
-};
-
-const attributeListener = (that, key, nodes) => {
-  const keyName = ((key.type === "data") ? "data-" : "") + key;
-  that.prop.listener[key.name] = val => {
-    nodes[key.type + "." + key.name].forEach(node => {
-      node.data = val;
-    });
-  }
-  // that.attributeListener = attrs => {
-  //   if (keyName in attrs) {
-  //     nodes[key.type + "." + key].forEach(node => {
-  //       node.data = attrs[keyName];
-  //     });
-  //   }
-  // };
 };
 
 export const template = function (strings, ...keys) {
@@ -165,37 +218,98 @@ export const template = function (strings, ...keys) {
     const defaults = {};
 
     keys.forEach((key, i) => {
-      let value = key;
+      let value = "";
 
-      if (key instanceof BindableVariable) {
-        const definedProperty = definedProperties.some(p => (p.name === key.name) && (p.type === key.type));
+      if (!!key["?"]) {
+        const path = key["?"].join(".");
+        const definedProperty = definedProperties.some(p => (p === path));
+        const [firstPart, ...keys] = key["?"];
 
-        if (key.type === "prop") {
-          value = `<tg-text-node name="prop.${key}"></tg-text-node>`;
-          if (!definedProperty) {
-            attributeListener(that, key, nodes);
-            defaults[key] = that.prop[key];
-          }
-        } else if (key.type === "data") {
-          value = `<tg-text-node name="data.${key}"></tg-text-node>`;
-          if (!definedProperty) {
-            attributeListener(that, key, nodes);
-            defaults[key] = that.prop.data[key];
-          }
-        } else if (key.type === "public") {
-          value = `<tg-text-node name="${key}"></tg-text-node>`;
-          if (!definedProperty) {
-            defaults[key] = that.data[key];
-            that.data.listener[key] = () => {
-              nodes[key].forEach(node => {
-                node.data = that.data[key];
-              });
-            } 
-          }
+        let base;
+        let allKeys;
+
+        switch (firstPart) {
+        case "prop":
+          base = that;
+          break;
+
+        default:
+          base = that.data;
         }
 
+        const data = key["?"].reduce((res, cur) => {
+          const events = {};
+          if (!res.value) {
+            res.obj[res.key] = new Proxy({}, {
+              get(target, name) {
+                return Reflect.get(target, name);
+              },
+              set(target, name, value) {
+                switch(name[0]) {
+                case "@":
+                  if (typeof value !== "function") {
+                    return false;
+                  }
+                  name = name.substr(1);
+
+                  if (name in events) {
+                    events[name].push(value);
+                  } else {
+                    events[name] = [value];
+                  }
+
+                  return true;
+                  break;
+
+                default:
+                  const oldValue = target[name];
+
+                  if (typeof target[name] === "object") {
+                    let result = (typeof value === "object");
+
+                    Object.entries(value).forEach(([k, v]) => {
+                      target[name][k] = v;
+                    });
+
+                    (events[name] ?? []).forEach(event => event({value, oldValue, name}));
+
+                    return result;
+                  }
+
+                  const result = Reflect.set(target, name, value);
+                  (events[name] ?? []).forEach(event => event({value, oldValue, name}));
+                  return result;
+                }
+              },
+            });
+            res.value = res.obj[res.key];
+          }
+
+          return {
+            obj: res.value,
+            key: cur,
+            value: res.value[cur],
+          }
+        }, {
+          obj: base,
+          key: "",
+          value: base,
+        });
+
+
+        value = `<tg-text-node name="${path}"></tg-text-node>`;
         if (!definedProperty) {
-          definedProperties.push(key);
+          defaults[path] = data.value;
+          data.obj["@" + data.key] = () => {
+            nodes[path].forEach(node => {
+              node.data = data.obj[data.key];
+            });
+          } 
+        }
+
+
+        if (!definedProperty) {
+          definedProperties.push(path);
         }
       }
 
@@ -204,26 +318,6 @@ export const template = function (strings, ...keys) {
 
     el.innerHTML = result.join("");
     generateTextNodes(el, nodes, defaults);
-
-    // NOTE: This is a Proxy test for future and class binding in Tigerian
-    // Object.defineProperty(that, "data", {
-    //   get() {
-    //     return new Proxy(that, {
-    //       get(target, name) {
-    //         return Reflect.get(target, name);
-    //       },
-    //       set(target, name, value) {
-    //         Reflect.set(target, name, value);
-
-    //         if (Object.keys(nodes).includes(name)) {
-    //           nodes[name].data = Reflect.get(target, name);
-    //         }
-
-    //         return true;
-    //       },
-    //     });
-    //   },
-    // });
 
     return el;
   };
@@ -255,6 +349,17 @@ export class Tigerian {
 
   constructor(el) {
     this.#el = el;
+    const that = this;
+    if (!("control" in el)) {
+      Object.defineProperty(el, "control", {
+        get() {
+          return that;
+        },
+        enumerable: false,
+        configurable: false,
+      });
+    }
+
     this.abstract(Tigerian);
   }
 
@@ -287,37 +392,6 @@ export class Tigerian {
   }
 }
 
-export class BindableVariable {
-  #name;
-  #type;
-
-  constructor(type, name) {
-    this.#name = name;
-
-    switch (type) {
-      case "public":
-      case "prop":
-      case "data":
-        this.#type = type;
-        break;
-
-      default:
-    }
-  }
-
-  get name() {
-    return this.#name;
-  }
-
-  get type() {
-    return this.#type;
-  }
-
-  [["toString"]]() {
-    return this.#name;
-  }
-}
-
 export class BaseControl extends Tigerian {
   #el;
   #propData = {};
@@ -333,6 +407,20 @@ export class BaseControl extends Tigerian {
     }
   };
 
+  #getAttributes() {
+    const result = {};
+
+    for (var i = 0; i < this.#el.attributes.length; i++) {
+        var attr = this.#el.attributes[i];
+        result[attr.name] = attr.value;
+        if (attr.name[0] !== "@") {
+          this.prop[attr.name] = attr.value;
+        }
+    }
+
+    return result;
+  }
+
   constructor(el) {
     super(el);
 
@@ -341,7 +429,11 @@ export class BaseControl extends Tigerian {
     const observer = new MutationObserver(this.#elementObserver);
     observer.observe(el, { attributes: true, });
 
-    this.config(BWatch);
+    this.#getAttributes();
+  }
+
+  get classList() {
+    return this.#el.classList;
   }
 
   config(behavior, ...params) {
@@ -356,23 +448,15 @@ export class BaseControl extends Tigerian {
     return this.#behaviors.includes(behavior.constructor);
   }
 
-  // set attributeListener(v) {
-  //   if (typeof v === "function") {
-  //     this.#attributeListeners.push(v);
-  //   }
-  // }
-
-  // removeAttributeListener(v) {
-  //   this.#attributeListeners = this.#attributeListeners.filter(attributeListener => attributeListener !== v);
-  // }
-
   getControl(query) {
     let result;
 
     const el = this.#el?.shadowRoot ?? this.#el;
     const nodes = Array.from(el.childNodes);
 
-    if (Number.isInteger(query)) {
+    if (query instanceof HTMLElement) {
+      result = nodes.find(node => node === query);
+    } else if (Number.isInteger(query)) {
       result = nodes[query];
     } else {
       result = el.querySelector(query);
@@ -413,54 +497,61 @@ export class BaseControl extends Tigerian {
   }
 
   get prop() {
-    const listener = new Proxy(this.#attributeListeners, {
+    const listeners = this.#attributeListeners;
+    const mainElement = this.#el;
+
+    const result = new Proxy(this.#propData, {
+      get(target, name) {
+        switch (name[0]) {
+        case "$":
+          return mainElement.getAttribute(name.substr(1));
+          break;
+
+        default:
+          const result = target[name] ?? mainElement.getAttribute(name);
+          return result;
+        }
+      },
       set(target, name, value) {
-        if (typeof value === "function") {
-          if (name in target) {
-            target[name].push(value);
-          } else {
-            target[name] = [value];
+        switch(name[0]) {
+        case "@":
+          if (typeof value !== "function") {
+            return false;
           }
-          return true;
-        }
-      }
-    });
 
-    const data = new Proxy(this.#propData, {
-      get(target, name) {
-        const result = target[name];
-        return result;
-      },
-      set(target, name, value) {
-        target[name] = value;
-        return true;
-      },
-    });
+          name = name.substr(1);
 
-    const result = new Proxy(this.#el, {
-      get(target, name) {
-        switch (name) {
-        case "data":
-          return data;
+          if (name in listeners) {
+            listeners[name].push(value);
+          } else {
+            listeners[name] = [value];
+          }
           break;
 
-        case "classList":
-          return target.classList;
-          break;
-
-        case "listener":
-          return listener;
+        case "$":
+          name = name.substr(1);
+          mainElement.setAttribute(name, value);
+          target[name] = value;
           break;
 
         default:
-          return target.getAttribute(name);
+          if (typeof target[name] === "object") {
+            let result = (typeof value === "object");
+
+            Object.entries(value).forEach(([k, v]) => {
+              target[name][k] = v;
+            });
+
+            return result;
+          }
+
+          const oldValue = target[name];
+          target[name] = value;
+          if (name === "age") {
+          }
+          (listeners[name] ?? []).forEach(listener => listener({value, oldValue, name}));
         }
-      },
-      set(target, name, value) {
-        switch(name) {
-        default:
-          target.setAttribute(name, value);
-        }
+
         return true;
       },
     });
@@ -469,18 +560,35 @@ export class BaseControl extends Tigerian {
   }
 
   get style() {
-    return new Proxy(this.#el.style, {
+    return new Proxy(this.#el, {
       get(target, name) {
-        if (name[0] === "$") {
-          // TODO: It's a class list name
+        if (name === "$") {
+          return Array.from(target.classList);
+        } else if (name[0] === "$") {
+          return target.classList.contains(name.substr(1));
         } else {
-          // TODO: It's an element's style
+          return new Proxy(target.style, {});
         }
 
         return;
       },
       set(target, name, value) {
-        return true;
+        switch (name[0]) {
+        case "$":
+          name = name.substr(1);
+
+          if ((value === "") || (value === 0)) {
+            target.classList.toggle(name);
+          } else if (!!value) {
+            target.classList.add(name);
+          } else {
+            target.classList.remove(name);
+          }
+          return true;
+
+        default:
+          return Reflect.set(target.style, name, value);
+        }
       }
     });
   }

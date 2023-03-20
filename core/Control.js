@@ -1,5 +1,7 @@
-import { BaseControl, loadTemplate, template } from "./Tigerian.js";
-import Style from "./Style.js";
+import { BaseControl, loadTemplate, template, defineProxy } from "./Tigerian.js";
+// import Style from "./Style.js";
+import BWatch from "../behaviors/BWatch.js";
+import BProxy from "../behaviors/BProxy.js";
 
 const mergeTemplates = templates => {
   if (!Array.isArray(templates)) {
@@ -19,19 +21,20 @@ const mergeTemplates = templates => {
 };
 
 const ElementControl = Ctrl => class extends HTMLElement {
-  #control;
+  // #control;
 
-  get control() {
-    return this.#control;
-  }
+  // get control() {
+  //   return this.#control;
+  // }
 
   connectedCallback() {
   }
 
   constructor() {
-    super();
-    const instance = new Ctrl(this);
-    this.#control = instance;
+    super(arguments);
+    new Ctrl(this);
+    // const instance = new Ctrl(this);
+    // this.#control = instance;
   }
 };
 
@@ -52,60 +55,80 @@ export class Control extends BaseControl {
 
   mounted() {}
 
-  #getAttributes() {
-    const result = {};
-
-    Object.entries(this.properties).forEach(([propName, propDesc]) => {
-      const hasProp = this.#el.hasAttribute(propName);
-
-      if (!hasProp) {
-        result[propName] = propDesc.default;
-      } else {
-        const propValue = this.#el.getAttribute(propName);
-
-        result[propName] = propValue;
-      }
-    });
-
-    return result;
-  }
-
   #checkAttributes(els) {
     els.forEach(el => {
       const attrs = Array.from(el.attributes);
-  
+      let elControl = this.getControl(el);
+      if (!elControl) {
+        elControl = new BaseControl(el);
+      }
+
       attrs.forEach(({name, value}) => {
         switch (name[0]) {
         case "@":
           el.addEventListener(name.substr(1), this[value].bind(this));
+          el.removeAttribute(name);
           break;
 
         case ":":
-          switch (name.substr(1)) {
+          name = name.substr(1);
+
+          switch (name) {
           case "class":
-            console.log(name, value, this.data[value]);
+            Object.entries(this.data[value]).forEach(([className, val]) => {
+              if (!!val) {
+                el.classList.add(className);
+              } else {
+                el.classList.remove(className);
+              }
+
+              this.data[value]["@" + className] = v => {
+                if (!!v.value) {
+                  el.classList.add(className);
+                } else {
+                  el.classList.remove(className);
+                }
+              }
+            });
             break;
 
           case "style":
-            console.log(name, value, this.data[value]);
+            Object.entries(this.data[value]).forEach(([style, val]) => {
+              el.style[style] = val;
+              this.data[value]["@" + style] = v => {
+                el.style[style] = v.value;
+              }
+            });
             break;
 
           default:
-            if (!el.control) {
-              el.control = new BaseControl(el);
-            }
-            el.control.prop.data[name.substr(1)] = this.data[value];
-            el.removeAttribute(name);
+            switch (name) {
+            case ":for":
+              console.log("For", this.data[value]);
+              break;
 
-            this.data.listener[value] = (v, n) => {
-              el.control.prop.data[name.substr(1)] = v;
-              // el.setAttribute(name.substr(1), v);
-              console.log(el, el.control.prop.data[name.substr(1)], v);
+            case ":in":
+              console.log("In", this.data[value]);
+              break;
+
+            case ":if":
+              console.log("If", this.data[value]);
+              break;
+
+            default:
+              elControl.prop[name] = this.data[value];
+
+              this.data["@" + value] = (v) => {
+                elControl.prop[name] = v.value;
+              }
             }
           }
+
+          el.removeAttribute(":" + name);
           break;
 
         default:
+          elControl.prop[name] = value;
         }
       });
 
@@ -113,57 +136,8 @@ export class Control extends BaseControl {
     });
   }
 
-  #defineData() {
-    const defs = this.data;
-    const events = {};
-
-    const listener = new Proxy(events, {
-      set(target, name, value) {
-        const result = (typeof value === "function");
-        const eventExists = name in events;
-
-        if (!!eventExists) {
-          events[name].push(value);
-        } else {
-          events[name] = [value];
-        }
-
-        return result;
-      }
-    });
-
-    const proxy = new Proxy(defs, {
-      get(target, name) {
-        switch(name) {
-        case "listener":
-          return listener;
-          break;
-
-        default:
-          return target[name];
-        }
-      },
-      set(target, name, value) {
-        const cbs = events[name] ?? [];
-        target[name] = value;
-        cbs.forEach(cb => cb(value, name));
-        return true;
-      }
-    });
-
-    Object.defineProperty(this, "data", {
-      get() {
-        return proxy;
-      },
-      configurable: false,
-      enumerable: false,
-    });
-  }
-
-  async #init() {
-    this.#defineData();
+  #init() {
     let templateFormatter = mergeTemplates(this.template);
-    // templateFormatter = await this.template;
 
     const shadow = this.#el.attachShadow({ mode: "open" });
 
@@ -181,15 +155,20 @@ export class Control extends BaseControl {
   }
 
   constructor(el) {
+    const hasEl = !!el;
+
     if (!el) {
       el = document.createElement("div");
     }
     super(el);
 
+    this.config(BProxy, "data", this.data);
+
     this.#el = el;
 
     el.setAttribute("tg-" + this.constructor.name.toKebabCase(), "");
 
+    this.config(BWatch);
     this.#init();
   }
 
@@ -202,29 +181,40 @@ export class Control extends BaseControl {
   }
 }
 
-class Document extends BaseControl {
-  constructor() {
-    super(document.body);
-  }
 
-  get title() {
-    return document.title;
-  }
 
-  set title(v) {
-    document.title = v;
-  }
-}
 
-const doc = mainControl => {
-  const d = new Document();
 
-  d.append(mainControl);
 
-  return d;  
-}
 
-export { doc as Document };
+
+
+
+
+
+// class Document extends BaseControl {
+//   constructor() {
+//     super(document.body);
+//   }
+
+//   get title() {
+//     return document.title;
+//   }
+
+//   set title(v) {
+//     document.title = v;
+//   }
+// }
+
+// const doc = mainControl => {
+//   const d = new Document();
+
+//   d.append(mainControl);
+
+//   return d;  
+// }
+
+// export { doc as Document };
 
 
 
