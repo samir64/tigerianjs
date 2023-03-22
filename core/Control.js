@@ -1,7 +1,7 @@
 import { BaseControl, loadTemplate, template, defineProxy } from "./Tigerian.js";
 // import Style from "./Style.js";
 import BWatch from "../behaviors/BWatch.js";
-import BProxy from "../behaviors/BProxy.js";
+// import BProxy from "../behaviors/BProxy.js";
 
 const mergeTemplates = templates => {
   if (!Array.isArray(templates)) {
@@ -21,25 +21,15 @@ const mergeTemplates = templates => {
 };
 
 const ElementControl = Ctrl => class extends HTMLElement {
-  // #control;
-
-  // get control() {
-  //   return this.#control;
-  // }
-
-  connectedCallback() {
-  }
-
-  constructor() {
-    super(arguments);
+  connectedCallback(){
     new Ctrl(this);
-    // const instance = new Ctrl(this);
-    // this.#control = instance;
   }
 };
 
 export class Control extends BaseControl {
   #el;
+  #loaded = false;
+  #loadEvents = [];
 
   get properties() {
     return {};
@@ -116,10 +106,10 @@ export class Control extends BaseControl {
               break;
 
             default:
-              elControl.prop[name] = this.data[value];
+              elControl[name] = this.data[value];
 
               this.data["@" + value] = (v) => {
-                elControl.prop[name] = v.value;
+                elControl[name] = v.value;
               }
             }
           }
@@ -128,7 +118,7 @@ export class Control extends BaseControl {
           break;
 
         default:
-          elControl.prop[name] = value;
+          elControl[name] = value;
         }
       });
 
@@ -138,8 +128,7 @@ export class Control extends BaseControl {
 
   #init() {
     let templateFormatter = mergeTemplates(this.template);
-
-    const shadow = this.#el.attachShadow({ mode: "open" });
+    const shadow = this.#el.shadowRoot ?? this.#el.attachShadow({ mode: "open" });
 
     customElements.whenDefined("tg-" + this.constructor.name.toKebabCase()).then(() => {
       const elementHtml = templateFormatter(this);
@@ -150,7 +139,8 @@ export class Control extends BaseControl {
       this.#checkAttributes(Array.from(this.#el.shadowRoot.children));
 
       this.mounted();
-      this?.onload?.();
+      this.#onload();
+      this.#loaded = true;
     });
   }
 
@@ -162,8 +152,6 @@ export class Control extends BaseControl {
     }
     super(el);
 
-    this.config(BProxy, "data", this.data);
-
     this.#el = el;
 
     el.setAttribute("tg-" + this.constructor.name.toKebabCase(), "");
@@ -172,8 +160,20 @@ export class Control extends BaseControl {
     this.#init();
   }
 
-  get defTemplate() {
-    return template.bind(this);
+  #onload() {
+    this.#loadEvents.forEach(event => event());
+  }
+
+  set onload(v) {
+    if (typeof v !== "function") {
+      return;
+    }
+
+    this.#loadEvents.push(v);
+
+    if (!!this.#loaded) {
+      v();
+    }
   }
 
   static create() {

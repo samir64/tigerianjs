@@ -1,7 +1,7 @@
 // import Behavior from "./Behavior.js";
 // import { BIterator } from "../behaviors/BIterator.js";
 import Behavior from "./Behavior.js";
-import BProxy from "../behaviors/BProxy.js";
+// import BProxy from "../behaviors/BProxy.js";
 
 String.prototype.toKebabCase = function () {
   let result = this[0].toLowerCase() + this.substr(1);
@@ -96,7 +96,11 @@ const generateTextNodes = (el, nodes, defaults = {}) => {
       const elAfter = document.createTextNode(after);
       elReplace.appendChild(elAfter);
     } else if (e.tagName.toLowerCase() === "tg-text-node") {
-      elReplace = e.firstChild ?? document.createTextNode(defaults[e.getAttribute("name")]);
+      let value = defaults[e.getAttribute("name")];
+      if (typeof value === "object") {
+        value = JSON.stringify(value);
+      }
+      elReplace = e.firstChild ?? document.createTextNode(value);
       // nodes[e.getAttribute("name")] = elReplace;
       if (!(e.getAttribute("name") in nodes)) {
         nodes[e.getAttribute("name")] = [elReplace];
@@ -223,19 +227,19 @@ export const template = function (strings, ...keys) {
       if (!!key["?"]) {
         const path = key["?"].join(".");
         const definedProperty = definedProperties.some(p => (p === path));
-        const [firstPart, ...keys] = key["?"];
+        // const [firstPart, ...keys] = key["?"];
 
-        let base;
+        const base = that.data;
         let allKeys;
 
-        switch (firstPart) {
-        case "prop":
-          base = that;
-          break;
+        // switch (firstPart) {
+        // case "prop":
+        //   base = that;
+        //   break;
 
-        default:
-          base = that.data;
-        }
+        // default:
+        //   base = that.data;
+        // }
 
         const data = key["?"].reduce((res, cur) => {
           const events = {};
@@ -296,13 +300,17 @@ export const template = function (strings, ...keys) {
           value: base,
         });
 
-
         value = `<tg-text-node name="${path}"></tg-text-node>`;
         if (!definedProperty) {
           defaults[path] = data.value;
           data.obj["@" + data.key] = () => {
             nodes[path].forEach(node => {
-              node.data = data.obj[data.key];
+              let value = data.obj[data.key];
+              if (typeof value === "object") {
+                value = JSON.stringify(value);
+              }
+
+              node.data = value;
             });
           } 
         }
@@ -414,7 +422,7 @@ export class BaseControl extends Tigerian {
         var attr = this.#el.attributes[i];
         result[attr.name] = attr.value;
         if (attr.name[0] !== "@") {
-          this.prop[attr.name] = attr.value;
+          this.data[attr.name] = attr.value;
         }
     }
 
@@ -429,7 +437,97 @@ export class BaseControl extends Tigerian {
     const observer = new MutationObserver(this.#elementObserver);
     observer.observe(el, { attributes: true, });
 
+    const listeners = this.#attributeListeners;
+    const mainElement = this.#el;
+    const mainData = this.data ?? {};
+    const that = this;
+
+    Object.defineProperty(this, "data", {
+      get: defineData,
+      enumerable: true,
+      configurable: false,
+    });
+
     this.#getAttributes();
+
+    function defineData() {
+      const proxy = (trg, path = []) => new Proxy(trg, {
+        get(target, name) {
+          switch (name[0]) {
+          case "$":
+            if (path.length = 0) {
+              return mainElement.getAttribute(name.substr(1));
+            } else {
+              throw "$ is not accessible here";
+            }
+            break;
+
+          default:
+            if (typeof target[name] === "object") {
+              return proxy(target[name], [...path, name]);
+            } else {
+              return target[name];
+            }
+          }
+        },
+        set(target, name, value) {
+          const fullPath = [...path, name].join(".").replace(/^[$@]/, "").replace(/\.[$@]/g, ".");
+
+          switch (name[0]) {
+          case "@":
+            if (typeof value !== "function") {
+              return false;
+            }
+
+            if (fullPath in listeners) {
+              listeners[fullPath].push(value);
+            } else {
+              listeners[fullPath] = [value];
+            }
+            break;
+
+          case "$":
+            if (path.length === 0) {
+              name = name.substr(1);
+
+              mainElement.setAttribute(fullPath, value);
+              mainData[fullPath] = value;
+            } else {
+              return false;
+            }
+            break;
+
+          default:
+            let finallProperty = that.data;
+            [...path, name].forEach(pName => finallProperty = finallProperty[pName]);
+
+            if (typeof target[name] === "object") {
+              if (typeof value !== "object") {
+                return false;
+              }
+
+              Object.entries(value).forEach(([k, v]) => {
+                finallProperty[k] = v;
+              });
+            }
+
+            const callbacks = listeners[fullPath] ?? [];
+            const oldValue = target[name];
+            target[name] = value;
+
+            callbacks.forEach(cb => cb({
+              value,
+              oldValue,
+              fullPath,
+            }));
+          }
+
+          return true;
+        },
+      });
+
+      return proxy(mainData);
+    }
   }
 
   get classList() {
@@ -496,69 +594,6 @@ export class BaseControl extends Tigerian {
     }
   }
 
-  get prop() {
-    const listeners = this.#attributeListeners;
-    const mainElement = this.#el;
-
-    const result = new Proxy(this.#propData, {
-      get(target, name) {
-        switch (name[0]) {
-        case "$":
-          return mainElement.getAttribute(name.substr(1));
-          break;
-
-        default:
-          const result = target[name] ?? mainElement.getAttribute(name);
-          return result;
-        }
-      },
-      set(target, name, value) {
-        switch(name[0]) {
-        case "@":
-          if (typeof value !== "function") {
-            return false;
-          }
-
-          name = name.substr(1);
-
-          if (name in listeners) {
-            listeners[name].push(value);
-          } else {
-            listeners[name] = [value];
-          }
-          break;
-
-        case "$":
-          name = name.substr(1);
-          mainElement.setAttribute(name, value);
-          target[name] = value;
-          break;
-
-        default:
-          if (typeof target[name] === "object") {
-            let result = (typeof value === "object");
-
-            Object.entries(value).forEach(([k, v]) => {
-              target[name][k] = v;
-            });
-
-            return result;
-          }
-
-          const oldValue = target[name];
-          target[name] = value;
-          if (name === "age") {
-          }
-          (listeners[name] ?? []).forEach(listener => listener({value, oldValue, name}));
-        }
-
-        return true;
-      },
-    });
-
-    return result;
-  }
-
   get style() {
     return new Proxy(this.#el, {
       get(target, name) {
@@ -579,7 +614,7 @@ export class BaseControl extends Tigerian {
 
           if ((value === "") || (value === 0)) {
             target.classList.toggle(name);
-          } else if (!!value) {
+          } else if ((Number.isInteger(value) && (value > 0)) || (isNaN(value) && !!value)) {
             target.classList.add(name);
           } else {
             target.classList.remove(name);
