@@ -1,7 +1,84 @@
-import { BaseControl, loadTemplate, template, defineProxy } from "./Tigerian.js";
-// import Style from "./Style.js";
+import { BaseControl } from "./Tigerian.js";
 import BWatch from "../behaviors/BWatch.js";
-// import BProxy from "../behaviors/BProxy.js";
+
+const generateTextNodes = (el, nodes, defaults = {}) => {
+  Array.from(el.children).forEach(e => {
+    let elReplace;
+
+    if (e.tagName.toLowerCase() === "style") {
+      const re = /<tg-text-node\s+name="([\w\.]+)"><\/tg-text-node>/gm;
+      elReplace = document.createElement("style");
+      const els = [];
+      let found;
+      let lastFound = {
+        0: "",
+        index: 0,
+        input: e.innerText,
+      };
+
+      while (found = re.exec(e.innerText)) {
+        const lastIndex = lastFound?.index ?? 0;
+        const lastLength = lastFound?.[0]?.length ?? 0;
+        const lastEndIndex = lastIndex + lastLength;
+        const before = found.input.substr(lastEndIndex, found.index - lastEndIndex);
+
+        const elBefore = document.createTextNode(before);
+        elReplace.appendChild(elBefore);
+
+        if (defaults[found[1]] instanceof HTMLElement) {
+          const children = Array.from(defaults[found[1]].childNodes);
+          children.forEach(child => {
+            // elReplace.appendChild(child);
+            const clonedChild = child.cloneNode(true);
+            if (!child.reference) {
+              child.reference = [clonedChild];
+            } else {
+              child.reference.push(clonedChild);
+            }
+
+            elReplace.appendChild(clonedChild);
+          });
+
+          nodes[found[1]] = document.createTextNode("");
+        } else {
+          const elTextNode = document.createTextNode(defaults[found[1]]);
+          if (!(found[1] in nodes)) {
+            nodes[found[1]] = [elTextNode];
+          } else {
+            nodes[found[1]].push(elTextNode);
+          }
+
+          elReplace.appendChild(elTextNode);
+        }
+
+        lastFound = found;
+      }
+
+      const after = lastFound.input.substr(lastFound.index + lastFound[0].length);
+
+      const elAfter = document.createTextNode(after);
+      elReplace.appendChild(elAfter);
+    } else if (e.tagName.toLowerCase() === "tg-text-node") {
+      let value = defaults[e.getAttribute("name")];
+      if (typeof value === "object") {
+        value = JSON.stringify(value);
+      }
+      elReplace = e.firstChild ?? document.createTextNode(value);
+      if (!(e.getAttribute("name") in nodes)) {
+        nodes[e.getAttribute("name")] = [elReplace];
+      } else {
+        nodes[e.getAttribute("name")].push(elReplace);
+      }
+    }
+
+    if (!!elReplace) {
+      el.insertBefore(elReplace, e);
+      el.removeChild(e);
+    } else {
+      generateTextNodes(e, nodes, defaults);
+    }
+  });
+};
 
 const mergeTemplates = templates => {
   if (!Array.isArray(templates)) {
@@ -12,7 +89,7 @@ const mergeTemplates = templates => {
     const result = document.createElement("div");
     templates.forEach(t => {
       const tf = t(that);
-      Array.from(tf.children).forEach(child => {
+      Array.from(tf.childNodes).forEach(child => {
         result.appendChild(child);
       })
     });
@@ -20,9 +97,122 @@ const mergeTemplates = templates => {
   };
 };
 
+export const template = function (strings, ...keys) {
+  return function (that) {
+    const nodes = {};
+
+    const result = [strings[0]];
+    const el = document.createElement("div");
+    const definedProperties = [];
+    const defaults = {};
+
+    keys.forEach((key, i) => {
+      let value = "";
+
+      if (!!key["?"]) {
+        const path = key["?"].join(".");
+        const definedProperty = definedProperties.some(p => (p === path));
+        const initObj = {
+          obj: that.data,
+          key: "",
+          value: that.data,
+        };
+
+        const data = key["?"].reduce(reduceDataToProxy, initObj);
+        value = `<tg-text-node name="${path}"></tg-text-node>`;
+        if (!definedProperty) {
+          defaults[path] = data.value;
+          data.obj["@" + data.key] = () => {
+            nodes[path].forEach(node => {
+              let value = data.obj[data.key];
+              if (typeof value === "object") {
+                value = JSON.stringify(value);
+              }
+
+              node.data = value;
+            });
+          } 
+        }
+
+
+        if (!definedProperty) {
+          definedProperties.push(path);
+        }
+      }
+
+      result.push(value, strings[i + 1]);
+    });
+
+    el.innerHTML = result.join("");
+    generateTextNodes(el, nodes, defaults);
+
+    return el;
+
+    function reduceDataToProxy(res, cur) {
+      const events = {};
+      if (!res.value) {
+        res.obj[res.key] = new Proxy({}, {
+          get(target, name) {
+            return Reflect.get(target, name);
+          },
+          set(target, name, value) {
+            switch(name[0]) {
+            case "@":
+              if (typeof value !== "function") {
+                return false;
+              }
+              name = name.substr(1);
+
+              if (name in events) {
+                events[name].push(value);
+              } else {
+                events[name] = [value];
+              }
+
+              return true;
+              break;
+
+            default:
+              const oldValue = target[name];
+
+              if (typeof target[name] === "object") {
+                let result = (typeof value === "object");
+
+                Object.entries(value).forEach(([k, v]) => {
+                  target[name][k] = v;
+                });
+
+                (events[name] ?? []).forEach(event => event({value, oldValue, name}));
+
+                return result;
+              }
+
+              const result = Reflect.set(target, name, value);
+              (events[name] ?? []).forEach(event => event({value, oldValue, name}));
+              return result;
+            }
+          },
+        });
+        res.value = res.obj[res.key];
+      }
+
+      return {
+        obj: res.value,
+        key: cur,
+        value: res.value[cur],
+      }
+    };
+  };
+};
+
 const ElementControl = Ctrl => class extends HTMLElement {
-  connectedCallback(){
+  constructor() {
+    super();
+
     new Ctrl(this);
+  }
+
+  connectedCallback(){
   }
 };
 
@@ -48,16 +238,15 @@ export class Control extends BaseControl {
   #checkAttributes(els) {
     els.forEach(el => {
       const attrs = Array.from(el.attributes);
-      let elControl = this.getControl(el);
-      if (!elControl) {
-        elControl = new BaseControl(el);
-      }
+      const elControl = el.control ?? new BaseControl(el);
 
       attrs.forEach(({name, value}) => {
         switch (name[0]) {
         case "@":
           el.addEventListener(name.substr(1), this[value].bind(this));
           el.removeAttribute(name);
+          // elControl[name] = this[value].bind(this);
+          elControl.addEvent(name, this[value].bind(this));
           break;
 
         case ":":
@@ -93,23 +282,28 @@ export class Control extends BaseControl {
 
           default:
             switch (name) {
-            case ":for":
-              console.log("For", this.data[value]);
-              break;
+            // case "for":
+            //   console.log("For", this.data[value]);
+            //   break;
 
-            case ":in":
-              console.log("In", this.data[value]);
-              break;
+            // case "in":
+            //   console.log("In", this.data[value]);
+            //   break;
 
-            case ":if":
-              console.log("If", this.data[value]);
-              break;
+            // case "if":
+            //   console.log("If", this.data[value]);
+            //   break;
 
             default:
-              elControl[name] = this.data[value];
+              elControl.data[name] = this.data[value];
+              if (typeof this.data[value] === "string") {
+                elControl.data["$" + name] = this.data[value];
+              }
 
               this.data["@" + value] = (v) => {
-                elControl[name] = v.value;
+                if (v.path === v.fullPath) {
+                  elControl.data[name] = v.value;
+                }
               }
             }
           }
@@ -118,7 +312,7 @@ export class Control extends BaseControl {
           break;
 
         default:
-          elControl[name] = value;
+          elControl.data[name] = value;
         }
       });
 
@@ -132,9 +326,11 @@ export class Control extends BaseControl {
 
     customElements.whenDefined("tg-" + this.constructor.name.toKebabCase()).then(() => {
       const elementHtml = templateFormatter(this);
+
       Array.from(elementHtml.childNodes ?? []).forEach(node => {
         shadow.appendChild(node);
       });
+
 
       this.#checkAttributes(Array.from(this.#el.shadowRoot.children));
 
@@ -178,6 +374,13 @@ export class Control extends BaseControl {
 
   static create() {
     customElements.define("tg-" + this.name.toKebabCase(), ElementControl(this));
+  }
+
+  getTemplateById(id) {
+    const elTemplate = document.body.querySelector("template#" + id);
+    const result = eval(`template\`${elTemplate.innerHTML}\``);
+
+    return result;
   }
 }
 

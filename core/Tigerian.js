@@ -1,7 +1,4 @@
-// import Behavior from "./Behavior.js";
-// import { BIterator } from "../behaviors/BIterator.js";
 import Behavior from "./Behavior.js";
-// import BProxy from "../behaviors/BProxy.js";
 
 String.prototype.toKebabCase = function () {
   let result = this[0].toLowerCase() + this.substr(1);
@@ -35,88 +32,6 @@ export function abstract(that, Type) {
     throw new Error(`${Type.name} is an abstract class.`);
   }
 }
-
-const generateTextNodes = (el, nodes, defaults = {}) => {
-  Array.from(el.children).forEach(e => {
-    let elReplace;
-
-    if (e.tagName.toLowerCase() === "style") {
-      // const re = /<tg-text-node\s+name="(\w+)">([\s\S]*)<\/tg-text-node>/gm;
-      const re = /<tg-text-node\s+name="([\w\.]+)"><\/tg-text-node>/gm;
-      elReplace = document.createElement("style");
-      const els = [];
-      let found;
-      let lastFound = {
-        0: "",
-        index: 0,
-        input: e.innerText,
-      };
-
-      while (found = re.exec(e.innerText)) {
-        const lastIndex = lastFound?.index ?? 0;
-        const lastLength = lastFound?.[0]?.length ?? 0;
-        const lastEndIndex = lastIndex + lastLength;
-        const before = found.input.substr(lastEndIndex, found.index - lastEndIndex);
-
-        const elBefore = document.createTextNode(before);
-        elReplace.appendChild(elBefore);
-
-        if (defaults[found[1]] instanceof HTMLElement) {
-          const children = Array.from(defaults[found[1]].childNodes);
-          children.forEach(child => {
-            // elReplace.appendChild(child);
-            const clonedChild = child.cloneNode(true);
-            if (!child.reference) {
-              child.reference = [clonedChild];
-            } else {
-              child.reference.push(clonedChild);
-            }
-
-            elReplace.appendChild(clonedChild);
-          });
-
-          nodes[found[1]] = document.createTextNode("");
-        } else {
-          // const elTextNode = document.createTextNode(found[2]);
-          const elTextNode = document.createTextNode(defaults[found[1]]);
-          if (!(found[1] in nodes)) {
-            nodes[found[1]] = [elTextNode];
-          } else {
-            nodes[found[1]].push(elTextNode);
-          }
-
-          elReplace.appendChild(elTextNode);
-        }
-
-        lastFound = found;
-      }
-
-      const after = lastFound.input.substr(lastFound.index + lastFound[0].length);
-
-      const elAfter = document.createTextNode(after);
-      elReplace.appendChild(elAfter);
-    } else if (e.tagName.toLowerCase() === "tg-text-node") {
-      let value = defaults[e.getAttribute("name")];
-      if (typeof value === "object") {
-        value = JSON.stringify(value);
-      }
-      elReplace = e.firstChild ?? document.createTextNode(value);
-      // nodes[e.getAttribute("name")] = elReplace;
-      if (!(e.getAttribute("name") in nodes)) {
-        nodes[e.getAttribute("name")] = [elReplace];
-      } else {
-        nodes[e.getAttribute("name")].push(elReplace);
-      }
-    }
-
-    if (!!elReplace) {
-      el.insertBefore(elReplace, e);
-      el.removeChild(e);
-    }
-
-    generateTextNodes(e, nodes, defaults);
-  });
-};
 
 export function defineProxy(that, propertyName, data) {
   const events = {};
@@ -188,169 +103,21 @@ export function defineProxy(that, propertyName, data) {
   });
 }
 
-const defineProperty = (that, key, nodes) => {
-  const prop = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(that), key);
+// export const loadTemplate = templateUrl => {
+//   return new Promise((resolve, reject) => {
+//     fetch(templateUrl)
+//       .then(response => response.responseXML.documentElement)
+//       .then(element => {
+//         const result = document.createElement("div");
 
-  const propNew = {
-    get() {
-      return prop?.get?.bind?.(that)?.();
-    },
-    set(v) {
-      prop?.set?.bind?.(that)?.(v);
+//         Array.from(element.children).forEach(child => {
+//           result.appendChild(child);
+//         });
 
-      nodes[key].forEach(node => {
-        node.data = prop?.get?.bind?.(that)?.();
-        if (!!node.reference) {
-          node.reference.forEach(n => {
-            n.data = node.data;
-          })
-        }
-      });
-    },
-  };
-
-  Object.defineProperty(that, key, propNew);
-};
-
-export const template = function (strings, ...keys) {
-  return function (that) {
-    const nodes = {};
-
-    const result = [strings[0]];
-    const el = document.createElement("div");
-    const definedProperties = [];
-    const defaults = {};
-
-    keys.forEach((key, i) => {
-      let value = "";
-
-      if (!!key["?"]) {
-        const path = key["?"].join(".");
-        const definedProperty = definedProperties.some(p => (p === path));
-        // const [firstPart, ...keys] = key["?"];
-
-        const base = that.data;
-        let allKeys;
-
-        // switch (firstPart) {
-        // case "prop":
-        //   base = that;
-        //   break;
-
-        // default:
-        //   base = that.data;
-        // }
-
-        const data = key["?"].reduce((res, cur) => {
-          const events = {};
-          if (!res.value) {
-            res.obj[res.key] = new Proxy({}, {
-              get(target, name) {
-                return Reflect.get(target, name);
-              },
-              set(target, name, value) {
-                switch(name[0]) {
-                case "@":
-                  if (typeof value !== "function") {
-                    return false;
-                  }
-                  name = name.substr(1);
-
-                  if (name in events) {
-                    events[name].push(value);
-                  } else {
-                    events[name] = [value];
-                  }
-
-                  return true;
-                  break;
-
-                default:
-                  const oldValue = target[name];
-
-                  if (typeof target[name] === "object") {
-                    let result = (typeof value === "object");
-
-                    Object.entries(value).forEach(([k, v]) => {
-                      target[name][k] = v;
-                    });
-
-                    (events[name] ?? []).forEach(event => event({value, oldValue, name}));
-
-                    return result;
-                  }
-
-                  const result = Reflect.set(target, name, value);
-                  (events[name] ?? []).forEach(event => event({value, oldValue, name}));
-                  return result;
-                }
-              },
-            });
-            res.value = res.obj[res.key];
-          }
-
-          return {
-            obj: res.value,
-            key: cur,
-            value: res.value[cur],
-          }
-        }, {
-          obj: base,
-          key: "",
-          value: base,
-        });
-
-        value = `<tg-text-node name="${path}"></tg-text-node>`;
-        if (!definedProperty) {
-          defaults[path] = data.value;
-          data.obj["@" + data.key] = () => {
-            nodes[path].forEach(node => {
-              let value = data.obj[data.key];
-              if (typeof value === "object") {
-                value = JSON.stringify(value);
-              }
-
-              node.data = value;
-            });
-          } 
-        }
-
-
-        if (!definedProperty) {
-          definedProperties.push(path);
-        }
-      }
-
-      result.push(value, strings[i + 1]);
-    });
-
-    el.innerHTML = result.join("");
-    generateTextNodes(el, nodes, defaults);
-
-    return el;
-  };
-};
-
-export const loadTemplate = templateUrl => {
-  return new Promise((resolve, reject) => {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', templateUrl);
-    xhr.overrideMimeType('text/xml');
-    xhr.onreadystatechange = () => {
-      if ((xhr.status === 200) && (xhr.readyState === xhr.DONE)) {
-        const response = xhr.responseXML.documentElement;
-        const result = document.createElement("div");
-
-        Array.from(response.children).forEach(child => {
-          result.appendChild(child);
-        });
-
-        resolve(eval("template`" + result.outerHTML + "`"));
-      }
-    }
-    xhr.send();
-  });
-};
+//         resolve(eval("template`" + result.outerHTML + "`"));
+//       });
+//   });
+// };
 
 export class Tigerian {
   #el;
@@ -375,6 +142,19 @@ export class Tigerian {
     abstract(this, Type);
   }
 
+  parent() {
+    const parent = this.#el.parentElement ?? this.#el.host;
+    if (!!parent) {
+      return parent.control ?? new this(parent);
+    }
+  }
+
+  get index() {
+    const parent = this.#el.parentElement ?? this.#el.host;
+    console.log(parent, this.#el);
+    return Array.from(parent?.childNodes ?? []).findIndex(node => node === this.#el);
+  }
+
   appendTo(parentElement, index) {
     if (index < 0) {
       index = this.#el.children.length + index;
@@ -382,8 +162,19 @@ export class Tigerian {
     parentElement.insertBefore(this.#el, Number.isInteger(index) ? parentElement.children[index] : null);
   }
 
-  remove() {
-    this.#el.parentNode.removeChild(this.#el);
+  remove(index) {
+    const el = this.#el.shadowRoot ?? this.#el;
+    if (Number.isInteger(index)) {
+      if (index >= 0) {
+        index = el.childNodes[index]
+      } else {
+        index += el.childNodes.length;
+      }
+    } else if (!(index instanceof HTMLElement)) {
+      index = this.#el;
+    }
+
+    this.#el.parentNode.removeChild(index);
   }
 
   get event() {
@@ -403,6 +194,7 @@ export class Tigerian {
 export class BaseControl extends Tigerian {
   #el;
   #propData = {};
+  #events = {};
   #behaviors = [];
   #observerReducer = (res, cur) => ({...res, [cur.attributeName]: cur.target.getAttribute(cur.attributeName)});
   #attributeListeners = {};
@@ -411,7 +203,11 @@ export class BaseControl extends Tigerian {
     const listenerKeys = Object.keys(this.#attributeListeners).filter(l => Object.keys(changedAttributes).includes(l));
 
     for (const listenerKey of listenerKeys) {
-      this.#attributeListeners[listenerKey].forEach(attributeListener => attributeListener(changedAttributes[listenerKey]));
+      this.#attributeListeners[listenerKey].forEach(attributeListener => attributeListener({
+        value: changedAttributes[listenerKey],
+        fullPath: "$" + listenerKey,
+        oldValue: undefined,
+      }));
     }
   };
 
@@ -455,12 +251,21 @@ export class BaseControl extends Tigerian {
         get(target, name) {
           switch (name[0]) {
           case "$":
-            if (path.length = 0) {
+            if (path.length === 0) {
               return mainElement.getAttribute(name.substr(1));
             } else {
               throw "$ is not accessible here";
             }
             break;
+
+          case "_":
+            return path => {
+              const paths = path.split(".");
+
+              const result = paths.reduce((res, cur) => res?.[cur], target);
+
+              return result;
+            };
 
           default:
             if (typeof target[name] === "object") {
@@ -498,8 +303,26 @@ export class BaseControl extends Tigerian {
             break;
 
           default:
-            let finallProperty = that.data;
-            [...path, name].forEach(pName => finallProperty = finallProperty[pName]);
+            const propertyPaths = [...path, name].reduce((res, cur) => {
+              const last = res[res.length - 1];
+              let result = "";
+
+              if (!!last) {
+                result = last.path;
+                result += ".";
+              }
+
+              result += cur;
+
+              res.push({
+                property: last?.property?.[cur] ?? that.data[result],
+                path: result,
+              });
+
+              return res;
+            }, []).reverse();
+
+            const finallProperty = propertyPaths[0].property;
 
             if (typeof target[name] === "object") {
               if (typeof value !== "object") {
@@ -511,15 +334,23 @@ export class BaseControl extends Tigerian {
               });
             }
 
-            const callbacks = listeners[fullPath] ?? [];
             const oldValue = target[name];
             target[name] = value;
 
-            callbacks.forEach(cb => cb({
-              value,
-              oldValue,
-              fullPath,
-            }));
+            propertyPaths.forEach((propertyPath, index) => {
+              const callbacks = listeners[propertyPath.path + ((index > 0) ? "*" : "")] ?? [];
+              if (index === 0) {
+                callbacks.push(...(listeners[propertyPath.path + "*"] ?? []));
+              }
+
+              callbacks.forEach(cb => cb({
+                value: value,
+                oldValue,
+                fullPath,
+                path: propertyPath.path,
+                state: 0, // TODO: 0 for changes, -1 for removes, 1 for adds (It used for arrays and objects)
+              }));
+            });
           }
 
           return true;
@@ -590,8 +421,47 @@ export class BaseControl extends Tigerian {
     if (control instanceof Tigerian) {
       control.appendTo(this.#el, index);
     } else {
-      this.#el.shadowRoot.insertBefore(control, Number.isInteger(index) ? this.#el.shadowRoot.children[index] : null);
+      const elRoot = this.#el.shadowRoot ?? this.#el;
+      elRoot.insertBefore(control, Number.isInteger(index) ? elRoot.children[index] : null);
     }
+  }
+
+  clear() {
+    const elRoot = this.#el.shadowRoot ?? this.#el;
+    Array.from(elRoot.children).forEach(child => elRoot.removeChild(child));
+  }
+
+  replace(control, index = -1) {
+    const ctrlReplaced = index === -1 ? this : this.getControl(index);
+    const el = this.#el.shadowRoot ?? this.#el;
+    const parent = (index >= 0 ? (el.control ?? new this(el)) : this.parent);
+    if (index === -1) {
+      index = this.#el;
+    }
+    if (!!parent) {
+      parent.append(control, index);
+      ctrlReplaced?.remove?.();
+    }
+  }
+
+  addEvent(eventName, callback) {
+    if (typeof callback !== "function") {
+      return;
+    }
+
+    if (eventName[0] !== "@") {
+      eventName = "@" + eventName;
+    }
+    
+    if (!(eventName in this.#events)) {
+      this.#events[eventName] = [];
+    }
+    this.#events[eventName].push(callback);
+    this.#el.addEventListener(eventName, callback);
+  }
+
+  emit(eventName, value) {
+    (this.#events["@" + eventName] ?? []).forEach(cb => cb(value));
   }
 
   get style() {
