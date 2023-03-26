@@ -122,7 +122,7 @@ export const template = function (strings, ...keys) {
         value = `<tg-text-node name="${path}"></tg-text-node>`;
         if (!definedProperty) {
           defaults[path] = data.value;
-          data.obj["@" + data.key] = () => {
+          data.obj["@" + data.key + "*"] = () => {
             nodes[path].forEach(node => {
               let value = data.obj[data.key];
               if (typeof value === "object") {
@@ -300,11 +300,11 @@ export class Control extends BaseControl {
                 elControl.data["$" + name] = this.data[value];
               }
 
-              this.data["@" + value] = (v) => {
-                if (v.path === v.fullPath) {
-                  elControl.data[name] = v.value;
-                }
-              }
+              // this.data["@" + value + "*"] = (v) => {
+              //   if (v.path === v.fullPath) {
+              //     elControl.data[name] = v.value;
+              //   }
+              // }
             }
           }
 

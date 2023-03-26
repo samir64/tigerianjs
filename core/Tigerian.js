@@ -344,11 +344,10 @@ export class BaseControl extends Tigerian {
               }
 
               callbacks.forEach(cb => cb({
-                value: value,
+                value,
                 oldValue,
                 fullPath,
                 path: propertyPath.path,
-                state: 0, // TODO: 0 for changes, -1 for removes, 1 for adds (It used for arrays and objects)
               }));
             });
           }
