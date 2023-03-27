@@ -456,7 +456,9 @@ export class BaseControl extends Tigerian {
       this.#events[eventName] = [];
     }
     this.#events[eventName].push(callback);
-    this.#el.addEventListener(eventName, callback);
+    this.#el.addEventListener(eventName.substr(1), callback);
+
+    return this;
   }
 
   emit(eventName, value) {
