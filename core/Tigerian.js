@@ -196,6 +196,12 @@ export class BaseControl extends Tigerian {
   #propData = {};
   #events = {};
   #behaviors = [];
+  #baseUrl = "/";
+  #baseUrlListeners = [];
+
+  #baseUrlChange() {
+    this.#baseUrlListeners.forEach(listener => listener(this.#baseUrl));
+  }
   #observerReducer = (res, cur) => ({...res, [cur.attributeName]: cur.target.getAttribute(cur.attributeName)});
   #attributeListeners = {};
   #elementObserver = p => {
@@ -219,6 +225,14 @@ export class BaseControl extends Tigerian {
         result[attr.name] = attr.value;
         if (attr.name[0] !== "@") {
           this.data[attr.name] = attr.value;
+        }
+
+        if (attr.value[0] === "~") {
+          const path = attr.value.substr(1).replace(/^\/*/, "");
+          attr.value = this.#baseUrl + path;
+          this.#baseUrlListeners.push(v => {
+            attr.value = v + path;
+          });
         }
     }
 
@@ -360,8 +374,21 @@ export class BaseControl extends Tigerian {
     }
   }
 
-  get classList() {
-    return this.#el.classList;
+  // get classList() {
+  //   return this.#el.classList;
+  // }
+
+  get baseUrl() {
+    return this.#baseUrl;
+  }
+
+  set baseUrl(v) {
+    this.#baseUrl = v.replace(/^\/*/, "").replace(/\/*$/, "/");
+
+    const controls = this.getControls("*");
+    controls.forEach(control => control.baseUrl = this.#baseUrl);
+
+    this.#baseUrlChange();
   }
 
   config(behavior, ...params) {
@@ -455,8 +482,8 @@ export class BaseControl extends Tigerian {
     if (!(eventName in this.#events)) {
       this.#events[eventName] = [];
     }
-    this.#events[eventName].push(callback);
-    this.#el.addEventListener(eventName.substr(1), callback);
+    this.#events[eventName].push(callback.bind(this));
+    this.#el.addEventListener(eventName.substr(1), callback.bind(this));
 
     return this;
   }

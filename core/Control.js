@@ -240,6 +240,8 @@ export class Control extends BaseControl {
       const attrs = Array.from(el.attributes);
       const elControl = el.control ?? new BaseControl(el);
 
+      elControl.baseUrl = this.baseUrl;
+
       attrs.forEach(({name, value}) => {
         switch (name[0]) {
         case "@":
@@ -378,7 +380,7 @@ export class Control extends BaseControl {
 
   getTemplateById(id) {
     const elTemplate = document.body.querySelector("template#" + id);
-    const result = eval(`template\`${elTemplate.innerHTML}\``);
+    const result = eval(`template\`${elTemplate?.innerHTML ?? ""}\``);
 
     return result;
   }
