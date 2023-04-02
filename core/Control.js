@@ -292,9 +292,13 @@ export class Control extends BaseControl {
             //   console.log("In", this.data[value]);
             //   break;
 
-            // case "if":
-            //   console.log("If", this.data[value]);
-            //   break;
+            case "if":
+              elControl.visible = this.data[value];
+              this.data["@" + value] = (v) => {
+                elControl.visible = v.value;
+              }
+              // TODO: Bind element `visible` property to `value` variable of `this.data`
+              break;
 
             default:
               elControl.data[name] = this.data[value];

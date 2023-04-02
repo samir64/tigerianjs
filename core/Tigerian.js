@@ -142,10 +142,11 @@ export class Tigerian {
     abstract(this, Type);
   }
 
-  parent() {
-    const parent = this.#el.parentElement ?? this.#el.host;
+  get parent() {
+    // const parent = this.#el.parentElement ?? this.#el.host;
+    const parent = this.#el.parentNode ?? this.#el.host;
     if (!!parent) {
-      return parent.control ?? new this(parent);
+      return parent.control ?? new BaseControl(parent);
     }
   }
 
@@ -198,6 +199,8 @@ export class BaseControl extends Tigerian {
   #behaviors = [];
   #baseUrl = "/";
   #baseUrlListeners = [];
+  #visible = true;
+  #replaceNode = document.createComment("Invisible Control");
 
   #baseUrlChange() {
     this.#baseUrlListeners.forEach(listener => listener(this.#baseUrl));
@@ -219,8 +222,9 @@ export class BaseControl extends Tigerian {
 
   #getAttributes() {
     const result = {};
+    const attributes = this.#el.attributes ?? [];
 
-    for (var i = 0; i < this.#el.attributes.length; i++) {
+    for (var i = 0; i < attributes.length; i++) {
         var attr = this.#el.attributes[i];
         result[attr.name] = attr.value;
         if (attr.name[0] !== "@") {
@@ -374,10 +378,6 @@ export class BaseControl extends Tigerian {
     }
   }
 
-  // get classList() {
-  //   return this.#el.classList;
-  // }
-
   get baseUrl() {
     return this.#baseUrl;
   }
@@ -389,6 +389,27 @@ export class BaseControl extends Tigerian {
     controls.forEach(control => control.baseUrl = this.#baseUrl);
 
     this.#baseUrlChange();
+  }
+
+  get visible() {
+    return this.#visible;
+  }
+
+  set visible(v) {
+    const lastVisible = this.#visible;
+    this.#visible = !!v;
+
+    if (this.#visible !== lastVisible) {
+      if (!v) {
+        const parent = this.#el.parentNode;
+        parent.insertBefore(this.#replaceNode, this.#el);
+        parent.removeChild(this.#el);
+      } else {
+        const parent = this.#replaceNode.parentNode;
+        parent.insertBefore(this.#el, this.#replaceNode);
+        parent.removeChild(this.#replaceNode);
+      }
+    }
   }
 
   config(behavior, ...params) {
@@ -530,8 +551,13 @@ export class BaseControl extends Tigerian {
 export class Text extends Tigerian {
   #node;
   constructor(node) {
+    let initValue = "";
+    if (typeof node === "string") {
+      initValue = node;
+      node = undefined;
+    }
     if (!node) {
-      node = document.createTextNode("");
+      node = document.createTextNode(initValue);
     }
     super(node);
     this.#node = node;
