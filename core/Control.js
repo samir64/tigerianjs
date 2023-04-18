@@ -1,5 +1,7 @@
 import { BaseControl } from "./Tigerian.js";
+import Router from "./Router.js";
 import BWatch from "../behaviors/BWatch.js";
+import BView from "../behaviors/BView.js";
 
 const generateTextNodes = (el, nodes, defaults = {}) => {
   Array.from(el.children).forEach(e => {
@@ -109,7 +111,13 @@ export const template = function (strings, ...keys) {
     keys.forEach((key, i) => {
       let value = "";
 
-      if (!!key["?"]) {
+      if (!key["?"]) {
+        if (key instanceof HTMLElement) {
+          value = `<tg-replace-node name="${i}"></tg-replace-node>`;
+        } else {
+          value = key;
+        }
+      } else {
         const path = key["?"].join(".");
         const definedProperty = definedProperties.some(p => (p === path));
         const initObj = {
@@ -144,6 +152,13 @@ export const template = function (strings, ...keys) {
     });
 
     el.innerHTML = result.join("");
+    const replaceNodes = el.querySelectorAll("tg-replace-node");
+    replaceNodes.forEach(node => {
+      const index = parseInt(node.getAttribute("name"));
+      console.log(333, keys[index]);
+      el.insertBefore(keys[index], node);
+      el.removeChild(node);
+    });
     generateTextNodes(el, nodes, defaults);
 
     return el;
@@ -220,10 +235,6 @@ export class Control extends BaseControl {
   #el;
   #loaded = false;
   #loadEvents = [];
-
-  get properties() {
-    return {};
-  }
 
   get template() {
     return template``;
@@ -359,6 +370,7 @@ export class Control extends BaseControl {
     el.setAttribute("tg-" + this.constructor.name.toKebabCase(), "");
 
     this.config(BWatch);
+    this.config(BView);
     this.#init();
   }
 

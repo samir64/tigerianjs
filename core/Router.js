@@ -1,140 +1,318 @@
+import { BaseControl } from "./Tigerian.js";
 import { Control, template } from "./Control.js";
 
-const notFound = path => class NotFound extends Control {
-  get template() {
-    return that => `<h1>Page not found ${path}</h1>`;
-  }
-}
+let useHashtag = true;
 
-const routes = {
-  404: notFound,
-};
+// export function toggleUseHash() {
+//   useHashtag = !useHashtag;
+//   let path;
+//   if (!useHashtag) {
+//     path = window.location.hash.substr(1);
+//     history.pushState({}, undefined, path);
+//   } else {
+//     path = window.location.href.substr(window.location.origin.length).replace(/[?#].*/, "");
+//     history.pushState({}, undefined, "/");
+//     window.location.hash = path;
+//   }
+// }
 
-const normalizePath = path => {
-  let result = path.replace(/\/*$/, "").replace(/\/{2,}/g, "/");
+// const notFound = path => class NotFound extends BaseControl {
+//   // get template() {
+//   //   return that => `<h1>Page not found ${path}</h1>`;
+//   // }
 
-  if (result[0] !== "/") {
-    result = "/" + result;
-  }
+//   constructor() {
+//     const el = document.createElement("h1");
+//     super(el);
 
-  return result;
-}
+//     el.innerHTML = `Page not found ${path}`;
+//   }
+// }
 
-export const route = (paths, ...controls) => {
-  if (!controls.every(control => ((control.prototype instanceof Control) || (typeof control === "function")))) {
-    throw "Controller invalid";
-  }
+// const routes = {
+//   404: notFound,
+// };
+
+// const normalizePath = path => {
+//   let result = path.replace(/\/*$/, "").replace(/\/{2,}/g, "/");
+
+//   if (result[0] !== "/") {
+//     result = "/" + result;
+//   }
+
+//   return result;
+// }
+
+// export const route = (paths, ...controls) => {
+//   if (!controls.every(control => ((control.prototype instanceof BaseControl) || (typeof control === "function")))) {
+//     throw "Controller invalid";
+//   }
+
+//   paths = paths.slice(0, paths.length - 1);
+//   let prefix = "";
+
+//   paths.forEach((p, i) => {
+//     if (!(controls[i].prototype instanceof Control)) {
+//       const cs = controls[i];
+//       const csPaths = cs.paths;
+//       const csControls = cs.controls;
+
+//       prefix = p;
+
+//       csPaths.forEach((csPath, csIdx) => {
+//         prefix = normalizePath(prefix + csPath);
+
+//         paths[i] = prefix;
+//         routes[prefix] = csControls[csIdx];
+//       });
+//     } else {
+//       p = p.replace(/\s/g, "");
+//       prefix = normalizePath(prefix + p);
+//       routes[prefix] = controls[i];
+//     }
+//   });
+
+//   const result = (ps, ...cs) => {
+//     const paths = ps.map((p, i) => (i === 0) ? normalizePath(prefix + p) : p);
+
+//     const result = route(paths, ...cs);
+//     return result;
+//   };
+
+//   Object.defineProperty(result, "prefix", {
+//     get() {
+//       return prefix;
+//     },
+//     enumerable: false,
+//     configurable: false,
+//   });
+//   Object.defineProperty(result, "paths", {
+//     get() {
+//       return paths;
+//     },
+//     enumerable: false,
+//     configurable: false,
+//   });
+//   Object.defineProperty(result, "controls", {
+//     get() {
+//       return controls;
+//     },
+//     enumerable: false,
+//     configurable: false,
+//   });
+
+//   return result;
+// };
+
+// export const redirect = path => {
+//   if (!!useHashtag) {
+//     window.location.hash = path;
+//   } else {
+//     history.pushState({}, undefined, path);
+//     checkRoute();
+//   }
+// };
+
+// export const getRoute = path => {
+//   const foundRoute = Object.entries(routes).map(([route, view]) => {
+//     const ptrRoute = route.replace(/\//g, "\\/").replace(/:(\w+)/g, "(?<$1>\\w+)");
+//     const reRoute = new RegExp("^" + ptrRoute + "$");
+
+//     if (reRoute.test(path)) {
+//       const reMatch = reRoute.exec(path);
+
+//       const result = {
+//         path,
+//         route,
+//         view,
+//         params: reMatch?.groups ?? {},
+//       };
+
+//       return result;
+//     }
+//   }).filter(route => !!route);
+
+//   // let control = routes[normalizePath(path)];
+//   let control = foundRoute?.[0]?.view ?? routes[404](path);
+
+//   // if (!!control && control.prototype instanceof Control) {
+//   //   // return control;
+//   // } else {
+//   //   // return routes[404](path);
+//   //   control = routes[404](path);
+//   // }
+
+//   return control;
+//   // return new control();
+// };
+
+// const checkRoute = () => {
+//   let path;
+
+//   if (!!useHashtag) {
+//     path = window.location.hash.substr(1);
+//   } else {
+//     path = window.location.href.substr(window.location.origin.length);
+//   }
+
+//   const result = getRoute(path);
+
+//   console.log(path, result);
+// };
+
+// window.addEventListener('popstate', checkRoute);
+// // window.addEventListener('hashchange', checkRoute);
+
+// checkRoute();
 
 
-  // const routes = {};
-  paths = paths.slice(0, paths.length - 1);
-  let prefix = "";
+export default class Router {
+  #useHashtag;
+  #routes = {
+    404: this.#notFound,
+  };
+  #onChangeRoutes = [];
 
-  paths.forEach((p, i) => {
-    // console.log(111, p, controls[i], routes);
+  #normalizePath(path) {
+    let result = path.replace(/\/*$/, "").replace(/\/{2,}/g, "/");
 
-    if (!(controls[i].prototype instanceof Control)) {
-      const cs = controls[i];
-      const csPaths = cs.paths;
-      const csControls = cs.controls;
-
-      prefix = p;
-
-      csPaths.forEach((csPath, csIdx) => {
-        paths[i] = prefix + csPath;
-        routes[normalizePath(prefix + csPath)] = csControls[csIdx];
-        prefix += csPath;
-      });
-
-      // console.log(333, p, prefix, csPaths, csControls);
-
-      // const cs = controls[i](["/"], routes[csBasePaths]);
-      // const csPaths = cs.paths;
-      // const csControls = cs.controls;
-
-      // console.log(222, p, prefix, csBasePaths);
-
-      // csPaths.forEach((csPath, csIdx) => {
-      //   routes[normalizePath(p + csPath)] = csControls[csIdx];
-      // });
-
-    } else {
-      p = p.replace(/\s/g, "");
-      routes[normalizePath(prefix + p)] = controls[i];
-      prefix += p;
+    if (result[0] !== "/") {
+      result = "/" + result;
     }
-  });
 
-  const result = (ps, ...cs) => {
-    const paths = ps.map((p, i) => (i === 0) ? prefix + p : p);
+    return result;
+  }
 
-    const result = route(paths, ...cs);
+  #notFound(path) {
+    return class NotFound extends BaseControl {
+      constructor() {
+        const el = document.createElement("h1");
+        super(el);
+
+        el.innerHTML = `Page not found ${path}`;
+      }
+    }
+  }
+
+  constructor(useHashtag = true) {
+    this.#useHashtag = !!useHashtag;
+  }
+
+  set onChangeRoute(v) {
+    if (typeof v === "function") {
+      this.#onChangeRoutes.push(v);
+    }
+  }
+
+  route(paths, ...controls) {
+    if (!controls.every(control => ((control.prototype instanceof BaseControl) || (typeof control === "function")))) {
+      throw "Controller invalid";
+    }
+
+    paths = paths.slice(0, paths.length - 1);
+    let prefix = "";
+
+    paths.forEach((p, i) => {
+      if (!(controls[i].prototype instanceof Control)) {
+        const cs = controls[i];
+        const csPaths = cs.paths;
+        const csControls = cs.controls;
+
+        prefix = p;
+
+        csPaths.forEach((csPath, csIdx) => {
+          prefix = this.#normalizePath(prefix + csPath);
+
+          paths[i] = prefix;
+          this.#routes[prefix] = csControls[csIdx];
+        });
+      } else {
+        p = p.replace(/\s/g, "");
+        prefix = this.#normalizePath(prefix + p);
+        this.#routes[prefix] = controls[i];
+      }
+    });
+
+    const result = (ps, ...cs) => {
+      const paths = ps.map((p, i) => (i === 0) ? this.#normalizePath(prefix + p) : p);
+
+      const result = this.route(paths, ...cs);
+      return result;
+    };
+
+    Object.defineProperty(result, "prefix", {
+      get() {
+        return prefix;
+      },
+      enumerable: false,
+      configurable: false,
+    });
+    Object.defineProperty(result, "paths", {
+      get() {
+        return paths;
+      },
+      enumerable: false,
+      configurable: false,
+    });
+    Object.defineProperty(result, "controls", {
+      get() {
+        return controls;
+      },
+      enumerable: false,
+      configurable: false,
+    });
+
     return result;
   };
 
-  Object.defineProperty(result, "prefix", {
-    get() {
-      return prefix;
-    },
-    enumerable: false,
-    configurable: false,
-  });
-  Object.defineProperty(result, "paths", {
-    get() {
-      return paths;
-    },
-    enumerable: false,
-    configurable: false,
-  });
-  Object.defineProperty(result, "controls", {
-    get() {
-      return controls;
-    },
-    enumerable: false,
-    configurable: false,
-  });
+  redirect(path) {
+    if (!!useHashtag) {
+      window.location.hash = path;
+    } else {
+      history.pushState({}, undefined, path);
+      this.checkRoute();
+    }
+  };
 
-  // console.log(444, result.prefix, result.paths, result.controls, routes);
+  getRoute(path) {
+    path = this.#normalizePath(path);
+    const foundRoute = Object.entries(this.#routes).map(([route, view]) => {
+      const ptrRoute = route.replace(/\//g, "\\/").replace(/:(\w+)/g, "(?<$1>\\w+)");
+      const reRoute = new RegExp("^" + ptrRoute + "$");
 
-  return result;
+      if (reRoute.test(path)) {
+        const reMatch = reRoute.exec(path);
 
-  // return (ps, ...cs) => {
-  //   const paths = ps.map((p, i) => (i === 0) ? prefix + p : p);
+        const result = {
+          path,
+          route,
+          view,
+          params: reMatch?.groups ?? {},
+        };
 
-  //   const result = route(paths, ...cs);
-  //   Object.defineProperty(result, "prefix", {
-  //     get() {
-  //       return prefix;
-  //     },
-  //     enumerable: false,
-  //     configurable: false,
-  //   });
-  //   Object.defineProperty(result, "paths", {
-  //     get() {
-  //       return paths;
-  //     },
-  //     enumerable: false,
-  //     configurable: false,
-  //   });
-  //   Object.defineProperty(result, "controls", {
-  //     get() {
-  //       return cs;
-  //     },
-  //     enumerable: false,
-  //     configurable: false,
-  //   });
-  //   return result;
-  // };
-};
+        return result;
+      }
+    }).filter(route => !!route);
 
-export const getRoute = (path) => {
-  const control = routes[normalizePath(path)];
+    let control = foundRoute?.[0]?.view ?? this.#routes[404](path);
 
-  console.log(control, path, routes);
+    // return control;
+    return new control();
+  };
 
-  if (!!control && control.prototype instanceof Control) {
-    return control;
-  } else {
-    // return routes[404](path);
-  }
+  checkRoute() {
+    let path;
+
+    if (!!this.#useHashtag) {
+      path = window.location.hash.substr(1);
+    } else {
+      path = window.location.href.substr(window.location.origin.length);
+    }
+
+    const result = this.getRoute(path);
+
+    this.#onChangeRoutes.forEach(e => e(result, path));
+
+    return result;
+  };
 };

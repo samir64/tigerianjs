@@ -9,7 +9,7 @@ export default class extends Behavior {
     this.#watches[name].forEach(watch => watch.bind(target)(v));
   }
 
-  config(that) {
+  config(that, data) {
     const watch = (dis, path = []) => new Proxy(dis, {
       get(target, name) {
         switch (name) {
