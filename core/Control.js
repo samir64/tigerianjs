@@ -3,85 +3,6 @@ import Router from "./Router.js";
 import BWatch from "../behaviors/BWatch.js";
 import BView from "../behaviors/BView.js";
 
-// const generateTextNodes = (el, nodes, defaults = {}) => {
-//   Array.from(el.children).forEach(e => {
-//     let elReplace;
-
-//     if (e.tagName.toLowerCase() === "style") {
-//       const re = /<tg-text-node\s+name="([\w\.]+)"><\/tg-text-node>/gm;
-//       elReplace = document.createElement("style");
-//       const els = [];
-//       let found;
-//       let lastFound = {
-//         0: "",
-//         index: 0,
-//         input: e.innerText,
-//       };
-
-//       while (found = re.exec(e.innerText)) {
-//         const lastIndex = lastFound?.index ?? 0;
-//         const lastLength = lastFound?.[0]?.length ?? 0;
-//         const lastEndIndex = lastIndex + lastLength;
-//         const before = found.input.substr(lastEndIndex, found.index - lastEndIndex);
-
-//         const elBefore = document.createTextNode(before);
-//         elReplace.appendChild(elBefore);
-
-//         if (defaults[found[1]] instanceof HTMLElement) {
-//           const children = Array.from(defaults[found[1]].childNodes);
-//           children.forEach(child => {
-//             // elReplace.appendChild(child);
-//             const clonedChild = child.cloneNode(true);
-//             if (!child.reference) {
-//               child.reference = [clonedChild];
-//             } else {
-//               child.reference.push(clonedChild);
-//             }
-
-//             elReplace.appendChild(clonedChild);
-//           });
-
-//           nodes[found[1]] = document.createTextNode("");
-//         } else {
-//           const elTextNode = document.createTextNode(defaults[found[1]]);
-//           if (!(found[1] in nodes)) {
-//             nodes[found[1]] = [elTextNode];
-//           } else {
-//             nodes[found[1]].push(elTextNode);
-//           }
-
-//           elReplace.appendChild(elTextNode);
-//         }
-
-//         lastFound = found;
-//       }
-
-//       const after = lastFound.input.substr(lastFound.index + lastFound[0].length);
-
-//       const elAfter = document.createTextNode(after);
-//       elReplace.appendChild(elAfter);
-//     } else if (e.tagName.toLowerCase() === "tg-text-node") {
-//       let value = defaults[e.getAttribute("name")];
-//       if (typeof value === "object") {
-//         value = JSON.stringify(value);
-//       }
-//       elReplace = e.firstChild ?? document.createTextNode(value);
-//       if (!(e.getAttribute("name") in nodes)) {
-//         nodes[e.getAttribute("name")] = [elReplace];
-//       } else {
-//         nodes[e.getAttribute("name")].push(elReplace);
-//       }
-//     }
-
-//     if (!!elReplace) {
-//       el.insertBefore(elReplace, e);
-//       el.removeChild(e);
-//     } else {
-//       generateTextNodes(e, nodes, defaults);
-//     }
-//   });
-// };
-
 const mergeTemplates = templates => {
   if (!Array.isArray(templates)) {
     templates = [templates];
@@ -120,35 +41,6 @@ export const template = function (strings, ...keys) {
       } else {
         value = `<tg-replace-node name="${i}"></tg-replace-node>`;
         keys[i] = key["?"];
-
-        // const path = key["?"].join(".");
-        // const definedProperty = definedProperties.some(p => (p === path));
-        // const initObj = {
-        //   obj: that.data,
-        //   key: "",
-        //   value: that.data,
-        // };
-
-        // const data = key["?"].reduce(reduceDataToProxy, initObj);
-        // value = `<tg-text-node name="${path}"></tg-text-node>`;
-        // if (!definedProperty) {
-        //   defaults[path] = data.value;
-        //   data.obj["@" + data.key + "*"] = () => {
-        //     nodes[path].forEach(node => {
-        //       let value = data.obj[data.key];
-        //       if (typeof value === "object") {
-        //         value = JSON.stringify(value);
-        //       }
-
-        //       node.data = value;
-        //     });
-        //   } 
-        // }
-
-
-        // if (!definedProperty) {
-        //   definedProperties.push(path);
-        // }
       }
 
       result.push(value, strings[i + 1]);
@@ -156,15 +48,6 @@ export const template = function (strings, ...keys) {
 
     el.innerHTML = result.join("");
     replaceNodes(el);
-    // const replaceNodes = el.querySelectorAll("tg-replace-node");
-    // console.log(333, el.cloneNode(true), keys, replaceNodes);
-
-    // replaceNodes.forEach(node => {
-    //   const index = parseInt(node.getAttribute("name"));
-    //   el.insertBefore(keys[index], node);
-    //   el.removeChild(node);
-    // });
-    // generateTextNodes(el, nodes, defaults);
 
     return el;
 
@@ -182,61 +65,6 @@ export const template = function (strings, ...keys) {
         root.removeChild(node);
       });
     }
-
-    // function reduceDataToProxy(res, cur) {
-    //   const events = {};
-    //   if (!res.value) {
-    //     res.obj[res.key] = new Proxy({}, {
-    //       get(target, name) {
-    //         return Reflect.get(target, name);
-    //       },
-    //       set(target, name, value) {
-    //         switch(name[0]) {
-    //         case "@":
-    //           if (typeof value !== "function") {
-    //             return false;
-    //           }
-    //           name = name.substr(1);
-
-    //           if (name in events) {
-    //             events[name].push(value);
-    //           } else {
-    //             events[name] = [value];
-    //           }
-
-    //           return true;
-    //           break;
-
-    //         default:
-    //           const oldValue = target[name];
-
-    //           if (typeof target[name] === "object") {
-    //             let result = (typeof value === "object");
-
-    //             Object.entries(value).forEach(([k, v]) => {
-    //               target[name][k] = v;
-    //             });
-
-    //             (events[name] ?? []).forEach(event => event({value, oldValue, name}));
-
-    //             return result;
-    //           }
-
-    //           const result = Reflect.set(target, name, value);
-    //           (events[name] ?? []).forEach(event => event({value, oldValue, name}));
-    //           return result;
-    //         }
-    //       },
-    //     });
-    //     res.value = res.obj[res.key];
-    //   }
-
-    //   return {
-    //     obj: res.value,
-    //     key: cur,
-    //     value: res.value[cur],
-    //   }
-    // };
   };
 };
 
@@ -258,6 +86,10 @@ export class Control extends BaseControl {
 
   get template() {
     return template``;
+  }
+
+  get layout() {
+    return new BaseControl();
   }
 
   get data() {
@@ -336,12 +168,6 @@ export class Control extends BaseControl {
               if (typeof this.data[value] === "string") {
                 elControl.data["$" + name] = this.data[value];
               }
-
-              // this.data["@" + value + "*"] = (v) => {
-              //   if (v.path === v.fullPath) {
-              //     elControl.data[name] = v.value;
-              //   }
-              // }
             }
           }
 
