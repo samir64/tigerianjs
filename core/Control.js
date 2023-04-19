@@ -200,11 +200,18 @@ export class Control extends BaseControl {
         const elLayout = document.createElement("div");
         const ctrlLayout = new this.layout(elLayout);
         if (ctrlLayout instanceof Control) {
-          ctrlLayout.mounted = () => {
-            console.log(shadow, elLayout.cloneNode(true).shadowRoot);
+          ctrlLayout.onload = () => {
             shadow.appendChild(elLayout.shadowRoot);
           };
         };
+
+        Object.defineProperty(this, "layout", {
+          get() {
+            return ctrlLayout;
+          },
+          enumerable: false,
+          configurable: false,
+        });
       }
 
 
