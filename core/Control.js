@@ -3,84 +3,84 @@ import Router from "./Router.js";
 import BWatch from "../behaviors/BWatch.js";
 import BView from "../behaviors/BView.js";
 
-const generateTextNodes = (el, nodes, defaults = {}) => {
-  Array.from(el.children).forEach(e => {
-    let elReplace;
+// const generateTextNodes = (el, nodes, defaults = {}) => {
+//   Array.from(el.children).forEach(e => {
+//     let elReplace;
 
-    if (e.tagName.toLowerCase() === "style") {
-      const re = /<tg-text-node\s+name="([\w\.]+)"><\/tg-text-node>/gm;
-      elReplace = document.createElement("style");
-      const els = [];
-      let found;
-      let lastFound = {
-        0: "",
-        index: 0,
-        input: e.innerText,
-      };
+//     if (e.tagName.toLowerCase() === "style") {
+//       const re = /<tg-text-node\s+name="([\w\.]+)"><\/tg-text-node>/gm;
+//       elReplace = document.createElement("style");
+//       const els = [];
+//       let found;
+//       let lastFound = {
+//         0: "",
+//         index: 0,
+//         input: e.innerText,
+//       };
 
-      while (found = re.exec(e.innerText)) {
-        const lastIndex = lastFound?.index ?? 0;
-        const lastLength = lastFound?.[0]?.length ?? 0;
-        const lastEndIndex = lastIndex + lastLength;
-        const before = found.input.substr(lastEndIndex, found.index - lastEndIndex);
+//       while (found = re.exec(e.innerText)) {
+//         const lastIndex = lastFound?.index ?? 0;
+//         const lastLength = lastFound?.[0]?.length ?? 0;
+//         const lastEndIndex = lastIndex + lastLength;
+//         const before = found.input.substr(lastEndIndex, found.index - lastEndIndex);
 
-        const elBefore = document.createTextNode(before);
-        elReplace.appendChild(elBefore);
+//         const elBefore = document.createTextNode(before);
+//         elReplace.appendChild(elBefore);
 
-        if (defaults[found[1]] instanceof HTMLElement) {
-          const children = Array.from(defaults[found[1]].childNodes);
-          children.forEach(child => {
-            // elReplace.appendChild(child);
-            const clonedChild = child.cloneNode(true);
-            if (!child.reference) {
-              child.reference = [clonedChild];
-            } else {
-              child.reference.push(clonedChild);
-            }
+//         if (defaults[found[1]] instanceof HTMLElement) {
+//           const children = Array.from(defaults[found[1]].childNodes);
+//           children.forEach(child => {
+//             // elReplace.appendChild(child);
+//             const clonedChild = child.cloneNode(true);
+//             if (!child.reference) {
+//               child.reference = [clonedChild];
+//             } else {
+//               child.reference.push(clonedChild);
+//             }
 
-            elReplace.appendChild(clonedChild);
-          });
+//             elReplace.appendChild(clonedChild);
+//           });
 
-          nodes[found[1]] = document.createTextNode("");
-        } else {
-          const elTextNode = document.createTextNode(defaults[found[1]]);
-          if (!(found[1] in nodes)) {
-            nodes[found[1]] = [elTextNode];
-          } else {
-            nodes[found[1]].push(elTextNode);
-          }
+//           nodes[found[1]] = document.createTextNode("");
+//         } else {
+//           const elTextNode = document.createTextNode(defaults[found[1]]);
+//           if (!(found[1] in nodes)) {
+//             nodes[found[1]] = [elTextNode];
+//           } else {
+//             nodes[found[1]].push(elTextNode);
+//           }
 
-          elReplace.appendChild(elTextNode);
-        }
+//           elReplace.appendChild(elTextNode);
+//         }
 
-        lastFound = found;
-      }
+//         lastFound = found;
+//       }
 
-      const after = lastFound.input.substr(lastFound.index + lastFound[0].length);
+//       const after = lastFound.input.substr(lastFound.index + lastFound[0].length);
 
-      const elAfter = document.createTextNode(after);
-      elReplace.appendChild(elAfter);
-    } else if (e.tagName.toLowerCase() === "tg-text-node") {
-      let value = defaults[e.getAttribute("name")];
-      if (typeof value === "object") {
-        value = JSON.stringify(value);
-      }
-      elReplace = e.firstChild ?? document.createTextNode(value);
-      if (!(e.getAttribute("name") in nodes)) {
-        nodes[e.getAttribute("name")] = [elReplace];
-      } else {
-        nodes[e.getAttribute("name")].push(elReplace);
-      }
-    }
+//       const elAfter = document.createTextNode(after);
+//       elReplace.appendChild(elAfter);
+//     } else if (e.tagName.toLowerCase() === "tg-text-node") {
+//       let value = defaults[e.getAttribute("name")];
+//       if (typeof value === "object") {
+//         value = JSON.stringify(value);
+//       }
+//       elReplace = e.firstChild ?? document.createTextNode(value);
+//       if (!(e.getAttribute("name") in nodes)) {
+//         nodes[e.getAttribute("name")] = [elReplace];
+//       } else {
+//         nodes[e.getAttribute("name")].push(elReplace);
+//       }
+//     }
 
-    if (!!elReplace) {
-      el.insertBefore(elReplace, e);
-      el.removeChild(e);
-    } else {
-      generateTextNodes(e, nodes, defaults);
-    }
-  });
-};
+//     if (!!elReplace) {
+//       el.insertBefore(elReplace, e);
+//       el.removeChild(e);
+//     } else {
+//       generateTextNodes(e, nodes, defaults);
+//     }
+//   });
+// };
 
 const mergeTemplates = templates => {
   if (!Array.isArray(templates)) {
@@ -118,105 +118,125 @@ export const template = function (strings, ...keys) {
           value = key;
         }
       } else {
-        const path = key["?"].join(".");
-        const definedProperty = definedProperties.some(p => (p === path));
-        const initObj = {
-          obj: that.data,
-          key: "",
-          value: that.data,
-        };
+        value = `<tg-replace-node name="${i}"></tg-replace-node>`;
+        keys[i] = key["?"];
 
-        const data = key["?"].reduce(reduceDataToProxy, initObj);
-        value = `<tg-text-node name="${path}"></tg-text-node>`;
-        if (!definedProperty) {
-          defaults[path] = data.value;
-          data.obj["@" + data.key + "*"] = () => {
-            nodes[path].forEach(node => {
-              let value = data.obj[data.key];
-              if (typeof value === "object") {
-                value = JSON.stringify(value);
-              }
+        // const path = key["?"].join(".");
+        // const definedProperty = definedProperties.some(p => (p === path));
+        // const initObj = {
+        //   obj: that.data,
+        //   key: "",
+        //   value: that.data,
+        // };
 
-              node.data = value;
-            });
-          } 
-        }
+        // const data = key["?"].reduce(reduceDataToProxy, initObj);
+        // value = `<tg-text-node name="${path}"></tg-text-node>`;
+        // if (!definedProperty) {
+        //   defaults[path] = data.value;
+        //   data.obj["@" + data.key + "*"] = () => {
+        //     nodes[path].forEach(node => {
+        //       let value = data.obj[data.key];
+        //       if (typeof value === "object") {
+        //         value = JSON.stringify(value);
+        //       }
+
+        //       node.data = value;
+        //     });
+        //   } 
+        // }
 
 
-        if (!definedProperty) {
-          definedProperties.push(path);
-        }
+        // if (!definedProperty) {
+        //   definedProperties.push(path);
+        // }
       }
 
       result.push(value, strings[i + 1]);
     });
 
     el.innerHTML = result.join("");
-    const replaceNodes = el.querySelectorAll("tg-replace-node");
-    replaceNodes.forEach(node => {
-      const index = parseInt(node.getAttribute("name"));
-      console.log(333, keys[index]);
-      el.insertBefore(keys[index], node);
-      el.removeChild(node);
-    });
-    generateTextNodes(el, nodes, defaults);
+    replaceNodes(el);
+    // const replaceNodes = el.querySelectorAll("tg-replace-node");
+    // console.log(333, el.cloneNode(true), keys, replaceNodes);
+
+    // replaceNodes.forEach(node => {
+    //   const index = parseInt(node.getAttribute("name"));
+    //   el.insertBefore(keys[index], node);
+    //   el.removeChild(node);
+    // });
+    // generateTextNodes(el, nodes, defaults);
 
     return el;
 
-    function reduceDataToProxy(res, cur) {
-      const events = {};
-      if (!res.value) {
-        res.obj[res.key] = new Proxy({}, {
-          get(target, name) {
-            return Reflect.get(target, name);
-          },
-          set(target, name, value) {
-            switch(name[0]) {
-            case "@":
-              if (typeof value !== "function") {
-                return false;
-              }
-              name = name.substr(1);
+    function replaceNodes(root) {
+      Array.from(root.children).forEach(node => {
+        replaceNodes(node);
+      });
 
-              if (name in events) {
-                events[name].push(value);
-              } else {
-                events[name] = [value];
-              }
 
-              return true;
-              break;
+      const tgReplaceNodes = Array.from(root.children ?? []).filter(el => el.tagName === "TG-REPLACE-NODE");
 
-            default:
-              const oldValue = target[name];
+      tgReplaceNodes.forEach(node => {
+        const index = parseInt(node.getAttribute("name"));
+        root.insertBefore(keys[index], node);
+        root.removeChild(node);
+      });
+    }
 
-              if (typeof target[name] === "object") {
-                let result = (typeof value === "object");
+    // function reduceDataToProxy(res, cur) {
+    //   const events = {};
+    //   if (!res.value) {
+    //     res.obj[res.key] = new Proxy({}, {
+    //       get(target, name) {
+    //         return Reflect.get(target, name);
+    //       },
+    //       set(target, name, value) {
+    //         switch(name[0]) {
+    //         case "@":
+    //           if (typeof value !== "function") {
+    //             return false;
+    //           }
+    //           name = name.substr(1);
 
-                Object.entries(value).forEach(([k, v]) => {
-                  target[name][k] = v;
-                });
+    //           if (name in events) {
+    //             events[name].push(value);
+    //           } else {
+    //             events[name] = [value];
+    //           }
 
-                (events[name] ?? []).forEach(event => event({value, oldValue, name}));
+    //           return true;
+    //           break;
 
-                return result;
-              }
+    //         default:
+    //           const oldValue = target[name];
 
-              const result = Reflect.set(target, name, value);
-              (events[name] ?? []).forEach(event => event({value, oldValue, name}));
-              return result;
-            }
-          },
-        });
-        res.value = res.obj[res.key];
-      }
+    //           if (typeof target[name] === "object") {
+    //             let result = (typeof value === "object");
 
-      return {
-        obj: res.value,
-        key: cur,
-        value: res.value[cur],
-      }
-    };
+    //             Object.entries(value).forEach(([k, v]) => {
+    //               target[name][k] = v;
+    //             });
+
+    //             (events[name] ?? []).forEach(event => event({value, oldValue, name}));
+
+    //             return result;
+    //           }
+
+    //           const result = Reflect.set(target, name, value);
+    //           (events[name] ?? []).forEach(event => event({value, oldValue, name}));
+    //           return result;
+    //         }
+    //       },
+    //     });
+    //     res.value = res.obj[res.key];
+    //   }
+
+    //   return {
+    //     obj: res.value,
+    //     key: cur,
+    //     value: res.value[cur],
+    //   }
+    // };
   };
 };
 
@@ -369,7 +389,7 @@ export class Control extends BaseControl {
 
     el.setAttribute("tg-" + this.constructor.name.toKebabCase(), "");
 
-    this.config(BWatch);
+    this.config(BWatch, this.data);
     this.config(BView);
     this.#init();
   }
