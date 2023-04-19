@@ -88,9 +88,7 @@ export class Control extends BaseControl {
     return template``;
   }
 
-  get layout() {
-    return new BaseControl();
-  }
+  get layout() {}
 
   get data() {
     return {};
@@ -191,8 +189,23 @@ export class Control extends BaseControl {
       const elementHtml = templateFormatter(this);
 
       Array.from(elementHtml.childNodes ?? []).forEach(node => {
-        shadow.appendChild(node);
+        if (!!this.layout) {
+          this.#el.appendChild(node);
+        } else {
+          shadow.appendChild(node);
+        }
       });
+
+      if (!!this.layout) {
+        const elLayout = document.createElement("div");
+        const ctrlLayout = new this.layout(elLayout);
+        if (ctrlLayout instanceof Control) {
+          ctrlLayout.mounted = () => {
+            console.log(shadow, elLayout.cloneNode(true).shadowRoot);
+            shadow.appendChild(elLayout.shadowRoot);
+          };
+        };
+      }
 
 
       this.#checkAttributes(Array.from(this.#el.shadowRoot.children));
