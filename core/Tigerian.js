@@ -1,8 +1,9 @@
 import Behavior from "./Behavior.js";
 
 String.prototype.toKebabCase = function () {
-  let result = this[0].toLowerCase() + this.substr(1);
-  result = result.replace(/([A-Z])/g, "-$1"); 
+  let result = this;
+  // let result = this[0].toLowerCase() + this.substr(1);
+  result = result.replace(/(\w)([A-Z])/g, "$1-$2"); 
   result = result.toLowerCase();
 
   return result;
