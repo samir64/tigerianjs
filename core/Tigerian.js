@@ -103,22 +103,6 @@ export function defineProxy(that, propertyName, data) {
   });
 }
 
-// export const loadTemplate = templateUrl => {
-//   return new Promise((resolve, reject) => {
-//     fetch(templateUrl)
-//       .then(response => response.responseXML.documentElement)
-//       .then(element => {
-//         const result = document.createElement("div");
-
-//         Array.from(element.children).forEach(child => {
-//           result.appendChild(child);
-//         });
-
-//         resolve(eval("template`" + result.outerHTML + "`"));
-//       });
-//   });
-// };
-
 export class Tigerian {
   #el;
 
