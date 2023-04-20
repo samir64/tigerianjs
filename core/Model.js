@@ -199,26 +199,29 @@ export class Model {
   }
 
   static sendRequest(method, url, params = {}, query = {}, body) {
-    const queryParams = new URLSearchParams(query);
-    Object.entries(params).forEach(([param, value]) => {
-      const re = new RegExp(`(/:${param}\b|/:${param}$)`, "g");
-      url = url.replace(re, "/" + value);
-    });
+    return new Promise((resolve, reject) => {
+      const queryParams = new URLSearchParams(query);
+      Object.entries(params).forEach(([param, value]) => {
+        const re = new RegExp(`(/:${param}\b|/:${param}$)`, "g");
+        url = url.replace(re, "/" + value);
+      });
 
-    url = url.replace(/\/{2,}/g, "/");
+      url = url.replace(/\/{2,}/g, "/");
 
-    fetch(url + "?" + queryParams.toString(), {
-      method,
-      body,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-    .then(response => response.json())
-    .then(response => {
-      const model = new this(response);
+      fetch(url + "?" + queryParams.toString(), {
+        method,
+        body,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then(response => response.json())
+      .then(response => {
+        const model = new this(response);
 
-      console.log({ method, url, params, query, body, model, response});
+        resolve(model);
+        // console.log({ method, url, params, query, body, model, response});
+      });
     });
   }
 
@@ -228,7 +231,7 @@ export class Model {
     const url = api.baseUrl +"/" + (path ?? className) + "/" + api.getOneUrl;
     const method = api.getOneMethod.toUpperCase();
 
-    this.sendRequest(method, url, { id });
+    return this.sendRequest(method, url, { id });
   }
 
   static get(fields, path, customApi) {
@@ -237,7 +240,7 @@ export class Model {
     const url = api.baseUrl +"/" + (path ?? className) + "/" + api.getUrl;
     const method = api.getMethod.toUpperCase();
 
-    this.sendRequest(method, url, {}, fields);
+    return this.sendRequest(method, url, {}, fields);
   }
 
   static edit(id, fields, path, customApi) {
@@ -246,7 +249,7 @@ export class Model {
     const url = api.baseUrl +"/" + (path ?? className) + "/" + api.editUrl;
     const method = api.editMethod.toUpperCase();
 
-    this.sendRequest(method, url, { id }, {}, fields);
+    return this.sendRequest(method, url, { id }, {}, fields);
   }
 
   static add(fields, path, customApi) {
@@ -255,7 +258,7 @@ export class Model {
     const url = api.baseUrl +"/" + (path ?? className) + "/" + api.addUrl;
     const method = api.addMethod.toUpperCase();
 
-    this.sendRequest(method, url, {}, {}, fields);
+    return this.sendRequest(method, url, {}, {}, fields);
   }
 
   static delete(id, path, customApi) {
@@ -264,7 +267,7 @@ export class Model {
     const url = api.baseUrl +"/" + (path ?? className) + "/" + api.deleteUrl;
     const method = api.deleteMethod.toUpperCase();
 
-    this.sendRequest(method, url, { id });
+    return this.sendRequest(method, url, { id });
   }
 }
 

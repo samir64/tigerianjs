@@ -237,6 +237,7 @@ export class Control extends BaseControl {
 
     this.config(BWatch, this.data);
     this.config(BView);
+
     this.#init();
   }
 
