@@ -56,14 +56,33 @@ export const template = function (strings, ...keys) {
         replaceNodes(node);
       });
 
+      if (root.tagName === "STYLE") {
+        const re = /<tg-replace-node\s+name="([\w\.]+)"><\/tg-replace-node>/gm;
+        const html = root.innerHTML;
+        let lastIndex = 0;
+        let nextNode;
+        root.innerHTML = "";
 
-      const tgReplaceNodes = Array.from(root.children ?? []).filter(el => el.tagName === "TG-REPLACE-NODE");
+        while ((nextNode = re.exec(html)) !== null) {
+          console.log(nextNode);
+          const nodeBefore = document.createTextNode(html.substr(lastIndex, nextNode.index));
+          lastIndex = nextNode.index + nextNode[0].length;
+          const nodeWatch = keys[nextNode[1]];
+          root.appendChild(nodeBefore);
+          root.appendChild(nodeWatch);
+        }
+        const nodeLast = document.createTextNode(html.substr(lastIndex));
+        root.appendChild(nodeLast);
+        console.log(root.childNodes);
+      } else {
+        const tgReplaceNodes = Array.from(root.children ?? []).filter(el => el.tagName === "TG-REPLACE-NODE");
 
-      tgReplaceNodes.forEach(node => {
-        const index = parseInt(node.getAttribute("name"));
-        root.insertBefore(keys[index], node);
-        root.removeChild(node);
-      });
+        tgReplaceNodes.forEach(node => {
+          const index = parseInt(node.getAttribute("name"));
+          root.insertBefore(keys[index], node);
+          root.removeChild(node);
+        });
+      }
     }
   };
 };
