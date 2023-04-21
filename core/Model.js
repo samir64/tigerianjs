@@ -4,22 +4,24 @@ export class Field {
   #type;
   #default;
   #required;
+  #target;
 
-  constructor(type, def, required = false) {
-    if (def !== undefined) {
-      if (!!type) {
-        const typeOfV = toString.call(def);
-        const typeOfField = toString.call(type.prototype);
+  constructor(options = {}) {
+    if (options.default !== undefined) {
+      if (!!options.type) {
+        const typeOfV = toString.call(options.default);
+        const typeOfField = toString.call(options.type.prototype);
 
         if (typeOfV !== typeOfField) {
-          throw `Value type for ${this.name} is not valid. Expected ${type.name}`;
+          throw `value type for ${this.name} is not valid. Expected ${options.type.name}`;
         }
       }
     }
 
-    this.#type = type;
-    this.#default = def;
-    this.#required = required;
+    this.#type = options.type;
+    this.#default = options.default;
+    this.#required = options.required;
+    this.#target = options.target;
   }
 
   get default() {
@@ -32,6 +34,10 @@ export class Field {
 
   get required() {
     return this.#required;
+  }
+
+  get target() {
+    return this.#target;
   }
 }
 
@@ -51,9 +57,20 @@ export class Api {
     edit: "PATCH",
     delete: "DELETE",
   };
+  #dataPath = true;
 
-  constructor(baseUrl = "/") {
+  constructor(baseUrl = "/", dataPath = "") {
     this.#urls.base = baseUrl;
+    this.#dataPath = dataPath;
+  }
+
+  get dataPath() {
+    return this.#dataPath;
+  }
+
+  setDataPath(v) {
+    this.#dataPath = v;
+    return this;
   }
 
   get baseUrl() {
@@ -159,23 +176,94 @@ export class Api {
 export class Model {
   static id = new Field();
 
+  static #getFieldByPath(data, [key, ...others], allOthers = {}) {
+    let result = !!key ? data[key] : data;
+    if (!allOthers.data) {
+      allOthers.data = JSON.parse(JSON.stringify(data));
+      allOthers.path = [];
+    }
+    if (!!key) {
+      allOthers.path.push(key);
+    }
+
+    if (others.length > 0) {
+      return Model.#getFieldByPath(result ?? {}, others, allOthers);
+    } else {
+      if (!!result) {
+        if (!!key) {
+          let d = allOthers.data;
+          const lastKey = allOthers.path.splice(-1);
+          allOthers.path.forEach(k => {
+            d = d[k];
+          });
+          if (lastKey.length > 0) {
+            allOthers.path.push(lastKey[0]);
+          }
+
+          delete d[key];
+        } else {
+          Object.keys(allOthers.data).forEach(key => delete allOthers.data[key]);
+        }
+      }
+
+      return result;
+    }
+  }
+
+  static #checkApi(customApi = {}) {
+    if (customApi instanceof Api) {
+      return customApi;
+    } else {
+      const result = new Api();
+      result.setBaseUrl(customApi.baseUrl ?? defaultApi.baseUrl);
+      result.setDataPath(customApi.dataPath ?? defaultApi.dataPath);
+
+      result.setGetOneUrl(customApi.getOneUrl ?? defaultApi.getOneUrl);
+      result.setGetUrl(customApi.getUrl ?? defaultApi.getUrl);
+      result.setEditUrl(customApi.editUrl ?? defaultApi.editUrl);
+      result.setAddUrl(customApi.addUrl ?? defaultApi.addUrl);
+      result.setDeleteUrl(customApi.deleteUrl ?? defaultApi.deleteUrl);
+      
+      result.setGetOneMethod(customApi.getOneMethod ?? defaultApi.getOneMethod);
+      result.setGetMethod(customApi.getMethod ?? defaultApi.getMethod);
+      result.setEditMethod(customApi.editMethod ?? defaultApi.editMethod);
+      result.setEditMethod(customApi.editMethod ?? defaultApi.editMethod);
+      result.setAddMethod(customApi.addMethod ?? defaultApi.addMethod);
+      result.setDeleteMethod(customApi.deleteMethod ?? defaultApi.deleteMethod);
+
+      return result;
+    }
+  }
+
   constructor(fields = {}) {
-    const allFields = Object.entries(this.constructor)
-    allFields.push(["id", Model.id]);
+    const allFields = Object.entries({...Model, ...this.constructor})
 
     allFields.filter(([key, value]) => value instanceof Field).forEach(([name, field]) => {
       let fieldValue;
 
-      Object.defineProperty(this, name, {
+      const descriptor = {
         get() {
           return fieldValue;
         },
-        set(v) {
+        enumerable: true,
+        configurable: false,
+      };
+
+      if (name === "id") {
+        let value;
+        if (!!field.target) {
+          value = Model.#getFieldByPath(fields, field.target.split("."));
+        } else {
+          value = fields[name];
+        }
+        fieldValue = value;
+      } else {
+        descriptor.set = v => {
           if ((v === undefined) && !!field.required) {
             throw `Field ${name} is required`;
           }
 
-          if (!!field.type) {
+          if ((v !== undefined) && !!field.type) {
             const typeOfV = toString.call(v);
             const typeOfField = toString.call(field.type.prototype);
 
@@ -185,17 +273,66 @@ export class Model {
           }
 
           if (field?.type?.prototype instanceof Model) {
-            fieldValue = new field.type(fields[name]);
+            fieldValue = new field.type(v);
           } else {
-            fieldValue = v;
+            if (!!field.type) {
+              fieldValue = (v !== undefined) ? field.type(v) : undefined;
+            } else {
+              fieldValue = v;
+            }
           }
-        },
-        enumerable: true,
-        configurable: false,
-      });
+        };
+      }
 
-      this[name] = fields[name] ?? field.default;
+      Object.defineProperty(this, name, descriptor);
+
+      let value;
+      if (!!field.target) {
+        value = Model.#getFieldByPath(fields, field.target.split("."));
+      } else {
+        value = fields[name];
+      }
+
+      if (name !== "id") {
+        this[name] = value ?? field.default;
+      }
     });
+  }
+
+  save() {
+    if (!!this.id) {
+      this.constructor.edit(this.id, this);
+    }
+  }
+
+  fetch() {
+    if (!!this.id) {
+      this.constructor.getOne(this.id);
+      // TODO: Reset fields
+    }
+  }
+
+  static get empty() {
+    const allFields = Object.entries({...Model, ...this})
+    const result = {};
+
+    allFields.filter(([key, value]) => value instanceof Field).forEach(([name, field]) => {
+      let def;
+      const type = field.type ?? String;
+
+      if (type.prototype instanceof Model) {
+        def = type.empty; 
+      } else {
+        if (field.default !== undefined) {
+          def = field.default;
+        } else {
+          def = type();
+        }
+      }
+      result[name] = def;
+    });
+
+    return result;
   }
 
   static sendRequest(method, url, params = {}, query = {}, body) {
@@ -217,57 +354,74 @@ export class Model {
       })
       .then(response => response.json())
       .then(response => {
-        const model = new this(response);
-
-        resolve(model);
-        // console.log({ method, url, params, query, body, model, response});
+        resolve(response);
       });
     });
   }
 
-  static getOne(id, path, customApi) {
+  static async getOne(id, path, customApi) {
     const className = /^class (\w+)/.exec(this)[1].replace(/_+/g, "/").toKebabCase();
-    const api = customApi ?? defaultApi;
+    const api = Model.#checkApi(customApi);
     const url = api.baseUrl +"/" + (path ?? className) + "/" + api.getOneUrl;
     const method = api.getOneMethod.toUpperCase();
 
-    return this.sendRequest(method, url, { id });
+    const response = await this.sendRequest(method, url, { id });
+    const allOthers = {};
+    const modelData = Model.#getFieldByPath(response, api.dataPath.split("."), allOthers);
+    let result = {
+      data: new this(modelData),
+      ...allOthers.data,
+    }
+
+    return result;
   }
 
-  static get(fields, path, customApi) {
+  static async get(fields, path, customApi) {
     const className = /^class (\w+)/.exec(this)[1].replace(/_+/g, "/");
     const api = customApi ?? defaultApi;
     const url = api.baseUrl +"/" + (path ?? className) + "/" + api.getUrl;
     const method = api.getMethod.toUpperCase();
 
-    return this.sendRequest(method, url, {}, fields);
+    const response = await this.sendRequest(method, url, {}, fields);
+    let result = response;
+
+    return result;
   }
 
-  static edit(id, fields, path, customApi) {
+  static async edit(id, fields, path, customApi) {
     const className = /^class (\w+)/.exec(this)[1].replace(/_+/g, "/");
     const api = customApi ?? defaultApi;
     const url = api.baseUrl +"/" + (path ?? className) + "/" + api.editUrl;
     const method = api.editMethod.toUpperCase();
 
-    return this.sendRequest(method, url, { id }, {}, fields);
+    const response = await this.sendRequest(method, url, { id }, {}, fields);
+    let result = response;
+
+    return result;
   }
 
-  static add(fields, path, customApi) {
+  static async add(fields, path, customApi) {
     const className = /^class (\w+)/.exec(this)[1].replace(/_+/g, "/");
     const api = customApi ?? defaultApi;
     const url = api.baseUrl +"/" + (path ?? className) + "/" + api.addUrl;
     const method = api.addMethod.toUpperCase();
 
-    return this.sendRequest(method, url, {}, {}, fields);
+    const response = await this.sendRequest(method, url, {}, {}, fields);
+    let result = response;
+
+    return result;
   }
 
-  static delete(id, path, customApi) {
+  static async delete(id, path, customApi) {
     const className = /^class (\w+)/.exec(this)[1].replace(/_+/g, "/");
     const api = customApi ?? defaultApi;
     const url = api.baseUrl +"/" + (path ?? className) + "/" + api.deleteUrl;
     const method = api.deleteMethod.toUpperCase();
 
-    return this.sendRequest(method, url, { id });
+    const response = await this.sendRequest(method, url, { id });
+    let result = response;
+
+    return result;
   }
 }
 
