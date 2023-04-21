@@ -64,7 +64,6 @@ export const template = function (strings, ...keys) {
         root.innerHTML = "";
 
         while ((nextNode = re.exec(html)) !== null) {
-          console.log(nextNode);
           const nodeBefore = document.createTextNode(html.substr(lastIndex, nextNode.index));
           lastIndex = nextNode.index + nextNode[0].length;
           const nodeWatch = keys[nextNode[1]];
@@ -73,7 +72,6 @@ export const template = function (strings, ...keys) {
         }
         const nodeLast = document.createTextNode(html.substr(lastIndex));
         root.appendChild(nodeLast);
-        console.log(root.childNodes);
       } else {
         const tgReplaceNodes = Array.from(root.children ?? []).filter(el => el.tagName === "TG-REPLACE-NODE");
 
