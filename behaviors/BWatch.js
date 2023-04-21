@@ -74,7 +74,8 @@ export default class extends Behavior {
           // return path;
 
           const data = path.reduce(reduceDataToProxy, {obj, key: "", value: obj});
-          const elNode = document.createTextNode(data.value);
+          const value = (typeof data.value === "object") ? JSON.stringify(data.value) : data.value;
+          const elNode = document.createTextNode(value);
 
           data.obj["@" + data.key + "*"] = () => {
             let value = data.obj[data.key];
