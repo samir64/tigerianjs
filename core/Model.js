@@ -312,7 +312,21 @@ export class Model {
     }
   }
 
-  static get empty() {
+  toJson() {
+    const allFields = Object.entries({...Model, ...this.constructor})
+    const result = {};
+    allFields.filter(([key, value]) => value instanceof Field).forEach(([name, field]) => {
+      if (field.type?.prototype instanceof Model) {
+        result[name] = this[name].toJson();
+      } else {
+        result[name] = this[name];
+      }
+    });
+
+    return result;
+  }
+
+  static json() {
     const allFields = Object.entries({...Model, ...this})
     const result = {};
 
@@ -321,7 +335,7 @@ export class Model {
       const type = field.type ?? String;
 
       if (type.prototype instanceof Model) {
-        def = type.empty; 
+        def = type.json(); 
       } else {
         if (field.default !== undefined) {
           def = field.default;

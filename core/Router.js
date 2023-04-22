@@ -116,6 +116,11 @@ export default class Router {
     const foundRoute = Object.entries(this.#routes).map(([route, view]) => {
       const ptrRoute = route.replace(/\//g, "\\/").replace(/:(\w+)/g, "(?<$1>\\w+)");
       const reRoute = new RegExp("^" + ptrRoute + "$");
+      const query = {};
+      var searchParams = new URLSearchParams(location.search)
+      searchParams.forEach((value, key) => {
+        query[key] = value;
+      });
 
       if (reRoute.test(path)) {
         const reMatch = reRoute.exec(path);
@@ -125,7 +130,7 @@ export default class Router {
           route,
           view,
           params: reMatch?.groups ?? {},
-          query: {},
+          query,
         };
 
         return result;
@@ -135,6 +140,25 @@ export default class Router {
     const control = foundRoute?.[0]?.view ?? this.#routes[404](path);
     const result = new control();
     result.data.params = foundRoute?.[0]?.params ?? {};
+    result.data.query = foundRoute?.[0]?.query ?? {};
+
+    result.data["@query*"] = () => {
+      const urlSearchParams = new URLSearchParams(result.data.query);
+      const search = urlSearchParams.toString();
+      const hash = location.hash;
+      history.pushState({}, undefined, `?${search}${hash}`);
+    };
+
+    if (foundRoute.length > 0) {
+      result.data["@params*"] = () => {
+        let route = foundRoute[0].route;
+        Object.entries(result.data.params).forEach(([param, value]) => {
+          route = route.replace(new RegExp(`/:${param}([^\b])|/:${param}$`), "/" + value + "$1");
+        });
+
+        history.pushState({}, undefined, `?${location.search}#${route}`);
+      };
+    }
 
     return result;
   };

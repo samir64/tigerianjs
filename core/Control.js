@@ -124,9 +124,9 @@ export class Control extends BaseControl {
         switch (name[0]) {
         case "@":
           el.addEventListener(name.substr(1), this[value].bind(this));
+          el.addEventListener(name.substr(1), () => elControl.emit(name.substr(1)));
           el.removeAttribute(name);
-          // elControl[name] = this[value].bind(this);
-          elControl.addEvent(name, this[value].bind(this));
+          // elControl.addEvent(name, this[value].bind(this));
           break;
 
         case ":":

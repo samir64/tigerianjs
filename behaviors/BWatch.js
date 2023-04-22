@@ -77,13 +77,14 @@ export default class extends Behavior {
           const value = (typeof data.value === "object") ? JSON.stringify(data.value) : data.value;
           const elNode = document.createTextNode(value);
 
-          data.obj["@" + data.key + "*"] = () => {
-            let value = data.obj[data.key];
-            if (typeof value === "object") {
-              value = JSON.stringify(value);
+          // data.obj["@" + data.key + "*"] = v => {
+          data.obj["@" + data.key] = v => {
+            // let value = data.obj[data.key];
+            if (typeof v.value === "object") {
+              v.value = JSON.stringify(v.value);
             }
 
-            elNode.data = value;
+            elNode.data = v.value;
           } 
 
           return elNode;
