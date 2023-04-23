@@ -291,13 +291,13 @@ export class Model {
     });
   }
 
-  #setFields(fields) {
+  #setFields(fields, checkTargets = true) {
     const allFields = Object.entries({...Model, ...this.constructor})
 
     allFields.filter(([key, value]) => value instanceof Field).forEach(([name, field]) => {
       let value;
 
-      if (!!field?.target) {
+      if (!!checkTargets && !!field?.target) {
         value = Model.#getFieldByPath(fields, field.target.split("."));
       } else {
         value = fields[name];
@@ -315,7 +315,7 @@ export class Model {
   async save() {
     if (!!this.id) {
       const model = await this.constructor.edit(this.id, this);
-      this.#setFields(model.data.toJson());
+      this.#setFields(model.data.toJson(), false);
       return model;
     }
   }
@@ -323,7 +323,7 @@ export class Model {
   async fetch() {
     if (!!this.id) {
       const model = await this.constructor.getOne(this.id);
-      this.#setFields(model.data.toJson());
+      this.#setFields(model.data.toJson(), false);
       return model;
     }
   }
