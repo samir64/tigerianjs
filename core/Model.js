@@ -244,7 +244,7 @@ export class Model {
     }
   }
 
-  constructor(fields = {}) {
+  #defineFields() {
     const allFields = Object.entries({...Model, ...this.constructor})
 
     allFields.filter(([key, value]) => value instanceof Field).forEach(([name, field]) => {
@@ -254,20 +254,12 @@ export class Model {
         get() {
           return fieldValue;
         },
-        enumerable: true,
-        configurable: false,
-      };
+        set(v) {
+          if ((name === "id") && (this.id !== undefined)) {
+            return;
+          //   throw "Id is readonly";
+          }
 
-      if (name === "id") {
-        let value;
-        if (!!field.target) {
-          value = Model.#getFieldByPath(fields, field.target.split("."));
-        } else {
-          value = fields[name];
-        }
-        fieldValue = value;
-      } else {
-        descriptor.set = v => {
           if ((v === undefined) && !!field.required) {
             throw `Field ${name} is required`;
           }
@@ -290,34 +282,49 @@ export class Model {
               fieldValue = v;
             }
           }
-        };
-      }
+        },
+        enumerable: true,
+        configurable: false,
+      };
 
       Object.defineProperty(this, name, descriptor);
+    });
+  }
 
+  #setFields(fields) {
+    const allFields = Object.entries({...Model, ...this.constructor})
+
+    allFields.filter(([key, value]) => value instanceof Field).forEach(([name, field]) => {
       let value;
-      if (!!field.target) {
+
+      if (!!field?.target) {
         value = Model.#getFieldByPath(fields, field.target.split("."));
       } else {
         value = fields[name];
       }
 
-      if (name !== "id") {
-        this[name] = value ?? field.default;
-      }
+      this[name] = value ?? field.default;
     });
   }
 
-  save() {
+  constructor(fields = {}) {
+    this.#defineFields();
+    this.#setFields(fields);
+  }
+
+  async save() {
     if (!!this.id) {
-      this.constructor.edit(this.id, this);
+      const model = await this.constructor.edit(this.id, this);
+      this.#setFields(model.data.toJson());
+      return model;
     }
   }
 
-  fetch() {
+  async fetch() {
     if (!!this.id) {
-      this.constructor.getOne(this.id);
-      // TODO: Reset fields
+      const model = await this.constructor.getOne(this.id);
+      this.#setFields(model.data.toJson());
+      return model;
     }
   }
 
