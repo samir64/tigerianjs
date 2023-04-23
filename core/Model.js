@@ -44,11 +44,13 @@ export class Field {
 export class Api {
   #urls = {
     base: "",
+    path: undefined,
     getOne: ":id",
     get: "",
     edit: ":id",
     delete: ":id",
     add: "",
+    data: "",
   };
   #methods = {
     getOne: "GET",
@@ -57,20 +59,9 @@ export class Api {
     edit: "PATCH",
     delete: "DELETE",
   };
-  #dataPath = true;
 
-  constructor(baseUrl = "/", dataPath = "") {
+  constructor(baseUrl = "/") {
     this.#urls.base = baseUrl;
-    this.#dataPath = dataPath;
-  }
-
-  get dataPath() {
-    return this.#dataPath;
-  }
-
-  setDataPath(v) {
-    this.#dataPath = v;
-    return this;
   }
 
   get baseUrl() {
@@ -79,6 +70,24 @@ export class Api {
 
   setBaseUrl(v) {
     this.#urls.base = v;
+    return this;
+  }
+
+  get dataPath() {
+    return this.#urls.data;
+  }
+
+  setDataPath(v) {
+    this.#urls.data = v;
+    return this;
+  }
+
+  get path() {
+    return this.#urls.path;
+  }
+
+  setPath(v) {
+    this.#urls.path = v;
     return this;
   }
 
@@ -373,10 +382,10 @@ export class Model {
     });
   }
 
-  static async getOne(id, path, customApi) {
+  static async getOne(id, customApi) {
     const className = /^class (\w+)/.exec(this)[1].replace(/_+/g, "/").toKebabCase();
     const api = Model.#checkApi(customApi);
-    const url = api.baseUrl +"/" + (path ?? className) + "/" + api.getOneUrl;
+    const url = api.baseUrl +"/" + (api.path ?? className) + "/" + api.getOneUrl;
     const method = api.getOneMethod.toUpperCase();
 
     const response = await this.sendRequest(method, url, { id });
@@ -390,10 +399,10 @@ export class Model {
     return result;
   }
 
-  static async get(fields, path, customApi) {
+  static async get(fields = {}, customApi) {
     const className = /^class (\w+)/.exec(this)[1].replace(/_+/g, "/");
     const api = Model.#checkApi(customApi);
-    const url = api.baseUrl +"/" + (path ?? className) + "/" + api.getUrl;
+    const url = api.baseUrl +"/" + (api.path ?? className) + "/" + api.getUrl;
     const method = api.getMethod.toUpperCase();
 
     const response = await this.sendRequest(method, url, {}, fields);
@@ -407,10 +416,10 @@ export class Model {
     return result;
   }
 
-  static async edit(id, fields, path, customApi) {
+  static async edit(id, fields, customApi) {
     const className = /^class (\w+)/.exec(this)[1].replace(/_+/g, "/");
     const api = Model.#checkApi(customApi);
-    const url = api.baseUrl +"/" + (path ?? className) + "/" + api.editUrl;
+    const url = api.baseUrl +"/" + (api.path ?? className) + "/" + api.editUrl;
     const method = api.editMethod.toUpperCase();
 
     const response = await this.sendRequest(method, url, { id }, {}, fields);
@@ -419,10 +428,10 @@ export class Model {
     return result;
   }
 
-  static async add(fields, path, customApi) {
+  static async add(fields, customApi) {
     const className = /^class (\w+)/.exec(this)[1].replace(/_+/g, "/");
     const api = Model.#checkApi(customApi);
-    const url = api.baseUrl +"/" + (path ?? className) + "/" + api.addUrl;
+    const url = api.baseUrl +"/" + (api.path ?? className) + "/" + api.addUrl;
     const method = api.addMethod.toUpperCase();
 
     const response = await this.sendRequest(method, url, {}, {}, fields);
@@ -431,10 +440,10 @@ export class Model {
     return result;
   }
 
-  static async delete(id, path, customApi) {
+  static async delete(id, customApi) {
     const className = /^class (\w+)/.exec(this)[1].replace(/_+/g, "/");
     const api = Model.#checkApi(customApi);
-    const url = api.baseUrl +"/" + (path ?? className) + "/" + api.deleteUrl;
+    const url = api.baseUrl +"/" + (api.path ?? className) + "/" + api.deleteUrl;
     const method = api.deleteMethod.toUpperCase();
 
     const response = await this.sendRequest(method, url, { id });
