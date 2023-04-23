@@ -435,7 +435,12 @@ export class Model {
     const method = api.addMethod.toUpperCase();
 
     const response = await this.sendRequest(method, url, {}, {}, fields);
-    const result = response;
+    const allOthers = {};
+    const modelData = Model.#getFieldByPath(response, api.dataPath.split("."), allOthers);
+    const result = {
+      data: modelData.map(model => new this(model)),
+      other: allOthers.data,
+    };
 
     return result;
   }
@@ -447,7 +452,12 @@ export class Model {
     const method = api.deleteMethod.toUpperCase();
 
     const response = await this.sendRequest(method, url, { id });
-    const result = response;
+    const allOthers = {};
+    const modelData = Model.#getFieldByPath(response, api.dataPath.split("."), allOthers);
+    const result = {
+      data: modelData.map(model => new this(model)),
+      other: allOthers.data,
+    };
 
     return result;
   }
