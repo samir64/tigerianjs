@@ -392,19 +392,24 @@ export class Model {
 
   static async get(fields, path, customApi) {
     const className = /^class (\w+)/.exec(this)[1].replace(/_+/g, "/");
-    const api = customApi ?? defaultApi;
+    const api = Model.#checkApi(customApi);
     const url = api.baseUrl +"/" + (path ?? className) + "/" + api.getUrl;
     const method = api.getMethod.toUpperCase();
 
     const response = await this.sendRequest(method, url, {}, fields);
-    let result = response;
+    const allOthers = {};
+    const modelData = Model.#getFieldByPath(response, api.dataPath.split("."), allOthers);
+    let result = {
+      data: modelData.map(model => new this(model)),
+      ...allOthers.data,
+    }
 
     return result;
   }
 
   static async edit(id, fields, path, customApi) {
     const className = /^class (\w+)/.exec(this)[1].replace(/_+/g, "/");
-    const api = customApi ?? defaultApi;
+    const api = Model.#checkApi(customApi);
     const url = api.baseUrl +"/" + (path ?? className) + "/" + api.editUrl;
     const method = api.editMethod.toUpperCase();
 
@@ -416,7 +421,7 @@ export class Model {
 
   static async add(fields, path, customApi) {
     const className = /^class (\w+)/.exec(this)[1].replace(/_+/g, "/");
-    const api = customApi ?? defaultApi;
+    const api = Model.#checkApi(customApi);
     const url = api.baseUrl +"/" + (path ?? className) + "/" + api.addUrl;
     const method = api.addMethod.toUpperCase();
 
@@ -428,7 +433,7 @@ export class Model {
 
   static async delete(id, path, customApi) {
     const className = /^class (\w+)/.exec(this)[1].replace(/_+/g, "/");
-    const api = customApi ?? defaultApi;
+    const api = Model.#checkApi(customApi);
     const url = api.baseUrl +"/" + (path ?? className) + "/" + api.deleteUrl;
     const method = api.deleteMethod.toUpperCase();
 
