@@ -186,7 +186,7 @@ export class Model {
   static id = new Field();
 
   static #getFieldByPath(data, [key, ...others], allOthers = {}) {
-    let result = !!key ? data[key] : data;
+    const result = !!key ? data[key] : data;
     if (!allOthers.data) {
       allOthers.data = JSON.parse(JSON.stringify(data));
       allOthers.path = [];
@@ -391,10 +391,10 @@ export class Model {
     const response = await this.sendRequest(method, url, { id });
     const allOthers = {};
     const modelData = Model.#getFieldByPath(response, api.dataPath.split("."), allOthers);
-    let result = {
+    const result = {
       data: new this(modelData),
-      ...allOthers.data,
-    }
+      other: allOthers.data,
+    };
 
     return result;
   }
@@ -408,10 +408,10 @@ export class Model {
     const response = await this.sendRequest(method, url, {}, fields);
     const allOthers = {};
     const modelData = Model.#getFieldByPath(response, api.dataPath.split("."), allOthers);
-    let result = {
+    const result = {
       data: modelData.map(model => new this(model)),
-      ...allOthers.data,
-    }
+      other: allOthers.data,
+    };
 
     return result;
   }
@@ -423,7 +423,7 @@ export class Model {
     const method = api.editMethod.toUpperCase();
 
     const response = await this.sendRequest(method, url, { id }, {}, fields);
-    let result = response;
+    const result = response;
 
     return result;
   }
@@ -435,7 +435,7 @@ export class Model {
     const method = api.addMethod.toUpperCase();
 
     const response = await this.sendRequest(method, url, {}, {}, fields);
-    let result = response;
+    const result = response;
 
     return result;
   }
@@ -447,7 +447,7 @@ export class Model {
     const method = api.deleteMethod.toUpperCase();
 
     const response = await this.sendRequest(method, url, { id });
-    let result = response;
+    const result = response;
 
     return result;
   }
