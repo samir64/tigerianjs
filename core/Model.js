@@ -183,9 +183,18 @@ export class Api {
 }
 
 export class Model {
+  #fields = [];
   static id = new Field();
 
-  static #getFieldByPath(data, [key, ...others], allOthers = {}) {
+  static #objectHasPath(data, [key, ...pathTail]) {
+    if (pathTail.length > 0) {
+      return Model.#objectHasPath(data[key] ?? {}, pathTail);
+    } else {
+      return key in data;
+    }
+  }
+
+  static #getFieldByPath(data, [key, ...pathTail], allOthers = {}) {
     const result = !!key ? data[key] : data;
     if (!allOthers.data) {
       allOthers.data = JSON.parse(JSON.stringify(data));
@@ -195,8 +204,8 @@ export class Model {
       allOthers.path.push(key);
     }
 
-    if (others.length > 0) {
-      return Model.#getFieldByPath(result ?? {}, others, allOthers);
+    if (pathTail.length > 0) {
+      return Model.#getFieldByPath(result ?? {}, pathTail, allOthers);
     } else {
       if (!!result) {
         if (!!key) {
@@ -245,9 +254,10 @@ export class Model {
   }
 
   #defineFields() {
-    const allFields = Object.entries({...Model, ...this.constructor})
+    const allFields = Object.entries({...Model, ...this.constructor});
+    this.#fields = allFields.filter(([key, value]) => value instanceof Field);
 
-    allFields.filter(([key, value]) => value instanceof Field).forEach(([name, field]) => {
+    this.#fields.forEach(([name, field]) => {
       let fieldValue;
 
       const descriptor = {
@@ -257,7 +267,7 @@ export class Model {
         set(v) {
           if ((name === "id") && (this.id !== undefined)) {
             return;
-          //   throw "Id is readonly";
+            // throw "Id is readonly";
           }
 
           if ((v === undefined) && !!field.required) {
@@ -291,20 +301,15 @@ export class Model {
     });
   }
 
-  #setFields(fields, checkTargets = true) {
-    const allFields = Object.entries({...Model, ...this.constructor})
+  #setFields(fields) {
+    this.#fields
+      .forEach(([name, field]) => {
+        let value;
 
-    allFields.filter(([key, value]) => value instanceof Field).forEach(([name, field]) => {
-      let value;
-
-      if (!!checkTargets && !!field?.target) {
-        value = Model.#getFieldByPath(fields, field.target.split("."));
-      } else {
         value = fields[name];
-      }
 
-      this[name] = value ?? field.default;
-    });
+        this[name] = value ?? field.default;
+      });
   }
 
   constructor(fields = {}) {
@@ -323,21 +328,52 @@ export class Model {
   async fetch() {
     if (!!this.id) {
       const model = await this.constructor.getOne(this.id);
+
       this.#setFields(model.data.toJson(), false);
       return model;
     }
   }
 
-  toJson() {
-    const allFields = Object.entries({...Model, ...this.constructor})
+  toJson(exclude = true, ...fields) {
     const result = {};
-    allFields.filter(([key, value]) => value instanceof Field).forEach(([name, field]) => {
-      if (field.type?.prototype instanceof Model) {
-        result[name] = this[name].toJson();
-      } else {
-        result[name] = this[name];
-      }
+    this.#fields
+      .filter(([key, value]) => value instanceof Field)
+      .filter(([key, value]) =>
+        (
+          (!!exclude && !fields.includes(key))
+            ||
+          (!exclude && !!fields.includes(key))
+        ))
+      .forEach(([name, field]) => {
+        if (field.type?.prototype instanceof Model) {
+          result[name] = this[name]?.toJson?.() ?? field.type.json();
+        } else {
+          result[name] = this[name] ?? field.default;
+        }
     });
+
+    return result;
+  }
+
+  static #mapFieldTargets(model, fields) {
+    const result = {};
+
+    const allFields = Object.entries({...Model, ...model})
+      .forEach(([name, field]) => {
+        let value;
+
+        if (field?.type?.prototype instanceof Model) {
+          value = Model.#mapFieldTargets(field.type, fields[name]);
+        } else {
+          if (!!field?.target) {
+            value = Model.#getFieldByPath(fields, field.target.split("."));
+          } else {
+            value = fields[name];
+          }
+        }
+
+        result[name] = value ?? field.default;
+      });
 
     return result;
   }
@@ -346,21 +382,23 @@ export class Model {
     const allFields = Object.entries({...Model, ...this})
     const result = {};
 
-    allFields.filter(([key, value]) => value instanceof Field).forEach(([name, field]) => {
-      let def;
-      const type = field.type ?? String;
+    allFields
+      .filter(([key, value]) => value instanceof Field)
+      .forEach(([name, field]) => {
+        let def;
+        const type = field.type ?? String;
 
-      if (type.prototype instanceof Model) {
-        def = type.json(); 
-      } else {
-        if (field.default !== undefined) {
-          def = field.default;
+        if (type.prototype instanceof Model) {
+          def = type.json(); 
         } else {
-          def = type();
+          if (field.default !== undefined) {
+            def = field.default;
+          } else {
+            def = type();
+          }
         }
-      }
-      result[name] = def;
-    });
+        result[name] = def;
+      });
 
     return result;
   }
@@ -398,8 +436,10 @@ export class Model {
     const response = await this.sendRequest(method, url, { id });
     const allOthers = {};
     const modelData = Model.#getFieldByPath(response, api.dataPath.split("."), allOthers);
+    const modelJson = Model.#mapFieldTargets(this, modelData);
+
     const result = {
-      data: new this(modelData),
+      data: new this(modelJson),
       other: allOthers.data,
     };
 
@@ -416,7 +456,7 @@ export class Model {
     const allOthers = {};
     const modelData = Model.#getFieldByPath(response, api.dataPath.split("."), allOthers);
     const result = {
-      data: modelData.map(model => new this(model)),
+      data: modelData.map(model => new this(Model.#mapFieldTargets(this, model))),
       other: allOthers.data,
     };
 
@@ -430,7 +470,14 @@ export class Model {
     const method = api.editMethod.toUpperCase();
 
     const response = await this.sendRequest(method, url, { id }, {}, fields);
-    const result = response;
+    const allOthers = {};
+    const modelData = Model.#getFieldByPath(response, api.dataPath.split("."), allOthers);
+    const modelJson = Model.#mapFieldTargets(this, modelData);
+
+    const result = {
+      data: new this(modelJson),
+      other: allOthers.data,
+    };
 
     return result;
   }
@@ -444,8 +491,10 @@ export class Model {
     const response = await this.sendRequest(method, url, {}, {}, fields);
     const allOthers = {};
     const modelData = Model.#getFieldByPath(response, api.dataPath.split("."), allOthers);
+    const modelJson = Model.#mapFieldTargets(this, modelData);
+
     const result = {
-      data: modelData.map(model => new this(model)),
+      data: new this(modelJson),
       other: allOthers.data,
     };
 
@@ -461,8 +510,10 @@ export class Model {
     const response = await this.sendRequest(method, url, { id });
     const allOthers = {};
     const modelData = Model.#getFieldByPath(response, api.dataPath.split("."), allOthers);
+    const modelJson = Model.#mapFieldTargets(this, modelData);
+
     const result = {
-      data: modelData.map(model => new this(model)),
+      data: new this(modelJson),
       other: allOthers.data,
     };
 
