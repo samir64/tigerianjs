@@ -412,15 +412,19 @@ export class BaseControl extends Tigerian {
   getControl(query) {
     let result;
 
-    const el = this.#el?.shadowRoot ?? this.#el;
-    const nodes = Array.from(el.childNodes);
+    // const el = this.#el?.shadowRoot ?? this.#el;
+    for (const el of [this.#el, this.#el.shadowRoot]) {
+      if (!result) {
+        const nodes = Array.from(el.childNodes);
 
-    if (query instanceof HTMLElement) {
-      result = nodes.find(node => node === query);
-    } else if (Number.isInteger(query)) {
-      result = nodes[query];
-    } else {
-      result = el.querySelector(query);
+        if (query instanceof HTMLElement) {
+          result = nodes.find(node => node === query);
+        } else if (Number.isInteger(query)) {
+          result = nodes[query];
+        } else {
+          result = el.querySelector(query);
+        }
+      }
     }
 
     if (result?.nodeName === "#text") {

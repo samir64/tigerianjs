@@ -1,48 +1,50 @@
-import {
-  Application
-} from "../core/Application.js";
-import {
-  Route
-} from "../core/Route.js";
-import {
-  ViewMain
-} from "./mv/ViewMain.js";
-import {
-  ViewContentTable
-} from "./mv/ViewContentTable.js";
-import {
-  ViewContent
-} from "./mv/ViewContent.js";
-import {
-  ViewPageNotFound
-} from "./mv/ViewPageNotFound.js";
-import {
-  Label
-} from "../controls/Label.js";
-import {
-  ELabel
-} from "../behaviors/BLabel.js";
-import { responsive } from "../core/Responsive.js";
+import App from "./controls/application.js";
 
-// let root = "Tigerian.js/docs";
-let root = window.location.pathname;
+// import {
+//   Application
+// } from "../core/Application.js";
+// import {
+//   Route
+// } from "../core/Route.js";
+// import {
+//   ViewMain
+// } from "./mv/ViewMain.js";
+// import {
+//   ViewContentTable
+// } from "./mv/ViewContentTable.js";
+// import {
+//   ViewContent
+// } from "./mv/ViewContent.js";
+// import {
+//   ViewPageNotFound
+// } from "./mv/ViewPageNotFound.js";
+// import {
+//   Label
+// } from "../controls/Label.js";
+// import {
+//   ELabel
+// } from "../behaviors/BLabel.js";
+// import { responsive } from "../core/Responsive.js";
 
-responsive();
+// // let root = "Tigerian.js/docs";
+// let root = window.location.pathname;
 
-let app = new Application("Tigerian.js Developer Guide");
-let route = new Route(root, true);
+// responsive();
 
-let viewMain = new ViewMain(app);
-let viewContent = new ViewContent(viewMain.getContent(), viewMain.getLoading(), route);
-let viewContentTable = new ViewContentTable(viewMain.getSideBar(), viewContent, viewMain.getLoading(), route);
-let viewPageNotFound = new ViewPageNotFound(viewMain.getContent());
+// let app = new Application("Tigerian.js Developer Guide");
+// let route = new Route(root, true);
 
-// viewContentTable.refresh();
-viewContent.hide();
-// viewPageNotFound.hide();
+// let viewMain = new ViewMain(app);
+// let viewContent = new ViewContent(viewMain.getContent(), viewMain.getLoading(), route);
+// let viewContentTable = new ViewContentTable(viewMain.getSideBar(), viewContent, viewMain.getLoading(), route);
+// let viewPageNotFound = new ViewPageNotFound(viewMain.getContent());
 
-route.pageNotFound = viewPageNotFound;
-route.add(viewContentTable, "", "{root}/{page}", "{root}/{sub1}/{page}", "{root}/{sub1}/{sub2}/{page}", "{root}/{sub1}/{sub2}/{sub3}/{page}", "{root}/{sub1}/{sub2}/{sub3}/{sub4}/{page}");
-// route.add("#/wrong-page", viewPageNotFound);
+// // viewContentTable.refresh();
+// viewContent.hide();
+// // viewPageNotFound.hide();
 
-route.render();
+// route.pageNotFound = viewPageNotFound;
+// route.add(viewContentTable, "", "{root}/{page}", "{root}/{sub1}/{page}", "{root}/{sub1}/{sub2}/{page}", "{root}/{sub1}/{sub2}/{sub3}/{page}", "{root}/{sub1}/{sub2}/{sub3}/{sub4}/{page}");
+// // route.add("#/wrong-page", viewPageNotFound);
+
+// route.render();

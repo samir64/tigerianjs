@@ -200,7 +200,29 @@ export class Control extends BaseControl {
 
   #init() {
     let templateFormatter = mergeTemplates(this.template);
-    const shadow = this.#el.shadowRoot ?? this.#el.attachShadow({ mode: "open" });
+    // const shadow = this.#el.shadowRoot ?? this.#el.attachShadow({ mode: "open" });
+    let shadow;
+
+    if (!!this.layout) {
+      // const elLayout = document.createElement("div");
+      const ctrlLayout = new this.layout(this.#el);
+      if (ctrlLayout instanceof Control) {
+        // ctrlLayout.onload = () => {
+          // shadow.appendChild(elLayout.shadowRoot);
+          // this.#el.appendChild(elLayout);
+        // };
+      };
+
+      Object.defineProperty(this, "layout", {
+        get() {
+          return ctrlLayout;
+        },
+        enumerable: false,
+        configurable: false,
+      });
+    } else {
+      shadow = this.#el.shadowRoot ?? this.#el.attachShadow({ mode: "open" });
+    }
 
     customElements.whenDefined("tg-" + this.constructor.name.toKebabCase()).then(() => {
       const elementHtml = templateFormatter(this);
@@ -212,24 +234,6 @@ export class Control extends BaseControl {
           shadow.appendChild(node);
         }
       });
-
-      if (!!this.layout) {
-        const elLayout = document.createElement("div");
-        const ctrlLayout = new this.layout(elLayout);
-        if (ctrlLayout instanceof Control) {
-          ctrlLayout.onload = () => {
-            shadow.appendChild(elLayout.shadowRoot);
-          };
-        };
-
-        Object.defineProperty(this, "layout", {
-          get() {
-            return ctrlLayout;
-          },
-          enumerable: false,
-          configurable: false,
-        });
-      }
 
 
       this.#checkAttributes(Array.from(this.#el.shadowRoot.children));
