@@ -25,6 +25,14 @@ Object.prototype.toString = function(strings, ...keys) {
   return result.join("");
 };
 
+export function tmp2obj(keys, ...values) {
+  return values.reduce((res, cur, index) => ({...res, [keys[index].trim()]: cur}), {});
+}
+
+export function tmp2arr(keys, ...values) {
+  return values.map((value, index) => ([keys[index].trim(), value]));
+}
+
 export function abstract(that, Type) {
   if (Type === undefined) {
     Type = that.constructor;
